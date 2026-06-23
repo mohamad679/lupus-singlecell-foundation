@@ -3,7 +3,7 @@ project:
   status: phase_1_dataset_feasibility_audit
   current_phase: "Phase 1"
   current_phase_name: "Dataset Feasibility Audit"
-  current_feature: P1-F009
+  current_feature: P1-F010
   blocked: false
   primary_task: TODO
   external_validation_cohort: TODO
@@ -62,6 +62,7 @@ artifacts:
   geo_candidate_table: reports/tables/geo_candidate_datasets.csv
   cellxgene_candidate_table: reports/tables/cellxgene_candidate_datasets.csv
   dataset_eligibility_scores: reports/tables/dataset_eligibility_scores.csv
+  manual_metadata_audit_summary: reports/tables/manual_metadata_audit_summary.csv
   patient_metadata_audit_table: reports/tables/patient_metadata_audit.csv
   label_availability_audit_table: reports/tables/label_availability_audit.csv
   external_validation_candidates_table: reports/tables/external_validation_candidates.csv
@@ -95,5 +96,7 @@ artifacts:
   dataset_feasibility_report_template_test: tests/test_dataset_feasibility_report_template.py
   rejected_dataset_log_test: tests/test_rejected_dataset_log.py
   dataset_feasibility_report_generator_test: tests/test_generate_dataset_feasibility_report.py
+  manual_metadata_audit_summary_test: tests/test_manual_metadata_audit_summary.py
+  candidate_rows_pending_test: tests/test_candidate_rows_remain_pending.py
 
 last_updated: "2026-06-23"

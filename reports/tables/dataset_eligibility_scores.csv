@@ -1,1 +1,5 @@
 source_table,candidate_key,audit_status,total_score,eligibility_category,training_usable,internal_validation_usable,external_validation_usable,disease_activity_prediction_usable,biological_interpretation_usable,hard_rejection_flags,missing_information,score_status,notes
+geo,GSE162577,candidate_pending_audit,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,not_scored_pending_manual_audit,Unaudited candidate; scoring requires manual metadata verification.
+geo,GSE137029,candidate_pending_audit,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,not_scored_pending_manual_audit,Unaudited candidate; scoring requires manual metadata verification.
+geo,GSE174188,candidate_pending_audit,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,not_scored_pending_manual_audit,Unaudited candidate; scoring requires manual metadata verification.
+cellxgene,436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629,candidate_pending_audit,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,TODO,not_scored_pending_manual_audit,Unaudited candidate; scoring requires manual metadata verification.

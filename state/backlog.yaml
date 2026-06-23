@@ -1,6 +1,6 @@
 phase_1_scaffold:
   status: complete
-  completed_through: P1-F008
+  completed_through: P1-F010
   human_gate_1: PENDING
 
 backlog:
@@ -235,12 +235,33 @@ backlog:
       - "Human Gate 1 remains PENDING."
 
   - id: P1-F010
+    title: "Manual metadata audit of candidate datasets"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "P1-F009"
+      - "Human Gate 1 remains PENDING for dataset approval"
+    acceptance_criteria:
+      - "Existing GEO and CELLxGENE candidate rows are manually audited using public metadata only."
+      - "reports/tables/manual_metadata_audit_summary.csv exists."
+      - "One manual audit summary row exists per known candidate."
+      - "Every candidate remains candidate_pending_audit."
+      - "No dataset is approved."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+      - "Human Gate 1 remains PENDING."
+      - "No full datasets are downloaded."
+      - "No model code is created."
+
+  - id: P1-F011
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo
     type: governance
     blocked_by:
       - "At least one completed dataset feasibility audit"
+      - "Human review of unresolved patient-level and label fields"
     acceptance_criteria:
       - "Feasibility evidence is summarized."
       - "Risks and TODOs are documented."
