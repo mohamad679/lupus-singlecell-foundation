@@ -579,6 +579,125 @@ Reject or defer a candidate for patient-level prediction if:
 - Any candidate requires dataset download before basic patient metadata feasibility can be assessed.
 - Human Gate 1 is treated as approved while it remains PENDING.
 
+## Label Availability Audit Framework
+
+### Why Label Audit Is Required Before Task Selection
+
+Prediction tasks must be selected only after labels are verified at the correct biological and clinical level. A dataset can be scientifically useful for interpretation while still being unusable for diagnosis, disease activity, lupus nephritis, treatment, or external validation tasks. Label feasibility must be audited before any modeling begins.
+
+### Label Provenance Rules
+
+Every label must have explicit provenance from source metadata, supplementary files, curated public collection metadata, or publication text. Labels must not be inferred from dataset titles, accessions, tissue names, cell types, file names, or general disease context.
+
+Unknown label provenance must be recorded as `TODO`. Labels without provenance cannot support training, validation, task selection, or scientific claims.
+
+### Diagnosis Label Requirements
+
+Diagnosis labels must distinguish cases and comparators at patient or donor level where possible.
+
+Diagnosis / case-control prediction tasks to audit:
+
+- SLE vs healthy control.
+- Lupus nephritis vs control.
+- SLE vs other autoimmune disease if available.
+
+Minimum requirements:
+
+- Patient-level or donor-level diagnosis labels.
+- Source-supported control or comparator labels.
+- Counts of labeled patients and samples.
+- Clear label provenance.
+
+### Disease Activity Label Requirements
+
+Disease activity prediction requires explicit metadata or publication evidence for active/inactive status, SLEDAI-derived categories, flare/remission status, or another documented activity score or proxy.
+
+Disease activity tasks to audit:
+
+- Active vs inactive SLE.
+- SLEDAI-based category if available.
+- Flare vs remission if explicitly available.
+
+Disease activity labels must not be inferred from treatment, tissue, cohort, or sampling time unless the source explicitly defines that relationship.
+
+### Lupus Nephritis Label Requirements
+
+Lupus nephritis labels must be source-supported and separated from general SLE diagnosis labels.
+
+Lupus nephritis tasks to audit:
+
+- Lupus nephritis vs non-nephritis SLE.
+- Kidney compartment or tissue if available.
+- Histologic class if explicitly available.
+
+Kidney tissue alone does not prove nephritis status. Histologic class and renal activity must remain `TODO` unless explicitly available.
+
+### Treatment Label Requirements
+
+Treatment-related labels must include source-supported treatment status, medication exposure, treatment timing, or treatment response definitions.
+
+Treatment-related tasks to audit:
+
+- Treated vs untreated.
+- Treatment response if explicitly available.
+- Medication exposure if available.
+
+Treatment labels must not be inferred from cohort name, disease severity, or publication focus.
+
+### Flare And Remission Label Requirements
+
+Flare and remission labels require explicit source definitions. If flare/remission status is tied to a score threshold, the threshold and score name must be recorded. Ambiguous activity wording must remain `TODO`.
+
+### Control And Comparator Requirements
+
+Control groups must be source-defined and distinguishable from cases. The audit must record whether controls are healthy controls, disease controls, other autoimmune disease controls, non-nephritis SLE comparators, or another comparator type.
+
+### Ambiguous Label Handling
+
+Ambiguous labels must be marked with `ambiguity_flag` and `ambiguity_reason`. Ambiguous labels cannot be treated as usable for training or external validation until manually resolved. If ambiguity affects disease activity, lupus nephritis status, or treatment response, the corresponding prediction task remains infeasible.
+
+### Minimum Label Requirements Per Prediction Task
+
+Diagnosis / case-control prediction requires:
+
+- Diagnosis label.
+- Control or comparator group.
+- Patient-level or donor-level availability.
+- Label provenance.
+
+Disease activity prediction requires:
+
+- Disease activity label or named score.
+- Patient-level or sample-level availability with patient mapping.
+- Activity score name when applicable.
+- Treatment metadata or explicit TODO for treatment confounding.
+
+Lupus nephritis task requires:
+
+- Lupus nephritis status.
+- Non-nephritis or control comparator.
+- Tissue or compartment context when relevant.
+- Histologic class only when explicitly available.
+
+Treatment-related task requires:
+
+- Treatment status, medication exposure, or treatment response label.
+- Timing relative to sampling when available.
+- Source-defined response criteria for response tasks.
+
+### Rejection Rules
+
+Reject or defer label use for prediction if:
+
+- `dataset_id`, `prediction_task`, `label_type`, `label_provenance`, or `audit_status` is missing.
+- Label provenance is absent, ambiguous, or guessed.
+- Disease activity labels are inferred rather than explicit.
+- Labels are cell-level only for patient-level prediction.
+- Control or comparator groups are unavailable for case-control tasks.
+- Lupus nephritis status is inferred from kidney tissue alone.
+- Treatment response lacks a source definition.
+- Human Gate 1 is treated as approved while it remains PENDING.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.

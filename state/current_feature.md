@@ -1,24 +1,27 @@
 # Current Feature
 
-Feature: P1-F005 - Patient-level metadata audit schema.
+Feature: P1-F006 - Label availability audit schema.
 
 Status: completed pending human review.
 
 Allowed work:
 
-- Define metadata requirements for patient-level prediction and leakage-free cohort splitting.
-- Create patient metadata schema, audit table headers, and safe local validation scaffolding.
-- Validate manually created audit rows without inventing labels, patient IDs, or dataset rows.
+- Define label availability requirements for patient-level prediction task feasibility.
+- Create label dictionary, label availability schema, audit table headers, and safe local validation scaffolding.
+- Validate manually created label audit rows without inventing labels, inferring disease activity, or creating dataset rows.
 
 Blocked work:
 
 - Dataset downloads.
 - Dataset accession invention.
 - Guessed patient labels.
+- Invented labels.
+- Inferred disease activity labels.
 - Invented patient IDs.
 - Cell-level splitting.
 - Model implementation.
 - Model training.
+- Clinical overclaiming.
 - Internet queries from audit scripts.
 - Scientific conclusions.
 - Any Phase 2 work.
@@ -26,11 +29,12 @@ Blocked work:
 Acceptance criteria:
 
 - `docs/02_dataset_feasibility_audit.md` exists.
-- `metadata/patient_metadata_schema.yaml` exists.
-- `reports/tables/patient_metadata_audit.csv` exists with headers only.
-- `scripts/04_patient_metadata_audit.py` exists and does not query the internet.
+- `metadata/label_dictionary.yaml` exists.
+- `metadata/label_availability_schema.yaml` exists.
+- `reports/tables/label_availability_audit.csv` exists with headers only.
+- `scripts/05_label_availability_audit.py` exists and does not query the internet.
 - `reports/tables/` exists.
-- Patient metadata schema and audit tests exist.
+- Label dictionary, schema, and audit tests exist.
 - `metadata/dataset_catalog.csv` is not populated with invented datasets.
-- No patient metadata rows are invented.
+- No label rows are invented.
 - Human Gate 1, Dataset Feasibility Approved, remains PENDING.

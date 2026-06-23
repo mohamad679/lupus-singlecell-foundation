@@ -1,0 +1,73 @@
+fields:
+  dataset_id:
+    required: true
+    description: "Internal candidate dataset identifier; TODO until a dataset is manually audited."
+  source:
+    required: true
+    description: "Source system such as GEO / NCBI, CELLxGENE, HCA, or publication repository."
+  accession_or_collection_id:
+    required: true
+    description: "Source accession, collection ID, or dataset ID; must not be invented."
+  prediction_task:
+    required: true
+    description: "Prediction task being assessed for label feasibility."
+  label_type:
+    required: true
+    description: "One allowed label type from metadata/label_dictionary.yaml."
+  label_name_in_source:
+    required: true
+    description: "Exact source field or label name; TODO if not yet verified."
+  label_values_observed:
+    required: true
+    description: "Observed label values from source metadata; TODO if not yet verified."
+  label_provenance:
+    required: true
+    description: "Where the label was verified, such as metadata field, supplement, or publication text."
+  patient_level_available:
+    required: true
+    description: "Whether the label is available at patient or donor level."
+  sample_level_available:
+    required: true
+    description: "Whether the label is available at sample level."
+  cell_level_only:
+    required: true
+    description: "Whether the label is only available at cell level; unsafe for patient-level prediction."
+  n_labeled_patients:
+    required: true
+    description: "Number of labeled patients; TODO if not source-verified."
+  n_labeled_samples:
+    required: true
+    description: "Number of labeled samples; TODO if not source-verified."
+  control_group_available:
+    required: true
+    description: "Whether a healthy or disease comparator group is source-verified."
+  activity_score_available:
+    required: true
+    description: "Whether an activity score or category is source-verified."
+  activity_score_name:
+    required: false
+    description: "Name of activity score such as SLEDAI, BILAG, flare/remission, or TODO."
+  lupus_nephritis_label_available:
+    required: true
+    description: "Whether lupus nephritis status, renal involvement, or class is source-verified."
+  treatment_label_available:
+    required: true
+    description: "Whether treatment exposure, status, or response labels are source-verified."
+  ambiguity_flag:
+    required: true
+    description: "Whether label meaning, level, timing, or provenance is ambiguous."
+  ambiguity_reason:
+    required: false
+    description: "Reason for ambiguity; TODO if not yet reviewed."
+  usable_for_training:
+    required: true
+    description: "Whether labels are usable for training after manual audit; must remain TODO before verification."
+  usable_for_external_validation:
+    required: true
+    description: "Whether labels are usable for external validation after manual audit."
+  notes:
+    required: false
+    description: "Free-text audit notes; use TODO for unknowns."
+  audit_status:
+    required: true
+    description: "Manual audit status for the row; required if any row exists."

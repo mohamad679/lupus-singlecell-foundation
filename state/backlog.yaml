@@ -154,12 +154,32 @@ backlog:
       - "Human Gate 1 remains PENDING."
 
   - id: P1-F006
+    title: "Label availability audit schema"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "Human Gate 1 remains PENDING for task selection and data acquisition"
+    acceptance_criteria:
+      - "Label audit framework is documented."
+      - "metadata/label_dictionary.yaml exists."
+      - "metadata/label_availability_schema.yaml exists."
+      - "reports/tables/label_availability_audit.csv exists with headers only."
+      - "scripts/05_label_availability_audit.py exists."
+      - "Tests for label dictionary, schema, and audit safety exist."
+      - "No dataset rows are created."
+      - "No labels are invented."
+      - "No model code is created."
+      - "Human Gate 1 remains PENDING."
+      - "primary_task remains TODO."
+
+  - id: P1-F007
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F005"
+      - "P1-F006"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -167,7 +187,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-F007
+  - id: P1-F008
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

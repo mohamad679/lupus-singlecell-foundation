@@ -1,0 +1,114 @@
+allowed_label_types:
+  - "diagnosis"
+  - "disease_activity"
+  - "lupus_nephritis_status"
+  - "flare_status"
+  - "treatment_status"
+  - "treatment_response"
+  - "control_type"
+  - "cohort_label"
+  - "batch_label"
+
+label_types:
+  diagnosis:
+    description: "Source-supported case, control, or comparator diagnosis label."
+    required_for_task: "Diagnosis / case-control prediction"
+    allowed_values:
+      - "SLE"
+      - "healthy_control"
+      - "lupus_nephritis"
+      - "other_autoimmune_disease"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Do not infer diagnosis from title, tissue, or accession."
+  disease_activity:
+    description: "Source-supported SLE activity label or activity score category."
+    required_for_task: "Disease activity prediction"
+    allowed_values:
+      - "active"
+      - "inactive"
+      - "SLEDAI_category"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Activity labels require explicit metadata or publication evidence."
+  lupus_nephritis_status:
+    description: "Source-supported lupus nephritis status or renal involvement label."
+    required_for_task: "Lupus nephritis task"
+    allowed_values:
+      - "lupus_nephritis"
+      - "non_nephritis_SLE"
+      - "renal_involvement"
+      - "histologic_class"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Do not infer nephritis from kidney tissue alone."
+  flare_status:
+    description: "Source-supported flare, remission, or stable disease label."
+    required_for_task: "Disease activity prediction"
+    allowed_values:
+      - "flare"
+      - "remission"
+      - "stable"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Flare or remission must be explicit in metadata or publication."
+  treatment_status:
+    description: "Medication exposure or treated/untreated status at sampling."
+    required_for_task: "Treatment-related task"
+    allowed_values:
+      - "treated"
+      - "untreated"
+      - "medication_exposure"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Treatment status must be source-provided."
+  treatment_response:
+    description: "Source-supported treatment response label."
+    required_for_task: "Treatment-related task"
+    allowed_values:
+      - "responder"
+      - "non_responder"
+      - "partial_response"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Response labels require explicit response definitions."
+  control_type:
+    description: "Source-supported comparator group type."
+    required_for_task: "Diagnosis / case-control prediction"
+    allowed_values:
+      - "healthy_control"
+      - "disease_control"
+      - "other_autoimmune_disease"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Controls must be distinguishable from cases at patient or sample level."
+  cohort_label:
+    description: "Source-supported cohort, study, site, or collection label."
+    required_for_task: "External validation and leakage assessment"
+    allowed_values:
+      - "discovery"
+      - "validation"
+      - "cohort_id"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Cohort labels support cross-cohort validation checks."
+  batch_label:
+    description: "Source-supported batch, site, run, chemistry, or processing label."
+    required_for_task: "Leakage and confounding assessment"
+    allowed_values:
+      - "batch_id"
+      - "site_id"
+      - "library_id"
+      - "chemistry"
+      - "TODO"
+    provenance_required: true
+    can_be_inferred: false
+    notes: "Batch labels are needed for leakage and confounding review."
