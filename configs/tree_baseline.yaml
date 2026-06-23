@@ -1,0 +1,34 @@
+{
+  "task": "SLE diagnosis / case-control prediction",
+  "allow_training": false,
+  "allow_prediction": false,
+  "allow_model_artifacts": false,
+  "input_feature_type": "patient_level_pseudobulk",
+  "forbid_cell_level_features": true,
+  "split_policy": "patient_or_cohort_only",
+  "model_families": {
+    "random_forest": {
+      "enabled_for_design": true,
+      "enabled_for_training": false
+    },
+    "xgboost": {
+      "enabled_for_design": true,
+      "enabled_for_training": false,
+      "optional_dependency": true
+    }
+  },
+  "planned_metrics": [
+    "auroc",
+    "auprc",
+    "balanced_accuracy",
+    "f1",
+    "sensitivity",
+    "specificity",
+    "brier_score",
+    "ece"
+  ],
+  "required_outputs_later": [
+    "reports/tables/tree_baseline_results.csv",
+    "reports/tables/tree_feature_importance.csv"
+  ]
+}

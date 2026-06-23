@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F003
+  completed_through: P3-F004
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -697,17 +697,21 @@ backlog:
     feature_id: P3-F004
     title: "Random forest / XGBoost baseline"
     phase: 3
-    status: todo
-    description: "Future nonlinear tabular baseline under the same restricted task and split policy."
+    status: done
+    description: "Create non-training random forest and optional XGBoost scaffolds under the restricted task and split policy."
     acceptance_criteria:
-      - "Implementation requires explicit modeling authorization."
-      - "Patient-level leakage tests pass."
-      - "Comparison with the linear baseline is predefined."
+      - "Tree-based baseline design is documented."
+      - "Training, prediction, and model artifacts remain disabled."
+      - "Only patient-level pseudobulk input is accepted."
+      - "Random forest and XGBoost training are disabled."
+      - "XGBoost remains an optional dependency and is not imported."
+      - "Results and feature-importance tables contain headers only."
+      - "The scaffold explicitly refuses training."
     dependencies:
       - "P3-F002"
       - "P3-F003"
     required_tests:
-      - "TODO"
+      - "tests/test_tree_baseline_scaffold.py"
     judge_gates:
       - "Scientific and Engineering Judge review."
 

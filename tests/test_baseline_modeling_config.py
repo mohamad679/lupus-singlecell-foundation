@@ -58,6 +58,7 @@ def test_baseline_package_markers_exist_without_implementations():
     assert {path.name for path in models_dir.iterdir()} == {
         "__init__.py",
         "logistic_regression_baseline.py",
+        "tree_baselines.py",
     }
 
     evaluation_dir = SRC_PATH / "evaluation"
@@ -69,7 +70,7 @@ def test_phase3_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F003" in state
+    assert "current_feature: P3-F004" in state
     assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "allow_modeling: false" in state

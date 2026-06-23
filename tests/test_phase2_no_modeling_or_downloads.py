@@ -79,6 +79,7 @@ def test_models_package_contains_safe_scaffold_only():
     assert {path.name for path in models_dir.iterdir()} == {
         "__init__.py",
         "logistic_regression_baseline.py",
+        "tree_baselines.py",
     }
 
 

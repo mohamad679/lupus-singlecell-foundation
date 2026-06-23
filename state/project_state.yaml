@@ -3,7 +3,7 @@ project:
   status: phase_3_baseline_modeling_scaffold
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F003
+  current_feature: P3-F004
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -146,6 +146,10 @@ artifacts:
   logistic_regression_results: reports/tables/logistic_regression_results.csv
   logistic_regression_coefficients: reports/tables/logistic_regression_coefficients.csv
   logistic_regression_scaffold: src/models/logistic_regression_baseline.py
+  tree_baseline_config: configs/tree_baseline.yaml
+  tree_baseline_results: reports/tables/tree_baseline_results.csv
+  tree_feature_importance: reports/tables/tree_feature_importance.csv
+  tree_baseline_scaffold: src/models/tree_baselines.py
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -206,5 +210,6 @@ artifacts:
   baseline_modeling_scaffold_test: tests/test_baseline_modeling_scaffold.py
   pseudobulk_feature_design_test: tests/test_pseudobulk_feature_design.py
   logistic_regression_scaffold_test: tests/test_logistic_regression_baseline_scaffold.py
+  tree_baseline_scaffold_test: tests/test_tree_baseline_scaffold.py
 
 last_updated: "2026-06-24"

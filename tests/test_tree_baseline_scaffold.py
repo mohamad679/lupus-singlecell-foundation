@@ -6,12 +6,10 @@ import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-CONFIG_PATH = REPO_ROOT / "configs" / "logistic_regression_baseline.yaml"
-MODULE_PATH = REPO_ROOT / "src" / "models" / "logistic_regression_baseline.py"
-RESULTS_PATH = REPO_ROOT / "reports" / "tables" / "logistic_regression_results.csv"
-COEFFICIENTS_PATH = (
-    REPO_ROOT / "reports" / "tables" / "logistic_regression_coefficients.csv"
-)
+CONFIG_PATH = REPO_ROOT / "configs" / "tree_baseline.yaml"
+MODULE_PATH = REPO_ROOT / "src" / "models" / "tree_baselines.py"
+RESULTS_PATH = REPO_ROOT / "reports" / "tables" / "tree_baseline_results.csv"
+IMPORTANCE_PATH = REPO_ROOT / "reports" / "tables" / "tree_feature_importance.csv"
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 
 RESULTS_HEADERS = [
@@ -20,8 +18,8 @@ RESULTS_HEADERS = [
     "task",
     "split_policy",
     "model_family",
-    "regularization",
-    "class_weight",
+    "hyperparameter_profile",
+    "class_weight_or_scale_pos_weight",
     "auroc",
     "auprc",
     "balanced_accuracy",
@@ -34,34 +32,33 @@ RESULTS_HEADERS = [
     "audit_status",
     "notes",
 ]
-COEFFICIENT_HEADERS = [
+IMPORTANCE_HEADERS = [
     "run_id",
+    "model_family",
     "feature_id",
     "gene_id",
     "gene_symbol",
     "cell_type",
-    "coefficient",
-    "coefficient_rank",
-    "direction",
+    "importance_value",
+    "importance_rank",
+    "importance_method",
     "audit_status",
     "notes",
 ]
 
 
 def load_module():
-    spec = importlib.util.spec_from_file_location(
-        "logistic_regression_baseline", MODULE_PATH
-    )
+    spec = importlib.util.spec_from_file_location("tree_baselines", MODULE_PATH)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)
     return module
 
 
-def test_config_exists_and_disables_execution():
+def test_config_exists_and_disables_tree_execution():
     assert CONFIG_PATH.exists()
     module = load_module()
-    config = module.load_logistic_regression_config()
+    config = module.load_tree_baseline_config()
 
     assert config["task"] == "SLE diagnosis / case-control prediction"
     assert config["allow_training"] is False
@@ -70,64 +67,47 @@ def test_config_exists_and_disables_execution():
     assert config["input_feature_type"] == "patient_level_pseudobulk"
     assert config["forbid_cell_level_features"] is True
     assert config["split_policy"] == "patient_or_cohort_only"
-    assert config["model_family"] == "logistic_regression"
 
 
-def test_results_and_coefficients_tables_are_headers_only():
-    assert RESULTS_PATH.exists()
-    assert COEFFICIENTS_PATH.exists()
+def test_random_forest_and_xgboost_training_are_disabled():
     module = load_module()
+    config = module.load_tree_baseline_config()
+    families = config["model_families"]
 
+    assert families["random_forest"]["enabled_for_training"] is False
+    assert families["xgboost"]["enabled_for_training"] is False
+    assert families["xgboost"]["optional_dependency"] is True
+    module.validate_no_required_xgboost_dependency(config)
+
+
+def test_results_and_importance_tables_are_headers_only():
+    module = load_module()
     with RESULTS_PATH.open(newline="") as handle:
         result_rows = list(csv.reader(handle))
-    with COEFFICIENTS_PATH.open(newline="") as handle:
-        coefficient_rows = list(csv.reader(handle))
+    with IMPORTANCE_PATH.open(newline="") as handle:
+        importance_rows = list(csv.reader(handle))
 
     assert result_rows == [RESULTS_HEADERS]
-    assert coefficient_rows == [COEFFICIENT_HEADERS]
-    module.validate_results_table_headers(result_rows[0])
+    assert importance_rows == [IMPORTANCE_HEADERS]
+    module.validate_tree_results_headers(result_rows[0])
+    module.validate_tree_importance_headers(importance_rows[0])
 
 
 def test_refuse_training_if_disabled_raises():
     module = load_module()
-    config = module.load_logistic_regression_config()
+    config = module.load_tree_baseline_config()
 
-    with pytest.raises(module.LogisticRegressionScaffoldError, match="training"):
+    with pytest.raises(module.TreeBaselineScaffoldError, match="training"):
         module.refuse_training_if_disabled(config)
 
 
-def test_valid_mock_required_inputs_manifest_passes():
+def test_required_xgboost_dependency_is_rejected():
     module = load_module()
-    manifest = {
-        "pseudobulk_feature_matrix": "MOCK_ONLY",
-        "patient_level_labels": "MOCK_ONLY",
-        "split_manifest": "MOCK_ONLY",
-        "feature_manifest": "MOCK_ONLY",
-        "input_feature_type": "patient_level_pseudobulk",
-        "split_policy": "patient_or_cohort_only",
-        "audit_status": "mock_only",
-    }
+    config = module.load_tree_baseline_config()
+    config["model_families"]["xgboost"]["optional_dependency"] = False
 
-    module.validate_required_inputs_manifest(manifest)
-
-
-def test_cell_level_feature_manifest_is_rejected():
-    module = load_module()
-    manifest = {
-        "pseudobulk_feature_matrix": "MOCK_ONLY",
-        "patient_level_labels": "MOCK_ONLY",
-        "split_manifest": "MOCK_ONLY",
-        "feature_manifest": "MOCK_ONLY",
-        "input_feature_type": "cell_level_expression",
-        "split_policy": "patient_or_cohort_only",
-        "audit_status": "mock_only",
-    }
-
-    with pytest.raises(
-        module.LogisticRegressionScaffoldError,
-        match="patient_level_pseudobulk",
-    ):
-        module.validate_required_inputs_manifest(manifest)
+    with pytest.raises(module.TreeBaselineScaffoldError, match="optional"):
+        module.validate_no_required_xgboost_dependency(config)
 
 
 def test_state_preserves_modeling_and_dataset_locks():
@@ -145,6 +125,8 @@ def test_state_preserves_modeling_and_dataset_locks():
 def test_scaffold_has_no_estimator_or_real_data_imports():
     source = MODULE_PATH.read_text().lower()
     forbidden_fragments = [
+        "import xgboost",
+        "from xgboost",
         "import sklearn",
         "from sklearn",
         "import pandas",

@@ -389,3 +389,92 @@ Future execution must fail when:
 - Do not report performance or biological associations.
 
 The results and coefficient tables created by P3-F003 contain headers only.
+
+## Tree-based Baseline Design
+
+### Rationale for Random Forest and XGBoost Baselines
+
+Random forest and XGBoost are planned as nonlinear tabular comparators for
+patient-level pseudobulk features. They may capture interactions and threshold
+effects that a linear classifier cannot represent. Their inclusion is for
+comparative baseline design only; P3-F004 does not instantiate, fit, or import
+either estimator.
+
+### Why Tree Models Are Secondary to Logistic Regression
+
+Logistic regression remains the first baseline because it is simpler, more
+transparent, and less flexible when patient counts are small. Tree models add
+capacity and hyperparameters, increasing overfitting and interpretation risk.
+They should be considered only after the linear baseline, using identical
+patient-level features, labels, partitions, and evaluation rules.
+
+### Input Requirement
+
+The only planned input feature type is `patient_level_pseudobulk`. Future tree
+baselines require a patient/donor-by-feature matrix, patient-level labels, a
+patient- or cohort-level split manifest, and the feature manifest. Cell-level
+features and cell-level partitions are forbidden.
+
+### Hyperparameter Search Plan Placeholder
+
+Hyperparameter profiles remain TODO for both model families. A later authorized
+implementation must define a small, prespecified search space and perform
+selection inside patient-level resampling using training data only. Test or
+external-cohort performance must not guide tree depth, number of trees,
+learning rate, subsampling, feature subsampling, or regularization.
+
+### Class Imbalance Handling Plan
+
+Random forest may later compare balanced class weights with no weighting.
+XGBoost may later consider a training-fold-derived positive-class scale. Any
+weight must be calculated from patient counts, not cell counts, and must be
+fitted independently within each training partition. No weighting strategy is
+selected in P3-F004.
+
+### Feature Importance Caveats
+
+Impurity, gain, split-count, and permutation importance can be unstable or
+biased by correlated genes, feature scale, sparsity, cell-type stratification,
+and cohort confounding. Importance does not establish causality or biological
+mechanism. A future report must state the method, training partition, feature
+provenance, and stability across patient-level resamples.
+
+### Leakage Risks
+
+- Global filtering, normalization, or feature selection can expose held-out
+  cohorts.
+- Hyperparameter tuning outside patient-level resampling can overfit.
+- Repeated samples from one patient can cross partitions.
+- Batch, treatment, source, assay, or cell count can proxy diagnosis.
+- Feature-importance inspection on test data can influence model refinement.
+- Overlapping GEO and CELLxGENE/HCA records can invalidate cross-cohort claims.
+
+### Overfitting Risks with Small Patient Counts
+
+Tree ensembles can fit high-dimensional pseudobulk noise when the number of
+features greatly exceeds the number of patients. Deep trees, large searches,
+and repeated tuning can produce optimistic internal estimates. Future work
+must constrain model capacity, report patient counts and class balance, and
+compare against logistic regression under identical partitions.
+
+### XGBoost Optional Dependency Caution
+
+XGBoost is not a required dependency in P3-F004. The configuration marks it
+optional, and the scaffold does not import it. A later feature must explicitly
+approve dependency installation and implementation before XGBoost can be used.
+Absence of XGBoost must not block validation of the repository scaffold.
+
+### Forbidden Actions Before Modeling Gate
+
+- Do not load real pseudobulk matrices or labels.
+- Do not instantiate or fit random forest or XGBoost estimators.
+- Do not import XGBoost as a required dependency.
+- Do not generate predictions, probabilities, metrics, or feature importance.
+- Do not create serialized model or preprocessing artifacts.
+- Do not search or select hyperparameters.
+- Do not use cell-level features or partitions.
+- Do not select datasets or assign an external validation cohort.
+- Do not report performance or biological claims.
+
+The tree results and feature-importance tables created by P3-F004 contain
+headers only.
