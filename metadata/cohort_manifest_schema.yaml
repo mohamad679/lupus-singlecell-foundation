@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.0",
+  "required_fields": [
+    "manifest_id",
+    "candidate_id",
+    "source",
+    "accession_or_collection_id",
+    "dataset_id",
+    "cohort_id",
+    "sample_id",
+    "patient_or_donor_id",
+    "tissue",
+    "assay_type",
+    "disease_context",
+    "disease_label_status",
+    "activity_label_status",
+    "batch_id_status",
+    "treatment_metadata_status",
+    "processed_object_status",
+    "raw_data_status",
+    "access_status",
+    "intended_role",
+    "approved_role",
+    "risk_level",
+    "provenance_url",
+    "notes",
+    "audit_status"
+  ],
+  "fields": {
+    "manifest_id": {
+      "description": "Unique manifest row identifier for audit tracking.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": false,
+      "provenance_required": false
+    },
+    "candidate_id": {
+      "description": "Candidate dataset or cohort identifier used in Phase 1/2 planning.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "source": {
+      "description": "Source repository or origin database.",
+      "required": true,
+      "allowed_values": ["GEO", "NCBI", "CELLxGENE", "HCA", "published_object", "TODO", "unclear"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "accession_or_collection_id": {
+      "description": "Public accession, collection ID, project ID, or source object ID.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "dataset_id": {
+      "description": "Dataset identifier used by downstream manifests and schema validation.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "cohort_id": {
+      "description": "Cohort, site, study arm, or collection grouping identifier.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": true
+    },
+    "sample_id": {
+      "description": "Sample identifier when source metadata supports sample-level tracking.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": true
+    },
+    "patient_or_donor_id": {
+      "description": "Patient or donor identifier required for future leakage-safe splitting.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": true
+    },
+    "tissue": {
+      "description": "Tissue, specimen, or compartment represented by the cohort/sample.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": true
+    },
+    "assay_type": {
+      "description": "Single-cell assay or technology type.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": true
+    },
+    "disease_context": {
+      "description": "Disease context such as SLE, lupus nephritis, healthy control, or comparator.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": true
+    },
+    "disease_label_status": {
+      "description": "Availability status of diagnosis/case-control labels.",
+      "required": true,
+      "allowed_values": ["verified", "candidate_pending_audit", "TODO", "unclear", "missing"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "activity_label_status": {
+      "description": "Availability status of disease activity, flare/remission, or score labels.",
+      "required": true,
+      "allowed_values": ["verified", "candidate_pending_audit", "TODO", "unclear", "missing"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "batch_id_status": {
+      "description": "Availability status of batch, site, library, or processing metadata.",
+      "required": true,
+      "allowed_values": ["verified", "candidate_pending_audit", "TODO", "unclear", "missing"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "treatment_metadata_status": {
+      "description": "Availability status of treatment or medication metadata.",
+      "required": true,
+      "allowed_values": ["verified", "candidate_pending_audit", "TODO", "unclear", "missing"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "processed_object_status": {
+      "description": "Availability status of processed object or matrix.",
+      "required": true,
+      "allowed_values": ["available", "controlled_access", "candidate_pending_audit", "TODO", "unclear", "missing"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "raw_data_status": {
+      "description": "Availability status of raw counts or raw source files.",
+      "required": true,
+      "allowed_values": ["available", "controlled_access", "candidate_pending_audit", "TODO", "unclear", "missing"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "access_status": {
+      "description": "Access restriction status for source data and metadata.",
+      "required": true,
+      "allowed_values": ["open", "controlled_access", "restricted", "candidate_pending_audit", "TODO", "unclear"],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "intended_role": {
+      "description": "Candidate planning role only; this is not approval.",
+      "required": true,
+      "allowed_values": ["candidate_training", "candidate_external_validation", "candidate_reference", "TODO"],
+      "allowed_missing": false,
+      "provenance_required": false
+    },
+    "approved_role": {
+      "description": "Approved role after explicit human gate only.",
+      "required": true,
+      "allowed_values": ["training", "external_validation", "reference", "none", "TODO"],
+      "allowed_missing": false,
+      "provenance_required": false
+    },
+    "risk_level": {
+      "description": "Current risk level for scientific, access, metadata, or harmonization use.",
+      "required": true,
+      "allowed_values": ["low", "medium", "high", "candidate_pending_audit", "TODO", "unclear"],
+      "allowed_missing": false,
+      "provenance_required": false
+    },
+    "provenance_url": {
+      "description": "Source URL supporting the manifest row.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": false,
+      "provenance_required": true
+    },
+    "notes": {
+      "description": "Human-readable audit notes and unresolved TODOs.",
+      "required": true,
+      "allowed_values": [],
+      "allowed_missing": true,
+      "provenance_required": false
+    },
+    "audit_status": {
+      "description": "Audit status for the manifest row.",
+      "required": true,
+      "allowed_values": ["candidate_pending_audit", "pending_manual_review", "TODO", "unclear"],
+      "allowed_missing": false,
+      "provenance_required": false
+    }
+  }
+}

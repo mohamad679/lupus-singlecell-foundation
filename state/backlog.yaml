@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F007
+  completed_through: P2-F008
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -531,17 +531,22 @@ backlog:
     feature_id: P2-F008
     title: "Cohort manifest design"
     phase: 2
-    status: todo
+    status: done
     description: "Design cohort manifest fields for source, accession, patient, donor, sample, tissue, assay, batch, label, and provenance."
     acceptance_criteria:
       - "Cohort manifest schema exists."
+      - "metadata/cohort_manifest.csv exists with headers only."
+      - "approved_role cannot assign training or external validation without explicit human gate approval."
+      - "Manifest rows require provenance_url and audit_status."
       - "No cohort is selected."
       - "No external validation cohort is assigned."
     dependencies:
       - "P2-F003"
       - "P2-F006"
+      - "P2-F007"
     required_tests:
-      - "Cohort manifest schema test."
+      - "tests/test_cohort_manifest_schema.py"
+      - "tests/test_cohort_manifest_validation.py"
     judge_gates:
       - "Scientific and Bioinformatics Judge review before cohort assignment."
 

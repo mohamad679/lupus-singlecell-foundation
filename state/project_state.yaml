@@ -3,7 +3,7 @@ project:
   status: phase_2_data_pipeline_scaffold
   current_phase: "Phase 2"
   current_phase_name: "Data Pipeline Scaffold"
-  current_feature: P2-F007
+  current_feature: P2-F008
   blocked: false
   blocked_reason: null
   primary_task: TODO
@@ -102,6 +102,8 @@ artifacts:
   qc_threshold_decisions: reports/tables/qc_threshold_decisions.csv
   split_config: configs/splitting.yaml
   split_manifest: reports/tables/split_manifest.csv
+  cohort_manifest_schema: metadata/cohort_manifest_schema.yaml
+  cohort_manifest: metadata/cohort_manifest.csv
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -117,6 +119,7 @@ artifacts:
   qc_policy_utility: src/qc/qc_policy.py
   split_policy_utility: src/data/split_policy.py
   leakage_checks_utility: src/data/leakage_checks.py
+  cohort_manifest_utility: src/data/cohort_manifest.py
   metadata_schema_test: tests/test_metadata_schema.py
   data_audit_config_test: tests/test_data_audit_config.py
   audit_safety_test: tests/test_audit_script_no_invented_rows.py
@@ -151,5 +154,7 @@ artifacts:
   qc_policy_test: tests/test_qc_policy.py
   patient_split_policy_test: tests/test_patient_split_policy.py
   leakage_checks_test: tests/test_leakage_checks.py
+  cohort_manifest_schema_test: tests/test_cohort_manifest_schema.py
+  cohort_manifest_validation_test: tests/test_cohort_manifest_validation.py
 
 last_updated: "2026-06-23"

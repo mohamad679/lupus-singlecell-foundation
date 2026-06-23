@@ -551,6 +551,62 @@ Scientific and bioinformatics judges must reject any future modeling-readiness c
 - duplicated cells or barcodes are present across splits.
 - leakage checks are missing, incomplete, or based on guessed metadata.
 
+## Cohort Manifest Design
+
+The cohort manifest is the central future tracking table for candidate datasets, cohorts, samples, batches, tissues, assay types, access restrictions, and intended roles. P2-F008 defines schema, an empty manifest table, and mock validation only; it does not download data, preprocess data, create AnnData outputs, approve cohorts, or assign official training or external validation cohorts.
+
+### Purpose of Cohort Manifest
+
+The manifest creates one auditable location for tracking candidate cohort metadata before any acquisition, QC, splitting, or modeling work. It separates candidate planning from approved use so that no dataset becomes training or external validation input without explicit review.
+
+### Dataset vs Cohort vs Sample Distinction
+
+A dataset is a public source object such as a GEO series, CELLxGENE dataset, HCA project, or published object. A cohort is a biologically or procedurally meaningful group within or across datasets, such as a study arm, site, tissue, or collection. A sample is a source-supported biological specimen linked to a patient or donor when available. These levels must not be collapsed without documented evidence.
+
+### Source Dataset Tracking
+
+Every manifest row must preserve source, accession or collection ID, dataset ID, candidate ID, and provenance URL. Source identifiers must be verified from public metadata or later approved access; they must not be inferred from file names or notes.
+
+### Access Restriction Tracking
+
+The manifest must track whether raw data, processed objects, and relevant metadata are open, controlled, unclear, or TODO. Controlled-access risks must remain explicit and cannot be treated as available data.
+
+### Tissue and Assay Tracking
+
+Tissue and assay fields are required for compatibility checks across PBMC, kidney, lupus nephritis, and other tissue contexts. Assay type must support future single-cell validity checks and cannot be inferred from study title alone.
+
+### Batch and Site Metadata
+
+Batch, site, cohort, and processing metadata are required for leakage prevention and cross-cohort evaluation. Missing or unclear batch metadata must remain a risk field, not a reason to invent a batch label.
+
+### Intended Role vs Approved Role
+
+`intended_role` records planning intent only, such as `candidate_training`, `candidate_external_validation`, or `candidate_reference`. `approved_role` must remain `TODO` or `none` until an explicit human gate approves a role. Intended roles are not approvals.
+
+### Candidate Status Policy
+
+Rows in the manifest represent candidate or planning records unless later human gates explicitly change their status. Candidate status must preserve risk level, notes, provenance, and audit status.
+
+### External Validation Caution
+
+External validation candidates require independent cohort evidence, compatible labels, compatible tissue and assay, and no overlap with training data. The manifest must not assign `external_validation_cohort`; that project-state field remains `TODO`.
+
+### Provenance Requirements
+
+Any manifest row must include a provenance URL and audit status. Rows without provenance cannot support training, validation, external validation, or reference roles.
+
+### Failure Modes
+
+Manifest validation must fail or remain blocked when:
+
+- required fields are missing.
+- provenance URL is missing.
+- audit status is missing.
+- intended role is outside the candidate-role vocabulary.
+- approved role is `training` or `external_validation` without explicit human-gate approval.
+- a row attempts to imply selected dataset assignment.
+- access, tissue, assay, label, batch, or processed-object status is unclear for a proposed role.
+
 ## Reproducibility Policy
 
 Every future pipeline step must record:
