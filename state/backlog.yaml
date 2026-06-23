@@ -66,7 +66,7 @@ backlog:
   - id: P1-F001
     title: "Dataset Search Strategy"
     phase: 1
-    status: in_progress
+    status: done
     type: scientific
     acceptance_criteria:
       - "docs/02_dataset_feasibility_audit.md exists."
@@ -78,13 +78,31 @@ backlog:
       - "No accessions are recorded unless verified from authoritative sources."
       - "Human Gate 1 remains PENDING."
 
-  - id: P1-002
+  - id: P1-F002
+    title: "GEO / NCBI metadata audit plan"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "Human Gate 1 remains PENDING for data acquisition"
+    acceptance_criteria:
+      - "GEO / NCBI audit protocol is documented."
+      - "GEO search terms are documented in configs/data_audit.yaml."
+      - "metadata/geo_candidate_schema.yaml exists."
+      - "reports/tables/geo_candidate_datasets.csv exists with headers only."
+      - "scripts/01_geo_metadata_search_plan.py exists."
+      - "Tests for GEO schema and search plan safety exist."
+      - "No full datasets are downloaded."
+      - "No dataset accessions are invented."
+      - "Human Gate 1 remains PENDING."
+
+  - id: P1-F003
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F001"
+      - "P1-F002"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -92,7 +110,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-003
+  - id: P1-F004
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

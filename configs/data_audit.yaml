@@ -13,6 +13,28 @@ sources_to_audit:
   - "Human Cell Atlas"
   - "published AnnData / Seurat repositories"
 
+geo_ncbi:
+  search_terms:
+    - "systemic lupus erythematosus single cell RNA sequencing"
+    - "SLE scRNA-seq"
+    - "lupus nephritis single cell RNA-seq"
+    - "autoimmune lupus single-cell transcriptomics"
+    - "PBMC lupus single cell"
+    - "kidney lupus nephritis single cell"
+  metadata_only: true
+  allow_full_download: false
+  required_manual_verification:
+    - "organism"
+    - "assay_type"
+    - "tissue"
+    - "disease_label"
+    - "patient_id_availability"
+    - "activity_label_availability"
+    - "treatment_metadata"
+    - "batch_or_cohort"
+    - "raw_data_availability"
+    - "processed_object_availability"
+
 required_fields:
   - "dataset_id"
   - "source_name"

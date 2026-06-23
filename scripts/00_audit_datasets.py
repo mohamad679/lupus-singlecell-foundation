@@ -47,7 +47,11 @@ def _clean_scalar(value: str) -> str:
 
 
 def load_simple_yaml(path: Path) -> Dict[str, List[str]]:
-    """Load the limited top-level list YAML shape used by data_audit.yaml."""
+    """Load top-level list sections from data_audit.yaml.
+
+    Nested sections are ignored here so richer source-specific config can live
+    in the same file without changing this Phase 1 scaffold.
+    """
     data: Dict[str, List[str]] = {}
     current_key: str | None = None
 
@@ -65,6 +69,9 @@ def load_simple_yaml(path: Path) -> Dict[str, List[str]]:
             if current_key is None:
                 raise AuditConfigError(f"List item without section at line {line_number}")
             data[current_key].append(_clean_scalar(line[4:]))
+            continue
+
+        if raw_line.startswith(" "):
             continue
 
         raise AuditConfigError(f"Unsupported YAML shape at line {line_number}: {raw_line}")

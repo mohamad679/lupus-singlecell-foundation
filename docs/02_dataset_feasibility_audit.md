@@ -114,6 +114,165 @@ Validation candidates must be independently sourced, not merely a split of the s
 
 Current external validation cohort: TODO.
 
+## GEO / NCBI Metadata Audit Protocol
+
+### Search Objectives
+
+Identify real public GEO / NCBI records that may contain SLE, lupus, or lupus nephritis single-cell or single-nucleus transcriptomics data. This protocol is metadata-only until Human Gate 1 is approved.
+
+Do not download full datasets. Do not infer accessions from publications or memory. Do not add candidates to `metadata/dataset_catalog.csv` until manual metadata verification is complete.
+
+### Exact Search Terms
+
+Use these terms exactly when planning GEO / NCBI searches:
+
+- `systemic lupus erythematosus single cell RNA sequencing`
+- `SLE scRNA-seq`
+- `lupus nephritis single cell RNA-seq`
+- `autoimmune lupus single-cell transcriptomics`
+- `PBMC lupus single cell`
+- `kidney lupus nephritis single cell`
+
+### GEO / NCBI Inclusion Criteria
+
+A GEO / NCBI candidate can be recorded in `reports/tables/geo_candidate_datasets.csv` only when an explicit accession is visible in source metadata and the row is marked `candidate_pending_audit`.
+
+Candidate inclusion requires metadata evidence for:
+
+- Single-cell or single-nucleus transcriptomics assay.
+- SLE, lupus, lupus nephritis, or directly relevant autoimmune lupus context.
+- Organism.
+- Tissue, compartment, or sample source.
+- Disease and control label availability or a clear TODO when unresolved.
+- Raw-data availability and processed-object availability status.
+- Manual audit status.
+
+### GEO / NCBI Exclusion Criteria
+
+Reject or defer records when:
+
+- The assay is bulk RNA-seq, microarray, proteomics, spatial-only without single-cell transcriptomics, or otherwise not single-cell or single-nucleus transcriptomics.
+- The accession is absent or inferred.
+- Patient IDs, sample counts, disease labels, or assay types are guessed.
+- Full data download is required before basic metadata can be assessed.
+- SLE and lupus nephritis labels cannot be separated and this ambiguity is not documented.
+- The source appears to duplicate a previously reviewed cohort and overlap cannot be resolved.
+
+### Metadata Fields To Extract
+
+For each candidate, use `metadata/geo_candidate_schema.yaml` and capture:
+
+- `accession`
+- `title`
+- `source`
+- `publication`
+- `organism`
+- `tissue`
+- `assay_type`
+- `disease_context`
+- `lupus_subtype`
+- `n_patients`
+- `n_samples`
+- `n_cells`
+- `patient_id_available`
+- `disease_label_available`
+- `activity_label_available`
+- `treatment_info_available`
+- `batch_info_available`
+- `raw_data_available`
+- `processed_object_available`
+- `notes`
+- `audit_status`
+
+Unknown values must be `TODO`. Header-only templates are valid before any candidate has been manually identified.
+
+### Patient-Level Requirements
+
+Manual verification must determine whether GEO / NCBI metadata expose donor-level or patient-level structure. Patient IDs must not be reconstructed from sample names unless the source explicitly documents that mapping.
+
+Required checks:
+
+- Patient or donor ID availability.
+- Sample-to-patient mapping.
+- Number of patients and samples.
+- Whether multiple samples per patient exist.
+- Whether controls are matched or independently recruited.
+- Whether treatment, activity, nephritis status, and batch metadata are patient-level or sample-level.
+
+### Label Requirements
+
+Disease labels must be source-supported. Record whether labels distinguish:
+
+- SLE.
+- Lupus nephritis.
+- Healthy controls.
+- Disease controls.
+- Active versus inactive disease.
+- Treated versus untreated samples.
+- Renal versus non-renal involvement.
+
+Ambiguous labels remain `TODO` or trigger rejection if they prevent feasibility assessment.
+
+### Single-Cell Assay Verification Rules
+
+A candidate must not be treated as single-cell data unless source metadata indicate a single-cell or single-nucleus transcriptomics assay. Acceptable evidence may include platform, library strategy, processed object description, cell barcode matrices, or source text that explicitly states scRNA-seq, snRNA-seq, single-cell RNA sequencing, or single-nucleus RNA sequencing.
+
+Do not classify sorted bulk, pseudo-bulk, microarray, or bulk RNA-seq as single-cell transcriptomics.
+
+### Lupus Nephritis-Specific Checks
+
+For lupus nephritis candidates, manually check:
+
+- Kidney, renal biopsy, urine, PBMC, or other tissue/sample source.
+- Lupus nephritis class if available.
+- Renal involvement criteria.
+- Active nephritis versus inactive or historical nephritis.
+- Matched blood and kidney samples if present.
+- Treatment timing relative to biopsy or sampling.
+
+Missing nephritis-specific metadata must be recorded as `TODO`.
+
+### Raw-Data Vs Processed-Object Checks
+
+For each candidate, record separately:
+
+- Raw count matrix availability.
+- FASTQ availability or controlled-access status.
+- Processed matrix availability.
+- AnnData, Seurat, loom, HDF5, Matrix Market, or other object availability.
+- Cell-level metadata availability.
+- Gene identifier format.
+- Whether processed objects can be linked to raw data and sample metadata.
+
+Do not download full raw or processed objects before Human Gate 1 approval.
+
+### External Validation Suitability Checks
+
+Assess whether the candidate could serve as a discovery cohort, validation cohort, or neither.
+
+External validation suitability requires:
+
+- Independent cohort or study source.
+- Comparable disease and control labels.
+- Compatible tissue or sample type.
+- Compatible assay type.
+- Sufficient patient-level metadata.
+- No obvious cohort overlap with the discovery candidate.
+
+If suitability is unclear, record `TODO`.
+
+### GEO / NCBI Rejection Rules
+
+Reject a GEO / NCBI candidate if:
+
+- The accession is not explicit.
+- `audit_status` is missing.
+- Any row is added by script-generated inference rather than manual source review.
+- Full data download is needed to answer basic metadata questions.
+- The assay is not verified as single-cell or single-nucleus transcriptomics.
+- Disease labels are absent, guessed, or incompatible with SLE / lupus / lupus nephritis feasibility.
+- Human Gate 1 is used as if approved when it remains PENDING.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.
