@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F001
+  completed_through: P2-F002
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -391,13 +391,16 @@ backlog:
     feature_id: P2-F002
     title: "AnnData schema and integrity contract"
     phase: 2
-    status: todo
+    status: done
     description: "Define the expected AnnData obs, var, layers, uns, provenance, and integrity requirements without creating AnnData objects."
     acceptance_criteria:
       - "AnnData schema contract document exists."
       - "Required obs and var fields are listed."
       - "No AnnData object is created."
       - "No data are downloaded."
+      - "metadata/anndata_schema.yaml exists."
+      - "src/data/anndata_schema.py validates mock AnnData-like structures."
+      - "tests/test_anndata_schema_contract.py passes."
     dependencies:
       - "P2-F001"
     required_tests:

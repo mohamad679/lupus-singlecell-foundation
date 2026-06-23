@@ -1,27 +1,20 @@
 # Current Feature
 
-Feature: P2-F001 - Phase 2 data pipeline scaffold.
+Feature: P2-F002 - AnnData schema and integrity contract.
 
 Status: completed pending human review.
 
 Builder scope:
 
-- Create data-pipeline scaffold only.
-- Define Phase 2 restrictions for future AnnData, metadata harmonization, QC, and patient-level split validation.
-- Validate scaffold controls through local config and tests.
-
-Approved-with-restrictions context:
-
-- `GSE137029` is approved only as the primary candidate for Phase 2 pipeline development, not for modeling.
-- `CELLxGENE/HCA 436154da-bcf1-4130-9c8b-120ff9a888f2 / 218acb0f-9f2f-4f76-b90b-15a4b7c7f629` is approved only for metadata harmonization design, not for modeling.
-- `GSE174188` remains `needs_manual_verification` and is not part of Phase 2 processing.
-- `GSE162577` remains `limited_candidate` and is not primary.
-- `selected_datasets` remains `[]`.
-- `external_validation_cohort` remains TODO.
+- Define AnnData schema and integrity rules only.
+- Create schema metadata, validation utilities, documentation, and tests.
+- Support mock AnnData-like validation without loading real datasets.
 
 Explicitly forbidden:
 
 - Downloads.
+- Creating real AnnData objects from datasets.
+- Preprocessing real datasets.
 - Modeling.
 - Training.
 - Model files.
@@ -29,13 +22,21 @@ Explicitly forbidden:
 - Dataset approval for modeling.
 - Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
-- Full preprocessing.
-- Creating AnnData objects in this feature.
+
+Schema contract summary:
+
+- Required `obs` fields include cell, patient, donor, sample, cohort, batch, tissue, assay, disease, cell type, source dataset, and split group fields.
+- Required `var` fields include gene ID, gene symbol, feature type, and genome.
+- Required layers are `counts`, `normalized`, and `log_normalized`.
+- Required `uns` fields include dataset/source provenance, preprocessing version, schema version, audit status, and patient-level split policy.
+- Integrity checks reject missing patient IDs, missing disease labels, cell-level split policy, duplicate indexes, and X-shape mismatches.
 
 Acceptance criteria:
 
-- `docs/06_data_pipeline_plan.md` exists.
-- `configs/data_pipeline.yaml` exists and blocks downloads/modeling.
-- `scripts/08_phase2_pipeline_scaffold.py` exists and validates scaffold restrictions.
-- `src/data`, `src/qc`, and `src/utils` package markers exist.
-- Tests verify no downloads, no modeling, no cell-level splits, no selected datasets, and no external validation cohort assignment.
+- `metadata/anndata_schema.yaml` exists.
+- `src/data/anndata_schema.py` exists.
+- `tests/test_anndata_schema_contract.py` exists.
+- No data is downloaded.
+- No modeling code is created.
+- `selected_datasets` remains `[]`.
+- `external_validation_cohort` remains TODO.

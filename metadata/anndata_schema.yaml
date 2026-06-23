@@ -1,0 +1,59 @@
+schema_version: "1.0"
+
+obs_required_fields:
+  - cell_id
+  - patient_id
+  - donor_id
+  - sample_id
+  - cohort_id
+  - batch_id
+  - tissue
+  - assay_type
+  - disease_label
+  - cell_type
+  - source_dataset
+  - split_group
+
+var_required_fields:
+  - gene_id
+  - gene_symbol
+  - feature_type
+  - genome
+
+layers_policy:
+  - counts
+  - normalized
+  - log_normalized
+
+uns_required_fields:
+  - dataset_id
+  - source
+  - preprocessing_version
+  - schema_version
+  - audit_status
+  - patient_level_split_policy
+
+valid_split_policies:
+  - patient_level
+  - cohort_level
+  - patient_or_cohort_only
+
+forbidden_split_values:
+  - cell
+  - cell_level
+  - cell_level_split
+  - random_cell_split
+
+allowed_unknown_values:
+  - TODO
+  - unclear
+
+integrity_rules:
+  - obs index must be unique
+  - var index must be unique
+  - X must be cells x genes
+  - no missing patient_id for modeling-ready data
+  - no cell-level split assignment
+  - split_group must be patient-level or cohort-level only
+  - raw counts must not be overwritten
+  - unknown values must be TODO or unclear, not guessed

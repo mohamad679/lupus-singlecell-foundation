@@ -3,14 +3,16 @@ project:
   status: phase_2_data_pipeline_scaffold
   current_phase: "Phase 2"
   current_phase_name: "Data Pipeline Scaffold"
-  current_feature: P2-F001
+  current_feature: P2-F002
   blocked: false
   blocked_reason: null
   primary_task: TODO
   external_validation_cohort: TODO
   selected_datasets: []
   modeling_allowed: false
+  allow_modeling: false
   dataset_download_allowed: false
+  allow_downloads: false
   dataset_accessions_verified: false
 
 phase_controls:
@@ -90,6 +92,7 @@ artifacts:
   final_dataset_decision_report: state/judge_reports/P1-F014_final_dataset_decision_report.md
   data_pipeline_plan: docs/06_data_pipeline_plan.md
   data_pipeline_config: configs/data_pipeline.yaml
+  anndata_schema: metadata/anndata_schema.yaml
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -99,6 +102,7 @@ artifacts:
   external_validation_audit_script: scripts/06_external_validation_audit.py
   dataset_feasibility_report_generator: scripts/07_generate_dataset_feasibility_report.py
   phase2_pipeline_scaffold_script: scripts/08_phase2_pipeline_scaffold.py
+  anndata_schema_utility: src/data/anndata_schema.py
   metadata_schema_test: tests/test_metadata_schema.py
   data_audit_config_test: tests/test_data_audit_config.py
   audit_safety_test: tests/test_audit_script_no_invented_rows.py
@@ -126,5 +130,6 @@ artifacts:
   final_dataset_decision_table_test: tests/test_final_dataset_decision_table.py
   phase2_pipeline_config_test: tests/test_phase2_pipeline_config.py
   phase2_no_modeling_or_downloads_test: tests/test_phase2_no_modeling_or_downloads.py
+  anndata_schema_contract_test: tests/test_anndata_schema_contract.py
 
 last_updated: "2026-06-23"
