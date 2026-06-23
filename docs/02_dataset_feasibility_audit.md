@@ -1,0 +1,165 @@
+# Dataset Feasibility Audit
+
+## Objective
+
+Create a rigorous public dataset feasibility audit plan for SLE, lupus, and lupus nephritis single-cell transcriptomics.
+
+This phase is planning and audit scaffolding only. It must not download full datasets, implement modeling, train models, invent dataset accessions, or populate `metadata/dataset_catalog.csv` with guessed datasets.
+
+## Inclusion Criteria
+
+A candidate dataset may be considered only if source evidence verifies:
+
+- Disease context is SLE, lupus, lupus nephritis, or a directly relevant comparator context.
+- Data are single-cell or single-nucleus transcriptomics.
+- Human samples are preferred; non-human datasets require explicit justification and human review.
+- Public metadata are sufficient to evaluate donor, sample, disease, control, assay, tissue, and provenance fields.
+- Access terms allow at least feasibility review.
+- Raw or processed data availability can be verified from an authoritative source.
+
+## Exclusion Criteria
+
+Reject candidates when any of the following apply:
+
+- Bulk RNA-seq is presented as single-cell or single-nucleus data.
+- Dataset accession, patient count, sample count, or assay type cannot be verified.
+- Disease labels are absent and cannot support SLE or lupus nephritis feasibility review.
+- Patient-level metadata are unavailable and no alternative reproducible grouping is documented.
+- Access terms forbid planned reuse.
+- The dataset requires full download before basic feasibility can be assessed.
+- The candidate is based on memory, citation fragments, or guessed accession identifiers.
+
+## Required Metadata Fields
+
+The audit must evaluate the fields already defined in `metadata/dataset_catalog.csv`:
+
+- `dataset_id`
+- `source_name`
+- `source_url`
+- `accession`
+- `organism`
+- `disease_context`
+- `case_definition`
+- `control_definition`
+- `tissue_or_sample_type`
+- `assay_type`
+- `platform`
+- `donor_count`
+- `sample_count`
+- `cell_count`
+- `raw_data_available`
+- `processed_data_available`
+- `clinical_metadata_available`
+- `treatment_metadata_available`
+- `disease_activity_metadata_available`
+- `batch_metadata_available`
+- `cell_type_annotations_available`
+- `license_or_access_terms`
+- `download_status`
+- `feasibility_status`
+- `feasibility_notes`
+- `provenance_notes`
+- `last_verified`
+
+Unknown fields must remain `TODO`.
+
+## Patient-Level Metadata Requirements
+
+Feasibility review should determine whether patient-level or donor-level metadata include:
+
+- Stable donor or patient identifiers: TODO until verified.
+- Sample-to-donor mapping: TODO until verified.
+- Disease status and diagnosis criteria: TODO until verified.
+- Control status and matching strategy: TODO until verified.
+- Tissue or sample source: TODO until verified.
+- Treatment exposure: TODO until verified.
+- Disease activity score or proxy: TODO until verified.
+- Lupus nephritis class or renal involvement status: TODO until verified.
+- Age, sex, ancestry, and other confounder fields: TODO until verified.
+- Batch, site, library, chemistry, and processing variables: TODO until verified.
+
+Patient identifiers must never be assumed from sample names.
+
+## Disease And Activity Label Requirements
+
+The audit must distinguish:
+
+- SLE case labels from lupus nephritis labels.
+- Active disease from inactive disease when available.
+- Renal from non-renal involvement when available.
+- Healthy controls from disease controls when available.
+- Treated from untreated or pre-treatment samples when available.
+
+If labels are ambiguous, the candidate remains unresolved until documented evidence supports a decision.
+
+## Raw Vs Processed Data Requirements
+
+For each candidate, record:
+
+- Whether raw count matrices are available.
+- Whether processed objects are available.
+- Whether processed objects are AnnData, Seurat, loom, matrix formats, or another format.
+- Whether cell-level metadata are included.
+- Whether gene identifiers are documented.
+- Whether raw and processed objects can be linked to the same samples.
+- Whether access requires controlled authorization.
+
+Do not download full data before Human Gate 1 approval.
+
+## External Validation Requirements
+
+The feasibility audit must identify whether an external validation cohort exists.
+
+Validation candidates must be independently sourced, not merely a split of the same dataset, unless human review explicitly approves a different strategy. If no validation cohort is verified, record `TODO` and treat this as a feasibility risk.
+
+Current external validation cohort: TODO.
+
+## Risks And Limitations
+
+- Public lupus single-cell datasets may have limited patient-level metadata.
+- Treatment, disease activity, renal involvement, and batch variables may be missing or confounded.
+- Processed annotations may not be reproducible from raw data.
+- Access terms may limit reuse or redistribution.
+- Multiple publications may describe overlapping cohorts.
+- Candidate datasets may require controlled-access approval.
+- Search results may mix bulk, spatial, sorted-cell, and single-cell assays.
+
+## Audit Workflow
+
+1. Confirm `metadata/dataset_catalog.csv` schema before recording candidates.
+2. Review search terms and sources in `configs/data_audit.yaml`.
+3. Search approved public sources manually or with a later approved search tool.
+4. Record only verified candidates and mark unknown fields as `TODO`.
+5. Reject or defer candidates that do not meet inclusion criteria.
+6. Summarize feasible, infeasible, and unresolved candidates in `reports/tables/dataset_feasibility_table.csv`.
+7. Request Human Gate 1 review before data acquisition.
+
+## Judge Rejection Rules
+
+Engineering judge rejects if:
+
+- Audit scripts query the internet in this scaffold.
+- Tests require network access.
+- The script invents rows or modifies source catalog data without review.
+- Modeling files are introduced.
+
+Scientific judge rejects if:
+
+- Dataset accessions are guessed.
+- Disease labels are accepted without source evidence.
+- SLE and lupus nephritis labels are conflated without justification.
+- Feasibility conclusions are made before metadata review.
+
+Bioinformatics judge rejects if:
+
+- Bulk RNA-seq is treated as single-cell data.
+- Patient IDs, cell counts, assay chemistry, or annotations are assumed.
+- Raw and processed data availability are not distinguished.
+- Batch and donor structure are not evaluated.
+
+Reproducibility judge rejects if:
+
+- Unknowns are left blank instead of marked `TODO`.
+- Source URLs, access terms, or verification dates are missing for claimed candidates.
+- Human Gate 1 approval is bypassed.
+- Full datasets are downloaded before approval.

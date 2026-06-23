@@ -1,13 +1,15 @@
 # Current Feature
 
-Feature: Phase 0 repository scaffold and master specification.
+Feature: P1-F001 - Dataset Search Strategy.
 
-Status: scaffold complete pending human Phase 0 review.
+Status: in progress.
 
 Allowed work:
 
-- Create required scaffold files.
-- Define documentation, state, metadata schema, tests, gates, and rubrics.
+- Plan a rigorous public dataset feasibility audit for SLE, lupus, and lupus nephritis single-cell transcriptomics.
+- Define search terms, sources to audit, metadata requirements, eligibility criteria, and rejection rules.
+- Build safe audit scaffolding that reads existing metadata and writes planning reports.
+- Validate that dataset catalog rows and accessions are not invented.
 
 Blocked work:
 
@@ -15,14 +17,16 @@ Blocked work:
 - Dataset accession invention.
 - Model implementation.
 - Model training.
+- Internet queries from audit scripts.
 - Scientific conclusions.
-- Any work beyond Phase 0.
+- Any Phase 2 work.
 
 Acceptance criteria:
 
-- All requested files exist.
-- Metadata schema test passes.
-- Dataset feasibility audit is documented as the first real scientific phase.
-- No model training is allowed before dataset feasibility approval.
-- Human gates are documented.
-- Judge rubrics are documented.
+- `docs/02_dataset_feasibility_audit.md` exists.
+- `configs/data_audit.yaml` exists.
+- `scripts/00_audit_datasets.py` exists and does not query the internet.
+- `reports/tables/` exists.
+- Config and audit safety tests exist.
+- `metadata/dataset_catalog.csv` is not populated with invented datasets.
+- Human Gate 1, Dataset Feasibility Approved, remains PENDING.

@@ -1,9 +1,12 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_0_scaffold
-  current_phase: 0
-  current_phase_name: "Repository Scaffold + Master Spec"
-  current_feature: "Phase 0 scaffold"
+  status: phase_1_dataset_feasibility_audit
+  current_phase: "Phase 1"
+  current_phase_name: "Dataset Feasibility Audit"
+  current_feature: P1-F001
+  blocked: false
+  primary_task: TODO
+  external_validation_cohort: TODO
   modeling_allowed: false
   dataset_download_allowed: false
   dataset_accessions_verified: false
@@ -15,11 +18,12 @@ phase_controls:
 
 human_gates:
   phase_0_scaffold_review:
-    status: pending
+    status: completed_by_user_instruction
     owner: TODO
     required_before: "Phase 1 start"
   dataset_feasibility_approval:
-    status: blocked_until_phase_1
+    label: "Human Gate 1: Dataset Feasibility Approved"
+    status: PENDING
     owner: TODO
     required_before: "Any dataset acquisition or modeling"
   data_acquisition_approval:
@@ -42,9 +46,15 @@ human_gates:
 artifacts:
   master_spec: docs/00_master_spec.md
   scientific_hypothesis: docs/01_scientific_hypothesis.md
+  dataset_feasibility_audit: docs/02_dataset_feasibility_audit.md
+  data_audit_config: configs/data_audit.yaml
   backlog: state/backlog.yaml
   current_feature: state/current_feature.md
   dataset_catalog: metadata/dataset_catalog.csv
+  dataset_feasibility_table: reports/tables/dataset_feasibility_table.csv
+  audit_script: scripts/00_audit_datasets.py
   metadata_schema_test: tests/test_metadata_schema.py
+  data_audit_config_test: tests/test_data_audit_config.py
+  audit_safety_test: tests/test_audit_script_no_invented_rows.py
 
 last_updated: "2026-06-23"

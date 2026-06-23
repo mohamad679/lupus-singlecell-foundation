@@ -63,25 +63,29 @@ backlog:
       - "No model implementation files are added."
       - "No dataset files are downloaded."
 
-  - id: P1-001
-    title: "Identify authoritative dataset search sources"
+  - id: P1-F001
+    title: "Dataset Search Strategy"
     phase: 1
-    status: blocked
+    status: in_progress
     type: scientific
-    blocked_by:
-      - "Phase 0 scaffold review"
     acceptance_criteria:
-      - "Sources are listed with URLs and rationale."
+      - "docs/02_dataset_feasibility_audit.md exists."
+      - "configs/data_audit.yaml exists."
+      - "scripts/00_audit_datasets.py exists."
+      - "reports/tables/ exists."
+      - "Tests for config and audit safety exist."
       - "No datasets are downloaded."
       - "No accessions are recorded unless verified from authoritative sources."
+      - "Human Gate 1 remains PENDING."
 
   - id: P1-002
     title: "Audit one candidate dataset for feasibility"
     phase: 1
-    status: blocked
+    status: todo
     type: bioinformatics
     blocked_by:
-      - "Phase 0 scaffold review"
+      - "P1-F001"
+      - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
       - "Unknown fields remain TODO."
@@ -91,7 +95,7 @@ backlog:
   - id: P1-003
     title: "Request dataset feasibility human gate"
     phase: 1
-    status: blocked
+    status: todo
     type: governance
     blocked_by:
       - "At least one completed dataset feasibility audit"

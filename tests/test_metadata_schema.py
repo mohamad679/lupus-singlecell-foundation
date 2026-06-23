@@ -48,7 +48,7 @@ def test_dataset_catalog_columns_match_schema():
     assert header == REQUIRED_COLUMNS
 
 
-def test_phase_0_catalog_does_not_claim_downloads_or_accessions():
+def test_catalog_does_not_claim_downloads_or_accessions_before_gate_1():
     with CATALOG_PATH.open(newline="") as handle:
         rows = list(csv.DictReader(handle))
 
