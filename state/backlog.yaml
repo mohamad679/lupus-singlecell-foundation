@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F002
+  completed_through: P2-F003
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -412,17 +412,21 @@ backlog:
     feature_id: P2-F003
     title: "Metadata harmonization schema"
     phase: 2
-    status: todo
+    status: done
     description: "Create source-to-common metadata mapping schema for patient, donor, sample, cohort, batch, tissue, assay, and disease labels."
     acceptance_criteria:
       - "Metadata harmonization schema exists."
+      - "Source field mapping file exists."
+      - "GEO, CELLxGENE, and HCA mapping sections exist."
+      - "Mock metadata validator rejects missing required fields."
       - "Unknown fields remain TODO or unclear."
       - "No labels are inferred."
       - "No data are downloaded."
     dependencies:
       - "P2-F001"
+      - "P2-F002"
     required_tests:
-      - "Metadata harmonization schema test."
+      - "tests/test_metadata_harmonization_schema.py"
     judge_gates:
       - "Scientific Judge review for label provenance."
 

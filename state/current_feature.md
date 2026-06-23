@@ -1,42 +1,43 @@
 # Current Feature
 
-Feature: P2-F002 - AnnData schema and integrity contract.
+Feature: P2-F003 - Metadata harmonization schema.
 
 Status: completed pending human review.
 
 Builder scope:
 
-- Define AnnData schema and integrity rules only.
-- Create schema metadata, validation utilities, documentation, and tests.
-- Support mock AnnData-like validation without loading real datasets.
+- Define canonical metadata fields and source mapping rules only.
+- Create mock-safe harmonization validation utilities, documentation, and tests.
+- Preserve unknown values as `TODO` or `unclear`.
 
 Explicitly forbidden:
 
 - Downloads.
-- Creating real AnnData objects from datasets.
 - Preprocessing real datasets.
+- Creating AnnData objects.
 - Modeling.
 - Training.
 - Model files.
-- Cell-level splits.
-- Dataset approval for modeling.
+- Metadata guessing.
+- Label inference.
 - Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
 
-Schema contract summary:
+Schema summary:
 
-- Required `obs` fields include cell, patient, donor, sample, cohort, batch, tissue, assay, disease, cell type, source dataset, and split group fields.
-- Required `var` fields include gene ID, gene symbol, feature type, and genome.
-- Required layers are `counts`, `normalized`, and `log_normalized`.
-- Required `uns` fields include dataset/source provenance, preprocessing version, schema version, audit status, and patient-level split policy.
-- Integrity checks reject missing patient IDs, missing disease labels, cell-level split policy, duplicate indexes, and X-shape mismatches.
+- Canonical fields cover patient, donor, sample, cell, cohort, batch, dataset, source, organism, tissue, assay, disease, activity, cell type, treatment, demographics, timepoint, and split policy metadata.
+- Source mappings for GEO, CELLxGENE, and HCA are placeholders with `TODO` original fields until manually verified.
+- Validation rejects missing required canonical fields such as `dataset_id` and `disease_label`.
+- The utility works with dictionaries and mock metadata only.
 
 Acceptance criteria:
 
-- `metadata/anndata_schema.yaml` exists.
-- `src/data/anndata_schema.py` exists.
-- `tests/test_anndata_schema_contract.py` exists.
+- `metadata/metadata_harmonization_schema.yaml` exists.
+- `metadata/source_field_mapping.yaml` exists.
+- `src/data/metadata_harmonization.py` exists.
+- `tests/test_metadata_harmonization_schema.py` exists and passes.
 - No data is downloaded.
+- No preprocessing is added.
 - No modeling code is created.
 - `selected_datasets` remains `[]`.
 - `external_validation_cohort` remains TODO.

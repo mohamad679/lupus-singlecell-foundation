@@ -168,16 +168,99 @@ Validation must fail when:
 
 ## Metadata Harmonization Strategy
 
-Metadata harmonization must map source fields into a common contract without guessing. Required future fields include:
+Metadata harmonization maps source-specific fields from GEO, CELLxGENE, and HCA into a canonical metadata contract without guessing. P2-F003 defines the schema and mapping rules only; it does not download data, inspect full datasets, preprocess matrices, or create AnnData objects.
+
+### Source Datasets
+
+The current restricted Phase 2 design context includes:
+
+- GEO candidate `GSE137029` for pipeline-development planning only.
+- CELLxGENE/HCA lupus-linked metadata context for harmonization design only.
+- Restricted or non-primary candidates remain out of processing until later explicit approval.
+
+No source is selected for modeling by this harmonization schema.
+
+### GEO Metadata Challenges
+
+GEO records may distribute patient, sample, platform, and disease information across series-level records, sample-level records, supplementary file descriptions, and publication text. Sample titles may contain hints, but hints are not evidence for patient IDs, disease activity, treatment status, or batch labels. GEO metadata must therefore be mapped only after explicit field-level verification.
+
+### CELLxGENE Metadata Challenges
+
+CELLxGENE collections may expose standardized fields, ontology labels, donor metadata, cell-type annotations, and dataset-level provenance, but availability varies by collection and dataset. Donor/sample identifiers, raw count status, and disease activity labels must be treated as `TODO` or `unclear` unless visible in public metadata or later approved inspection.
+
+### HCA Metadata Challenges
+
+HCA metadata may use project, specimen, donor, library, and file-level entities. The harmonization step must preserve provenance from the specific HCA entity that supports each canonical field. HCA project context alone is not sufficient evidence for patient-level labels or split eligibility.
+
+### Canonical Metadata Schema
+
+The canonical schema is defined in `metadata/metadata_harmonization_schema.yaml`. It includes:
 
 - `patient_id`
 - `donor_id`
 - `sample_id`
+- `cell_id`
 - `cohort_id`
 - `batch_id`
-- `disease_label`
+- `dataset_id`
+- `source_dataset`
+- `source_database`
+- `organism`
 - `tissue`
 - `assay_type`
+- `disease_label`
+- `disease_activity`
+- `cell_type`
+- `treatment_status`
+- `sex`
+- `age`
+- `timepoint`
+- `split_group`
+
+### Harmonization Principles
+
+- Preserve source values before applying any transformation.
+- Record the source database and source dataset for every harmonized record.
+- Prefer explicit patient or donor identifiers over derived sample labels.
+- Keep source-specific terminology when no approved mapping exists.
+- Avoid collapsing disease labels, activity labels, or treatment labels without a documented rule.
+- Keep harmonization deterministic and auditable.
+
+### Missing-Value Policy
+
+Unknown values must remain `TODO` or `unclear`. Empty strings, inferred labels, and placeholder guesses are not acceptable for required future metadata. If a source field cannot be verified, the mapping file must retain `TODO` for the original field and transformation.
+
+### Provenance Tracking
+
+Every canonical field must be traceable to a source database, source dataset, and original source field once data acquisition is approved. Provenance must distinguish manually audited metadata from future machine-parsed metadata.
+
+### Batch Awareness
+
+Batch identifiers must come from explicit batch, library, processing, site, platform, lane, or cohort metadata. Batch labels must not be invented from file order, sample order, or accession suffixes.
+
+### Patient-Level Requirements
+
+Patient-level prediction requires patient or donor identifiers that support leakage-free splitting. Cell barcodes, sample titles, and inferred sample groupings are not valid patient identifiers unless a later manually approved evidence trail establishes the relationship.
+
+### Forbidden Assumptions
+
+- Do not infer disease labels from titles or accession names.
+- Do not infer disease activity from diagnosis labels.
+- Do not infer lupus nephritis status from kidney tissue alone.
+- Do not infer treatment status from study design summaries.
+- Do not infer patient IDs from sample IDs or cell barcodes.
+- Do not infer batch labels from file names without source documentation.
+- Do not assume CELLxGENE or HCA ontology fields are present before verification.
+
+### Future Failure Modes
+
+Harmonization must fail or remain blocked when:
+
+- required canonical fields such as `dataset_id` or `disease_label` are missing.
+- source mapping is still `TODO` for a field needed by a downstream task.
+- patient, donor, sample, cohort, or batch relationships are ambiguous.
+- values are inferred rather than source-supported.
+- split metadata implies cell-level rather than patient-level or cohort-level partitioning.
 
 Unknown fields must remain `TODO` or `unclear` until source evidence is available.
 
