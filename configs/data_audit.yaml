@@ -35,6 +35,31 @@ geo_ncbi:
     - "raw_data_availability"
     - "processed_object_availability"
 
+cellxgene:
+  metadata_only: true
+  allow_full_download: false
+  query_terms:
+    - "lupus"
+    - "systemic lupus erythematosus"
+    - "SLE"
+    - "lupus nephritis"
+    - "autoimmune"
+    - "PBMC"
+    - "kidney"
+  required_manual_verification:
+    - "collection_id"
+    - "dataset_id"
+    - "organism"
+    - "tissue"
+    - "assay"
+    - "disease"
+    - "donor_id_availability"
+    - "sample_id_availability"
+    - "cell_type_labels"
+    - "raw_count_availability"
+    - "processed_object_availability"
+    - "publication_or_source"
+
 required_fields:
   - "dataset_id"
   - "source_name"

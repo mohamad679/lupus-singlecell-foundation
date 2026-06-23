@@ -273,6 +273,155 @@ Reject a GEO / NCBI candidate if:
 - Disease labels are absent, guessed, or incompatible with SLE / lupus / lupus nephritis feasibility.
 - Human Gate 1 is used as if approved when it remains PENDING.
 
+## CELLxGENE Metadata Feasibility Protocol
+
+### Search Objectives
+
+Identify CELLxGENE Census or related public CELLxGENE collection metadata that may describe SLE, lupus, or lupus nephritis single-cell datasets. This is a metadata-only feasibility plan and does not perform live CELLxGENE queries, full data downloads, model implementation, or model training.
+
+Do not populate `metadata/dataset_catalog.csv` from CELLxGENE candidates until manual metadata verification is complete.
+
+### Query Terms
+
+Use these terms for planned CELLxGENE metadata searches:
+
+- `lupus`
+- `systemic lupus erythematosus`
+- `SLE`
+- `lupus nephritis`
+- `autoimmune`
+- `PBMC`
+- `kidney`
+
+### Metadata Fields To Inspect
+
+For each candidate, use `metadata/cellxgene_candidate_schema.yaml` and inspect:
+
+- `collection_id`
+- `dataset_id`
+- `title`
+- `source`
+- `publication`
+- `organism`
+- `tissue`
+- `assay_type`
+- `disease_context`
+- `lupus_subtype`
+- `n_donors`
+- `n_samples`
+- `n_cells`
+- `donor_id_available`
+- `sample_id_available`
+- `disease_label_available`
+- `activity_label_available`
+- `treatment_info_available`
+- `batch_info_available`
+- `cell_type_labels_available`
+- `raw_count_available`
+- `processed_object_available`
+- `notes`
+- `audit_status`
+
+Rows must not be added unless `collection_id`, `dataset_id`, and `audit_status` are explicit. Candidate rows that are not yet manually verified must use `candidate_pending_audit`.
+
+### Disease Ontology Checks
+
+Manual review must determine whether CELLxGENE disease metadata use ontology-backed disease terms, free text, publication labels, or collection-specific annotations.
+
+Required checks:
+
+- Whether disease terms explicitly identify SLE, systemic lupus erythematosus, lupus, lupus nephritis, or a relevant autoimmune comparator.
+- Whether ontology IDs are present and interpretable.
+- Whether disease labels are available at donor, sample, or cell level.
+- Whether healthy controls and disease controls can be distinguished.
+- Whether ambiguous autoimmune labels should remain `TODO` or be rejected.
+
+### Tissue And Assay Checks
+
+Manual review must verify:
+
+- Tissue or sample source, such as PBMC, blood, kidney, urine, renal biopsy, or TODO.
+- Assay type, such as scRNA-seq, snRNA-seq, or TODO.
+- Whether the object represents single-cell or single-nucleus transcriptomics rather than bulk or aggregate data.
+- Whether cell type labels are available and whether they are source-provided or computationally inferred.
+
+### Patient-Level Metadata Requirements
+
+CELLxGENE candidates must be assessed for donor-level and sample-level metadata without guessing labels from cell names or sample names.
+
+Required checks:
+
+- Donor ID availability.
+- Sample ID availability.
+- Donor-to-sample mapping.
+- Disease label availability.
+- Activity label availability.
+- Treatment metadata availability.
+- Batch or cohort metadata availability.
+- Whether donor metadata are preserved in the public collection.
+
+### Donor And Sample Availability Checks
+
+The audit must separately record:
+
+- Number of donors.
+- Number of samples.
+- Number of cells.
+- Whether donor IDs are stable across tissues or assays.
+- Whether sample IDs are stable across collection metadata and object metadata.
+- Whether donor or sample counts are source-provided or TODO.
+
+Counts must not be guessed from filenames or collection titles.
+
+### SLE / Lupus Nephritis Relevance Checks
+
+Manual review must determine whether a candidate is relevant to:
+
+- SLE without kidney-specific metadata.
+- Lupus nephritis.
+- Kidney or renal biopsy data.
+- PBMC or blood immune profiling.
+- Autoimmune comparator cohorts that could support validation or rejection.
+
+For lupus nephritis, check renal involvement, nephritis class, active nephritis labels, biopsy timing, and treatment timing when available. Missing details remain `TODO`.
+
+### Raw-Data And Processed-Object Checks
+
+For CELLxGENE candidates, record:
+
+- Whether raw counts are available through CELLxGENE metadata or linked source metadata.
+- Whether the public object is processed only.
+- Whether processed object access is metadata-only, previewable, or requires full download.
+- Whether gene identifiers and cell metadata are documented.
+- Whether source publication or collection links point to raw data elsewhere.
+
+Do not download full data before Human Gate 1 approval.
+
+### External Validation Suitability Checks
+
+Assess whether each CELLxGENE candidate could be a discovery cohort, external validation cohort, or neither.
+
+Suitability requires:
+
+- Independent collection or source publication.
+- Compatible disease and control labels.
+- Compatible tissue and assay type.
+- Sufficient donor and sample metadata.
+- No unresolved overlap with another candidate cohort.
+
+If suitability cannot be established from metadata, record `TODO`.
+
+### CELLxGENE Rejection Rules
+
+Reject or defer a CELLxGENE candidate if:
+
+- `collection_id`, `dataset_id`, or `audit_status` is missing.
+- Disease labels are guessed or too broad to support SLE / lupus / lupus nephritis feasibility.
+- Donor or sample labels are inferred rather than source-provided.
+- The assay is not single-cell or single-nucleus transcriptomics.
+- Full data download is required before basic metadata feasibility can be assessed.
+- Human Gate 1 is treated as approved while it remains PENDING.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.

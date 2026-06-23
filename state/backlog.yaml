@@ -97,12 +97,30 @@ backlog:
       - "Human Gate 1 remains PENDING."
 
   - id: P1-F003
+    title: "CELLxGENE feasibility query plan"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "Human Gate 1 remains PENDING for data acquisition"
+    acceptance_criteria:
+      - "CELLxGENE protocol is documented."
+      - "CELLxGENE query terms are documented in configs/data_audit.yaml."
+      - "metadata/cellxgene_candidate_schema.yaml exists."
+      - "reports/tables/cellxgene_candidate_datasets.csv exists with headers only."
+      - "scripts/02_cellxgene_metadata_plan.py exists."
+      - "Tests for CELLxGENE schema and metadata plan safety exist."
+      - "No full datasets are downloaded."
+      - "No dataset accessions are invented."
+      - "Human Gate 1 remains PENDING."
+
+  - id: P1-F004
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F002"
+      - "P1-F003"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -110,7 +128,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-F004
+  - id: P1-F005
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo
