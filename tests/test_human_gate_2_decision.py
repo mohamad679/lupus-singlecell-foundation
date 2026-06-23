@@ -81,8 +81,8 @@ def test_gate_checklist_records_restricted_decision_but_checks_remain_pending():
 def test_project_state_records_restricted_gate_without_enabling_modeling():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 2"' in state
-    assert "current_feature: P2-F011" in state
+    assert 'current_phase: "Phase 3"' in state
+    assert "current_feature: P3-F001" in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert f'primary_task: "{PRIMARY_TASK}"' in state
     assert "selected_datasets: []" in state
@@ -97,26 +97,14 @@ def test_phase_2_is_complete_and_phase_3_backlog_only_exists():
     assert "phase_2_scaffold:" in backlog
     assert "completed_through: P2-F011" in backlog
     assert "phase_3_scaffold:" in backlog
-    assert "status: not_started" in backlog
+    assert "status: in_progress" in backlog
+    assert "completed_through: P3-F001" in backlog
     for feature_id in PHASE_3_FEATURES:
         assert f"feature_id: {feature_id}" in backlog
 
 
-def test_no_phase_3_model_implementation_files_exist():
-    forbidden_directories = [
-        REPO_ROOT / "src" / "models",
-        REPO_ROOT / "src" / "modeling",
-    ]
-    for directory in forbidden_directories:
-        assert not directory.exists()
+def test_phase_3_models_package_contains_no_implementation():
+    models_dir = REPO_ROOT / "src" / "models"
 
-    implementation_terms = (
-        "logistic_regression",
-        "random_forest",
-        "xgboost",
-        "pseudobulk",
-        "baseline_model",
-    )
-    for directory in [REPO_ROOT / "src", REPO_ROOT / "scripts"]:
-        for path in directory.rglob("*.py"):
-            assert not any(term in path.name.lower() for term in implementation_terms)
+    assert models_dir.exists()
+    assert [path.name for path in models_dir.iterdir()] == ["__init__.py"]

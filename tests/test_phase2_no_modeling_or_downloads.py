@@ -68,10 +68,15 @@ def test_no_model_files_are_created():
             (".pkl", ".pt", ".pth", ".onnx", ".joblib")
         ):
             forbidden_paths.append(path)
-        if path.is_dir() and lower_name in {"model", "models"}:
-            forbidden_paths.append(path)
 
     assert forbidden_paths == []
+
+
+def test_models_package_is_marker_only():
+    models_dir = SRC_DIR / "models"
+
+    assert models_dir.exists()
+    assert [path.name for path in models_dir.iterdir()] == ["__init__.py"]
 
 
 def test_no_dataset_files_are_created():

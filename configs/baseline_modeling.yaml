@@ -1,0 +1,41 @@
+{
+  "phase": 3,
+  "approved_task": "SLE diagnosis / case-control prediction",
+  "allow_training": false,
+  "allow_deep_learning": false,
+  "allow_foundation_models": false,
+  "allow_uncertainty_methods": false,
+  "split_policy": "patient_or_cohort_only",
+  "forbid_cell_level_split": true,
+  "baseline_families": {
+    "pseudobulk_logistic_regression": {
+      "enabled_for_design": true,
+      "enabled_for_training": false
+    },
+    "pseudobulk_random_forest": {
+      "enabled_for_design": true,
+      "enabled_for_training": false
+    },
+    "pseudobulk_xgboost": {
+      "enabled_for_design": true,
+      "enabled_for_training": false
+    },
+    "hvg_linear_classifier": {
+      "enabled_for_design": true,
+      "enabled_for_training": false
+    },
+    "cell_type_proportion_baseline": {
+      "enabled_for_design": true,
+      "enabled_for_training": false
+    },
+    "deepsets": {
+      "enabled_for_design": false,
+      "enabled_for_training": false
+    }
+  },
+  "blocked_tasks": [
+    "disease_activity_prediction",
+    "flare_prediction",
+    "lupus_nephritis_prediction"
+  ]
+}

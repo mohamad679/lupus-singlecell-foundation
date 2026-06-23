@@ -1,49 +1,40 @@
 # Current Feature
 
-Feature: P2-F011 - Human Gate 2 Decision.
+Feature: P3-F001 - Baseline modeling scaffold.
 
-Status: completed with restricted Human Gate 2 approval.
+Status: completed pending review.
 
-Planner and Scientific Judge decision:
+Builder scope:
 
-- Human Gate 2 is `approved_with_restrictions`.
-- Only Phase 3 baseline design for SLE diagnosis / case-control prediction is
-  allowed next.
-- This decision does not approve data acquisition, preprocessing, model
-  implementation, or training.
-- `allow_modeling` remains false until a later explicit Phase 3 feature changes
-  it.
+- Baseline modeling scaffold only.
+- Define baseline families, input contracts, split requirements, evaluation
+  planning, and safety checks.
+- Keep every baseline disabled for training.
+- Preserve restricted Human Gate 2 scope.
 
 Scientific decision:
 
-- SLE vs healthy diagnosis: restricted primary task for baseline design.
+- SLE diagnosis / case-control prediction: approved for baseline design only.
 - Disease activity prediction: `blocked`.
 - Flare prediction: `blocked`.
 - Lupus nephritis prediction: `blocked`.
 - Foundation models, deep patient-level MIL, uncertainty modeling, and dashboard
   work are not approved.
 
-Main blockers:
-
-- Patient-level label mapping and provenance require verification before
-  reporting results.
-- Disease activity and flare labels are not explicitly verified.
-- Lupus nephritis labels and compatible comparators are unresolved.
-- Cross-cohort overlap and external validation independence are unresolved.
-- Biological interpretation and uncertainty prerequisites remain pending.
-
 Explicitly forbidden:
 
-- Downloads.
-- Preprocessing.
-- Modeling or training.
-- Model files.
-- Dataset approval for modeling.
-- Assigning `selected_datasets`.
-- Assigning `external_validation_cohort`.
-- Starting Phase 3.
-- Implementing Phase 3 backlog items.
+- Actual training or real model fitting.
+- Loading or preprocessing real data.
+- Deep learning or DeepSets.
+- Foundation models.
+- Uncertainty modeling.
+- Dashboard work.
+- Model artifacts.
+- Dataset approval or selection.
+- External validation assignment.
+- Cell-level splitting.
+- Starting P3-F002 or later features.
 
-Phase 2 is complete. Phase 3 exists only as a backlog scaffold.
-`selected_datasets` remains `[]`, `external_validation_cohort` remains TODO, and
-any future baseline result must be marked preliminary until labels are verified.
+The empty `src/models` package is organizational scaffolding only; it contains
+no estimator or training implementation. `allow_modeling` remains false,
+`selected_datasets` remains `[]`, and `external_validation_cohort` remains TODO.

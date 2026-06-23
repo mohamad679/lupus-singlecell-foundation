@@ -13,11 +13,11 @@ phase_2_scaffold:
     - "Pipeline scaffold only."
 
 phase_3_scaffold:
-  status: not_started
-  completed_through: TODO
+  status: in_progress
+  completed_through: P3-F001
   restrictions:
-    - "Backlog scaffold only."
-    - "No Phase 3 implementation in P2-F011."
+    - "Baseline design scaffold only."
+    - "No training or real model fitting."
     - "No model implementation or training."
     - "Patient- or donor-level splits only."
     - "External validation remains TODO."
@@ -634,16 +634,21 @@ backlog:
     feature_id: P3-F001
     title: "Baseline modeling scaffold"
     phase: 3
-    status: todo
+    status: done
     description: "Define baseline architecture and safety controls without fitting models."
     acceptance_criteria:
-      - "Baseline scaffold scope is documented."
-      - "No training occurs unless explicitly authorized."
+      - "docs/08_baseline_modeling_plan.md exists."
+      - "configs/baseline_modeling.yaml exists."
+      - "Baseline package markers and safe validation script exist."
+      - "All baseline families remain disabled for training."
+      - "Deep learning, foundation models, and uncertainty methods remain disabled."
       - "Patient- or donor-level split policy is preserved."
+      - "No model artifacts are created."
     dependencies:
       - "P2-F011"
     required_tests:
-      - "TODO"
+      - "tests/test_baseline_modeling_config.py"
+      - "tests/test_baseline_modeling_scaffold.py"
     judge_gates:
       - "Scientific Judge scope review."
 
