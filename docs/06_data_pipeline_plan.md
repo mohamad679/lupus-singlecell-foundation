@@ -607,6 +607,71 @@ Manifest validation must fail or remain blocked when:
 - a row attempts to imply selected dataset assignment.
 - access, tissue, assay, label, batch, or processed-object status is unclear for a proposed role.
 
+## Candidate Dataset Access Plan
+
+The candidate dataset access plan documents future acquisition requirements for Phase 2 planning candidates without acquiring any files. P2-F009 covers access metadata, permission gates, storage concerns, provenance requirements, and validation checks only. It does not fetch datasets, create AnnData objects, preprocess data, approve datasets for modeling, or assign selected cohorts.
+
+### Candidate Dataset Access Goals
+
+The plan records what must be verified before any future data acquisition feature can run. It keeps access planning separate from approval and ensures that metadata, file inventory, storage, checksum, and human-gate requirements are visible before any file movement.
+
+### GSE137029 Expected Access Route
+
+`GSE137029` is a restricted Phase 2 primary pipeline candidate for planning only. Future access planning may inspect the GEO metadata page, SRA links if explicitly needed later, and supplementary processed files only if manually verified and explicitly approved in a later feature. It is not approved for download or modeling.
+
+### CELLxGENE/HCA Expected Access Route
+
+The CELLxGENE/HCA candidate is limited to metadata harmonization planning. Future access planning may use the CELLxGENE collection page, HCA project page, and H5AD asset metadata only after explicit approval. It is not assigned as an external validation cohort and is not approved for download or modeling.
+
+### Raw vs Processed Object Distinction
+
+Raw files, raw count matrices, processed matrices, and analysis-ready objects have different scientific and reproducibility implications. Future acquisition must verify which object type is available, whether raw counts are preserved, and whether processed objects include enough metadata for patient-level validation.
+
+### Controlled-Access Caution
+
+Controlled-access, restricted, or unclear assets must remain unavailable until access conditions, permissions, and data-use restrictions are documented. Controlled access cannot be treated as open availability.
+
+### Download Approval Gate
+
+All candidates require a later explicit human download gate before any file acquisition. `allow_downloads` remains false in project state, and candidate rows must keep `approved_for_download=false`.
+
+### Checksum / Provenance Requirements
+
+Before future acquisition, the project must define file inventory, source URLs, checksums, manifest paths, access timestamp, command provenance, and validation rules. No untracked source file should enter the workflow.
+
+### Local Storage Policy
+
+Future data files must be placed only under approved raw/interim/processed boundaries after an explicit feature enables acquisition. P2-F009 does not create data files or storage directories.
+
+### File-Size Risk
+
+Single-cell objects can be large. Future access approval must estimate storage size before acquisition and verify that local storage, backup policy, and reproducibility logs are adequate.
+
+### Reproducibility Requirements
+
+Future acquisition must record source identifier, source route, file list, checksums, software versions, environment, and human approval. Reproducibility records must distinguish metadata planning from acquired data.
+
+### Forbidden Actions
+
+- Do not acquire real files.
+- Do not run network fetch commands.
+- Do not call CELLxGENE, Scanpy, or other data-access clients.
+- Do not create AnnData objects.
+- Do not preprocess matrices.
+- Do not approve datasets for modeling.
+- Do not assign selected datasets or external validation cohorts.
+
+### Failure Modes
+
+Access validation must fail or remain blocked when:
+
+- `approved_for_download` is true.
+- `approved_for_modeling` is true.
+- required pre-acquisition checks are empty.
+- audit status is not `pending_human_download_gate`.
+- selected datasets or external validation cohort are assigned.
+- storage size, provenance, checksum, or access restrictions are unresolved.
+
 ## Reproducibility Policy
 
 Every future pipeline step must record:

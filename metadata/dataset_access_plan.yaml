@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "candidates": {
+    "GSE137029": {
+      "candidate_id": "GSE137029",
+      "source": "GEO",
+      "accession": "GSE137029",
+      "intended_phase2_role": "primary_pipeline_candidate",
+      "approved_for_download": false,
+      "approved_for_modeling": false,
+      "expected_access_routes": [
+        "GEO metadata page",
+        "SRA links if explicitly needed later",
+        "supplementary processed files if explicitly verified later"
+      ],
+      "required_before_download": [
+        "confirm file list",
+        "confirm patient/donor/sample metadata availability",
+        "confirm processed object availability",
+        "confirm license/access conditions",
+        "estimate storage size",
+        "define checksum strategy",
+        "human approval"
+      ],
+      "risks": [
+        "patient-level identifiers unclear",
+        "activity labels unclear",
+        "batch metadata unclear",
+        "possible overlap with HCA/CELLxGENE"
+      ]
+    },
+    "CELLxGENE_HCA": {
+      "candidate_id": "CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629",
+      "source": "CELLxGENE/HCA",
+      "collection_id": "436154da-bcf1-4130-9c8b-120ff9a888f2",
+      "dataset_id": "218acb0f-9f2f-4f76-b90b-15a4b7c7f629",
+      "intended_phase2_role": "metadata_harmonization_candidate",
+      "approved_for_download": false,
+      "approved_for_modeling": false,
+      "expected_access_routes": [
+        "CELLxGENE collection page",
+        "HCA project page",
+        "H5AD asset if explicitly approved later"
+      ],
+      "required_before_download": [
+        "confirm H5AD asset metadata",
+        "confirm donor/sample metadata columns",
+        "confirm disease label provenance",
+        "confirm raw.X/count availability",
+        "estimate storage size",
+        "define checksum strategy",
+        "human approval"
+      ],
+      "risks": [
+        "overlap with GEO candidates unclear",
+        "external validation role unresolved",
+        "activity labels unclear",
+        "sample-level metadata unclear"
+      ]
+    }
+  }
+}

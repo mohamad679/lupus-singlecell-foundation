@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F008
+  completed_through: P2-F009
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -554,16 +554,21 @@ backlog:
     feature_id: P2-F009
     title: "Candidate dataset access plan"
     phase: 2
-    status: todo
+    status: done
     description: "Plan allowed metadata and future acquisition actions for GSE137029 and CELLxGENE/HCA under restricted Phase 2 scope."
     acceptance_criteria:
       - "Access plan exists."
+      - "Exactly two candidate access rows exist."
+      - "approved_for_download remains false for every row."
+      - "approved_for_modeling remains false for every row."
+      - "Audit status remains pending_human_download_gate."
       - "Downloads remain disabled unless a later explicit feature permits them."
       - "GSE174188 remains excluded from Phase 2 processing."
     dependencies:
       - "P2-F001"
+      - "P2-F008"
     required_tests:
-      - "Dataset access plan safety test."
+      - "tests/test_dataset_access_plan.py"
     judge_gates:
       - "Human approval required before any download."
 

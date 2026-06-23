@@ -65,7 +65,7 @@ def test_qc_threshold_decisions_csv_exists_with_required_headers_only():
 def test_no_download_or_modeling_flags_changed():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P2-F008" in state
+    assert "current_feature: P2-F009" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state
