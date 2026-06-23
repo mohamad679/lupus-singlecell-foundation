@@ -1,0 +1,24 @@
+phase: 2
+
+allowed_candidate_datasets:
+  - GSE137029
+  - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+
+restricted_candidate_datasets:
+  - GSE174188
+  - GSE162577
+
+allow_downloads: false
+allow_modeling: false
+split_policy: patient_or_cohort_only
+forbid_cell_level_split: true
+
+required_future_metadata:
+  - patient_id
+  - donor_id
+  - sample_id
+  - cohort_id
+  - batch_id
+  - disease_label
+  - tissue
+  - assay_type

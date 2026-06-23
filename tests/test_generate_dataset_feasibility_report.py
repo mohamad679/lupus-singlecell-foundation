@@ -51,7 +51,7 @@ def test_report_generator_writes_todo_report_without_inventing_rows(tmp_path):
 
     assert before_counts == after_counts
     assert "TODO" in report
-    assert "Human Gate 1 remains PENDING" in report
+    assert "Human Gate 1 is approved_with_restrictions" in report
     assert "None selected" in report
 
 
@@ -67,7 +67,11 @@ def test_report_generator_cannot_auto_approve_datasets():
 def test_human_gate_1_cannot_be_closed_automatically(tmp_path):
     module = load_report_module()
     state_path = tmp_path / "project_state.yaml"
-    state_text = STATE_PATH.read_text().replace("status: PENDING", "status: APPROVED", 1)
+    state_text = STATE_PATH.read_text().replace(
+        "status: approved_with_restrictions",
+        "status: APPROVED",
+        1,
+    )
     state_path.write_text(state_text)
 
     with pytest.raises(module.DatasetFeasibilityReportError, match="Human Gate 1"):

@@ -1,7 +1,16 @@
 phase_1_scaffold:
   status: complete
   completed_through: P1-F014
-  human_gate_1: PENDING
+  human_gate_1: approved_with_restrictions
+
+phase_2_scaffold:
+  status: in_progress
+  completed_through: P2-F001
+  restrictions:
+    - "No modeling."
+    - "No downloads without explicit feature approval."
+    - "No cell-level splits."
+    - "Pipeline scaffold only."
 
 backlog:
   - id: P0-001
@@ -337,14 +346,204 @@ backlog:
       - "No model code is created."
 
   - id: P1-F015
-    title: "Request Human Gate 1 review"
+    title: "Record Human Gate 1 restricted approval"
     phase: 1
-    status: todo
+    status: done
     type: governance
     blocked_by:
-      - "Human review of unresolved repair queue"
+      - "P1-F014"
       - "Final decision table is complete"
     acceptance_criteria:
-      - "Human reviewer receives final decision table and repair queue."
-      - "Any gate status change is explicitly human-recorded."
-      - "No Phase 2 work starts."
+      - "Human Gate 1 status is recorded as approved_with_restrictions."
+      - "Restrictions block modeling, downloads, selected_datasets, and external_validation_cohort."
+      - "Phase 2 starts with scaffold-only scope."
+
+  - id: P2-F001
+    feature_id: P2-F001
+    title: "Phase 2 data pipeline scaffold"
+    phase: 2
+    status: done
+    description: "Create scaffold docs, config, package directories, validation script, and tests for restricted Phase 2 data-pipeline planning."
+    acceptance_criteria:
+      - "docs/06_data_pipeline_plan.md exists."
+      - "configs/data_pipeline.yaml exists."
+      - "scripts/08_phase2_pipeline_scaffold.py exists."
+      - "src/data, src/qc, and src/utils package markers exist."
+      - "allow_downloads is false."
+      - "allow_modeling is false."
+      - "split_policy is patient_or_cohort_only."
+      - "No data files are downloaded."
+      - "No model files are created."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+    dependencies:
+      - "Human Gate 1 approved_with_restrictions."
+      - "P1-F014 final decision table."
+    required_tests:
+      - "tests/test_phase2_pipeline_config.py"
+      - "tests/test_phase2_no_modeling_or_downloads.py"
+    judge_gates:
+      - "No modeling gate opened."
+      - "No data acquisition gate opened."
+      - "Future split protocols require patient-level or cohort-level validation."
+
+  - id: P2-F002
+    feature_id: P2-F002
+    title: "AnnData schema and integrity contract"
+    phase: 2
+    status: todo
+    description: "Define the expected AnnData obs, var, layers, uns, provenance, and integrity requirements without creating AnnData objects."
+    acceptance_criteria:
+      - "AnnData schema contract document exists."
+      - "Required obs and var fields are listed."
+      - "No AnnData object is created."
+      - "No data are downloaded."
+    dependencies:
+      - "P2-F001"
+    required_tests:
+      - "AnnData schema contract test."
+    judge_gates:
+      - "Bioinformatics Judge review before any data object creation."
+
+  - id: P2-F003
+    feature_id: P2-F003
+    title: "Metadata harmonization schema"
+    phase: 2
+    status: todo
+    description: "Create source-to-common metadata mapping schema for patient, donor, sample, cohort, batch, tissue, assay, and disease labels."
+    acceptance_criteria:
+      - "Metadata harmonization schema exists."
+      - "Unknown fields remain TODO or unclear."
+      - "No labels are inferred."
+      - "No data are downloaded."
+    dependencies:
+      - "P2-F001"
+    required_tests:
+      - "Metadata harmonization schema test."
+    judge_gates:
+      - "Scientific Judge review for label provenance."
+
+  - id: P2-F004
+    feature_id: P2-F004
+    title: "Gene identifier policy"
+    phase: 2
+    status: todo
+    description: "Define how future feature identifiers, gene symbols, stable IDs, and pathway mapping compatibility will be audited."
+    acceptance_criteria:
+      - "Gene identifier policy exists."
+      - "No gene IDs are inferred from organism or assay."
+      - "Pathway mapping requirements are documented."
+    dependencies:
+      - "P2-F001"
+    required_tests:
+      - "Gene identifier policy test."
+    judge_gates:
+      - "Bioinformatics Judge review before pathway analysis."
+
+  - id: P2-F005
+    feature_id: P2-F005
+    title: "QC protocol scaffold"
+    phase: 2
+    status: todo
+    description: "Create QC planning scaffold for future cell, gene, sample, patient, cohort, and batch-level quality checks."
+    acceptance_criteria:
+      - "QC protocol scaffold exists."
+      - "No QC metrics are computed."
+      - "No data are downloaded."
+    dependencies:
+      - "P2-F001"
+      - "P2-F002"
+    required_tests:
+      - "QC scaffold safety test."
+    judge_gates:
+      - "Bioinformatics Judge review before QC execution."
+
+  - id: P2-F006
+    feature_id: P2-F006
+    title: "Patient-level split protocol"
+    phase: 2
+    status: todo
+    description: "Define patient-level and cohort-level split protocol; explicitly forbid cell-level random splitting."
+    acceptance_criteria:
+      - "Split protocol exists."
+      - "Cell-level split is forbidden."
+      - "Split unit requires patient_id or donor_id."
+    dependencies:
+      - "P2-F001"
+      - "P2-F003"
+    required_tests:
+      - "Patient-level split policy test."
+    judge_gates:
+      - "Scientific Judge review for leakage prevention."
+
+  - id: P2-F007
+    feature_id: P2-F007
+    title: "Leakage prevention tests"
+    phase: 2
+    status: todo
+    description: "Create tests that future split manifests cannot put the same patient, donor, sample, or cohort in incompatible partitions."
+    acceptance_criteria:
+      - "Leakage prevention tests exist."
+      - "Tests reject cell-level splits."
+      - "Tests run without data downloads."
+    dependencies:
+      - "P2-F006"
+    required_tests:
+      - "Leakage prevention test suite."
+    judge_gates:
+      - "Scientific Judge leakage review."
+
+  - id: P2-F008
+    feature_id: P2-F008
+    title: "Cohort manifest design"
+    phase: 2
+    status: todo
+    description: "Design cohort manifest fields for source, accession, patient, donor, sample, tissue, assay, batch, label, and provenance."
+    acceptance_criteria:
+      - "Cohort manifest schema exists."
+      - "No cohort is selected."
+      - "No external validation cohort is assigned."
+    dependencies:
+      - "P2-F003"
+      - "P2-F006"
+    required_tests:
+      - "Cohort manifest schema test."
+    judge_gates:
+      - "Scientific and Bioinformatics Judge review before cohort assignment."
+
+  - id: P2-F009
+    feature_id: P2-F009
+    title: "Candidate dataset access plan"
+    phase: 2
+    status: todo
+    description: "Plan allowed metadata and future acquisition actions for GSE137029 and CELLxGENE/HCA under restricted Phase 2 scope."
+    acceptance_criteria:
+      - "Access plan exists."
+      - "Downloads remain disabled unless a later explicit feature permits them."
+      - "GSE174188 remains excluded from Phase 2 processing."
+    dependencies:
+      - "P2-F001"
+    required_tests:
+      - "Dataset access plan safety test."
+    judge_gates:
+      - "Human approval required before any download."
+
+  - id: P2-F010
+    feature_id: P2-F010
+    title: "Human Gate 2 preparation: labels and prediction task"
+    phase: 2
+    status: todo
+    description: "Prepare evidence package for label feasibility and prediction-task selection without modeling."
+    acceptance_criteria:
+      - "Human Gate 2 preparation document exists."
+      - "Primary task remains TODO until labels are verified."
+      - "No modeling starts."
+    dependencies:
+      - "P2-F003"
+      - "P2-F006"
+      - "P2-F008"
+    required_tests:
+      - "Gate 2 preparation safety test."
+    judge_gates:
+      - "Scientific Judge label feasibility review."
+      - "Human Gate 2 required before task selection."

@@ -1,52 +1,41 @@
 # Current Feature
 
-Feature: P1-F014 - Final Dataset Feasibility Decision Table.
+Feature: P2-F001 - Phase 2 data pipeline scaffold.
 
 Status: completed pending human review.
 
-Allowed work:
+Builder scope:
 
-- Produce a final pre-Human Gate 1 decision table.
-- Summarize candidate readiness without approval.
-- Preserve unresolved repair blockers.
-- Keep all candidates as `candidate_pending_audit`.
+- Create data-pipeline scaffold only.
+- Define Phase 2 restrictions for future AnnData, metadata harmonization, QC, and patient-level split validation.
+- Validate scaffold controls through local config and tests.
 
-Final dataset decision:
+Approved-with-restrictions context:
 
-- `GSE162577`: `limited_candidate`.
-- `GSE137029`: `continue_audit`.
-- `GSE174188`: `needs_manual_verification`.
-- `436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629`: `continue_audit`.
-
-Blocking findings:
-
-- No dataset is approved for modeling.
-- Human Gate 1 remains PENDING.
+- `GSE137029` is approved only as the primary candidate for Phase 2 pipeline development, not for modeling.
+- `CELLxGENE/HCA 436154da-bcf1-4130-9c8b-120ff9a888f2 / 218acb0f-9f2f-4f76-b90b-15a4b7c7f629` is approved only for metadata harmonization design, not for modeling.
+- `GSE174188` remains `needs_manual_verification` and is not part of Phase 2 processing.
+- `GSE162577` remains `limited_candidate` and is not primary.
 - `selected_datasets` remains `[]`.
 - `external_validation_cohort` remains TODO.
-- Project remains blocked by unresolved dataset feasibility blockers before Human Gate 1.
-- Repair queue evidence must be reviewed before any human gate decision.
 
-Blocked work:
+Explicitly forbidden:
 
-- Dataset downloads.
-- Dataset approval.
-- Human Gate 1 closure.
-- Assigning `selected_datasets`.
+- Downloads.
+- Modeling.
+- Training.
+- Model files.
+- Cell-level splits.
+- Dataset approval for modeling.
+- Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
-- Resolving blockers by guessing.
-- Model implementation.
-- Model training.
-- Any Phase 2 work.
+- Full preprocessing.
+- Creating AnnData objects in this feature.
 
 Acceptance criteria:
 
-- `reports/tables/final_dataset_feasibility_decision.csv` exists.
-- `state/judge_reports/P1-F014_final_dataset_decision_report.md` exists.
-- Every known candidate has one final decision row.
-- No candidate is marked approved.
-- Overall readiness values are valid.
-- Human Gate 1 remains PENDING.
-- `selected_datasets` remains `[]`.
-- `external_validation_cohort` remains TODO.
-- `project.blocked` remains true.
+- `docs/06_data_pipeline_plan.md` exists.
+- `configs/data_pipeline.yaml` exists and blocks downloads/modeling.
+- `scripts/08_phase2_pipeline_scaffold.py` exists and validates scaffold restrictions.
+- `src/data`, `src/qc`, and `src/utils` package markers exist.
+- Tests verify no downloads, no modeling, no cell-level splits, no selected datasets, and no external validation cohort assignment.

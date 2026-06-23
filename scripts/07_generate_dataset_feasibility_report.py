@@ -60,6 +60,8 @@ APPROVAL_WORDS = {
     "external_validation_ready",
 }
 
+ALLOWED_HUMAN_GATE_1_STATUSES = {"PENDING", "approved_with_restrictions"}
+
 
 class DatasetFeasibilityReportError(ValueError):
     """Raised when report generation would violate Phase 1 scaffold controls."""
@@ -104,15 +106,18 @@ def validate_state_gate_pending(state_path: Path = STATE_PATH) -> None:
         raise DatasetFeasibilityReportError("selected_datasets must remain []")
 
     gate_seen = False
-    pending_seen = False
+    allowed_status_seen = False
     for line in lines:
         if "Human Gate 1: Dataset Feasibility Approved" in line:
             gate_seen = True
-        if gate_seen and line.strip() == "status: PENDING":
-            pending_seen = True
+        if gate_seen and line.strip().startswith("status:"):
+            status = line.split(":", 1)[1].strip()
+            allowed_status_seen = status in ALLOWED_HUMAN_GATE_1_STATUSES
             break
-    if not pending_seen:
-        raise DatasetFeasibilityReportError("Human Gate 1 must remain PENDING")
+    if not allowed_status_seen:
+        raise DatasetFeasibilityReportError(
+            "Human Gate 1 must remain PENDING or approved_with_restrictions"
+        )
 
 
 def _contains_approval(row: Dict[str, str]) -> bool:
@@ -174,7 +179,7 @@ def build_report(
         "",
         "## 1. Executive Summary",
         "",
-        "TODO: Human Gate 1 remains PENDING. No dataset has been approved.",
+        "TODO: Human Gate 1 is approved_with_restrictions for scaffold work only. No dataset has been approved for modeling.",
         "",
         "## 2. Scientific Goal",
         "",
@@ -205,7 +210,7 @@ def build_report(
         "",
         "## 6. Selected Training Cohort(s)",
         "",
-        "TODO: None selected. Human Gate 1 remains PENDING.",
+        "TODO: None selected. Human Gate 1 is approved_with_restrictions for scaffold work only.",
         "",
         "## 7. Selected External Validation Cohort(s)",
         "",
@@ -229,7 +234,7 @@ def build_report(
         "",
         "## 12. Human Gate 1 Recommendation",
         "",
-        "TODO: Human Gate 1 remains PENDING. Do not approve datasets, downloads, or modeling from this scaffold.",
+        "TODO: Human Gate 1 is approved_with_restrictions for scaffold work only. Do not approve datasets, downloads, or modeling from this scaffold.",
         "",
         "## 13. TODOs",
         "",

@@ -4,7 +4,7 @@ Current feature: P1-F014 - Final Dataset Feasibility Decision Table.
 
 No dataset is approved for modeling.
 
-Human Gate 1 remains PENDING. `selected_datasets` remains empty. `external_validation_cohort` remains TODO. The project remains blocked by unresolved dataset feasibility evidence.
+Human Gate 1 is approved_with_restrictions for Phase 2 scaffold work only. `selected_datasets` remains empty. `external_validation_cohort` remains TODO. Modeling and dataset downloads remain disallowed.
 
 ## Executive Summary
 
@@ -89,4 +89,4 @@ No external validation cohort is assigned. External validation remains blocked b
 - Verify gene identifiers and cell-type annotation provenance.
 - Produce a candidate feasibility package that a human can review without inferred metadata.
 
-Human Gate 1 cannot be closed from the current evidence.
+Human Gate 1 restricted approval does not approve modeling, downloads, selected datasets, or external validation cohorts.

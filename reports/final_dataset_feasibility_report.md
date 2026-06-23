@@ -4,6 +4,8 @@
 
 TODO: Human Gate 1 remains PENDING. No dataset has been approved.
 
+Phase 2 update: Human Gate 1 is now recorded as `approved_with_restrictions` for scaffold work only. No dataset is approved for modeling, `selected_datasets` remains empty, and `external_validation_cohort` remains TODO.
+
 ## 2. Scientific Goal
 
 TODO: Define the final scientific goal after candidate datasets are manually audited.

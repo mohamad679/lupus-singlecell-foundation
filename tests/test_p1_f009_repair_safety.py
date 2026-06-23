@@ -66,7 +66,7 @@ def test_project_state_has_no_selected_datasets_and_gate_remains_pending():
 
     assert "selected_datasets: []" in state
     assert "label: \"Human Gate 1: Dataset Feasibility Approved\"" in state
-    assert "status: PENDING" in state
+    assert "status: approved_with_restrictions" in state
 
 
 def test_report_has_candidate_provenance_caution_section():

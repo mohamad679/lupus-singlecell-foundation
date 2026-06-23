@@ -1,11 +1,11 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_1_dataset_feasibility_audit
-  current_phase: "Phase 1"
-  current_phase_name: "Dataset Feasibility Audit"
-  current_feature: P1-F014
-  blocked: true
-  blocked_reason: unresolved dataset feasibility blockers before Human Gate 1
+  status: phase_2_data_pipeline_scaffold
+  current_phase: "Phase 2"
+  current_phase_name: "Data Pipeline Scaffold"
+  current_feature: P2-F001
+  blocked: false
+  blocked_reason: null
   primary_task: TODO
   external_validation_cohort: TODO
   selected_datasets: []
@@ -18,6 +18,16 @@ phase_controls:
   no_model_training_before: "Dataset feasibility approval and later modeling readiness approval"
   unknown_information_policy: "Mark as TODO"
 
+phase_2_restrictions:
+  no_modeling: true
+  no_downloads_without_explicit_feature: true
+  no_cell_level_splits: true
+  only_pipeline_scaffold: true
+  gse137029_scope: "Primary candidate for Phase 2 pipeline development only; not approved for modeling."
+  cellxgene_hca_scope: "Metadata harmonization design only; not approved for modeling."
+  gse174188_scope: "needs_manual_verification; not part of Phase 2 processing."
+  gse162577_scope: "limited_candidate; not primary."
+
 human_gates:
   phase_0_scaffold_review:
     status: completed_by_user_instruction
@@ -25,9 +35,9 @@ human_gates:
     required_before: "Phase 1 start"
   dataset_feasibility_approval:
     label: "Human Gate 1: Dataset Feasibility Approved"
-    status: PENDING
+    status: approved_with_restrictions
     owner: TODO
-    required_before: "Any dataset acquisition or modeling"
+    required_before: "Restricted Phase 2 scaffold only; downloads, dataset selection, and modeling still require later explicit gates"
   data_acquisition_approval:
     status: blocked
     owner: TODO
@@ -78,6 +88,8 @@ artifacts:
   judge_repair_queue: reports/tables/judge_repair_queue.csv
   final_dataset_feasibility_decision: reports/tables/final_dataset_feasibility_decision.csv
   final_dataset_decision_report: state/judge_reports/P1-F014_final_dataset_decision_report.md
+  data_pipeline_plan: docs/06_data_pipeline_plan.md
+  data_pipeline_config: configs/data_pipeline.yaml
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -86,6 +98,7 @@ artifacts:
   label_availability_audit_script: scripts/05_label_availability_audit.py
   external_validation_audit_script: scripts/06_external_validation_audit.py
   dataset_feasibility_report_generator: scripts/07_generate_dataset_feasibility_report.py
+  phase2_pipeline_scaffold_script: scripts/08_phase2_pipeline_scaffold.py
   metadata_schema_test: tests/test_metadata_schema.py
   data_audit_config_test: tests/test_data_audit_config.py
   audit_safety_test: tests/test_audit_script_no_invented_rows.py
@@ -111,5 +124,7 @@ artifacts:
   bioinformatics_judge_review_test: tests/test_bioinformatics_judge_review.py
   judge_repair_queue_test: tests/test_judge_repair_queue.py
   final_dataset_decision_table_test: tests/test_final_dataset_decision_table.py
+  phase2_pipeline_config_test: tests/test_phase2_pipeline_config.py
+  phase2_no_modeling_or_downloads_test: tests/test_phase2_no_modeling_or_downloads.py
 
 last_updated: "2026-06-23"

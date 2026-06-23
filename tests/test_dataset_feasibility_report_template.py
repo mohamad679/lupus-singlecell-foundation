@@ -33,5 +33,8 @@ def test_dataset_feasibility_report_preserves_todo_sections():
     report = REPORT_PATH.read_text()
 
     assert "TODO" in report
-    assert "Human Gate 1 remains PENDING" in report
+    assert (
+        "Human Gate 1 remains PENDING" in report
+        or "Human Gate 1 is approved_with_restrictions" in report
+    )
     assert "None selected" in report

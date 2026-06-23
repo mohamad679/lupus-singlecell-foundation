@@ -62,7 +62,10 @@ def test_decision_report_exists_and_states_no_modeling_approval():
     report = DECISION_REPORT_PATH.read_text()
 
     assert "No dataset is approved for modeling." in report
-    assert "Human Gate 1 remains PENDING" in report
+    assert (
+        "Human Gate 1 remains PENDING" in report
+        or "Human Gate 1 is approved_with_restrictions" in report
+    )
 
 
 def test_all_candidates_have_one_decision_row():
@@ -96,9 +99,9 @@ def test_overall_readiness_values_are_valid():
 def test_project_state_remains_blocked_and_gate_pending():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P1-F014" in state
-    assert "blocked: true" in state
+    assert "current_feature: P2-F001" in state
+    assert "blocked: false" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "label: \"Human Gate 1: Dataset Feasibility Approved\"" in state
-    assert "status: PENDING" in state
+    assert "status: approved_with_restrictions" in state
