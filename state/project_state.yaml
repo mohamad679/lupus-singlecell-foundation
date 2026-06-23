@@ -3,7 +3,7 @@ project:
   status: phase_2_data_pipeline_scaffold
   current_phase: "Phase 2"
   current_phase_name: "Data Pipeline Scaffold"
-  current_feature: P2-F003
+  current_feature: P2-F004
   blocked: false
   blocked_reason: null
   primary_task: TODO
@@ -95,6 +95,8 @@ artifacts:
   anndata_schema: metadata/anndata_schema.yaml
   metadata_harmonization_schema: metadata/metadata_harmonization_schema.yaml
   source_field_mapping: metadata/source_field_mapping.yaml
+  gene_identifier_policy: metadata/gene_identifier_policy.yaml
+  gene_mapping_report: reports/tables/gene_mapping_report.csv
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -106,6 +108,7 @@ artifacts:
   phase2_pipeline_scaffold_script: scripts/08_phase2_pipeline_scaffold.py
   anndata_schema_utility: src/data/anndata_schema.py
   metadata_harmonization_utility: src/data/metadata_harmonization.py
+  gene_identifier_policy_utility: src/data/gene_identifier_policy.py
   metadata_schema_test: tests/test_metadata_schema.py
   data_audit_config_test: tests/test_data_audit_config.py
   audit_safety_test: tests/test_audit_script_no_invented_rows.py
@@ -135,5 +138,6 @@ artifacts:
   phase2_no_modeling_or_downloads_test: tests/test_phase2_no_modeling_or_downloads.py
   anndata_schema_contract_test: tests/test_anndata_schema_contract.py
   metadata_harmonization_schema_test: tests/test_metadata_harmonization_schema.py
+  gene_identifier_policy_test: tests/test_gene_identifier_policy.py
 
 last_updated: "2026-06-23"

@@ -1,41 +1,44 @@
 # Current Feature
 
-Feature: P2-F003 - Metadata harmonization schema.
+Feature: P2-F004 - Gene identifier policy.
 
 Status: completed pending human review.
 
 Builder scope:
 
-- Define canonical metadata fields and source mapping rules only.
-- Create mock-safe harmonization validation utilities, documentation, and tests.
-- Preserve unknown values as `TODO` or `unclear`.
+- Define gene identifier policy only.
+- Create policy metadata, an empty mapping report, mock-safe validation utilities, documentation, and tests.
+- Support future single-cell preprocessing, cross-cohort harmonization, pathway analysis, and foundation model compatibility planning.
 
 Explicitly forbidden:
 
 - Downloads.
-- Preprocessing real datasets.
+- Preprocessing real data.
 - Creating AnnData objects.
 - Modeling.
 - Training.
 - Model files.
-- Metadata guessing.
-- Label inference.
+- Inferring gene identifiers from real data.
+- Silent gene dropping.
+- Silent duplicate gene collapse.
+- Unsupported ID conversion.
 - Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
 
-Schema summary:
+Policy summary:
 
-- Canonical fields cover patient, donor, sample, cell, cohort, batch, dataset, source, organism, tissue, assay, disease, activity, cell type, treatment, demographics, timepoint, and split policy metadata.
-- Source mappings for GEO, CELLxGENE, and HCA are placeholders with `TODO` original fields until manually verified.
-- Validation rejects missing required canonical fields such as `dataset_id` and `disease_label`.
-- The utility works with dictionaries and mock metadata only.
+- Original gene IDs and gene symbols must be preserved.
+- `var` indexes must be unique.
+- Gene drops, unmapped genes, duplicate genes, and vocabulary mismatches require explicit reports.
+- Foundation model vocabulary compatibility requires a tracked vocabulary version and unmatched-gene report.
+- Pathway claims are forbidden without valid gene mapping and later statistical correction.
 
 Acceptance criteria:
 
-- `metadata/metadata_harmonization_schema.yaml` exists.
-- `metadata/source_field_mapping.yaml` exists.
-- `src/data/metadata_harmonization.py` exists.
-- `tests/test_metadata_harmonization_schema.py` exists and passes.
+- `metadata/gene_identifier_policy.yaml` exists.
+- `reports/tables/gene_mapping_report.csv` exists with headers only.
+- `src/data/gene_identifier_policy.py` exists.
+- `tests/test_gene_identifier_policy.py` exists and passes.
 - No data is downloaded.
 - No preprocessing is added.
 - No modeling code is created.

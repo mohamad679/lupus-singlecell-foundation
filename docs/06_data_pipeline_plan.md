@@ -264,6 +264,67 @@ Harmonization must fail or remain blocked when:
 
 Unknown fields must remain `TODO` or `unclear` until source evidence is available.
 
+## Gene Identifier Policy
+
+Gene identifier harmonization matters because downstream single-cell analysis, cross-cohort comparison, pathway enrichment, and foundation model compatibility all depend on consistent feature identities. P2-F004 defines policy only; it does not inspect real gene tables, download references, preprocess datasets, or convert identifiers.
+
+### Gene Symbols vs Ensembl IDs
+
+Future pipelines must preserve both original gene symbols and stable gene identifiers when source metadata provides them. Gene symbols are useful for interpretation and pathway tools, but they can be ambiguous, duplicated, or changed across releases. Ensembl IDs are more stable but may include version suffixes and require genome-build context. Neither identifier type may be inferred from organism, assay type, file name, or publication title.
+
+### Human Genome Build Considerations
+
+The `genome` field must preserve source-supported genome or reference-build metadata when available. If build metadata is not explicit, the value must remain `TODO` or `unclear`. Cross-cohort comparisons and pathway claims require a later reviewed policy for build compatibility and identifier version handling.
+
+### Duplicate Gene Handling
+
+Duplicate gene symbols or identifiers must be reported before any aggregation. Silent duplicate collapse is forbidden. A future approved preprocessing feature must document the duplicate set, source rows affected, chosen resolution rule, and scientific risk before any matrix transformation occurs.
+
+### Missing Gene Handling
+
+Missing, unmapped, or unsupported gene identifiers must be reported in `reports/tables/gene_mapping_report.csv` or a future derived report. Silent gene dropping is forbidden. Missing identifiers may block cross-cohort integration, pathway analysis, or foundation model vocabulary alignment.
+
+### Mitochondrial/Ribosomal Gene Handling
+
+Mitochondrial and ribosomal gene flags may be needed for QC, but they must be derived from source-supported or approved reference mappings. These genes must not be dropped by default. Any future QC filtering rule must preserve an audit trail and report affected genes.
+
+### Pathway Analysis Requirements
+
+Pathway analysis requires valid, documented gene symbols or stable identifiers compatible with the selected pathway database. Multiple-testing correction is required later before making pathway claims. Pathway claims without verified identifier mapping are forbidden.
+
+### Foundation Model Vocabulary Requirements
+
+Foundation model compatibility requires tracking the model vocabulary version, overlap between dataset genes and model vocabulary, and unmatched vocabulary entries. Vocabulary overlap must be reported before any model-facing data preparation. This policy does not select, load, or train a model.
+
+### Cross-Cohort Gene Intersection Strategy
+
+Future cross-cohort harmonization must compute gene intersections only after source gene identifiers are validated. Intersection decisions must report retained genes, dropped genes, duplicates, unmapped genes, and cohort-specific losses. No feature may silently drop genes to force an intersection.
+
+### Forbidden Assumptions
+
+- Do not infer Ensembl IDs from gene symbols without an approved mapping source.
+- Do not infer gene symbols from Ensembl IDs without an approved mapping source.
+- Do not infer genome build from organism or assay type.
+- Do not assume duplicate symbols can be summed, averaged, or first-selected.
+- Do not assume missing genes can be silently dropped.
+- Do not assume foundation model compatibility from human organism alone.
+- Do not make pathway claims from unmapped or ambiguously mapped genes.
+
+### Failure Modes
+
+Gene identifier validation must fail or remain blocked when:
+
+- required gene fields are missing.
+- the feature index is not unique.
+- duplicate symbols or IDs exist without a duplicate report.
+- unmapped genes exist without an unmapped-gene report.
+- requested pathway analysis lacks valid mapped identifiers.
+- requested foundation model preparation lacks vocabulary version and overlap reports.
+
+### Audit Trail Requirements
+
+Every future identifier transformation must record the source dataset, original gene ID, original gene symbol, target ID, mapping method, mapping source/version, duplicate status, unmapped status, foundation vocabulary match status, pathway eligibility, and audit status. P2-F004 creates the report header only.
+
 ## Patient-Level Splitting Policy
 
 All future split logic must be patient-level or cohort-level only. Cell-level splits are forbidden.

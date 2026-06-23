@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F003
+  completed_through: P2-F004
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -434,16 +434,24 @@ backlog:
     feature_id: P2-F004
     title: "Gene identifier policy"
     phase: 2
-    status: todo
+    status: done
     description: "Define how future feature identifiers, gene symbols, stable IDs, and pathway mapping compatibility will be audited."
     acceptance_criteria:
       - "Gene identifier policy exists."
+      - "Gene mapping report exists with headers only."
       - "No gene IDs are inferred from organism or assay."
+      - "Silent gene dropping is forbidden."
+      - "Silent duplicate gene collapse is forbidden."
+      - "Foundation model vocabulary overlap tracking is required."
       - "Pathway mapping requirements are documented."
+      - "No data are downloaded."
+      - "No preprocessing is added."
     dependencies:
       - "P2-F001"
+      - "P2-F002"
+      - "P2-F003"
     required_tests:
-      - "Gene identifier policy test."
+      - "tests/test_gene_identifier_policy.py"
     judge_gates:
       - "Bioinformatics Judge review before pathway analysis."
 

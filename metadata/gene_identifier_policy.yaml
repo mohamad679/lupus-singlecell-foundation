@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "canonical_gene_fields": [
+    "gene_id",
+    "gene_symbol",
+    "ensembl_id",
+    "feature_type",
+    "genome",
+    "source_dataset"
+  ],
+  "policy_rules": {
+    "preserve_original_gene_ids": true,
+    "preserve_original_gene_symbols": true,
+    "require_unique_var_index": true,
+    "forbid_silent_gene_drop": true,
+    "forbid_silent_duplicate_collapse": true,
+    "require_mapping_report": true,
+    "require_unmapped_gene_report": true,
+    "require_duplicate_gene_report": true,
+    "allowed_unknown_value": "TODO"
+  },
+  "foundation_model_requirements": {
+    "track_gene_vocabulary_overlap": true,
+    "require_model_vocab_version": true,
+    "require_unmatched_vocab_report": true
+  },
+  "pathway_analysis_requirements": {
+    "require_valid_gene_symbols": true,
+    "require_multiple_testing_correction_later": true,
+    "forbid_pathway_claims_without_mapping": true
+  }
+}
