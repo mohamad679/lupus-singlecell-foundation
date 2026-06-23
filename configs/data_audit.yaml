@@ -102,6 +102,9 @@ eligibility_scoring_fields:
   - "access_terms_compatibility"
   - "batch_and_donor_metadata_quality"
 
+eligibility_scoring_schema:
+  - "metadata/dataset_eligibility_scoring.yaml"
+
 forbidden_actions:
   - "invent_accessions"
   - "assume_patient_ids"

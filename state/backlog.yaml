@@ -115,12 +115,33 @@ backlog:
       - "Human Gate 1 remains PENDING."
 
   - id: P1-F004
+    title: "Dataset eligibility scoring schema"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "Human Gate 1 remains PENDING for data acquisition"
+    acceptance_criteria:
+      - "Dataset eligibility scoring framework is documented."
+      - "metadata/dataset_eligibility_scoring.yaml exists."
+      - "Total score is 100."
+      - "Eligibility categories are defined."
+      - "Hard rejection rules are explicit."
+      - "scripts/03_score_dataset_eligibility.py exists."
+      - "reports/tables/dataset_eligibility_scores.csv exists with headers only."
+      - "Tests for scoring schema and safe scoring script exist."
+      - "No unaudited candidates are scored as eligible."
+      - "No full datasets are downloaded."
+      - "No dataset accessions are invented."
+      - "Human Gate 1 remains PENDING."
+
+  - id: P1-F005
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F003"
+      - "P1-F004"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -128,7 +149,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-F005
+  - id: P1-F006
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

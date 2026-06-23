@@ -422,6 +422,94 @@ Reject or defer a CELLxGENE candidate if:
 - Full data download is required before basic metadata feasibility can be assessed.
 - Human Gate 1 is treated as approved while it remains PENDING.
 
+## Dataset Eligibility Scoring Framework
+
+### Scoring Objective
+
+Evaluate whether candidate SLE, lupus, or lupus nephritis single-cell datasets are usable for training, internal validation, external cross-cohort validation, disease-activity prediction, and biological interpretation.
+
+This framework defines scoring criteria only. Numerical scoring must not be applied to empty, unaudited, guessed, or unverifiable candidate rows. Human Gate 1 remains required before data acquisition or modeling.
+
+### Scoring Dimensions
+
+Total score: 100 points.
+
+- Core Dataset Validity: 25 points.
+- Prediction Task Feasibility: 20 points.
+- Patient-level Modeling Feasibility: 20 points.
+- Cross-cohort Validation Suitability: 15 points.
+- Bioinformatics Interpretability: 10 points.
+- Reproducibility and Accessibility: 10 points.
+
+### Required Vs Optional Criteria
+
+Required criteria protect against invalid scientific use:
+
+- Single-cell or single-nucleus assay verification.
+- Human organism.
+- SLE, lupus, or lupus nephritis relevance.
+- Patient or donor identifiers.
+- Disease labels.
+- Source-verifiable metadata.
+- Clear accession, collection ID, or dataset ID.
+
+Optional or strengthening criteria improve score but do not alone determine eligibility:
+
+- Activity labels.
+- Treatment metadata.
+- Longitudinal or repeated samples.
+- External validation cohort compatibility.
+- Cell-type labels.
+- Raw counts and processed object availability.
+- Publication, license, and access clarity.
+
+### Minimum Thresholds
+
+Eligibility categories are:
+
+- Excellent: score >= 80.
+- Usable with caution: score 60-79.
+- Limited: score 40-59.
+- Reject: score < 40.
+
+These categories are not sufficient to start modeling. They only support Human Gate 1 review.
+
+### Exclusion Rules
+
+Hard rejection applies when any of the following are true:
+
+- Dataset is not single-cell or single-nucleus transcriptomics.
+- Dataset is not human.
+- Patient or donor IDs are unavailable.
+- Disease labels are unavailable.
+- Metadata are invented, guessed, or unverifiable.
+- Dataset is bulk RNA-seq only.
+- Accession or source identity is ambiguous.
+
+### External Validation Suitability Rules
+
+A candidate is suitable for external cross-cohort validation only if it is independent from the discovery cohort and has compatible tissue, assay, labels, donor/sample metadata, and batch/cohort metadata. If cohort overlap is unresolved, suitability remains `TODO`.
+
+### Lupus Nephritis-Specific Scoring Considerations
+
+Lupus nephritis candidates should score higher when metadata distinguish renal involvement, nephritis class, biopsy timing, active nephritis status, treatment timing, kidney or renal biopsy source, and matched blood/kidney samples when available.
+
+Missing lupus nephritis subtype or renal activity metadata should be marked `TODO` and may limit disease-specific usability.
+
+### Activity-Label Scoring Considerations
+
+Disease-activity prediction requires source-supported activity labels, activity scores, active/inactive status, flare/remission annotations, or a documented clinical proxy. Treatment metadata and sampling time are required to judge confounding.
+
+If activity labels are absent or guessed, disease-activity prediction suitability must remain `TODO` or reject.
+
+### Uncertainty And Calibration Relevance
+
+Datasets intended for prediction should contain enough independent patients, controls or comparator groups, and batch metadata to support calibrated uncertainty estimates and leakage-aware evaluation. Small or confounded cohorts may remain useful for interpretation but should not be marked suitable for predictive training without review.
+
+### Biological Interpretation Relevance
+
+Biological interpretation suitability depends on cell-type labels, gene identifiers, tissue relevance, raw counts or normalized matrix availability, and support for pathway or signature analysis. Interpretability cannot compensate for missing disease labels, non-human data, or unverifiable metadata.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.

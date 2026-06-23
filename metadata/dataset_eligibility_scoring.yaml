@@ -1,0 +1,99 @@
+schema_version: "1.0"
+total_points: 100
+
+core_dataset_validity_weight: 25
+core_dataset_validity_criteria:
+  - "single-cell assay verified"
+  - "human organism"
+  - "SLE/lupus/lupus nephritis relevance"
+  - "patient/donor identifiers available"
+  - "no bulk-only dataset"
+
+prediction_task_feasibility_weight: 20
+prediction_task_feasibility_criteria:
+  - "disease labels available"
+  - "control/comparator group available"
+  - "activity labels available"
+  - "treatment metadata available"
+  - "longitudinal/repeated samples if available"
+
+patient_level_modeling_feasibility_weight: 20
+patient_level_modeling_feasibility_criteria:
+  - "enough patients"
+  - "enough samples"
+  - "enough cells per patient"
+  - "patient-level split possible"
+  - "metadata supports leakage prevention"
+
+cross_cohort_validation_suitability_weight: 15
+cross_cohort_validation_suitability_criteria:
+  - "independent cohort"
+  - "compatible tissue"
+  - "compatible assay"
+  - "compatible labels"
+  - "batch/cohort metadata available"
+
+bioinformatics_interpretability_weight: 10
+bioinformatics_interpretability_criteria:
+  - "cell-type labels available"
+  - "raw counts or normalized matrix available"
+  - "gene identifiers valid"
+  - "tissue/cell-type relevance"
+  - "pathway/signature analysis possible"
+
+reproducibility_and_accessibility_weight: 10
+reproducibility_and_accessibility_criteria:
+  - "raw data available"
+  - "processed object available"
+  - "publication available"
+  - "license/access clear"
+  - "metadata downloadable"
+
+eligibility_category_excellent: ">=80"
+eligibility_category_usable_with_caution: "60-79"
+eligibility_category_limited: "40-59"
+eligibility_category_reject: "<40"
+
+hard_rejection_rules:
+  - "not single-cell"
+  - "not human"
+  - "no patient/donor IDs"
+  - "no disease labels"
+  - "invented or unverifiable metadata"
+  - "bulk RNA-seq only"
+  - "ambiguous accession without source"
+
+required_geo_hard_rejection_fields:
+  - "accession"
+  - "organism"
+  - "assay_type"
+  - "disease_context"
+  - "patient_id_available"
+  - "disease_label_available"
+  - "audit_status"
+
+required_cellxgene_hard_rejection_fields:
+  - "collection_id"
+  - "dataset_id"
+  - "organism"
+  - "assay_type"
+  - "disease_context"
+  - "donor_id_available"
+  - "disease_label_available"
+  - "audit_status"
+
+score_output_columns:
+  - "source_table"
+  - "candidate_key"
+  - "audit_status"
+  - "total_score"
+  - "eligibility_category"
+  - "training_usable"
+  - "internal_validation_usable"
+  - "external_validation_usable"
+  - "disease_activity_prediction_usable"
+  - "biological_interpretation_usable"
+  - "hard_rejection_flags"
+  - "missing_information"
+  - "score_status"
+  - "notes"
