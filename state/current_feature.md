@@ -1,61 +1,49 @@
 # Current Feature
 
-Feature: P1-F010 - Manual metadata audit of candidate datasets.
+Feature: P1-F011 - Scientific Judge review of dataset feasibility.
 
 Status: completed pending human review.
 
 Allowed work:
 
-- Audit existing candidate rows using public metadata only.
-- Record exact source URLs and explicitly verified metadata.
-- Mark unknown or unresolved fields as `TODO` or `unclear`.
-- Add candidate-only audit summaries.
+- Review existing candidate audit artifacts.
+- Classify candidate scientific status without approval.
+- Identify patient-level, label, leakage, cohort-shift, disease-activity, lupus nephritis, and data-access blockers.
 - Keep all candidates as `candidate_pending_audit`.
 
-Completed candidate-only audit:
+Scientific Judge decision:
 
-- `reports/tables/geo_candidate_datasets.csv` updated with explicit GEO/dbGaP metadata and unresolved fields.
-- `reports/tables/cellxgene_candidate_datasets.csv` updated with explicit CELLxGENE/HCA metadata and unresolved fields.
-- `reports/tables/manual_metadata_audit_summary.csv` created with one pending row per known candidate.
-- `reports/tables/dataset_eligibility_scores.csv` contains unresolved preliminary rows only; no score or eligibility category is assigned.
-- `reports/final_dataset_feasibility_report.md` includes a manual metadata audit summary.
+- `GSE162577`: `limited_candidate`.
+- `GSE137029`: `continue_audit`.
+- `GSE174188`: `needs_manual_verification`.
+- `436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629`: `continue_audit`.
+
+Blocking findings:
+
+- No candidate has completed patient-level metadata verification.
+- Label availability is not sufficient for training, external validation, disease-activity prediction, or lupus nephritis prediction.
+- External validation roles are unresolved because GEO, HCA, and CELLxGENE overlap must be reconciled.
+- Leakage risk remains high until patient, donor, sample, batch, and cohort identifiers are verified.
+- Human Gate 1 remains PENDING.
 
 Blocked work:
 
 - Dataset downloads.
-- Dataset accession invention.
-- Invented metadata.
-- Guessed patient IDs.
-- Guessed labels.
-- Inferred disease activity labels.
-- Invented treatment metadata.
-- Invented batch metadata.
-- Cell-level splitting.
-- Cell-level train/test split.
+- Dataset approval.
+- Human Gate 1 closure.
+- Moving datasets into `selected_datasets`.
+- Moving datasets into `metadata/dataset_catalog.csv` as selected or approved.
 - Model implementation.
 - Model training.
-- Moving datasets into `metadata/dataset_catalog.csv` as selected or approved.
-- Approving datasets.
-- Approving an external validation cohort.
-- Changing Human Gate 1.
+- Guessing patient IDs, labels, activity scores, treatment metadata, or batch metadata.
 - Any Phase 2 work.
-
-Scientific Judge note:
-
-- Candidates are real public metadata candidates but are not approved datasets.
-- Manual metadata audit was completed as candidate-only.
-- No datasets were approved.
-- Patient-level usability remains unresolved.
-- Label availability remains unresolved.
-- External validation role remains unresolved.
-- Unresolved patient-level and label fields remain blockers for Human Gate 1.
 
 Acceptance criteria:
 
-- `reports/tables/manual_metadata_audit_summary.csv` exists.
-- One manual audit summary row exists per known candidate.
-- Candidate rows remain `candidate_pending_audit`.
-- No dataset is approved.
-- No full data are downloaded.
-- No model code is created.
-- Human Gate 1, Dataset Feasibility Approved, remains PENDING.
+- `state/judge_reports/P1-F011_scientific_judge_report.md` exists.
+- `reports/tables/scientific_judge_dataset_review.csv` exists.
+- One scientific review row exists per known candidate.
+- No candidate is marked approved.
+- Human Gate 1 remains PENDING.
+- `selected_datasets` remains `[]`.
+- `external_validation_cohort` remains TODO.

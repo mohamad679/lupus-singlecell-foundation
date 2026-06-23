@@ -103,6 +103,34 @@ TODO: Define the final scientific goal after candidate datasets are manually aud
 - Data access risk: H5AD/FASTQ assets are visible in metadata, but no full data were downloaded and use remains gated.
 - Next manual checks needed: reconcile collection, HCA, and GEO provenance; verify donor/sample IDs, label provenance, activity labels, treatment metadata, and batch metadata.
 
+## Scientific Judge Review
+
+No dataset is approved yet. Human Gate 1 remains PENDING, `selected_datasets` remains empty, and `external_validation_cohort` remains TODO.
+
+Strongest candidates for continued audit:
+
+- `GSE137029`: continue audit because it has visible human PBMC single-cell case/control metadata and large cohort scale, but patient identifiers, patient-level labels, activity labels, treatment metadata, batch metadata, and overlap with HCA/CELLxGENE records remain unresolved.
+- `436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629`: continue audit because CELLxGENE/HCA metadata expose donor IDs, disease terms, cell count, and cell type labels, but donor-level split usability, sample IDs, label provenance, activity labels, treatment metadata, batch metadata, and GEO/HCA/CELLxGENE deduplication remain unresolved.
+
+Candidates requiring caution:
+
+- `GSE162577`: limited candidate only. The record is scientifically relevant, but the cohort has 2 SLE patients and 1 healthy volunteer, patient IDs are unclear, n_cells is TODO, and activity labels are unclear.
+- `GSE174188`: needs manual verification. It is large and scientifically relevant, but controlled-access dbGaP requirements, subject/sample metadata, processed-object access, and cohort overlap risks remain unresolved.
+
+Candidates not suitable for immediate modeling:
+
+- All current candidates are not suitable for immediate modeling, training, disease-activity prediction, lupus nephritis prediction, or external validation assignment.
+- The current eligibility score table keeps all scores and usability fields as TODO.
+
+Next required checks before Human Gate 1:
+
+- Verify patient/donor/sample identifiers and whether patient-level splitting is possible.
+- Verify patient-level disease labels, activity labels, treatment metadata, and label provenance.
+- Verify batch, cohort, site, library, and processing metadata for leakage prevention.
+- Reconcile overlap among GEO, HCA, and CELLxGENE records before any external validation decision.
+- Resolve controlled-access constraints for `GSE174188` and dbGaP `phs002812.v1.p1`.
+- Confirm whether any candidate includes lupus nephritis-specific labels, renal tissue, kidney compartment, or histologic class; current audit does not support lupus nephritis modeling.
+
 ## 5. Rejected Datasets
 
 | dataset | reason for rejection | scientific risk |
