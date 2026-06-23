@@ -72,7 +72,9 @@ def test_geo_plan_can_create_header_only_table(tmp_path):
 def test_geo_script_does_not_invent_rows():
     rows = read_rows(TABLE_PATH)
 
-    assert rows == []
+    assert {row["accession"] for row in rows} == {"GSE162577", "GSE137029", "GSE174188"}
+    assert all(row["audit_status"] == "candidate_pending_audit" for row in rows)
+    assert all(row["notes"] for row in rows)
 
 
 def test_audit_status_is_required_if_rows_exist(tmp_path):

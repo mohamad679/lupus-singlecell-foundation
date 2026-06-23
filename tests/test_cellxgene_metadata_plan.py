@@ -73,7 +73,11 @@ def test_cellxgene_plan_can_create_header_only_table(tmp_path):
 def test_cellxgene_script_does_not_invent_rows():
     rows = read_rows(TABLE_PATH)
 
-    assert rows == []
+    assert len(rows) == 1
+    assert rows[0]["collection_id"] == "436154da-bcf1-4130-9c8b-120ff9a888f2"
+    assert rows[0]["dataset_id"] == "218acb0f-9f2f-4f76-b90b-15a4b7c7f629"
+    assert rows[0]["audit_status"] == "candidate_pending_audit"
+    assert rows[0]["notes"]
 
 
 def test_audit_status_is_required_if_rows_exist(tmp_path):

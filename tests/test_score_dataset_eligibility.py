@@ -48,12 +48,16 @@ def test_score_csv_exists_with_correct_headers():
 
 def test_score_script_creates_header_only_output_for_empty_candidates(tmp_path):
     module = load_scoring_module()
+    geo_path = tmp_path / "geo_candidate_datasets.csv"
+    cellxgene_path = tmp_path / "cellxgene_candidate_datasets.csv"
     output_path = tmp_path / "dataset_eligibility_scores.csv"
+    write_table(geo_path, read_header(GEO_TABLE_PATH), [])
+    write_table(cellxgene_path, read_header(CELLXGENE_TABLE_PATH), [])
 
     module.run_scoring(
         SCHEMA_PATH,
-        GEO_TABLE_PATH,
-        CELLXGENE_TABLE_PATH,
+        geo_path,
+        cellxgene_path,
         output_path,
     )
 
@@ -64,6 +68,7 @@ def test_score_script_creates_header_only_output_for_empty_candidates(tmp_path):
 def test_score_script_does_not_invent_rows(tmp_path):
     module = load_scoring_module()
     output_path = tmp_path / "dataset_eligibility_scores.csv"
+    expected_count = len(read_rows(GEO_TABLE_PATH)) + len(read_rows(CELLXGENE_TABLE_PATH))
 
     module.run_scoring(
         SCHEMA_PATH,
@@ -72,7 +77,10 @@ def test_score_script_does_not_invent_rows(tmp_path):
         output_path,
     )
 
-    assert len(read_rows(output_path)) == 0
+    rows = read_rows(output_path)
+    assert len(rows) == expected_count
+    assert all(row["score_status"] == "not_scored_pending_manual_audit" for row in rows)
+    assert all(row["eligibility_category"] == "TODO" for row in rows)
 
 
 def test_unaudited_candidates_are_not_scored_as_eligible(tmp_path):

@@ -217,18 +217,22 @@ backlog:
       - "selected_datasets remains empty."
 
   - id: P1-F009
-    title: "Audit one candidate dataset for feasibility"
+    title: "Real GEO / HCA / CELLxGENE candidate discovery, metadata-only"
     phase: 1
-    status: todo
+    status: done
     type: bioinformatics
     blocked_by:
       - "P1-F008"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
-      - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
-      - "Unknown fields remain TODO."
-      - "Access terms and raw/processed availability are recorded."
-      - "No data files are downloaded."
+      - "Verified public metadata candidate rows are added to source-specific candidate tables."
+      - "Every candidate row uses audit_status candidate_pending_audit."
+      - "Unknown fields remain TODO or unclear."
+      - "Source URLs are recorded in notes."
+      - "metadata/dataset_catalog.csv remains unaudited and unchanged."
+      - "No full data files are downloaded."
+      - "No dataset is approved."
+      - "Human Gate 1 remains PENDING."
 
   - id: P1-F010
     title: "Request dataset feasibility human gate"

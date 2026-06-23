@@ -1,14 +1,15 @@
 # Current Feature
 
-Feature: P1-F008 - Dataset feasibility report template.
+Feature: P1-F009 - Real GEO / HCA / CELLxGENE candidate discovery, metadata-only.
 
 Status: completed pending human review.
 
 Allowed work:
 
-- Define a manuscript-grade reporting framework for Phase 1 dataset feasibility review.
-- Create report template, rejected dataset log headers, and safe local report generation scaffolding.
-- Read local audit tables without approving datasets or changing Human Gate 1.
+- Add real candidate lupus single-cell datasets to candidate audit tables using verified public metadata only.
+- Record source URLs and mark all candidates as `candidate_pending_audit`.
+- Use `TODO` or `unclear` for metadata that is not explicit in public source metadata.
+- Update the feasibility report with a TODO candidate summary.
 
 Blocked work:
 
@@ -16,6 +17,7 @@ Blocked work:
 - Dataset accession invention.
 - Invented metadata.
 - Guessed patient labels.
+- Guessed metadata.
 - Invented labels.
 - Inferred disease activity labels.
 - Invented patient IDs.
@@ -32,6 +34,14 @@ Blocked work:
 - Scientific conclusions.
 - Any Phase 2 work.
 
+Scientific Judge repair note:
+
+- Candidates are real public metadata candidates but are not approved datasets.
+- Patient-level usability is unresolved.
+- Label availability is unresolved.
+- External validation role is unresolved.
+- Training and external validation suitability require manual audit evidence and Human Gate 1 approval.
+
 Acceptance criteria:
 
 - `docs/02_dataset_feasibility_audit.md` exists.
@@ -42,5 +52,5 @@ Acceptance criteria:
 - Dataset feasibility report template, rejected log, and generator tests exist.
 - `metadata/dataset_catalog.csv` is not populated with invented datasets.
 - No dataset is approved.
-- No dataset rows are invented.
+- Candidate rows are marked `candidate_pending_audit`.
 - Human Gate 1, Dataset Feasibility Approved, remains PENDING.
