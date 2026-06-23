@@ -64,7 +64,7 @@ def test_score_rows_are_pending_and_not_eligible():
 def test_state_keeps_human_gate_and_dataset_selection_closed():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P2-F005" in state
+    assert "current_feature: P2-F006" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "label: \"Human Gate 1: Dataset Feasibility Approved\"" in state

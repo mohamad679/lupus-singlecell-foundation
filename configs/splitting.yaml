@@ -1,0 +1,38 @@
+split_policy:
+  allowed_split_units:
+    - patient_id
+    - donor_id
+    - cohort_id
+  forbidden_split_units:
+    - cell_id
+    - barcode
+  default_split_unit: patient_id
+  allow_cell_level_split: false
+  require_no_patient_overlap: true
+  require_no_donor_overlap: true
+  require_no_sample_overlap_when_patient_unknown: true
+  require_cohort_holdout_for_external_validation: true
+  require_split_manifest: true
+
+split_types:
+  - internal_patient_holdout
+  - leave_cohort_out
+  - external_validation
+
+required_manifest_fields:
+  - entity_id
+  - entity_type
+  - dataset_id
+  - cohort_id
+  - split
+  - disease_label
+  - n_cells
+  - n_samples
+  - audit_status
+
+allowed_split_values:
+  - train
+  - validation
+  - test
+  - external_validation
+  - holdout

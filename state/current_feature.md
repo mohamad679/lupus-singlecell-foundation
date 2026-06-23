@@ -1,47 +1,47 @@
 # Current Feature
 
-Feature: P2-F005 - QC protocol scaffold.
+Feature: P2-F006 - Patient-level split protocol.
 
 Status: completed pending human review.
 
 Builder scope:
 
-- Define QC policy and scaffold only.
-- Create local QC config, empty report templates, mock-safe validation utilities, documentation, and tests.
-- Preserve all thresholds as TODO until future audit approval.
+- Define split policy and validation scaffold only.
+- Create local split config, a header-only split manifest, mock-safe validation utilities, documentation, and tests.
+- Enforce patient-level, donor-level, and cohort-level split units only.
 
 Explicitly forbidden:
 
+- Cell-level splits.
+- Barcode-level splits.
 - Downloads.
-- Real preprocessing.
+- Preprocessing real data.
 - Creating real AnnData outputs.
-- Cell filtering on real data.
 - Modeling.
 - Training.
 - Model files.
 - Dataset approval.
-- Threshold guessing.
-- Unlogged cell removal.
+- Creating real train/test assignments.
 - Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
 
-QC scaffold summary:
+Split scaffold summary:
 
-- Real filtering is disabled.
-- QC threshold source remains `TODO`.
-- QC reports must include sample-level and patient-level summaries.
-- Threshold decisions cannot be marked applied without `approved_by`.
-- Guessed threshold sources are rejected.
+- Allowed split units are `patient_id`, `donor_id`, and `cohort_id`.
+- Forbidden split units are `cell_id` and `barcode`.
+- Cell-level splitting is disabled.
+- Future external validation requires cohort holdout.
+- Mock split manifests must include `audit_status`.
+- Train/test entity overlap is rejected.
 
 Acceptance criteria:
 
-- `configs/qc.yaml` exists.
-- `reports/tables/qc_summary.csv` exists with headers only.
-- `reports/tables/qc_threshold_decisions.csv` exists with headers only.
-- `src/qc/qc_policy.py` exists.
-- `tests/test_qc_protocol_config.py` and `tests/test_qc_policy.py` exist and pass.
+- `configs/splitting.yaml` exists.
+- `reports/tables/split_manifest.csv` exists with headers only.
+- `src/data/split_policy.py` exists.
+- `tests/test_patient_split_policy.py` exists and passes.
 - No data is downloaded.
-- No real preprocessing is added.
+- No real split is created.
 - No modeling code is created.
 - `selected_datasets` remains `[]`.
 - `external_validation_cohort` remains TODO.

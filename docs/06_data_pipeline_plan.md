@@ -325,11 +325,81 @@ Gene identifier validation must fail or remain blocked when:
 
 Every future identifier transformation must record the source dataset, original gene ID, original gene symbol, target ID, mapping method, mapping source/version, duplicate status, unmapped status, foundation vocabulary match status, pathway eligibility, and audit status. P2-F004 creates the report header only.
 
-## Patient-Level Splitting Policy
+## Patient-level and Cohort-level Split Protocol
 
-All future split logic must be patient-level or cohort-level only. Cell-level splits are forbidden.
+All future split logic must be patient-level, donor-level, or cohort-level only. Cell-level splits are forbidden because cells from the same patient or donor share biological state, clinical labels, processing history, and batch context. Randomly splitting cells can produce optimistic performance by allowing the model to see patient-specific or batch-specific signal in both training and test partitions.
 
-The minimum valid split unit is a source-supported patient or donor identifier. If patient or donor identifiers are unavailable, the dataset cannot be used for patient-level prediction.
+### Why Cell-Level Split Is Forbidden
+
+Single-cell datasets contain many cells per patient. Treating cells as independent training examples while splitting randomly by cell leaks patient, donor, sample, and batch information across partitions. This leakage can make a model appear accurate even when it has not learned generalizable disease biology.
+
+### Leakage Risks in Single-Cell Datasets
+
+Leakage can occur through shared patient identity, donor identity, sample preparation, library batch, tissue compartment, cell barcodes, repeated visits, or cohort-specific processing. Label leakage can also occur when disease labels, activity labels, treatment labels, or sample names are encoded in metadata fields used during splitting or feature construction.
+
+### Patient-Level Split Definition
+
+A patient-level split assigns each `patient_id` to exactly one split partition. All cells and samples from the same patient must remain in the same partition. Patient-level splitting requires source-supported patient IDs or an explicitly approved equivalent split unit.
+
+### Donor-Level Split Definition
+
+A donor-level split assigns each `donor_id` to exactly one split partition. Donor-level splitting can be used only when donor IDs are explicit and a future audit confirms that donor ID is the correct leakage-prevention unit for the dataset.
+
+### Sample-Level Caveats
+
+Sample-level splitting is not sufficient when multiple samples come from the same patient or donor. If patient IDs are unavailable, sample-level splits must be treated as provisional and cannot support patient-level prediction unless a later audit proves no patient or donor overlap is possible.
+
+### Cohort-Level Split Definition
+
+A cohort-level split assigns whole cohorts, studies, sites, or collections to partitions. Leave-cohort-out validation and external validation require that held-out cohorts remain independent from training data at patient, donor, sample, cell, and processing levels.
+
+### Repeated Samples / Longitudinal Handling
+
+Repeated or longitudinal samples from the same patient must stay together unless the prediction task explicitly concerns time and a later protocol defines leakage-safe temporal validation. Visit labels and timepoints must not be used to split cells from the same patient into different partitions.
+
+### Batch-Aware Split Considerations
+
+Split plans must inspect batch distribution across patient, donor, sample, and cohort. Batch-aware review is required because technical batch can be confounded with disease, treatment, tissue, or cohort labels. Batch balancing must not override patient-level or cohort-level leakage prevention.
+
+### External Validation Split Requirements
+
+External validation must use an independent cohort or source-supported holdout design. The external validation cohort must not share patients, donors, samples, cells, or unreviewed processing dependencies with training data. `external_validation_cohort` remains `TODO` until a later explicit human gate.
+
+### Disease-Label Stratification Considerations
+
+Disease-label distribution should be reviewed at patient or donor level, not cell level. Stratification may be desirable for diagnosis or activity tasks, but it cannot create patient/donor overlap. Rare disease labels may require a scientific decision to defer modeling or use a limited validation design.
+
+### Forbidden Split Patterns
+
+- Cell-level random train/test splits.
+- Barcode-level splits.
+- Splitting cells from one patient across partitions.
+- Splitting donors across partitions.
+- Treating samples as independent when patient or donor overlap is unresolved.
+- Assigning an external validation cohort without audit approval.
+- Using disease labels, treatment labels, or activity labels to infer patient IDs.
+
+### Required Leakage Checks
+
+Future split manifests must check:
+
+- no `patient_id` overlap between train and test.
+- no `donor_id` overlap between train and test.
+- no sample overlap when patient identity is unknown.
+- no held-out cohort overlap in external validation.
+- no cell or barcode entity types in split manifests.
+- all split rows have an `audit_status`.
+
+### Failure Modes
+
+Split validation must fail or remain blocked when:
+
+- `entity_type` is `cell_id` or `barcode`.
+- the same entity appears in incompatible train/test partitions.
+- `audit_status` is missing.
+- split values are outside the approved manifest vocabulary.
+- patient/donor/sample relationships are unresolved.
+- an external validation cohort is assigned without a later gate.
 
 ## Single-cell QC Protocol
 

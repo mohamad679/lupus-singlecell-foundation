@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F005
+  completed_through: P2-F006
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -485,17 +485,24 @@ backlog:
     feature_id: P2-F006
     title: "Patient-level split protocol"
     phase: 2
-    status: todo
+    status: done
     description: "Define patient-level and cohort-level split protocol; explicitly forbid cell-level random splitting."
     acceptance_criteria:
       - "Split protocol exists."
+      - "configs/splitting.yaml exists."
+      - "reports/tables/split_manifest.csv exists with headers only."
       - "Cell-level split is forbidden."
       - "Split unit requires patient_id or donor_id."
+      - "Train/test entity overlap is rejected in mock manifests."
+      - "No real split is created."
+      - "No data are downloaded."
     dependencies:
       - "P2-F001"
+      - "P2-F002"
       - "P2-F003"
+      - "P2-F005"
     required_tests:
-      - "Patient-level split policy test."
+      - "tests/test_patient_split_policy.py"
     judge_gates:
       - "Scientific Judge review for leakage prevention."
 
