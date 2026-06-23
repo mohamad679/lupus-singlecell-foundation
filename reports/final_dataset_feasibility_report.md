@@ -176,6 +176,44 @@ Remaining unknowns:
 - Whether raw count matrices and processed objects are usable under project governance.
 - Whether any candidate can support lupus nephritis-specific analysis; current evidence says no.
 
+## Judge Repair Queue
+
+No dataset can be approved yet. The Scientific Judge and Bioinformatics Judge identified unresolved blockers that must be repaired with auditable evidence before Human Gate 1 can be considered.
+
+Unresolved scientific blockers:
+
+- Patient or donor identifiers are unresolved for GEO candidates and donor/sample usability is unresolved for CELLxGENE/HCA.
+- Label provenance is incomplete for all candidates; source-level disease terms are not enough for patient-level prediction.
+- Disease activity labels are not audited at patient or sample level.
+- Treatment metadata and batch metadata remain unclear for candidate task feasibility and confounding review.
+- External validation roles are unresolved because cohort independence and label compatibility have not been proven.
+
+Unresolved bioinformatics blockers:
+
+- GEO cell-type annotation status is unclear.
+- Gene identifier feasibility requires source-supported feature metadata.
+- Pathway analysis is not ready until gene identifiers, count layers, and annotation provenance are verified.
+- `GSE174188` has controlled-access raw and processed data restrictions.
+- Raw count and processed object usability remain uninspected because no full data files have been downloaded.
+- Cross-cohort harmonization is blocked until GEO, HCA, and CELLxGENE overlap is mapped.
+
+Candidate-specific next checks:
+
+- `GSE162577`: verify patient/sample IDs, n_cells, cell-type labels, feature identifiers, label provenance, and batch metadata; likely remains a limited candidate because of small cohort size.
+- `GSE137029`: verify patient identifiers, label provenance, activity labels, treatment metadata, batch metadata, cell-type labels, feature identifiers, and overlap with HCA/CELLxGENE.
+- `GSE174188`: verify dbGaP access constraints, subject/sample metadata, raw count availability, processed object availability, labels, and cohort overlap before any further feasibility claim.
+- CELLxGENE/HCA linked candidate: verify donor/sample mapping, label provenance, activity labels, treatment metadata, batch metadata, annotation provenance, feature identifiers, and deduplication against GEO/HCA records.
+
+Evidence required for Human Gate 1:
+
+- A source-supported patient/donor/sample identifier map for any candidate proposed for use.
+- A label audit table with exact label names, observed values, label level, and provenance.
+- A batch/cohort/site/library metadata audit sufficient for leakage and confounding review.
+- A raw/processed data availability decision that distinguishes public metadata visibility from approved data access.
+- A feature/gene identifier feasibility note for pathway and biological interpretation plans.
+- A cohort overlap and external-validation independence table.
+- Repair queue rows moved only through manual review; no row may be marked resolved without source evidence and human review.
+
 ## 5. Rejected Datasets
 
 | dataset | reason for rejection | scientific risk |

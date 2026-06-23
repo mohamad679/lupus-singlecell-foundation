@@ -1,6 +1,6 @@
 phase_1_scaffold:
   status: complete
-  completed_through: P1-F012
+  completed_through: P1-F013
   human_gate_1: PENDING
 
 backlog:
@@ -293,14 +293,39 @@ backlog:
       - "No model code is created."
 
   - id: P1-F013
-    title: "Request dataset feasibility human gate"
+    title: "Repair Loop for judge blockers"
+    phase: 1
+    status: done
+    type: repair
+    blocked_by:
+      - "P1-F011"
+      - "P1-F012"
+      - "Human Gate 1 remains PENDING for dataset approval"
+    acceptance_criteria:
+      - "state/repair_queue.yaml exists."
+      - "reports/tables/judge_repair_queue.csv exists."
+      - "Repair rows exist."
+      - "No repair is marked resolved."
+      - "Every repair has required evidence."
+      - "Every repair has forbidden resolution actions."
+      - "Human Gate 1 remains PENDING."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+      - "project_state.blocked is true."
+      - "No dataset is approved."
+      - "No full datasets are downloaded."
+      - "No model code is created."
+
+  - id: P1-F014
+    title: "Final decision table after repair queue"
     phase: 1
     status: todo
     type: governance
     blocked_by:
-      - "At least one completed dataset feasibility audit"
-      - "Human review of unresolved patient-level and label fields"
+      - "P1-F013"
+      - "Human review of unresolved repair queue"
     acceptance_criteria:
-      - "Feasibility evidence is summarized."
-      - "Risks and TODOs are documented."
-      - "Human decision is recorded before any acquisition work."
+      - "Repair queue evidence is reviewed."
+      - "Candidate decisions remain source-supported."
+      - "Human Gate 1 remains PENDING unless explicitly reviewed by a human."
+      - "No Phase 2 work starts."

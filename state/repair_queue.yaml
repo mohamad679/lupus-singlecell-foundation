@@ -1,0 +1,240 @@
+repair_queue:
+  - repair_id: P1F013-R001
+    candidate_id: GSE162577
+    blocker_type: patient_id_availability
+    blocker_description: Patient/sample identifiers are unclear, blocking patient-level splitting and leakage prevention.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Source-provided patient_id or donor_id and sample_id fields mapped to cells or samples.
+    allowed_resolution_actions: Review public GEO sample metadata, publication supplements, or approved metadata tables only.
+    forbidden_resolution_actions: Do not infer patient IDs from cell barcodes or filenames; do not download full datasets; do not approve dataset.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R002
+    candidate_id: GSE162577
+    blocker_type: cell_type_annotation
+    blocker_description: Cell-type annotation availability is not audited in current project metadata.
+    source_judge: Bioinformatics Judge
+    severity: medium
+    required_evidence: Explicit source metadata or processed-object documentation showing cell-type labels and annotation provenance.
+    allowed_resolution_actions: Review public GEO metadata, publication methods, supplementary tables, or approved metadata manifests.
+    forbidden_resolution_actions: Do not assume cell-type labels from assay type; do not run annotation; do not download full data.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R003
+    candidate_id: GSE162577
+    blocker_type: gene_identifier_feasibility
+    blocker_description: Feature identifiers for processed MTX/TSV files are not verified.
+    source_judge: Bioinformatics Judge
+    severity: medium
+    required_evidence: Source-documented gene identifier type and feature table compatibility for downstream pathway analysis.
+    allowed_resolution_actions: Review public supplementary file descriptions or approved manifest metadata.
+    forbidden_resolution_actions: Do not infer gene identifiers from species or platform; do not download full matrix files before approval.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R004
+    candidate_id: GSE137029
+    blocker_type: patient_id_availability
+    blocker_description: Patient/sample identifiers are not audited despite large cohort scale.
+    source_judge: Scientific Judge
+    severity: high
+    required_evidence: Source-provided patient or donor IDs, sample IDs, and cell/sample mapping sufficient for leakage-free splitting.
+    allowed_resolution_actions: Review GEO sample metadata, HCA project metadata, publication supplements, or approved manifests.
+    forbidden_resolution_actions: Do not infer patient IDs; do not use cell-level splitting; do not approve dataset.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R005
+    candidate_id: GSE137029
+    blocker_type: label_provenance
+    blocker_description: Disease labels are visible at study level but patient-level label provenance is not audited.
+    source_judge: Scientific Judge
+    severity: high
+    required_evidence: Exact source label field names, observed label values, label level, and provenance for each candidate prediction task.
+    allowed_resolution_actions: Review public sample metadata, controlled metadata summaries, and publication supplements.
+    forbidden_resolution_actions: Do not guess labels from cohort name or accession; do not convert source text into patient labels without evidence.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R006
+    candidate_id: GSE137029
+    blocker_type: activity_label_availability
+    blocker_description: Active flare text is visible but patient/sample-level disease activity labels are not mapped.
+    source_judge: Scientific Judge
+    severity: high
+    required_evidence: Source-provided SLEDAI, flare/remission, active/inactive, or equivalent activity labels at patient or sample level.
+    allowed_resolution_actions: Review source metadata and publication supplements for exact disease activity fields.
+    forbidden_resolution_actions: Do not infer activity from study description, sample ordering, or disease status.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R007
+    candidate_id: GSE137029
+    blocker_type: treatment_metadata
+    blocker_description: Treatment exposure or treatment status at sampling is unclear.
+    source_judge: Scientific Judge
+    severity: medium
+    required_evidence: Source-provided medication, exposure, untreated/treated status, or documented missingness.
+    allowed_resolution_actions: Review public clinical metadata fields and publication supplements.
+    forbidden_resolution_actions: Do not infer treatment from disease activity, cohort, or publication narrative.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R008
+    candidate_id: GSE137029
+    blocker_type: batch_metadata
+    blocker_description: Batch, cohort, library, and processing metadata are not audited.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Source-provided batch, site, library, chemistry, cohort, and processing identifiers.
+    allowed_resolution_actions: Review GEO/HCA metadata and publication methods for exact batch variables.
+    forbidden_resolution_actions: Do not infer batch from accession, sample order, or file names.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R009
+    candidate_id: GSE137029
+    blocker_type: cohort_overlap_risk
+    blocker_description: Relationship with HCA and CELLxGENE records is unresolved.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Provenance map showing whether GEO, HCA, CELLxGENE, and publication records contain overlapping donors, samples, or cells.
+    allowed_resolution_actions: Compare source accessions, collection IDs, publication links, and metadata manifests.
+    forbidden_resolution_actions: Do not treat linked records as independent cohorts without deduplication evidence.
+    status: pending_manual_review
+    human_gate_required: true
+
+  - repair_id: P1F013-R010
+    candidate_id: GSE137029
+    blocker_type: external_validation_uncertainty
+    blocker_description: External validation role is not assignable until cohort independence and label compatibility are proven.
+    source_judge: Scientific Judge
+    severity: high
+    required_evidence: Cohort independence, no donor/sample/cell overlap, compatible tissue, compatible assay, compatible labels, and batch metadata.
+    allowed_resolution_actions: Build a source-supported cohort overlap and label compatibility table.
+    forbidden_resolution_actions: Do not mark external_validation_ready; do not rely on random cell-level splits.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R011
+    candidate_id: GSE174188
+    blocker_type: data_access_restriction
+    blocker_description: GEO indicates raw and processed data are controlled-access through dbGaP.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: dbGaP access feasibility, allowed-use constraints, and whether metadata can be reviewed under approved access.
+    allowed_resolution_actions: Review public dbGaP study page and access instructions; request human decision before any access step.
+    forbidden_resolution_actions: Do not bypass access controls; do not download controlled data; do not assume usability.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R012
+    candidate_id: GSE174188
+    blocker_type: raw_count_availability
+    blocker_description: Raw data availability is controlled-access only and raw count usability is not verified.
+    source_judge: Bioinformatics Judge
+    severity: high
+    required_evidence: Source-supported raw count location, access status, file type, and allowed use.
+    allowed_resolution_actions: Review public metadata and dbGaP documentation; defer any data access to human-approved gate.
+    forbidden_resolution_actions: Do not assume raw counts from assay type; do not download raw files.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R013
+    candidate_id: GSE174188
+    blocker_type: processed_object_availability
+    blocker_description: Open processed object availability is not assumed because GEO says processed data are not provided on the record.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Source-supported processed object location, access conditions, format, and allowed use.
+    allowed_resolution_actions: Review public GEO/dbGaP metadata and publication repository links.
+    forbidden_resolution_actions: Do not treat controlled-access records as openly available; do not download processed objects.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R014
+    candidate_id: GSE174188
+    blocker_type: label_provenance
+    blocker_description: Diagnosis context is visible but patient-level label provenance and activity/treatment labels are unclear.
+    source_judge: Scientific Judge
+    severity: high
+    required_evidence: Source-provided disease, activity, treatment, and sample-level labels with provenance.
+    allowed_resolution_actions: Review public metadata summaries, publication supplements, or human-approved dbGaP metadata.
+    forbidden_resolution_actions: Do not infer labels from case/control counts or accession title.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R015
+    candidate_id: 436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    blocker_type: label_provenance
+    blocker_description: CELLxGENE disease terms are visible but patient-level label provenance is not audited.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Exact CELLxGENE/HCA label fields, observed values, label level, and provenance for donor/sample labels.
+    allowed_resolution_actions: Review CELLxGENE/HCA metadata and publication supplements without downloading full assets.
+    forbidden_resolution_actions: Do not assume donor-level label usability from disease ontology terms alone.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R016
+    candidate_id: 436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    blocker_type: activity_label_availability
+    blocker_description: Disease activity labels are not visible in current audit metadata.
+    source_judge: Scientific Judge
+    severity: high
+    required_evidence: Source-provided disease activity score, flare/remission status, or active/inactive label at donor or sample level.
+    allowed_resolution_actions: Review CELLxGENE/HCA metadata fields and publication supplements.
+    forbidden_resolution_actions: Do not infer activity from disease term, donor ID, or study title.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R017
+    candidate_id: 436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    blocker_type: batch_metadata
+    blocker_description: Batch, library, site, and processing metadata are unclear.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Source-provided batch, library, processing, cohort, and site metadata sufficient for harmonization and leakage prevention.
+    allowed_resolution_actions: Review CELLxGENE/HCA metadata manifests and publication methods.
+    forbidden_resolution_actions: Do not infer batch from donor ID pattern, collection ID, or dataset ID.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R018
+    candidate_id: 436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    blocker_type: cohort_overlap_risk
+    blocker_description: CELLxGENE/HCA relationship with GSE137029 and GSE174188 must be deduplicated.
+    source_judge: Scientific Judge; Bioinformatics Judge
+    severity: high
+    required_evidence: Source-supported overlap map across collection ID, dataset ID, HCA project, GEO accessions, donors, samples, and cells.
+    allowed_resolution_actions: Compare public accession links and metadata manifests; create deduplication table.
+    forbidden_resolution_actions: Do not treat CELLxGENE/HCA as independent external validation before overlap is resolved.
+    status: pending_manual_review
+    human_gate_required: true
+
+  - repair_id: P1F013-R019
+    candidate_id: 436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    blocker_type: cell_type_annotation
+    blocker_description: CELLxGENE cell-type labels are visible but annotation provenance and harmonization compatibility are not audited.
+    source_judge: Bioinformatics Judge
+    severity: medium
+    required_evidence: Source-supported cell-type annotation fields, annotation method, ontology terms, and compatibility with other candidates.
+    allowed_resolution_actions: Review CELLxGENE metadata and publication methods.
+    forbidden_resolution_actions: Do not assume annotation quality or cross-dataset compatibility from label visibility alone.
+    status: unresolved
+    human_gate_required: true
+
+  - repair_id: P1F013-R020
+    candidate_id: 436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    blocker_type: gene_identifier_feasibility
+    blocker_description: Gene identifier feasibility is likely but not verified without approved feature metadata inspection.
+    source_judge: Bioinformatics Judge
+    severity: medium
+    required_evidence: Source-supported feature identifier type, reference build, gene symbols or stable IDs, and pathway mapping compatibility.
+    allowed_resolution_actions: Review public metadata and approved feature metadata only.
+    forbidden_resolution_actions: Do not infer gene identifiers from organism or H5AD visibility; do not download full H5AD before approval.
+    status: unresolved
+    human_gate_required: true
