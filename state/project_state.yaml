@@ -3,7 +3,7 @@ project:
   status: phase_3_baseline_modeling_scaffold
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F001
+  current_feature: P3-F002
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -138,6 +138,10 @@ artifacts:
   baseline_modeling_plan: docs/08_baseline_modeling_plan.md
   baseline_modeling_config: configs/baseline_modeling.yaml
   baseline_modeling_scaffold_script: scripts/10_baseline_modeling_scaffold.py
+  pseudobulk_config: configs/pseudobulk.yaml
+  pseudobulk_feature_schema: metadata/pseudobulk_feature_schema.yaml
+  pseudobulk_feature_manifest: reports/tables/pseudobulk_feature_manifest.csv
+  pseudobulk_design_utility: src/features/pseudobulk_design.py
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -196,5 +200,6 @@ artifacts:
   human_gate_2_decision_test: tests/test_human_gate_2_decision.py
   baseline_modeling_config_test: tests/test_baseline_modeling_config.py
   baseline_modeling_scaffold_test: tests/test_baseline_modeling_scaffold.py
+  pseudobulk_feature_design_test: tests/test_pseudobulk_feature_design.py
 
 last_updated: "2026-06-24"

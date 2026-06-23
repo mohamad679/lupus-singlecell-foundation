@@ -1,0 +1,25 @@
+{
+  "task": "SLE diagnosis / case-control prediction",
+  "allow_real_extraction": false,
+  "allow_training": false,
+  "aggregation_units": [
+    "patient_id",
+    "donor_id",
+    "sample_id"
+  ],
+  "cell_type_stratified": true,
+  "allowed_aggregations": [
+    "sum_counts",
+    "mean_expression",
+    "fraction_expressing"
+  ],
+  "forbidden_aggregation_units": [
+    "cell_id",
+    "barcode"
+  ],
+  "normalization_policy": "TODO",
+  "gene_filtering_policy": "TODO",
+  "require_patient_level_split": true,
+  "require_no_cell_level_leakage": true,
+  "require_feature_manifest": true
+}

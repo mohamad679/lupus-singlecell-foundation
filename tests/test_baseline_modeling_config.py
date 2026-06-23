@@ -46,7 +46,14 @@ def test_all_baseline_families_are_disabled_for_training():
 
 
 def test_baseline_package_markers_exist_without_implementations():
-    for package in ["features", "models", "evaluation"]:
+    features_dir = SRC_PATH / "features"
+    assert features_dir.exists()
+    assert {path.name for path in features_dir.iterdir()} == {
+        "__init__.py",
+        "pseudobulk_design.py",
+    }
+
+    for package in ["models", "evaluation"]:
         directory = SRC_PATH / package
         assert directory.exists()
         assert [path.name for path in directory.iterdir()] == ["__init__.py"]
@@ -56,7 +63,7 @@ def test_phase3_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F001" in state
+    assert "current_feature: P3-F002" in state
     assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "allow_modeling: false" in state

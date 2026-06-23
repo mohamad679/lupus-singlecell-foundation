@@ -166,3 +166,115 @@ calibration or uncertainty method is implemented here.
 - Creating cell-level split assignments.
 - Reporting baseline performance.
 - Starting P3-F002 or later work in this feature.
+
+## Pseudobulk Feature Design
+
+### Why Pseudobulk Is a Strong Baseline
+
+Pseudobulk aggregation summarizes single-cell measurements at a biological
+replicate level rather than treating cells as independent patients. This
+reduces pseudoreplication, provides a conventional patient-level feature table,
+and supports transparent linear and tabular baselines. It does not remove
+cohort, batch, treatment, cell-composition, or label-quality risks.
+
+### Patient-Level Aggregation
+
+The preferred aggregation unit is `patient_id` or `donor_id`. All cells and
+repeated samples belonging to the same person must remain associated with that
+person. A future extractor must preserve source dataset, sample, cohort, batch,
+tissue, assay, disease label, and split provenance alongside each aggregate.
+
+Aggregation must occur after a patient- or donor-level split manifest is
+defined. No transformation, gene filtering, normalization decision, or feature
+selection may learn from held-out patients.
+
+### Sample-Level Aggregation Caveats
+
+`sample_id` is allowed only as an intermediate biological replicate when it can
+be linked to a verified patient or donor. Samples from one person must not be
+distributed across incompatible splits. A sample-level aggregate must not be
+treated as an independent patient observation when repeated or longitudinal
+samples exist.
+
+### Cell-Type-Specific Pseudobulk
+
+Cell-type-stratified pseudobulk is included in the design. It requires verified
+cell-type annotation provenance and enough cells per patient-cell-type stratum.
+Missing cell types, rare strata, annotation differences, and tissue-specific
+composition must be reported rather than silently imputed or dropped.
+
+### Allowed Aggregation Functions
+
+- `sum_counts`: preferred count-preserving aggregate when verified raw counts
+  are available.
+- `mean_expression`: permitted only with a documented input scale and
+  normalization state.
+- `fraction_expressing`: permitted as a separately identified value type with
+  an explicit expression threshold defined later.
+
+No aggregation may use `cell_id` or `barcode` as the biological replicate.
+
+### Normalization Policy Placeholder
+
+`normalization_policy` remains TODO. A later feature must define whether
+normalization is applied before or after aggregation, which library-size
+method is used, how zero counts are handled, and how the policy is fitted
+without held-out-patient information.
+
+### Gene Filtering Policy Placeholder
+
+`gene_filtering_policy` remains TODO. Future policy must define gene identifier
+requirements, prevalence or count filters, training-only fitting, mitochondrial
+and ribosomal handling, and a report of all removed or unmapped genes. Genes
+must not be silently discarded.
+
+### Leakage Risks
+
+- Aggregating cells before assigning patients to splits can leak patient
+  information into feature construction.
+- Splitting samples from one patient across partitions creates patient leakage.
+- Global normalization or gene filtering can use held-out cohort information.
+- Cell-type annotation derived jointly across all cohorts may transfer test
+  structure into training features.
+- Batch, source, treatment, or cell count can become proxies for diagnosis.
+- Reusing overlapping GEO and CELLxGENE/HCA records can contaminate
+  cross-cohort evaluation.
+
+### Patient-Level Split Dependency
+
+Every future aggregate must reference `split_group` from a validated patient-,
+donor-, or cohort-level split manifest. Cell-level split assignments are
+forbidden. External validation remains TODO and cannot be assigned by this
+design.
+
+### Batch and Cell-Type Caveats
+
+Pseudobulk does not automatically correct batch effects. Batch distributions
+must be inspected at patient level, and any later correction must be fitted
+without held-out leakage. Cell-type-specific aggregates may be missing
+non-randomly by disease, tissue, assay, or cell count; this must be represented
+explicitly in future feature manifests.
+
+### Forbidden Assumptions
+
+- Do not assume cells are independent observations.
+- Do not assume sample IDs are patient IDs.
+- Do not assume a cell type exists for every patient.
+- Do not infer missing patient, donor, sample, gene, label, or split metadata.
+- Do not assume matrices contain raw counts without verification.
+- Do not assume normalization or gene filtering policies before approval.
+- Do not assign selected datasets or an external validation cohort.
+
+### Future Output Artifacts
+
+After an explicit future extraction feature, expected artifacts may include:
+
+- a patient/donor-by-feature pseudobulk matrix
+- `reports/tables/pseudobulk_feature_manifest.csv`
+- aggregation and cell-count summaries
+- normalization and gene-filtering decisions
+- missing-stratum and dropped-feature reports
+- checksums and provenance records
+
+P3-F002 creates none of these real feature outputs. The feature manifest
+contains headers only.

@@ -1,16 +1,16 @@
 # Current Feature
 
-Feature: P3-F001 - Baseline modeling scaffold.
+Feature: P3-F002 - Pseudobulk feature design.
 
 Status: completed pending review.
 
 Builder scope:
 
-- Baseline modeling scaffold only.
-- Define baseline families, input contracts, split requirements, evaluation
-  planning, and safety checks.
-- Keep every baseline disabled for training.
-- Preserve restricted Human Gate 2 scope.
+- Pseudobulk design only.
+- Define safe aggregation units, aggregation methods, a feature schema, an
+  empty manifest, and mock-only validation utilities.
+- Keep normalization and gene filtering policies as TODO.
+- Preserve patient/donor-level split and leakage controls.
 
 Scientific decision:
 
@@ -23,6 +23,7 @@ Scientific decision:
 
 Explicitly forbidden:
 
+- Real pseudobulk feature extraction or matrix creation.
 - Actual training or real model fitting.
 - Loading or preprocessing real data.
 - Deep learning or DeepSets.
@@ -33,8 +34,9 @@ Explicitly forbidden:
 - Dataset approval or selection.
 - External validation assignment.
 - Cell-level splitting.
-- Starting P3-F002 or later features.
+- Starting P3-F003 or later features.
 
-The empty `src/models` package is organizational scaffolding only; it contains
-no estimator or training implementation. `allow_modeling` remains false,
-`selected_datasets` remains `[]`, and `external_validation_cohort` remains TODO.
+The pseudobulk manifest contains headers only. The utility validates config,
+schema, headers, and caller-provided mock rows; it does not process real data.
+`allow_modeling` remains false, `selected_datasets` remains `[]`, and
+`external_validation_cohort` remains TODO.

@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F001
+  completed_through: P3-F002
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -656,16 +656,20 @@ backlog:
     feature_id: P3-F002
     title: "Pseudobulk feature design"
     phase: 3
-    status: todo
+    status: done
     description: "Plan patient-level pseudobulk features and provenance requirements."
     acceptance_criteria:
-      - "Aggregation units and leakage controls are documented."
+      - "Pseudobulk feature design is documented."
+      - "configs/pseudobulk.yaml exists and disables real extraction and training."
+      - "metadata/pseudobulk_feature_schema.yaml exists."
+      - "reports/tables/pseudobulk_feature_manifest.csv contains headers only."
+      - "Mock-only pseudobulk validation utilities exist."
       - "No cell-level split is allowed."
       - "No real features are generated in the planning feature."
     dependencies:
       - "P3-F001"
     required_tests:
-      - "TODO"
+      - "tests/test_pseudobulk_feature_design.py"
     judge_gates:
       - "Bioinformatics Judge feature-design review."
 

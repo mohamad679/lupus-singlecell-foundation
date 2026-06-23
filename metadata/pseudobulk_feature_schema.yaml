@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "required_fields": [
+    "feature_id",
+    "dataset_id",
+    "aggregation_unit",
+    "aggregation_id",
+    "cell_type",
+    "gene_id",
+    "gene_symbol",
+    "aggregation_method",
+    "value_type",
+    "normalization_status",
+    "split_group",
+    "audit_status"
+  ],
+  "fields": {
+    "feature_id": {
+      "description": "Unique pseudobulk feature record identifier.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Must be generated only by a future approved extraction feature."
+    },
+    "dataset_id": {
+      "description": "Source dataset identifier for the aggregate.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Does not imply dataset selection or modeling approval."
+    },
+    "aggregation_unit": {
+      "description": "Biological replicate unit used for aggregation.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Allowed values are patient_id, donor_id, or sample_id; cell identifiers are forbidden."
+    },
+    "aggregation_id": {
+      "description": "Patient, donor, or sample identifier represented by the aggregate.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Sample IDs require linkage to a verified patient or donor before modeling."
+    },
+    "cell_type": {
+      "description": "Cell-type stratum used for the aggregate.",
+      "required": true,
+      "allowed_missing": true,
+      "notes": "Use TODO or unclear when annotation provenance is unresolved."
+    },
+    "gene_id": {
+      "description": "Source-preserved gene identifier.",
+      "required": true,
+      "allowed_missing": true,
+      "notes": "At least one auditable gene identifier must be available in future real rows."
+    },
+    "gene_symbol": {
+      "description": "Gene symbol associated with the feature.",
+      "required": true,
+      "allowed_missing": true,
+      "notes": "Must follow the gene identifier policy; do not infer unsupported mappings."
+    },
+    "aggregation_method": {
+      "description": "Approved aggregation operation used to derive the value.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Allowed design methods are sum_counts, mean_expression, and fraction_expressing."
+    },
+    "value_type": {
+      "description": "Semantic scale of the aggregated feature value.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Must distinguish counts, expression means, and fractions."
+    },
+    "normalization_status": {
+      "description": "Normalization state of the feature.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Use TODO until normalization policy is approved."
+    },
+    "split_group": {
+      "description": "Patient-, donor-, or cohort-level partition assignment.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Cell-level partition assignments are forbidden."
+    },
+    "audit_status": {
+      "description": "Audit state for the feature manifest row.",
+      "required": true,
+      "allowed_missing": false,
+      "notes": "Required for every future row."
+    },
+    "notes": {
+      "description": "Optional limitations, provenance, or unresolved metadata notes.",
+      "required": false,
+      "allowed_missing": true,
+      "notes": "Use TODO or unclear rather than guessing."
+    }
+  }
+}
