@@ -1,0 +1,35 @@
+{
+  "gate_id": "Human Gate 2",
+  "title": "Labels and Prediction Task Approval",
+  "overall_status": "pending",
+  "automatic_approval_allowed": false,
+  "checks": {
+    "label_availability": {
+      "status": "pending",
+      "required_evidence": "Exact patient-level target label fields, values, definitions, and provenance."
+    },
+    "patient_identifiers": {
+      "status": "pending",
+      "required_evidence": "Verified patient/donor and sample identifiers supporting leakage-safe grouping."
+    },
+    "cross_cohort_feasibility": {
+      "status": "pending",
+      "required_evidence": "Compatible labels plus documented absence of patient, sample, and cell overlap."
+    },
+    "external_validation_feasibility": {
+      "status": "pending",
+      "required_evidence": "An independent cohort with compatible task labels, tissue, assay, and identifiers."
+    },
+    "biological_interpretation_feasibility": {
+      "status": "pending",
+      "required_evidence": "Verified cell-type provenance, gene identifiers, and pathway-compatible features."
+    },
+    "uncertainty_feasibility": {
+      "status": "pending",
+      "required_evidence": "Adequate patient counts and cohort structure for calibration and shift analysis."
+    }
+  },
+  "decision": "TODO",
+  "primary_task": "TODO",
+  "notes": "No task or dataset is approved for modeling. Phase 3 must not start."
+}

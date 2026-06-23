@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "required_fields": [
+    "task_id",
+    "task_name",
+    "target_label",
+    "label_source",
+    "patient_level_required",
+    "cross_cohort_possible",
+    "external_validation_possible",
+    "uncertainty_required",
+    "biological_interpretation_required",
+    "main_blockers",
+    "status"
+  ],
+  "allowed_statuses": [
+    "feasible",
+    "partially_feasible",
+    "blocked"
+  ],
+  "fields": {
+    "task_id": {
+      "description": "Stable planning identifier for the candidate prediction task.",
+      "required": true
+    },
+    "task_name": {
+      "description": "Human-readable task name.",
+      "required": true
+    },
+    "target_label": {
+      "description": "Patient-level outcome or class that would be predicted.",
+      "required": true
+    },
+    "label_source": {
+      "description": "Required source metadata or publication provenance; use TODO when unverified.",
+      "required": true
+    },
+    "patient_level_required": {
+      "description": "Whether patient/donor-level identifiers and labels are mandatory.",
+      "required": true
+    },
+    "cross_cohort_possible": {
+      "description": "Current evidence status for compatible independent-cohort evaluation.",
+      "required": true
+    },
+    "external_validation_possible": {
+      "description": "Current evidence status for true external validation.",
+      "required": true
+    },
+    "uncertainty_required": {
+      "description": "Whether calibration and uncertainty under cohort shift are required.",
+      "required": true
+    },
+    "biological_interpretation_required": {
+      "description": "Whether cell-state, gene, or pathway interpretation is required.",
+      "required": true
+    },
+    "main_blockers": {
+      "description": "Unresolved evidence preventing task approval.",
+      "required": true
+    },
+    "status": {
+      "description": "Scientific feasibility status; approval is not an allowed value.",
+      "required": true,
+      "allowed_values": [
+        "feasible",
+        "partially_feasible",
+        "blocked"
+      ]
+    }
+  }
+}

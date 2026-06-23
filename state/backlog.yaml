@@ -4,8 +4,8 @@ phase_1_scaffold:
   human_gate_1: approved_with_restrictions
 
 phase_2_scaffold:
-  status: in_progress
-  completed_through: P2-F009
+  status: complete_pending_human_gate_2
+  completed_through: P2-F010
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -576,18 +576,24 @@ backlog:
     feature_id: P2-F010
     title: "Human Gate 2 preparation: labels and prediction task"
     phase: 2
-    status: todo
+    status: done
     description: "Prepare evidence package for label feasibility and prediction-task selection without modeling."
     acceptance_criteria:
-      - "Human Gate 2 preparation document exists."
+      - "docs/07_prediction_task_plan.md exists."
+      - "metadata/prediction_task_schema.yaml exists."
+      - "reports/tables/prediction_task_candidates.csv contains the four candidate tasks."
+      - "state/human_gate_2_checklist.yaml exists with all checks pending."
+      - "No task is marked approved."
       - "Primary task remains TODO until labels are verified."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
       - "No modeling starts."
     dependencies:
       - "P2-F003"
       - "P2-F006"
       - "P2-F008"
     required_tests:
-      - "Gate 2 preparation safety test."
+      - "tests/test_prediction_task_candidates.py"
     judge_gates:
       - "Scientific Judge label feasibility review."
       - "Human Gate 2 required before task selection."

@@ -1,44 +1,43 @@
 # Current Feature
 
-Feature: P2-F009 - Candidate dataset access plan.
+Feature: P2-F010 - Human Gate 2 preparation: labels and prediction task.
 
 Status: completed pending human review.
 
-Builder scope:
+Planner and Scientific Judge scope:
 
-- Data access planning only.
-- Create access metadata, a two-row access-plan table, a local validator script, documentation, and tests.
-- Keep GSE137029 and CELLxGENE/HCA as planning candidates only.
+- Define candidate prediction tasks and their minimum label evidence.
+- Assess current scientific feasibility without selecting a primary task.
+- Create a pending Human Gate 2 checklist.
+- Preserve all Phase 2 safety restrictions.
+
+Scientific decision:
+
+- SLE vs healthy diagnosis: `partially_feasible`.
+- Disease activity prediction: `blocked`.
+- Flare prediction: `blocked`.
+- Lupus nephritis prediction: `blocked`.
+- No task is approved.
+- `primary_task` remains TODO.
+
+Main blockers:
+
+- Patient-level label mapping and provenance are unresolved.
+- Disease activity and flare labels are not explicitly verified.
+- Lupus nephritis labels and compatible comparators are unresolved.
+- Cross-cohort overlap and external validation independence are unresolved.
+- Biological interpretation and uncertainty prerequisites remain pending.
 
 Explicitly forbidden:
 
-- Actual downloads.
-- Network fetch commands.
+- Downloads.
 - Preprocessing.
-- Creating AnnData objects.
-- Modeling.
-- Training.
+- Modeling or training.
 - Model files.
-- Dataset approval.
-- External validation assignment.
-- Creating `selected_datasets`.
+- Dataset approval for modeling.
+- Assigning `selected_datasets`.
 - Assigning `external_validation_cohort`.
+- Starting Phase 3.
 
-Access scaffold summary:
-
-- `approved_for_download` is false for every candidate.
-- `approved_for_modeling` is false for every candidate.
-- Future acquisition requires file-list, metadata, access, storage, checksum, and human-gate checks.
-- Audit status is `pending_human_download_gate`.
-
-Acceptance criteria:
-
-- `metadata/dataset_access_plan.yaml` exists.
-- `reports/tables/dataset_access_plan.csv` exists with exactly two candidate rows.
-- `scripts/09_validate_dataset_access_plan.py` exists and validates gates locally.
-- `tests/test_dataset_access_plan.py` exists and passes.
-- No data is downloaded.
-- `approved_for_download` remains false.
-- `approved_for_modeling` remains false.
-- `selected_datasets` remains `[]`.
-- `external_validation_cohort` remains TODO.
+Human Gate 2 remains pending. All checklist items require human-reviewed
+evidence before a primary prediction task can be selected.

@@ -3,7 +3,7 @@ project:
   status: phase_2_data_pipeline_scaffold
   current_phase: "Phase 2"
   current_phase_name: "Data Pipeline Scaffold"
-  current_feature: P2-F009
+  current_feature: P2-F010
   blocked: false
   blocked_reason: null
   primary_task: TODO
@@ -56,6 +56,11 @@ human_gates:
     status: blocked
     owner: TODO
     required_before: "Any model training"
+  prediction_task_approval:
+    label: "Human Gate 2: Labels and Prediction Task Approval"
+    status: pending
+    owner: TODO
+    required_before: "Primary task selection, dataset assignment, or Phase 3"
 
 artifacts:
   master_spec: docs/00_master_spec.md
@@ -106,6 +111,10 @@ artifacts:
   cohort_manifest: metadata/cohort_manifest.csv
   dataset_access_plan: metadata/dataset_access_plan.yaml
   dataset_access_plan_table: reports/tables/dataset_access_plan.csv
+  prediction_task_plan: docs/07_prediction_task_plan.md
+  prediction_task_schema: metadata/prediction_task_schema.yaml
+  prediction_task_candidates: reports/tables/prediction_task_candidates.csv
+  human_gate_2_checklist: state/human_gate_2_checklist.yaml
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -160,5 +169,6 @@ artifacts:
   cohort_manifest_schema_test: tests/test_cohort_manifest_schema.py
   cohort_manifest_validation_test: tests/test_cohort_manifest_validation.py
   dataset_access_plan_test: tests/test_dataset_access_plan.py
+  prediction_task_candidates_test: tests/test_prediction_task_candidates.py
 
-last_updated: "2026-06-23"
+last_updated: "2026-06-24"
