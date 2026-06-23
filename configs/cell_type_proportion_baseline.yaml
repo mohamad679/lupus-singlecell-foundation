@@ -1,0 +1,32 @@
+{
+  "task": "SLE diagnosis / case-control prediction",
+  "allow_feature_extraction": false,
+  "allow_training": false,
+  "allow_prediction": false,
+  "allow_model_artifacts": false,
+  "input_feature_type": "patient_level_cell_type_proportions",
+  "forbid_cell_level_features": true,
+  "split_policy": "patient_or_cohort_only",
+  "require_cell_type_labels": true,
+  "require_patient_or_donor_id": true,
+  "require_feature_manifest": true,
+  "aggregation_units": [
+    "patient_id",
+    "donor_id",
+    "sample_id"
+  ],
+  "forbidden_aggregation_units": [
+    "cell_id",
+    "barcode"
+  ],
+  "planned_features": [
+    "cell_type_fraction",
+    "cell_type_count",
+    "logit_transformed_fraction_later",
+    "centered_log_ratio_later"
+  ],
+  "required_outputs_later": [
+    "reports/tables/cell_type_proportion_features.csv",
+    "reports/tables/cell_type_proportion_results.csv"
+  ]
+}

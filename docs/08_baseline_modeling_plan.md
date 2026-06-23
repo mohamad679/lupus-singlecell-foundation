@@ -478,3 +478,108 @@ Absence of XGBoost must not block validation of the repository scaffold.
 
 The tree results and feature-importance tables created by P3-F004 contain
 headers only.
+
+## Cell-type Proportion Baseline Design
+
+### Rationale for Cell-type Proportion Baselines
+
+Cell-type proportions provide a compact patient-level summary of immune or
+tissue composition without using gene-expression values as predictors. This
+baseline can test whether broad composition differences carry case-control
+signal and provides a biologically recognizable comparator to pseudobulk
+expression models. P3-F005 defines validation contracts only and computes no
+proportions.
+
+### Biological Relevance in SLE
+
+SLE can involve shifts in circulating and tissue immune-cell composition.
+Patient-level fractions or counts may therefore reflect disease-associated
+immune states. However, composition can also reflect treatment, sampling,
+processing, tissue, cell recovery, annotation choices, and batch effects.
+Observed associations must not be interpreted as causal or disease-specific
+without those factors being assessed.
+
+### Required Input: Cell-type Labels
+
+Every future feature requires source-supported or auditable cell-type labels.
+The annotation method, ontology or naming scheme, granularity, confidence, and
+source dataset must be documented. Missing, uncertain, or incompatible labels
+must remain `TODO` or `unclear`; they must not be inferred from marker genes in
+this scaffold.
+
+### Patient-level Aggregation
+
+The preferred biological replicate is `patient_id` or `donor_id`. For each
+aggregate, future extraction must record cell-type count, total cells, fraction,
+split group, dataset, and audit status. All cells and repeated samples from one
+person must stay within the same split.
+
+### Sample-level Caveats
+
+`sample_id` is permitted only when it is linked to a verified patient or donor.
+Multiple samples from one person are not independent observations and must not
+cross train, validation, test, or external-validation partitions. Tissue,
+timepoint, treatment, and processing differences between samples must be
+retained.
+
+### Compositional Data Caveats
+
+Cell-type fractions sum to one within an aggregation unit, so an increase in
+one component necessarily affects others. Raw fractions are not independent
+features. Logit and centered-log-ratio transformations are planned only as
+future options and require explicit zero-handling, reference, and fitting
+policies. No transformation is selected or computed in P3-F005.
+
+### Normalization Policy Placeholder
+
+The initial design records raw cell counts, total cells, and fractions.
+Normalization, weighting by total cells, minimum-cell thresholds, and
+compositional transformations remain future decisions. Any parameters must be
+defined without held-out-patient information.
+
+### Rare Cell-type Handling
+
+Rare cell types must not be silently removed, merged, or imputed. Future policy
+must define minimum cells per aggregate, minimum patient prevalence, zero
+handling, and a report of excluded or merged annotations. Decisions must be
+fitted on training partitions only.
+
+### Batch and Annotation Risks
+
+- Different annotation pipelines can create incompatible cell-type categories.
+- Batch, chemistry, tissue processing, and cell recovery can alter proportions.
+- Disease groups may be confounded with site, assay, treatment, or cohort.
+- Missing cell types may reflect insufficient cell recovery rather than true
+  biological absence.
+- Annotation performed jointly across held-out cohorts may leak structure.
+
+### Leakage Risks
+
+- Cell-level splitting creates direct patient leakage.
+- Repeated samples from one patient can cross partitions.
+- Global category merging, rare-cell filtering, or transformations can use
+  held-out information.
+- Cohort-specific annotations or cell counts can proxy diagnosis.
+- Overlapping GEO and CELLxGENE/HCA records can invalidate cross-cohort claims.
+
+### Interpretability Limits
+
+A predictive proportion does not establish that the cell type causes disease
+or that its abundance is clinically actionable. Relative abundance cannot
+distinguish expansion of one population from loss of another without absolute
+counts. Annotation uncertainty, denominator choice, and compositional
+dependence must accompany any future interpretation.
+
+### Forbidden Actions Before Modeling Gate
+
+- Do not load or preprocess real cell-level data.
+- Do not compute real counts, totals, fractions, or transformations.
+- Do not train classifiers or generate predictions.
+- Do not create model or preprocessing artifacts.
+- Do not infer or reannotate cell types.
+- Do not silently remove or merge rare cell types.
+- Do not use cell-level features or partitions.
+- Do not select datasets or assign an external validation cohort.
+- Do not report performance or biological claims.
+
+The feature and result tables created by P3-F005 contain headers only.

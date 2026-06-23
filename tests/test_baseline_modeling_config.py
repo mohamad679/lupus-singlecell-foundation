@@ -50,6 +50,7 @@ def test_baseline_package_markers_exist_without_implementations():
     assert features_dir.exists()
     assert {path.name for path in features_dir.iterdir()} == {
         "__init__.py",
+        "cell_type_proportions.py",
         "pseudobulk_design.py",
     }
 
@@ -70,7 +71,7 @@ def test_phase3_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F004" in state
+    assert "current_feature: P3-F005" in state
     assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "allow_modeling: false" in state

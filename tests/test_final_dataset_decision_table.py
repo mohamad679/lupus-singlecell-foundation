@@ -99,7 +99,7 @@ def test_overall_readiness_values_are_valid():
 def test_project_state_remains_blocked_and_gate_pending():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P3-F004" in state
+    assert "current_feature: P3-F005" in state
     assert "blocked: false" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state

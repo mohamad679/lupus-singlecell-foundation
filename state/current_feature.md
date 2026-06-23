@@ -1,16 +1,16 @@
 # Current Feature
 
-Feature: P3-F004 - Random forest / XGBoost baseline scaffold.
+Feature: P3-F005 - Cell-type proportion baseline scaffold.
 
 Status: completed pending review.
 
 Builder scope:
 
-- Tree-based baseline design/scaffold only.
-- Define restricted random forest and optional XGBoost design metadata.
-- Create header-only results and feature-importance tables.
-- Provide explicit training and required-dependency refusal paths.
-- Preserve patient-level pseudobulk and patient/cohort split requirements.
+- Cell-type proportion baseline design/scaffold only.
+- Define restricted patient/donor/sample composition feature metadata.
+- Create header-only feature and result tables.
+- Validate caller-provided mock counts and fractions only.
+- Preserve patient/donor grouping and patient/cohort split requirements.
 
 Scientific decision:
 
@@ -23,11 +23,12 @@ Scientific decision:
 
 Explicitly forbidden:
 
-- Fitting or training random forest or XGBoost.
+- Computing real cell-type counts, totals, fractions, or transformations.
+- Fitting or training classifiers.
 - Prediction or probability generation.
 - Model artifact creation.
 - Loading real features, labels, or datasets.
-- Importing XGBoost as a required dependency.
+- Loading or preprocessing real cell-level data.
 - Real pseudobulk feature extraction or matrix creation.
 - Loading or preprocessing real data.
 - Deep learning or DeepSets.
@@ -38,10 +39,10 @@ Explicitly forbidden:
 - Dataset approval or selection.
 - External validation assignment.
 - Cell-level splitting.
-- Starting P3-F005 or later features.
+- Starting P3-F006 or later features.
 
-The tree result and feature-importance tables contain headers only. The utility
-imports no estimator library, treats XGBoost as optional, and cannot fit or
-predict.
+The cell-type feature and result tables contain headers only. The utility
+validates mock metadata and numeric ranges without loading cells, computing
+proportions, fitting models, or generating predictions.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

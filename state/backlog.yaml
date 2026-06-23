@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F004
+  completed_through: P3-F005
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -719,16 +719,20 @@ backlog:
     feature_id: P3-F005
     title: "Cell-type proportion baseline"
     phase: 3
-    status: todo
-    description: "Future patient-level baseline using verified cell-type proportions."
+    status: done
+    description: "Create a mock-only patient-level cell-type proportion baseline scaffold."
     acceptance_criteria:
-      - "Cell-type annotation provenance is required."
-      - "Features are aggregated per patient or donor."
+      - "Cell-type proportion baseline design is documented."
+      - "Feature extraction, training, prediction, and artifacts remain disabled."
+      - "Patient, donor, and linked sample aggregation units are allowed."
+      - "Cell and barcode aggregation units are rejected."
+      - "Feature and result tables contain headers only."
+      - "Mock rows require valid counts, fractions, and audit status."
       - "No cell-level split is used."
     dependencies:
       - "P3-F002"
     required_tests:
-      - "TODO"
+      - "tests/test_cell_type_proportion_baseline.py"
     judge_gates:
       - "Bioinformatics and Scientific Judge review."
 
