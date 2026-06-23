@@ -3,7 +3,7 @@ project:
   status: phase_1_dataset_feasibility_audit
   current_phase: "Phase 1"
   current_phase_name: "Dataset Feasibility Audit"
-  current_feature: P1-F011
+  current_feature: P1-F012
   blocked: false
   primary_task: TODO
   external_validation_cohort: TODO
@@ -71,6 +71,8 @@ artifacts:
   final_dataset_feasibility_report: reports/final_dataset_feasibility_report.md
   scientific_judge_report: state/judge_reports/P1-F011_scientific_judge_report.md
   scientific_judge_dataset_review: reports/tables/scientific_judge_dataset_review.csv
+  bioinformatics_judge_report: state/judge_reports/P1-F012_bioinformatics_judge_report.md
+  bioinformatics_judge_review: reports/tables/bioinformatics_judge_review.csv
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -101,5 +103,6 @@ artifacts:
   manual_metadata_audit_summary_test: tests/test_manual_metadata_audit_summary.py
   candidate_rows_pending_test: tests/test_candidate_rows_remain_pending.py
   scientific_judge_dataset_review_test: tests/test_scientific_judge_dataset_review.py
+  bioinformatics_judge_review_test: tests/test_bioinformatics_judge_review.py
 
 last_updated: "2026-06-23"

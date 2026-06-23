@@ -1,6 +1,6 @@
 phase_1_scaffold:
   status: complete
-  completed_through: P1-F011
+  completed_through: P1-F012
   human_gate_1: PENDING
 
 backlog:
@@ -274,6 +274,25 @@ backlog:
       - "No model code is created."
 
   - id: P1-F012
+    title: "Bioinformatics Judge review of metadata validity"
+    phase: 1
+    status: done
+    type: bioinformatics_judge
+    blocked_by:
+      - "P1-F011"
+      - "Human Gate 1 remains PENDING for dataset approval"
+    acceptance_criteria:
+      - "state/judge_reports/P1-F012_bioinformatics_judge_report.md exists."
+      - "reports/tables/bioinformatics_judge_review.csv exists."
+      - "Every known candidate has one bioinformatics review row."
+      - "No candidate is marked approved."
+      - "Human Gate 1 remains PENDING."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+      - "No full datasets are downloaded."
+      - "No model code is created."
+
+  - id: P1-F013
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

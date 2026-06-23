@@ -131,6 +131,51 @@ Next required checks before Human Gate 1:
 - Resolve controlled-access constraints for `GSE174188` and dbGaP `phs002812.v1.p1`.
 - Confirm whether any candidate includes lupus nephritis-specific labels, renal tissue, kidney compartment, or histologic class; current audit does not support lupus nephritis modeling.
 
+## Bioinformatics Judge Review
+
+No dataset is approved by the bioinformatics review. Human Gate 1 remains PENDING, `selected_datasets` remains empty, and `external_validation_cohort` remains TODO.
+
+Strengths:
+
+- All current candidates are human single-cell transcriptomics candidates with lupus/SLE relevance.
+- PBMC or blood tissue is relevant for circulating immune-cell analysis in SLE.
+- `GSE137029` has large public PBMC scale and visible raw/processed availability statements.
+- The CELLxGENE/HCA record exposes donor IDs, 1,263,676 cells, cell-type labels, `raw.X`, and an H5AD asset in public metadata.
+
+Weaknesses:
+
+- Patient/donor/sample metadata are not fully validated for leakage-free splitting.
+- GEO cell-type annotation status is unclear in the current audit tables.
+- Gene identifier formats, count layers, and processed-object contents have not been inspected.
+- `GSE162577` is too small for robust model development.
+- `GSE174188` has controlled-access raw/processed data risk.
+
+Interpretation risks:
+
+- Biological interpretation is premature until gene identifiers, raw/normalized layers, cell-type labels, and QC-relevant metadata are verified.
+- Pathway enrichment is not ready for any candidate until gene identifiers and matrix layers are audited.
+- Disease-activity and lupus nephritis interpretation are unsupported by the current metadata.
+
+Cross-cohort risks:
+
+- GEO, HCA, and CELLxGENE records may overlap and must be deduplicated before any cross-cohort harmonization decision.
+- Batch, site, library, chemistry, cohort, and processing metadata remain unresolved.
+- No candidate can be assigned an external validation role yet.
+
+Annotation risks:
+
+- CELLxGENE cell-type labels are visible, but annotation provenance and compatibility require manual review.
+- GEO candidate cell-type labels are not explicitly audited in current tables.
+- Harmonizing annotations across GEO and CELLxGENE/HCA is unresolved.
+
+Remaining unknowns:
+
+- Patient/sample ID usability for every candidate.
+- Batch/cohort metadata and treatment metadata for every candidate.
+- Exact gene identifier fields and pathway-compatible feature mappings.
+- Whether raw count matrices and processed objects are usable under project governance.
+- Whether any candidate can support lupus nephritis-specific analysis; current evidence says no.
+
 ## 5. Rejected Datasets
 
 | dataset | reason for rejection | scientific risk |
