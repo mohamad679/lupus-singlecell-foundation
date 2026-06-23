@@ -478,16 +478,78 @@ QC validation must fail or remain blocked when:
 - batch, disease, tissue, or patient effects are not documented.
 - QC decisions would create leakage or label imbalance risks.
 
-## Leakage Prevention Policy
+## Leakage Prevention Protocol
 
-Future leakage checks must ensure:
+Leakage is dangerous in single-cell patient-level prediction because a model can learn patient identity, donor identity, sample preparation, batch effects, barcode artifacts, or label-encoded metadata instead of disease biology. P2-F007 creates mock-data validation utilities and tests only; it does not download data, preprocess real datasets, create real splits, create AnnData outputs, or run modeling.
 
-- no cells from the same patient or donor appear in both train and test partitions
-- no sample from a held-out cohort leaks into training
-- batch and cohort labels are inspected before any modeling
-- external validation is cohort-level and source-supported
+### Cell-Level Leakage Definition
 
-Cell-level random train/test splitting is forbidden.
+Cell-level leakage occurs when cells from the same patient, donor, sample, or cohort appear in incompatible split partitions. Random cell-level train/test splits are forbidden because cells from one biological entity are not independent observations for patient-level prediction.
+
+### Patient Overlap Leakage
+
+Patient overlap leakage occurs when the same `patient_id` appears in more than one split. All cells and samples from one patient must remain in a single partition unless a future approved temporal-validation protocol explicitly defines a different leakage-safe design.
+
+### Donor Overlap Leakage
+
+Donor overlap leakage occurs when the same `donor_id` appears in more than one split. Donor-level overlap is unsafe even when patient IDs are unavailable, because donor-specific expression and technical metadata can leak across partitions.
+
+### Sample Overlap Leakage
+
+Sample overlap leakage occurs when the same `sample_id` appears in more than one split. Sample overlap is especially risky when patient IDs are missing or unresolved.
+
+### Cohort Contamination
+
+Cohort contamination occurs when a cohort intended for holdout or external validation shares patients, donors, samples, cells, or unreviewed processing dependencies with training data. Leave-cohort-out and external-validation designs must keep held-out cohorts independent.
+
+### Batch Leakage
+
+Batch leakage occurs when split membership is confounded with technical batch, library, site, lane, or processing pipeline. A split containing only one batch, or a label perfectly tied to one batch, must be flagged before any modeling.
+
+### Label Leakage
+
+Label leakage occurs when disease labels, treatment labels, activity labels, sample names, cohort names, or other metadata encode the target label in a way that can be learned directly. Labels perfectly tied to split partitions are a failure until reviewed.
+
+### Duplicated Barcode / Cell ID Leakage
+
+Duplicated cell IDs or barcodes across split partitions suggest duplicated observations or non-independent records. Duplicated cell or barcode identifiers across splits must fail validation.
+
+### Required Checks Before Modeling
+
+Before any modeling-ready dataset can advance, future checks must verify:
+
+- no cell-level or barcode-level split entities.
+- no patient overlap across incompatible partitions.
+- no donor overlap across incompatible partitions.
+- no sample overlap across incompatible partitions.
+- no duplicated cell IDs or barcodes across splits.
+- no cohort contamination for holdout or external validation.
+- no unresolved batch confounding.
+- no label perfectly tied to split membership.
+- every row has an `audit_status`.
+
+### Failure Modes
+
+Leakage validation must fail or remain blocked when:
+
+- `entity_type` is `cell_id` or `barcode`.
+- a patient, donor, or sample appears in more than one split.
+- duplicated cell or barcode IDs appear across splits.
+- a split contains only one batch without audit justification.
+- disease labels are perfectly tied to split partitions.
+- audit status is missing.
+- external validation cohort independence is unresolved.
+
+### Judge Rejection Rules
+
+Scientific and bioinformatics judges must reject any future modeling-readiness claim when:
+
+- cell-level splitting is used.
+- patient, donor, or sample overlap is unresolved.
+- cohort independence is not demonstrated.
+- batch or label leakage is unreviewed.
+- duplicated cells or barcodes are present across splits.
+- leakage checks are missing, incomplete, or based on guessed metadata.
 
 ## Reproducibility Policy
 

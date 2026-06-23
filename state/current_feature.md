@@ -1,45 +1,42 @@
 # Current Feature
 
-Feature: P2-F006 - Patient-level split protocol.
+Feature: P2-F007 - Leakage prevention tests.
 
 Status: completed pending human review.
 
 Builder scope:
 
-- Define split policy and validation scaffold only.
-- Create local split config, a header-only split manifest, mock-safe validation utilities, documentation, and tests.
-- Enforce patient-level, donor-level, and cohort-level split units only.
+- Create leakage validation utilities and tests only.
+- Validate mock row dictionaries for future patient-level single-cell prediction.
+- Cover cell-level leakage, patient/donor/sample overlap, cohort contamination, batch leakage, label leakage, and duplicated cell/barcode leakage.
 
 Explicitly forbidden:
 
-- Cell-level splits.
-- Barcode-level splits.
 - Downloads.
-- Preprocessing real data.
+- Real preprocessing.
+- Real train/test splits.
+- Cell-level split assignments.
 - Creating real AnnData outputs.
 - Modeling.
 - Training.
 - Model files.
 - Dataset approval.
-- Creating real train/test assignments.
 - Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
 
-Split scaffold summary:
+Leakage scaffold summary:
 
-- Allowed split units are `patient_id`, `donor_id`, and `cohort_id`.
-- Forbidden split units are `cell_id` and `barcode`.
-- Cell-level splitting is disabled.
-- Future external validation requires cohort holdout.
-- Mock split manifests must include `audit_status`.
-- Train/test entity overlap is rejected.
+- Cell-level and barcode-level entity types are rejected.
+- Patient, donor, and sample IDs cannot appear in more than one split.
+- Duplicate cell IDs across splits are rejected.
+- Batch-only split partitions are flagged.
+- Labels perfectly tied to split partitions are flagged.
+- Every mock row requires `audit_status`.
 
 Acceptance criteria:
 
-- `configs/splitting.yaml` exists.
-- `reports/tables/split_manifest.csv` exists with headers only.
-- `src/data/split_policy.py` exists.
-- `tests/test_patient_split_policy.py` exists and passes.
+- `src/data/leakage_checks.py` exists.
+- `tests/test_leakage_checks.py` exists and passes.
 - No data is downloaded.
 - No real split is created.
 - No modeling code is created.

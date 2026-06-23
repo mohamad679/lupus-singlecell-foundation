@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F006
+  completed_through: P2-F007
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -510,16 +510,20 @@ backlog:
     feature_id: P2-F007
     title: "Leakage prevention tests"
     phase: 2
-    status: todo
+    status: done
     description: "Create tests that future split manifests cannot put the same patient, donor, sample, or cohort in incompatible partitions."
     acceptance_criteria:
       - "Leakage prevention tests exist."
       - "Tests reject cell-level splits."
+      - "Tests reject patient, donor, and sample overlap."
+      - "Tests detect duplicated cell IDs across splits."
+      - "Tests detect batch and label leakage on mock rows."
+      - "Aggregate leakage check returns PASS/FAIL."
       - "Tests run without data downloads."
     dependencies:
       - "P2-F006"
     required_tests:
-      - "Leakage prevention test suite."
+      - "tests/test_leakage_checks.py"
     judge_gates:
       - "Scientific Judge leakage review."
 
