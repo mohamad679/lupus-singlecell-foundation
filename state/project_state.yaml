@@ -1,0 +1,50 @@
+project:
+  name: lupus-singlecell-foundation
+  status: phase_0_scaffold
+  current_phase: 0
+  current_phase_name: "Repository Scaffold + Master Spec"
+  current_feature: "Phase 0 scaffold"
+  modeling_allowed: false
+  dataset_download_allowed: false
+  dataset_accessions_verified: false
+
+phase_controls:
+  first_real_scientific_phase: "Phase 1: Dataset Feasibility Audit"
+  no_model_training_before: "Dataset feasibility approval and later modeling readiness approval"
+  unknown_information_policy: "Mark as TODO"
+
+human_gates:
+  phase_0_scaffold_review:
+    status: pending
+    owner: TODO
+    required_before: "Phase 1 start"
+  dataset_feasibility_approval:
+    status: blocked_until_phase_1
+    owner: TODO
+    required_before: "Any dataset acquisition or modeling"
+  data_acquisition_approval:
+    status: blocked
+    owner: TODO
+    required_before: "Bioinformatics QC"
+  qc_approval:
+    status: blocked
+    owner: TODO
+    required_before: "Baseline analysis"
+  baseline_analysis_approval:
+    status: blocked
+    owner: TODO
+    required_before: "Modeling readiness review"
+  modeling_readiness_approval:
+    status: blocked
+    owner: TODO
+    required_before: "Any model training"
+
+artifacts:
+  master_spec: docs/00_master_spec.md
+  scientific_hypothesis: docs/01_scientific_hypothesis.md
+  backlog: state/backlog.yaml
+  current_feature: state/current_feature.md
+  dataset_catalog: metadata/dataset_catalog.csv
+  metadata_schema_test: tests/test_metadata_schema.py
+
+last_updated: "2026-06-23"

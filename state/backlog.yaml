@@ -1,0 +1,101 @@
+backlog:
+  - id: P0-001
+    title: "Create master specification"
+    phase: 0
+    status: done
+    type: documentation
+    acceptance_criteria:
+      - "docs/00_master_spec.md exists."
+      - "The spec states that dataset feasibility audit is the first real scientific phase."
+      - "The spec blocks model training before dataset feasibility approval."
+      - "The spec includes human gates and judge rubrics."
+
+  - id: P0-002
+    title: "Create scientific hypothesis placeholder"
+    phase: 0
+    status: done
+    type: documentation
+    acceptance_criteria:
+      - "docs/01_scientific_hypothesis.md exists."
+      - "Unknown dataset facts are marked TODO."
+      - "The hypothesis is explicitly marked as a draft placeholder."
+      - "No dataset accessions are invented."
+
+  - id: P0-003
+    title: "Create project state files"
+    phase: 0
+    status: done
+    type: state
+    acceptance_criteria:
+      - "state/project_state.yaml exists."
+      - "state/current_feature.md exists."
+      - "Modeling is marked as not allowed."
+      - "Dataset downloads are marked as not allowed."
+
+  - id: P0-004
+    title: "Create dataset catalog schema"
+    phase: 0
+    status: done
+    type: metadata
+    acceptance_criteria:
+      - "metadata/dataset_catalog.csv exists."
+      - "The catalog contains only schema headers and TODO placeholder values."
+      - "The catalog does not contain invented dataset accessions."
+
+  - id: P0-005
+    title: "Add metadata schema test"
+    phase: 0
+    status: done
+    type: test
+    acceptance_criteria:
+      - "tests/test_metadata_schema.py exists."
+      - "The test validates required dataset catalog columns."
+      - "The test can run without network access."
+
+  - id: P0-006
+    title: "Run Phase 0 scaffold verification"
+    phase: 0
+    status: done
+    type: verification
+    acceptance_criteria:
+      - "Metadata schema test passes locally."
+      - "All required files are present."
+      - "No model implementation files are added."
+      - "No dataset files are downloaded."
+
+  - id: P1-001
+    title: "Identify authoritative dataset search sources"
+    phase: 1
+    status: blocked
+    type: scientific
+    blocked_by:
+      - "Phase 0 scaffold review"
+    acceptance_criteria:
+      - "Sources are listed with URLs and rationale."
+      - "No datasets are downloaded."
+      - "No accessions are recorded unless verified from authoritative sources."
+
+  - id: P1-002
+    title: "Audit one candidate dataset for feasibility"
+    phase: 1
+    status: blocked
+    type: bioinformatics
+    blocked_by:
+      - "Phase 0 scaffold review"
+    acceptance_criteria:
+      - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
+      - "Unknown fields remain TODO."
+      - "Access terms and raw/processed availability are recorded."
+      - "No data files are downloaded."
+
+  - id: P1-003
+    title: "Request dataset feasibility human gate"
+    phase: 1
+    status: blocked
+    type: governance
+    blocked_by:
+      - "At least one completed dataset feasibility audit"
+    acceptance_criteria:
+      - "Feasibility evidence is summarized."
+      - "Risks and TODOs are documented."
+      - "Human decision is recorded before any acquisition work."
