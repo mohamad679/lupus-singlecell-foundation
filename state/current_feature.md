@@ -1,46 +1,47 @@
 # Current Feature
 
-Feature: P2-F004 - Gene identifier policy.
+Feature: P2-F005 - QC protocol scaffold.
 
 Status: completed pending human review.
 
 Builder scope:
 
-- Define gene identifier policy only.
-- Create policy metadata, an empty mapping report, mock-safe validation utilities, documentation, and tests.
-- Support future single-cell preprocessing, cross-cohort harmonization, pathway analysis, and foundation model compatibility planning.
+- Define QC policy and scaffold only.
+- Create local QC config, empty report templates, mock-safe validation utilities, documentation, and tests.
+- Preserve all thresholds as TODO until future audit approval.
 
 Explicitly forbidden:
 
 - Downloads.
-- Preprocessing real data.
-- Creating AnnData objects.
+- Real preprocessing.
+- Creating real AnnData outputs.
+- Cell filtering on real data.
 - Modeling.
 - Training.
 - Model files.
-- Inferring gene identifiers from real data.
-- Silent gene dropping.
-- Silent duplicate gene collapse.
-- Unsupported ID conversion.
+- Dataset approval.
+- Threshold guessing.
+- Unlogged cell removal.
 - Creating `selected_datasets`.
 - Assigning `external_validation_cohort`.
 
-Policy summary:
+QC scaffold summary:
 
-- Original gene IDs and gene symbols must be preserved.
-- `var` indexes must be unique.
-- Gene drops, unmapped genes, duplicate genes, and vocabulary mismatches require explicit reports.
-- Foundation model vocabulary compatibility requires a tracked vocabulary version and unmatched-gene report.
-- Pathway claims are forbidden without valid gene mapping and later statistical correction.
+- Real filtering is disabled.
+- QC threshold source remains `TODO`.
+- QC reports must include sample-level and patient-level summaries.
+- Threshold decisions cannot be marked applied without `approved_by`.
+- Guessed threshold sources are rejected.
 
 Acceptance criteria:
 
-- `metadata/gene_identifier_policy.yaml` exists.
-- `reports/tables/gene_mapping_report.csv` exists with headers only.
-- `src/data/gene_identifier_policy.py` exists.
-- `tests/test_gene_identifier_policy.py` exists and passes.
+- `configs/qc.yaml` exists.
+- `reports/tables/qc_summary.csv` exists with headers only.
+- `reports/tables/qc_threshold_decisions.csv` exists with headers only.
+- `src/qc/qc_policy.py` exists.
+- `tests/test_qc_protocol_config.py` and `tests/test_qc_policy.py` exist and pass.
 - No data is downloaded.
-- No preprocessing is added.
+- No real preprocessing is added.
 - No modeling code is created.
 - `selected_datasets` remains `[]`.
 - `external_validation_cohort` remains TODO.

@@ -1,0 +1,39 @@
+qc_policy:
+  allow_real_filtering: false
+  threshold_source: TODO
+  require_qc_report: true
+  require_before_after_counts: true
+  require_sample_level_summary: true
+  require_patient_level_summary: true
+  forbid_unlogged_cell_removal: true
+  forbid_threshold_guessing: true
+
+cell_level_metrics:
+  - n_genes_by_counts
+  - total_counts
+  - pct_counts_mt
+  - pct_counts_ribo
+  - doublet_score
+  - cell_type
+  - batch_id
+  - sample_id
+  - patient_id
+
+sample_level_metrics:
+  - n_cells
+  - median_genes_per_cell
+  - median_counts_per_cell
+  - median_pct_mt
+  - doublet_rate
+  - disease_label_distribution
+
+patient_level_metrics:
+  - n_samples
+  - n_cells_total
+  - disease_label
+  - treatment_status
+  - batch_distribution
+
+required_outputs:
+  - reports/tables/qc_summary.csv
+  - reports/tables/qc_threshold_decisions.csv

@@ -331,19 +331,82 @@ All future split logic must be patient-level or cohort-level only. Cell-level sp
 
 The minimum valid split unit is a source-supported patient or donor identifier. If patient or donor identifiers are unavailable, the dataset cannot be used for patient-level prediction.
 
-## QC Strategy
+## Single-cell QC Protocol
 
-Future QC scaffolding should plan checks for:
+Single-cell QC must protect biological interpretation, patient-level validity, and cross-cohort comparability before any downstream analysis. P2-F005 defines policy and report scaffolds only; it does not download data, preprocess real datasets, create AnnData outputs, remove cells, infer thresholds, or run modeling.
 
-- cell count by patient, donor, sample, and batch
-- detected genes per cell
-- total counts per cell
-- mitochondrial/ribosomal percentages if source-compatible
-- doublet handling policy
-- batch and cohort distributions
-- cell-type annotation provenance
+### Cell-Level QC Goals
 
-P2-F001 does not compute QC metrics.
+Future cell-level QC must evaluate per-cell detected genes, total counts, mitochondrial percentage, ribosomal percentage, doublet risk, cell type if available, batch, sample, and patient membership. These metrics must be summarized before any filtering decision.
+
+### Sample-Level QC Goals
+
+Future sample-level QC must report cell counts, median genes per cell, median counts per cell, median mitochondrial percentage, doublet rate, disease-label distribution, and batch representation. Samples with unusually low cell counts or extreme metrics require audit notes before any action.
+
+### Patient-Level QC Goals
+
+Future patient-level QC must summarize the number of samples, total cells, disease labels, treatment status when source-supported, and batch distribution. Patient-level summaries are required because prediction and split policies are patient-level or cohort-level, not cell-level.
+
+### Batch-Aware QC
+
+QC decisions must be inspected by batch, cohort, sample, and patient. A threshold that disproportionately removes cells from a disease group, patient subset, tissue, or batch is a scientific risk and must be documented before use.
+
+### Mitochondrial Percentage Handling
+
+Mitochondrial percentage can indicate poor-quality cells, stress, or tissue-specific biology. It must not be thresholded automatically. Source assay, tissue, disease context, and batch distribution must be reviewed before selecting any cutoff.
+
+### Detected Gene Count Handling
+
+Detected gene count thresholds must not be guessed. Future thresholds require pre/post summaries, rationale, approval, and documentation of how many cells, samples, and patients would be affected.
+
+### UMI/Count Depth Handling
+
+Total UMI or count depth must be summarized at cell, sample, patient, and batch levels. Low-depth and high-depth outliers may indicate technical artifacts, but filtering requires an explicit audit decision.
+
+### Doublet Risk Handling
+
+Doublet scores or doublet annotations must be treated as risk indicators until the scoring method, source, and tissue-specific assumptions are documented. Doublet removal cannot occur without a logged threshold decision.
+
+### Ambient RNA Risk Handling
+
+Ambient RNA can distort cell-type and disease signatures. Future ambient RNA checks must record method, assumptions, tissue context, and affected genes or cell types before any correction is applied.
+
+### Tissue-Specific QC Considerations
+
+PBMC and kidney/lupus nephritis samples may need different QC expectations. Tissue context must be explicit before comparing QC metrics across cohorts. A single global threshold across tissues is not allowed without documented justification.
+
+### PBMC-Specific QC Considerations
+
+PBMC datasets may vary in immune activation state, sample handling, cryopreservation, granulocyte contamination, platelet contamination, and mitochondrial percentages. Lupus PBMCs may show biology that resembles stress or activation, so automatic filtering can erase disease-relevant signal.
+
+### Lupus-Specific Caveats
+
+SLE and lupus nephritis cohorts may differ by treatment, disease activity, tissue source, batch, flare status, and clinical severity. QC must avoid removing cells or patients in ways that confound disease labels, treatment labels, activity labels, or external validation suitability.
+
+### No Automatic Thresholding Without Audit
+
+No QC threshold may be applied without an explicit threshold source, rationale, approval, before/after counts, and audit status. `threshold_source: guessed` is forbidden. Real filtering remains disabled until a later approved feature.
+
+### QC Report Requirements
+
+Required future QC outputs are:
+
+- `reports/tables/qc_summary.csv`
+- `reports/tables/qc_threshold_decisions.csv`
+
+QC reports must preserve dataset, sample, patient, batch, disease label, metric, threshold, rationale, approval, notes, and audit status.
+
+### Failure Modes
+
+QC validation must fail or remain blocked when:
+
+- real filtering is enabled before approval.
+- thresholds are guessed.
+- thresholds are marked applied without approval.
+- cell removal is unlogged.
+- sample-level or patient-level summaries are missing.
+- batch, disease, tissue, or patient effects are not documented.
+- QC decisions would create leakage or label imbalance risks.
 
 ## Leakage Prevention Policy
 

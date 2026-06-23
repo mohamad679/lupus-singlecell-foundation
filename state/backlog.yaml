@@ -5,7 +5,7 @@ phase_1_scaffold:
 
 phase_2_scaffold:
   status: in_progress
-  completed_through: P2-F004
+  completed_through: P2-F005
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
@@ -459,17 +459,25 @@ backlog:
     feature_id: P2-F005
     title: "QC protocol scaffold"
     phase: 2
-    status: todo
+    status: done
     description: "Create QC planning scaffold for future cell, gene, sample, patient, cohort, and batch-level quality checks."
     acceptance_criteria:
       - "QC protocol scaffold exists."
+      - "configs/qc.yaml exists."
+      - "QC summary and threshold decision reports exist with headers only."
+      - "Applied thresholds require approval."
+      - "Guessed threshold sources are rejected."
       - "No QC metrics are computed."
       - "No data are downloaded."
+      - "No real preprocessing is added."
     dependencies:
       - "P2-F001"
       - "P2-F002"
+      - "P2-F003"
+      - "P2-F004"
     required_tests:
-      - "QC scaffold safety test."
+      - "tests/test_qc_protocol_config.py"
+      - "tests/test_qc_policy.py"
     judge_gates:
       - "Bioinformatics Judge review before QC execution."
 
