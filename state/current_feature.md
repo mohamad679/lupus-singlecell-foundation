@@ -1,19 +1,20 @@
 # Current Feature
 
-Feature: P1-F007 - External validation candidate criteria.
+Feature: P1-F008 - Dataset feasibility report template.
 
 Status: completed pending human review.
 
 Allowed work:
 
-- Define criteria for deciding whether a candidate dataset can serve as an external validation cohort.
-- Create external validation criteria, candidate table headers, and safe local validation scaffolding.
-- Validate manually created external validation rows without approving a cohort or creating dataset rows.
+- Define a manuscript-grade reporting framework for Phase 1 dataset feasibility review.
+- Create report template, rejected dataset log headers, and safe local report generation scaffolding.
+- Read local audit tables without approving datasets or changing Human Gate 1.
 
 Blocked work:
 
 - Dataset downloads.
 - Dataset accession invention.
+- Invented metadata.
 - Guessed patient labels.
 - Invented labels.
 - Inferred disease activity labels.
@@ -23,7 +24,9 @@ Blocked work:
 - Cell-level train/test split.
 - Model implementation.
 - Model training.
+- Approving datasets.
 - Approving a cohort without audit.
+- Changing Human Gate 1.
 - Clinical overclaiming.
 - Internet queries from audit scripts.
 - Scientific conclusions.
@@ -32,12 +35,12 @@ Blocked work:
 Acceptance criteria:
 
 - `docs/02_dataset_feasibility_audit.md` exists.
-- `metadata/external_validation_criteria.yaml` exists.
-- `reports/tables/external_validation_candidates.csv` exists with headers only.
-- `scripts/06_external_validation_audit.py` exists and does not query the internet.
+- `reports/final_dataset_feasibility_report.md` exists.
+- `reports/tables/rejected_dataset_log.csv` exists with headers only.
+- `scripts/07_generate_dataset_feasibility_report.py` exists and does not query the internet.
 - `reports/tables/` exists.
-- External validation criteria and audit tests exist.
+- Dataset feasibility report template, rejected log, and generator tests exist.
 - `metadata/dataset_catalog.csv` is not populated with invented datasets.
-- No external validation cohort is approved.
-- No external validation candidate rows are invented.
+- No dataset is approved.
+- No dataset rows are invented.
 - Human Gate 1, Dataset Feasibility Approved, remains PENDING.

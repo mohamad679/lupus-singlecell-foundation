@@ -781,6 +781,62 @@ Reject or defer a candidate external validation cohort if:
 - Critical external-validation fields are TODO or unresolved.
 - Human Gate 1 is treated as approved while it remains PENDING.
 
+## Dataset Feasibility Report Structure
+
+### Report Purpose
+
+The final dataset feasibility report is the evidence package for Human Gate 1. It must compare candidate lupus single-cell datasets transparently, document why datasets are rejected or deferred, and prevent premature approval of training, validation, downloads, or modeling.
+
+The report is a scaffold until candidate metadata are manually audited. Tables may remain empty or TODO-only.
+
+### Manual Audit Workflow
+
+1. Search approved public sources.
+2. Record candidate metadata only when source evidence is available.
+3. Audit labels, patient metadata, eligibility score inputs, and external validation criteria.
+4. Record rejected datasets with source-supported rejection reasons.
+5. Generate the report from local audit tables.
+6. Request Human Gate 1 review.
+
+### Candidate Inclusion Process
+
+A candidate can appear in the report only when it has been manually added to a source-specific candidate table with explicit source metadata. Candidate inclusion does not mean approval. Candidate rows must preserve TODO values for unknown fields.
+
+### Rejection Process
+
+Rejected datasets must be recorded in `reports/tables/rejected_dataset_log.csv` with dataset ID, source, rejection reason, scientific risk, notes, and audit status. Rejection reasons must distinguish hard invalidity, missing metadata, task incompatibility, and unresolved provenance.
+
+### Evidence Requirements
+
+The report should cite or summarize evidence for:
+
+- Source accession, collection ID, or repository identity.
+- Tissue and assay.
+- Organism.
+- Disease and control labels.
+- Patient, donor, and sample identifiers.
+- Activity, lupus nephritis, and treatment labels when relevant.
+- Raw and processed data availability.
+- External validation suitability.
+
+Unknown evidence remains `TODO`.
+
+### Provenance Requirements
+
+Every non-TODO claim must be traceable to source metadata, a publication, supplement, public collection record, or repository documentation. Dataset facts must not be inferred from memory, filenames, titles, or broad disease context.
+
+### Risk Documentation
+
+The report must document scientific and technical risks, including missing patient IDs, label ambiguity, batch confounding, cohort overlap, treatment confounding, incompatible tissue, incompatible assay, limited sample size, and unavailable raw or processed data.
+
+### External Validation Rationale
+
+The report must explain whether any candidate can support external validation. Until a cohort passes manual audit, the selected external validation cohort remains TODO. A random train/test split is not external validation.
+
+### Human Gate 1 Decision Workflow
+
+Human Gate 1 can only be decided after reviewers inspect the report and supporting tables. The report generator must not approve datasets, select training cohorts, select external validation cohorts, close Human Gate 1, or authorize downloads or modeling.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.

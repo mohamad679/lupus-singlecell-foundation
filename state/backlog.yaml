@@ -1,3 +1,8 @@
+phase_1_scaffold:
+  status: complete
+  completed_through: P1-F008
+  human_gate_1: PENDING
+
 backlog:
   - id: P0-001
     title: "Create master specification"
@@ -194,12 +199,30 @@ backlog:
       - "external_validation_cohort remains TODO."
 
   - id: P1-F008
+    title: "Dataset feasibility report template"
+    phase: 1
+    status: done
+    type: documentation
+    blocked_by:
+      - "Human Gate 1 remains PENDING for dataset approval"
+    acceptance_criteria:
+      - "Dataset feasibility report template exists."
+      - "Rejected dataset log exists with headers only."
+      - "Safe report generator scaffold exists."
+      - "Tests for report template, rejected log, and generator exist."
+      - "No dataset rows are created."
+      - "No dataset is approved."
+      - "Human Gate 1 remains PENDING."
+      - "external_validation_cohort remains TODO."
+      - "selected_datasets remains empty."
+
+  - id: P1-F009
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F007"
+      - "P1-F008"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -207,7 +230,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-F009
+  - id: P1-F010
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

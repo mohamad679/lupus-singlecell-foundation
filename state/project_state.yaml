@@ -3,7 +3,7 @@ project:
   status: phase_1_dataset_feasibility_audit
   current_phase: "Phase 1"
   current_phase_name: "Dataset Feasibility Audit"
-  current_feature: P1-F007
+  current_feature: P1-F008
   blocked: false
   primary_task: TODO
   external_validation_cohort: TODO
@@ -65,7 +65,9 @@ artifacts:
   patient_metadata_audit_table: reports/tables/patient_metadata_audit.csv
   label_availability_audit_table: reports/tables/label_availability_audit.csv
   external_validation_candidates_table: reports/tables/external_validation_candidates.csv
+  rejected_dataset_log: reports/tables/rejected_dataset_log.csv
   dataset_feasibility_table: reports/tables/dataset_feasibility_table.csv
+  final_dataset_feasibility_report: reports/final_dataset_feasibility_report.md
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -73,6 +75,7 @@ artifacts:
   patient_metadata_audit_script: scripts/04_patient_metadata_audit.py
   label_availability_audit_script: scripts/05_label_availability_audit.py
   external_validation_audit_script: scripts/06_external_validation_audit.py
+  dataset_feasibility_report_generator: scripts/07_generate_dataset_feasibility_report.py
   metadata_schema_test: tests/test_metadata_schema.py
   data_audit_config_test: tests/test_data_audit_config.py
   audit_safety_test: tests/test_audit_script_no_invented_rows.py
@@ -89,5 +92,8 @@ artifacts:
   label_availability_audit_test: tests/test_label_availability_audit.py
   external_validation_criteria_test: tests/test_external_validation_criteria.py
   external_validation_audit_test: tests/test_external_validation_audit.py
+  dataset_feasibility_report_template_test: tests/test_dataset_feasibility_report_template.py
+  rejected_dataset_log_test: tests/test_rejected_dataset_log.py
+  dataset_feasibility_report_generator_test: tests/test_generate_dataset_feasibility_report.py
 
 last_updated: "2026-06-23"
