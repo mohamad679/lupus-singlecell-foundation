@@ -72,11 +72,14 @@ def test_no_model_files_are_created():
     assert forbidden_paths == []
 
 
-def test_models_package_is_marker_only():
+def test_models_package_contains_safe_scaffold_only():
     models_dir = SRC_DIR / "models"
 
     assert models_dir.exists()
-    assert [path.name for path in models_dir.iterdir()] == ["__init__.py"]
+    assert {path.name for path in models_dir.iterdir()} == {
+        "__init__.py",
+        "logistic_regression_baseline.py",
+    }
 
 
 def test_no_dataset_files_are_created():

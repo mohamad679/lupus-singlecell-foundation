@@ -82,7 +82,7 @@ def test_project_state_records_restricted_gate_without_enabling_modeling():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F002" in state
+    assert "current_feature: P3-F003" in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert f'primary_task: "{PRIMARY_TASK}"' in state
     assert "selected_datasets: []" in state
@@ -98,13 +98,16 @@ def test_phase_2_is_complete_and_phase_3_backlog_only_exists():
     assert "completed_through: P2-F011" in backlog
     assert "phase_3_scaffold:" in backlog
     assert "status: in_progress" in backlog
-    assert "completed_through: P3-F002" in backlog
+    assert "completed_through: P3-F003" in backlog
     for feature_id in PHASE_3_FEATURES:
         assert f"feature_id: {feature_id}" in backlog
 
 
-def test_phase_3_models_package_contains_no_implementation():
+def test_phase_3_models_package_contains_scaffold_only():
     models_dir = REPO_ROOT / "src" / "models"
 
     assert models_dir.exists()
-    assert [path.name for path in models_dir.iterdir()] == ["__init__.py"]
+    assert {path.name for path in models_dir.iterdir()} == {
+        "__init__.py",
+        "logistic_regression_baseline.py",
+    }

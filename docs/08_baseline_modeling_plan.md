@@ -278,3 +278,114 @@ After an explicit future extraction feature, expected artifacts may include:
 
 P3-F002 creates none of these real feature outputs. The feature manifest
 contains headers only.
+
+## Logistic Regression Baseline Design
+
+### Why Logistic Regression Is the First Baseline
+
+Logistic regression is the first planned classifier because it is transparent,
+well understood, and appropriate for testing whether patient-level pseudobulk
+features contain a reproducible case-control signal. Its coefficients can be
+audited against feature provenance, and its complexity can be controlled
+directly through regularization. It remains a scaffold in P3-F003; no estimator
+is instantiated or fitted.
+
+### Input Requirement
+
+The only planned input feature type is `patient_level_pseudobulk`. Future input
+must include:
+
+- a patient- or donor-by-feature pseudobulk matrix
+- source-verified patient-level SLE and healthy control labels
+- a patient-, donor-, or cohort-level split manifest
+- the pseudobulk feature manifest
+
+Cell-level feature matrices and cell-level labels are forbidden. Sample-level
+aggregates may be inputs only after linkage to a patient or donor and leakage-
+safe grouping.
+
+### Task
+
+The target remains **SLE diagnosis / case-control prediction**. Disease
+activity, flare, lupus nephritis, treatment response, and other clinical tasks
+remain blocked.
+
+### Regularization Plan
+
+Planned regularization options are L1, L2, and elastic net. Solver and penalty
+compatibility must be validated in a later authorized implementation. Any
+regularization strength or elastic-net mixing parameter must be selected using
+training data only, within patient-level resampling. No hyperparameter is
+selected in P3-F003.
+
+### Class Imbalance Handling Plan
+
+Planned class-weight options are `balanced` and `none`. A later protocol must
+record patient counts by class, define the primary class-weight strategy before
+test evaluation, and prevent cell counts from substituting for patient counts.
+Resampling cells or duplicating patients is not an approved imbalance method.
+
+### Feature Scaling Plan
+
+Scaling is required for a fair regularized linear baseline but remains a future
+implementation decision. Any scaler must be fitted on training patients only
+and applied unchanged to validation, test, and future external cohorts. Sparse
+and count-derived feature behavior must be documented. P3-F003 performs no
+scaling.
+
+### Patient-Level Split Dependency
+
+Model design depends on a validated patient-, donor-, or cohort-level split.
+All samples and cells from one patient or donor must remain in one partition.
+Feature scaling, filtering, regularization selection, and class weighting must
+not use held-out patient information.
+
+### Cross-Cohort Evaluation Dependency
+
+External validation remains TODO. Cross-cohort evaluation cannot begin until
+cohort independence, compatible label definitions, tissue and assay
+compatibility, and absence of patient/sample/cell overlap are verified.
+
+### Calibration Metrics Planned Later
+
+Future evaluation may report Brier score, expected calibration error,
+calibration intercept, calibration slope, and calibration curves when patient
+counts permit. These are descriptive evaluation plans, not approval for
+uncertainty modeling. No probability predictions or calibration metrics are
+generated in P3-F003.
+
+### Leakage Risks
+
+- Global feature scaling or feature filtering can expose held-out cohorts.
+- Hyperparameter selection outside patient-level resampling can overfit.
+- Repeated samples from one patient can cross partitions.
+- Batch, source, treatment, assay, or cell count can proxy the disease label.
+- Overlapping GEO and CELLxGENE/HCA records can invalidate cross-cohort claims.
+- Coefficient interpretation can be misleading when correlated features,
+  compositional effects, or unstable gene mappings are ignored.
+
+### Failure Modes
+
+Future execution must fail when:
+
+- inputs are cell-level rather than patient-level pseudobulk
+- patient/donor identifiers or labels are unresolved
+- the split manifest permits patient, donor, or sample overlap
+- feature and split manifests are absent
+- label provenance is not documented
+- training or prediction has not been explicitly enabled
+- an external cohort is claimed without independent-cohort evidence
+- result tables omit audit status or preliminary-result labeling
+
+### Forbidden Actions Before Modeling Gate
+
+- Do not load real feature matrices or labels.
+- Do not instantiate or fit logistic regression.
+- Do not generate probabilities, classifications, metrics, or coefficients.
+- Do not create serialized model or preprocessing artifacts.
+- Do not select hyperparameters.
+- Do not use cell-level features or splits.
+- Do not select datasets or assign an external validation cohort.
+- Do not report performance or biological associations.
+
+The results and coefficient tables created by P3-F003 contain headers only.

@@ -53,17 +53,23 @@ def test_baseline_package_markers_exist_without_implementations():
         "pseudobulk_design.py",
     }
 
-    for package in ["models", "evaluation"]:
-        directory = SRC_PATH / package
-        assert directory.exists()
-        assert [path.name for path in directory.iterdir()] == ["__init__.py"]
+    models_dir = SRC_PATH / "models"
+    assert models_dir.exists()
+    assert {path.name for path in models_dir.iterdir()} == {
+        "__init__.py",
+        "logistic_regression_baseline.py",
+    }
+
+    evaluation_dir = SRC_PATH / "evaluation"
+    assert evaluation_dir.exists()
+    assert [path.name for path in evaluation_dir.iterdir()] == ["__init__.py"]
 
 
 def test_phase3_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F002" in state
+    assert "current_feature: P3-F003" in state
     assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "allow_modeling: false" in state

@@ -1,0 +1,34 @@
+{
+  "task": "SLE diagnosis / case-control prediction",
+  "allow_training": false,
+  "allow_prediction": false,
+  "allow_model_artifacts": false,
+  "input_feature_type": "patient_level_pseudobulk",
+  "forbid_cell_level_features": true,
+  "split_policy": "patient_or_cohort_only",
+  "model_family": "logistic_regression",
+  "planned_solver_options": [
+    "liblinear",
+    "saga"
+  ],
+  "planned_regularization": [
+    "l1",
+    "l2",
+    "elasticnet"
+  ],
+  "planned_class_weight": [
+    "balanced",
+    "none"
+  ],
+  "required_inputs": [
+    "pseudobulk_feature_matrix",
+    "patient_level_labels",
+    "split_manifest",
+    "feature_manifest"
+  ],
+  "required_outputs_later": [
+    "reports/tables/logistic_regression_results.csv",
+    "reports/tables/logistic_regression_coefficients.csv",
+    "reports/figures/logistic_regression_roc_curve.png"
+  ]
+}

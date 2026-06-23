@@ -1,16 +1,16 @@
 # Current Feature
 
-Feature: P3-F002 - Pseudobulk feature design.
+Feature: P3-F003 - Logistic regression baseline scaffold.
 
 Status: completed pending review.
 
 Builder scope:
 
-- Pseudobulk design only.
-- Define safe aggregation units, aggregation methods, a feature schema, an
-  empty manifest, and mock-only validation utilities.
-- Keep normalization and gene filtering policies as TODO.
-- Preserve patient/donor-level split and leakage controls.
+- Logistic regression design/scaffold only.
+- Define restricted configuration, required input-manifest metadata, and
+  header-only results and coefficient tables.
+- Provide an explicit training refusal path.
+- Preserve patient-level pseudobulk and patient/cohort split requirements.
 
 Scientific decision:
 
@@ -23,8 +23,11 @@ Scientific decision:
 
 Explicitly forbidden:
 
+- Fitting or training logistic regression.
+- Prediction or probability generation.
+- Model artifact creation.
+- Loading real features, labels, or datasets.
 - Real pseudobulk feature extraction or matrix creation.
-- Actual training or real model fitting.
 - Loading or preprocessing real data.
 - Deep learning or DeepSets.
 - Foundation models.
@@ -34,9 +37,9 @@ Explicitly forbidden:
 - Dataset approval or selection.
 - External validation assignment.
 - Cell-level splitting.
-- Starting P3-F003 or later features.
+- Starting P3-F004 or later features.
 
-The pseudobulk manifest contains headers only. The utility validates config,
-schema, headers, and caller-provided mock rows; it does not process real data.
+The logistic regression result and coefficient tables contain headers only.
+The utility imports no estimator library and cannot fit or predict.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

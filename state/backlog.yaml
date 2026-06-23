@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F002
+  completed_through: P3-F003
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -677,16 +677,19 @@ backlog:
     feature_id: P3-F003
     title: "Logistic regression baseline"
     phase: 3
-    status: todo
-    description: "Future interpretable linear baseline for the restricted SLE case-control task."
+    status: done
+    description: "Create a non-training logistic regression scaffold for the restricted SLE case-control task."
     acceptance_criteria:
-      - "Implementation requires explicit modeling authorization."
-      - "Evaluation uses patient- or donor-level partitions."
-      - "Results are marked preliminary until labels are verified."
+      - "Logistic regression design is documented."
+      - "Training, prediction, and model artifacts remain disabled in config."
+      - "Only patient-level pseudobulk input is accepted."
+      - "Results and coefficient tables contain headers only."
+      - "The scaffold explicitly refuses training."
+      - "No estimator library or real data is loaded."
     dependencies:
       - "P3-F002"
     required_tests:
-      - "TODO"
+      - "tests/test_logistic_regression_baseline_scaffold.py"
     judge_gates:
       - "Scientific and Engineering Judge review."
 
