@@ -214,6 +214,41 @@ Evidence required for Human Gate 1:
 - A cohort overlap and external-validation independence table.
 - Repair queue rows moved only through manual review; no row may be marked resolved without source evidence and human review.
 
+## Final Dataset Decision Summary
+
+No dataset is approved for modeling. Human Gate 1 remains PENDING, `selected_datasets` remains empty, and `external_validation_cohort` remains TODO.
+
+Continue-audit candidates:
+
+- `GSE137029`: strongest GEO candidate for continued audit because of human PBMC single-cell scale and source-level case/control context. Remaining blockers include patient IDs, label provenance, activity labels, treatment metadata, batch metadata, cell-type annotation status, gene identifiers, and overlap with HCA/CELLxGENE.
+- `436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629`: strongest metadata-rich CELLxGENE/HCA candidate for continued audit because public metadata expose donor IDs, disease terms, cell count, cell-type labels, `raw.X`, and H5AD asset visibility. Remaining blockers include sample IDs, label provenance, activity labels, treatment metadata, batch metadata, feature identifiers, and deduplication against GEO/HCA.
+
+Limited candidates:
+
+- `GSE162577`: limited candidate because it has only 2 SLE patients and 1 healthy volunteer, unclear patient IDs, TODO n_cells, unclear activity labels, unclear cell-type labels, and unclear batch metadata.
+
+Needs-manual-verification candidates:
+
+- `GSE174188`: needs manual verification because raw and processed data are controlled-access through dbGaP, patient IDs are unclear, labels remain incomplete, processed-object usability is not open-verified, and overlap risk remains unresolved.
+
+Rejected candidates:
+
+- None rejected yet. Current evidence supports continued audit, limited-candidate status, or manual verification only.
+
+Remaining repair items:
+
+- 20 repair items remain unresolved or pending manual review in `reports/tables/judge_repair_queue.csv`.
+- Required repair categories include patient identifiers, label provenance, activity labels, treatment metadata, batch metadata, cell-type annotation, gene identifiers, raw count availability, processed object availability, controlled-access restrictions, cohort overlap, and external-validation uncertainty.
+
+Why Human Gate 1 is still blocked:
+
+- No candidate has a complete source-supported patient/donor/sample identifier map.
+- No candidate has complete patient-level label provenance.
+- Disease activity and lupus nephritis feasibility remain unsupported.
+- Cross-cohort independence and external validation roles are unresolved.
+- Data access and processed-object usability remain unverified or controlled-access for key candidates.
+- The project remains blocked until repair evidence is reviewed by a human.
+
 ## 5. Rejected Datasets
 
 | dataset | reason for rejection | scientific risk |

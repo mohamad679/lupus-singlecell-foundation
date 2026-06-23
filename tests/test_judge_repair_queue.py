@@ -68,7 +68,7 @@ def test_every_repair_requires_human_gate():
 def test_project_state_remains_blocked_pending_human_gate():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P1-F013" in state
+    assert "current_feature: P1-F014" in state
     assert "blocked: true" in state
     assert (
         "blocked_reason: unresolved dataset feasibility blockers before Human Gate 1"

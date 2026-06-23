@@ -1,6 +1,6 @@
 phase_1_scaffold:
   status: complete
-  completed_through: P1-F013
+  completed_through: P1-F014
   human_gate_1: PENDING
 
 backlog:
@@ -319,13 +319,32 @@ backlog:
   - id: P1-F014
     title: "Final decision table after repair queue"
     phase: 1
-    status: todo
+    status: done
     type: governance
     blocked_by:
       - "P1-F013"
-      - "Human review of unresolved repair queue"
+      - "Human Gate 1 remains PENDING for dataset approval"
     acceptance_criteria:
-      - "Repair queue evidence is reviewed."
-      - "Candidate decisions remain source-supported."
-      - "Human Gate 1 remains PENDING unless explicitly reviewed by a human."
+      - "reports/tables/final_dataset_feasibility_decision.csv exists."
+      - "state/judge_reports/P1-F014_final_dataset_decision_report.md exists."
+      - "Every known candidate has one final decision row."
+      - "No candidate is marked approved."
+      - "Human Gate 1 remains PENDING."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+      - "project_state.blocked remains true."
+      - "No full datasets are downloaded."
+      - "No model code is created."
+
+  - id: P1-F015
+    title: "Request Human Gate 1 review"
+    phase: 1
+    status: todo
+    type: governance
+    blocked_by:
+      - "Human review of unresolved repair queue"
+      - "Final decision table is complete"
+    acceptance_criteria:
+      - "Human reviewer receives final decision table and repair queue."
+      - "Any gate status change is explicitly human-recorded."
       - "No Phase 2 work starts."

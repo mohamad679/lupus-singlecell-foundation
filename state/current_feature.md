@@ -1,53 +1,52 @@
 # Current Feature
 
-Feature: P1-F013 - Repair Loop for judge blockers.
+Feature: P1-F014 - Final Dataset Feasibility Decision Table.
 
 Status: completed pending human review.
 
 Allowed work:
 
-- Convert Scientific Judge and Bioinformatics Judge blockers into repair tasks.
-- Track required evidence, allowed resolution actions, forbidden actions, and human gate requirements.
-- Keep every repair unresolved or pending manual review.
+- Produce a final pre-Human Gate 1 decision table.
+- Summarize candidate readiness without approval.
+- Preserve unresolved repair blockers.
+- Keep all candidates as `candidate_pending_audit`.
 
-Repair loop created:
+Final dataset decision:
 
-- `state/repair_queue.yaml` contains structured repair items.
-- `reports/tables/judge_repair_queue.csv` contains tabular repair rows for auditing.
-- `reports/final_dataset_feasibility_report.md` includes a Judge Repair Queue section.
+- `GSE162577`: `limited_candidate`.
+- `GSE137029`: `continue_audit`.
+- `GSE174188`: `needs_manual_verification`.
+- `436154da-bcf1-4130-9c8b-120ff9a888f2::218acb0f-9f2f-4f76-b90b-15a4b7c7f629`: `continue_audit`.
 
 Blocking findings:
 
-- No blocker has been resolved yet.
-- Patient IDs, label provenance, activity labels, treatment metadata, batch metadata, cell-type labels, gene identifiers, raw/processed availability, controlled-access constraints, cohort overlap, and external validation roles remain unresolved.
+- No dataset is approved for modeling.
 - Human Gate 1 remains PENDING.
-- No dataset is approved or selected.
-
-Next planned feature:
-
-- Final decision table after repair queue review.
+- `selected_datasets` remains `[]`.
+- `external_validation_cohort` remains TODO.
+- Project remains blocked by unresolved dataset feasibility blockers before Human Gate 1.
+- Repair queue evidence must be reviewed before any human gate decision.
 
 Blocked work:
 
 - Dataset downloads.
 - Dataset approval.
 - Human Gate 1 closure.
-- Moving datasets into `selected_datasets`.
-- Moving datasets into `metadata/dataset_catalog.csv` as selected or approved.
-- Inferring missing metadata.
-- Marking repair rows resolved without source evidence and human review.
+- Assigning `selected_datasets`.
+- Assigning `external_validation_cohort`.
+- Resolving blockers by guessing.
 - Model implementation.
 - Model training.
 - Any Phase 2 work.
 
 Acceptance criteria:
 
-- `state/repair_queue.yaml` exists.
-- `reports/tables/judge_repair_queue.csv` exists.
-- Repair rows exist.
-- No repair is marked resolved.
-- Every repair has required evidence and forbidden actions.
+- `reports/tables/final_dataset_feasibility_decision.csv` exists.
+- `state/judge_reports/P1-F014_final_dataset_decision_report.md` exists.
+- Every known candidate has one final decision row.
+- No candidate is marked approved.
+- Overall readiness values are valid.
 - Human Gate 1 remains PENDING.
 - `selected_datasets` remains `[]`.
 - `external_validation_cohort` remains TODO.
-- `project.blocked` is true.
+- `project.blocked` remains true.
