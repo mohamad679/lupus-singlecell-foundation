@@ -1,0 +1,52 @@
+cohort_independence:
+  - "independent_study"
+  - "independent_site_or_lab"
+  - "independent_processing_pipeline_if_known"
+  - "no_patient_overlap"
+  - "no_sample_overlap"
+  - "no_cell_overlap"
+
+task_compatibility:
+  - "same_prediction_task"
+  - "compatible_label_definitions"
+  - "compatible_control_group"
+  - "disease_activity_score_comparable_if_used"
+  - "lupus_nephritis_definition_comparable_if_used"
+
+biological_compatibility:
+  - "compatible_tissue"
+  - "compatible_cell_types"
+  - "compatible_assay_type"
+  - "human_organism"
+  - "gene_identifier_mapping_possible"
+
+metadata_sufficiency:
+  - "patient_id_available"
+  - "sample_id_available"
+  - "cohort_id_available"
+  - "batch_id_available"
+  - "disease_label_available"
+  - "treatment_metadata_available_or_documented_missing"
+
+evaluation_feasibility:
+  - "enough_patients"
+  - "enough_controls_or_comparator"
+  - "patient_level_evaluation_possible"
+  - "calibration_evaluation_possible"
+  - "uncertainty_under_shift_analysis_possible"
+
+hard_rejection_rules:
+  - "cell-level split only"
+  - "no patient identifiers"
+  - "no disease labels"
+  - "non-human data"
+  - "bulk-only data"
+  - "same cohort as training without holdout design"
+  - "invented or unverifiable metadata"
+  - "incompatible prediction task"
+
+scoring:
+  - "external_validation_ready"
+  - "usable_with_caution"
+  - "internal_validation_only"
+  - "reject"

@@ -174,12 +174,32 @@ backlog:
       - "primary_task remains TODO."
 
   - id: P1-F007
+    title: "External validation candidate criteria"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "Human Gate 1 remains PENDING for external validation approval"
+    acceptance_criteria:
+      - "External validation criteria are documented."
+      - "metadata/external_validation_criteria.yaml exists."
+      - "reports/tables/external_validation_candidates.csv exists with headers only."
+      - "scripts/06_external_validation_audit.py exists."
+      - "Tests for external validation criteria and audit safety exist."
+      - "No dataset rows are created."
+      - "No external validation cohort is approved."
+      - "No cohort labels or metadata are invented."
+      - "No model code is created."
+      - "Human Gate 1 remains PENDING."
+      - "external_validation_cohort remains TODO."
+
+  - id: P1-F008
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F006"
+      - "P1-F007"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -187,7 +207,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-F008
+  - id: P1-F009
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

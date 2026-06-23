@@ -698,6 +698,89 @@ Reject or defer label use for prediction if:
 - Treatment response lacks a source definition.
 - Human Gate 1 is treated as approved while it remains PENDING.
 
+## External Validation Candidate Criteria
+
+### Why External Validation Is Required
+
+The project must not rely only on random train/test splits. External validation is required to test whether findings or predictions generalize across patients, cohorts, sites, processing pipelines, and biological contexts. A candidate external validation cohort must be evaluated before any modeling begins and cannot be approved while Human Gate 1 remains PENDING.
+
+### Internal Split, Leave-Cohort-Out, And True External Validation
+
+An internal split partitions patients from the same dataset or cohort. This can support early feasibility checks but does not establish cross-cohort generalization.
+
+Leave-cohort-out validation holds out one cohort or site from a multi-cohort dataset while training on the remaining cohorts. It is stronger than a random internal split but still depends on whether cohorts are independently recruited, processed, and labeled.
+
+True external validation uses an independently sourced dataset or collection with no patient, sample, or cell overlap with the training cohort. It must have compatible task labels, tissue, assay, and metadata.
+
+### Patient-Level Split Requirements
+
+Validation must occur at patient or donor level. Cells, samples, repeated measures, tissues, or batches from the same patient must remain grouped. Cell-level train/test splits are rejected because they leak patient-specific signals into evaluation.
+
+### Cohort Independence Requirements
+
+A candidate validation cohort must be checked for:
+
+- Independent study or collection.
+- Independent site or laboratory when available.
+- Independent processing pipeline when known.
+- No patient overlap.
+- No sample overlap.
+- No cell overlap.
+- Clear cohort identifier.
+
+If overlap cannot be ruled out from metadata, record `TODO` and do not approve the cohort.
+
+### Compatible Task-Label Requirements
+
+The validation cohort must support the same prediction task as the discovery or training cohort. Diagnosis, disease activity, lupus nephritis, treatment, and control labels must be source-supported and comparable. If label definitions differ, the audit must record the difference and downgrade or reject validation suitability.
+
+### Compatible Tissue Requirements
+
+Tissue or sample source must be compatible with the planned task. PBMC, blood, kidney, urine, renal biopsy, or other sources should not be mixed for validation unless the task explicitly allows it and the biological rationale is documented.
+
+### Compatible Assay Requirements
+
+Assay type should be compatible, such as scRNA-seq with scRNA-seq or snRNA-seq with snRNA-seq, unless human review approves a cross-assay validation rationale. Chemistry, platform, and processed object differences must be documented as possible cohort-shift risks.
+
+### Batch And Site Metadata Requirements
+
+Batch, site, library, chemistry, sequencing run, and processing metadata should be available or explicitly documented as missing. These fields are needed to evaluate confounding, leakage, calibration, and uncertainty under shift.
+
+### Disease And Control Composition Requirements
+
+The validation cohort must have enough patients in relevant disease and comparator groups for the intended task. Controls must be source-defined as healthy controls, disease controls, non-nephritis SLE comparators, or other autoimmune disease comparators. Ambiguous control composition remains `TODO`.
+
+### Minimum Sample And Patient Requirements
+
+Minimum patient and sample requirements must be task-specific and manually reviewed. The audit must record whether minimum patient count and comparator count are met. Cell counts alone do not establish validation sufficiency.
+
+### Lupus Nephritis External Validation Rules
+
+Lupus nephritis cohorts can serve as external validation only when nephritis status, comparator definition, tissue context, and renal involvement metadata are compatible with the task. Kidney tissue alone does not prove lupus nephritis status. Histologic class can be used only if explicitly available.
+
+### Disease Activity Validation Rules
+
+Disease activity validation requires comparable activity labels or scores, such as active/inactive labels, SLEDAI-derived categories, flare/remission labels, or another source-defined clinical proxy. If score definitions or thresholds differ, the cohort must be marked usable with caution, internal-validation-only, reject, or TODO until reviewed.
+
+### Uncertainty Under Cohort Shift Relevance
+
+External validation should support calibration and uncertainty-under-shift analysis when possible. Cohort shift can arise from tissue, assay, patient composition, treatment, activity, site, processing, or annotation differences. A validation candidate with unresolved shift metadata cannot be marked external-validation-ready.
+
+### Rejection Rules
+
+Reject or defer a candidate external validation cohort if:
+
+- Only cell-level train/test splitting is possible.
+- Patient identifiers are unavailable.
+- Disease labels are unavailable.
+- Data are non-human.
+- Data are bulk-only.
+- The candidate is the same cohort as training without a documented holdout design.
+- Metadata are invented, guessed, or unverifiable.
+- The prediction task is incompatible.
+- Critical external-validation fields are TODO or unresolved.
+- Human Gate 1 is treated as approved while it remains PENDING.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.
