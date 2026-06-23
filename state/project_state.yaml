@@ -1,12 +1,13 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_2_data_pipeline_scaffold
+  status: phase_2_complete_restricted_gate
   current_phase: "Phase 2"
   current_phase_name: "Data Pipeline Scaffold"
-  current_feature: P2-F010
+  current_feature: P2-F011
   blocked: false
   blocked_reason: null
-  primary_task: TODO
+  human_gate_2: approved_with_restrictions
+  primary_task: "SLE diagnosis / case-control prediction"
   external_validation_cohort: TODO
   selected_datasets: []
   modeling_allowed: false
@@ -58,9 +59,16 @@ human_gates:
     required_before: "Any model training"
   prediction_task_approval:
     label: "Human Gate 2: Labels and Prediction Task Approval"
-    status: pending
+    status: approved_with_restrictions
     owner: TODO
-    required_before: "Primary task selection, dataset assignment, or Phase 3"
+    required_before: "Phase 3 baseline design for SLE diagnosis / case-control prediction only"
+    restrictions:
+      - "No training until a baseline feature explicitly starts."
+      - "No cell-level split."
+      - "Patient- or donor-level split required."
+      - "External validation remains TODO."
+      - "Label provenance required before reporting results."
+      - "Baseline results remain preliminary until labels are verified."
 
 artifacts:
   master_spec: docs/00_master_spec.md
@@ -115,6 +123,8 @@ artifacts:
   prediction_task_schema: metadata/prediction_task_schema.yaml
   prediction_task_candidates: reports/tables/prediction_task_candidates.csv
   human_gate_2_checklist: state/human_gate_2_checklist.yaml
+  human_gate_2_decision: state/human_gate_2_decision.yaml
+  human_gate_2_decision_report: state/judge_reports/P2-F011_human_gate_2_decision_report.md
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -170,5 +180,6 @@ artifacts:
   cohort_manifest_validation_test: tests/test_cohort_manifest_validation.py
   dataset_access_plan_test: tests/test_dataset_access_plan.py
   prediction_task_candidates_test: tests/test_prediction_task_candidates.py
+  human_gate_2_decision_test: tests/test_human_gate_2_decision.py
 
 last_updated: "2026-06-24"

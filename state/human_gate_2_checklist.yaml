@@ -1,7 +1,7 @@
 {
   "gate_id": "Human Gate 2",
   "title": "Labels and Prediction Task Approval",
-  "overall_status": "pending",
+  "overall_status": "approved_with_restrictions",
   "automatic_approval_allowed": false,
   "checks": {
     "label_availability": {
@@ -29,7 +29,7 @@
       "required_evidence": "Adequate patient counts and cohort structure for calibration and shift analysis."
     }
   },
-  "decision": "TODO",
-  "primary_task": "TODO",
-  "notes": "No task or dataset is approved for modeling. Phase 3 must not start."
+  "decision": "approved_with_restrictions",
+  "primary_task": "SLE diagnosis / case-control prediction",
+  "notes": "All evidence checks remain pending. Approval is limited to Phase 3 baseline design; no dataset or modeling is approved."
 }

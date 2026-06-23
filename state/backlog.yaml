@@ -4,13 +4,23 @@ phase_1_scaffold:
   human_gate_1: approved_with_restrictions
 
 phase_2_scaffold:
-  status: complete_pending_human_gate_2
-  completed_through: P2-F010
+  status: complete
+  completed_through: P2-F011
   restrictions:
     - "No modeling."
     - "No downloads without explicit feature approval."
     - "No cell-level splits."
     - "Pipeline scaffold only."
+
+phase_3_scaffold:
+  status: not_started
+  completed_through: TODO
+  restrictions:
+    - "Backlog scaffold only."
+    - "No Phase 3 implementation in P2-F011."
+    - "No model implementation or training."
+    - "Patient- or donor-level splits only."
+    - "External validation remains TODO."
 
 backlog:
   - id: P0-001
@@ -597,3 +607,166 @@ backlog:
     judge_gates:
       - "Scientific Judge label feasibility review."
       - "Human Gate 2 required before task selection."
+
+  - id: P2-F011
+    feature_id: P2-F011
+    title: "Human Gate 2 Decision"
+    phase: 2
+    status: done
+    description: "Record restricted approval for SLE diagnosis/case-control baseline design without enabling modeling."
+    acceptance_criteria:
+      - "state/human_gate_2_decision.yaml exists."
+      - "Human Gate 2 is approved_with_restrictions."
+      - "Only SLE diagnosis/case-control baseline design is approved."
+      - "Disease activity, flare, and lupus nephritis tasks remain blocked."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+      - "allow_modeling remains false."
+      - "Phase 3 is backlog-only."
+    dependencies:
+      - "P2-F010"
+    required_tests:
+      - "tests/test_human_gate_2_decision.py"
+    judge_gates:
+      - "Restricted Human Gate 2 decision recorded."
+
+  - id: P3-F001
+    feature_id: P3-F001
+    title: "Baseline modeling scaffold"
+    phase: 3
+    status: todo
+    description: "Define baseline architecture and safety controls without fitting models."
+    acceptance_criteria:
+      - "Baseline scaffold scope is documented."
+      - "No training occurs unless explicitly authorized."
+      - "Patient- or donor-level split policy is preserved."
+    dependencies:
+      - "P2-F011"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific Judge scope review."
+
+  - id: P3-F002
+    feature_id: P3-F002
+    title: "Pseudobulk feature design"
+    phase: 3
+    status: todo
+    description: "Plan patient-level pseudobulk features and provenance requirements."
+    acceptance_criteria:
+      - "Aggregation units and leakage controls are documented."
+      - "No cell-level split is allowed."
+      - "No real features are generated in the planning feature."
+    dependencies:
+      - "P3-F001"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Bioinformatics Judge feature-design review."
+
+  - id: P3-F003
+    feature_id: P3-F003
+    title: "Logistic regression baseline"
+    phase: 3
+    status: todo
+    description: "Future interpretable linear baseline for the restricted SLE case-control task."
+    acceptance_criteria:
+      - "Implementation requires explicit modeling authorization."
+      - "Evaluation uses patient- or donor-level partitions."
+      - "Results are marked preliminary until labels are verified."
+    dependencies:
+      - "P3-F002"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific and Engineering Judge review."
+
+  - id: P3-F004
+    feature_id: P3-F004
+    title: "Random forest / XGBoost baseline"
+    phase: 3
+    status: todo
+    description: "Future nonlinear tabular baseline under the same restricted task and split policy."
+    acceptance_criteria:
+      - "Implementation requires explicit modeling authorization."
+      - "Patient-level leakage tests pass."
+      - "Comparison with the linear baseline is predefined."
+    dependencies:
+      - "P3-F002"
+      - "P3-F003"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific and Engineering Judge review."
+
+  - id: P3-F005
+    feature_id: P3-F005
+    title: "Cell-type proportion baseline"
+    phase: 3
+    status: todo
+    description: "Future patient-level baseline using verified cell-type proportions."
+    acceptance_criteria:
+      - "Cell-type annotation provenance is required."
+      - "Features are aggregated per patient or donor."
+      - "No cell-level split is used."
+    dependencies:
+      - "P3-F002"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Bioinformatics and Scientific Judge review."
+
+  - id: P3-F006
+    feature_id: P3-F006
+    title: "Baseline evaluation protocol"
+    phase: 3
+    status: todo
+    description: "Define patient-level metrics, comparisons, and preliminary reporting rules."
+    acceptance_criteria:
+      - "Metrics and confidence intervals are predefined."
+      - "Patient-level evaluation is mandatory."
+      - "External validation is not claimed while TODO."
+    dependencies:
+      - "P3-F001"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific Judge evaluation review."
+
+  - id: P3-F007
+    feature_id: P3-F007
+    title: "Calibration metrics scaffold"
+    phase: 3
+    status: todo
+    description: "Plan calibration metrics without implementing uncertainty modeling."
+    acceptance_criteria:
+      - "Calibration metrics and sample-size limitations are documented."
+      - "No uncertainty model is implemented."
+      - "Cohort-shift limitations are explicit."
+    dependencies:
+      - "P3-F006"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific Judge calibration review."
+
+  - id: P3-F008
+    feature_id: P3-F008
+    title: "Baseline Scientific Judge review"
+    phase: 3
+    status: todo
+    description: "Review future baseline evidence, leakage controls, and claim limits."
+    acceptance_criteria:
+      - "All baseline findings receive scientific review."
+      - "Label and cohort limitations are documented."
+      - "No unsupported clinical claims are accepted."
+    dependencies:
+      - "P3-F003"
+      - "P3-F004"
+      - "P3-F005"
+      - "P3-F006"
+      - "P3-F007"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific Judge decision required."

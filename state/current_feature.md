@@ -1,28 +1,32 @@
 # Current Feature
 
-Feature: P2-F010 - Human Gate 2 preparation: labels and prediction task.
+Feature: P2-F011 - Human Gate 2 Decision.
 
-Status: completed pending human review.
+Status: completed with restricted Human Gate 2 approval.
 
-Planner and Scientific Judge scope:
+Planner and Scientific Judge decision:
 
-- Define candidate prediction tasks and their minimum label evidence.
-- Assess current scientific feasibility without selecting a primary task.
-- Create a pending Human Gate 2 checklist.
-- Preserve all Phase 2 safety restrictions.
+- Human Gate 2 is `approved_with_restrictions`.
+- Only Phase 3 baseline design for SLE diagnosis / case-control prediction is
+  allowed next.
+- This decision does not approve data acquisition, preprocessing, model
+  implementation, or training.
+- `allow_modeling` remains false until a later explicit Phase 3 feature changes
+  it.
 
 Scientific decision:
 
-- SLE vs healthy diagnosis: `partially_feasible`.
+- SLE vs healthy diagnosis: restricted primary task for baseline design.
 - Disease activity prediction: `blocked`.
 - Flare prediction: `blocked`.
 - Lupus nephritis prediction: `blocked`.
-- No task is approved.
-- `primary_task` remains TODO.
+- Foundation models, deep patient-level MIL, uncertainty modeling, and dashboard
+  work are not approved.
 
 Main blockers:
 
-- Patient-level label mapping and provenance are unresolved.
+- Patient-level label mapping and provenance require verification before
+  reporting results.
 - Disease activity and flare labels are not explicitly verified.
 - Lupus nephritis labels and compatible comparators are unresolved.
 - Cross-cohort overlap and external validation independence are unresolved.
@@ -38,6 +42,8 @@ Explicitly forbidden:
 - Assigning `selected_datasets`.
 - Assigning `external_validation_cohort`.
 - Starting Phase 3.
+- Implementing Phase 3 backlog items.
 
-Human Gate 2 remains pending. All checklist items require human-reviewed
-evidence before a primary prediction task can be selected.
+Phase 2 is complete. Phase 3 exists only as a backlog scaffold.
+`selected_datasets` remains `[]`, `external_validation_cohort` remains TODO, and
+any future baseline result must be marked preliminary until labels are verified.

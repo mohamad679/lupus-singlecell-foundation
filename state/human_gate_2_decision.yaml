@@ -1,0 +1,32 @@
+{
+  "gate_id": "Human Gate 2",
+  "decision_feature": "P2-F011",
+  "human_gate_2_status": "approved_with_restrictions",
+  "primary_task": "SLE diagnosis / case-control prediction",
+  "approved_only_for": [
+    "Phase 3 baseline design for SLE diagnosis / case-control prediction"
+  ],
+  "not_approved_for": [
+    "disease activity prediction",
+    "flare prediction",
+    "lupus nephritis prediction",
+    "foundation models",
+    "deep patient-level MIL",
+    "uncertainty modeling",
+    "dashboard"
+  ],
+  "required_restrictions": [
+    "No training until a baseline feature explicitly starts.",
+    "No cell-level split.",
+    "Patient- or donor-level split is required.",
+    "External validation remains TODO.",
+    "Label provenance must be checked before reporting results.",
+    "Any baseline result must be marked preliminary until dataset labels are verified."
+  ],
+  "selected_datasets": [],
+  "external_validation_cohort": "TODO",
+  "allow_modeling": false,
+  "dataset_modeling_approval": "not_granted",
+  "phase_3_entry_scope": "backlog and baseline scaffold only",
+  "notes": "This decision does not approve datasets, data acquisition, preprocessing, model implementation, or training."
+}

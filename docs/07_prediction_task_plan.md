@@ -187,3 +187,49 @@ Human Gate 2 remains pending until a reviewer can verify:
 
 `primary_task` remains TODO. `selected_datasets` remains empty, and
 `external_validation_cohort` remains TODO. Phase 3 must not start.
+
+## Human Gate 2 Decision
+
+Human Gate 2 is `approved_with_restrictions`.
+
+### Approved Task
+
+The only approved next scope is **Phase 3 baseline design for SLE diagnosis /
+case-control prediction**. The underlying task remains scientifically
+`partially_feasible`; this restricted gate permits design work and does not
+constitute dataset approval or modeling authorization.
+
+### Blocked Tasks
+
+- Disease activity prediction remains blocked.
+- Flare prediction remains blocked.
+- Lupus nephritis prediction remains blocked.
+- Foundation models, deep patient-level MIL, uncertainty modeling
+  implementation, and dashboard development are not approved.
+
+### Restrictions
+
+- No training may begin until a later baseline feature explicitly authorizes
+  it.
+- Cell-level splitting is forbidden.
+- Patient- or donor-level splitting is required.
+- `selected_datasets` remains empty.
+- `external_validation_cohort` remains TODO.
+- No candidate dataset is fully approved for modeling.
+
+### Checks Required Before Reporting Results
+
+- Verify exact diagnosis and control label fields, values, and provenance.
+- Verify patient/donor and sample linkage.
+- Confirm that train, validation, and test partitions contain no patient or
+  donor overlap.
+- Resolve candidate cohort overlap and technical confounding.
+- Document treatment, batch, assay, and cohort limitations.
+- Mark every baseline result preliminary until dataset labels are verified.
+
+### Phase 3 Entry Boundary
+
+Phase 3 may begin only with P3-F001, a baseline modeling scaffold. This gate
+does not permit preprocessing, model implementation, fitting, evaluation, or
+reporting of results. `allow_modeling` remains false until an explicit later
+feature changes that control.

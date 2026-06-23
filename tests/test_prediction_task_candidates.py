@@ -70,27 +70,27 @@ def test_prediction_task_table_has_four_unapproved_candidates():
     assert all(row["label_source"] for row in rows)
 
 
-def test_human_gate_2_checklist_remains_fully_pending():
+def test_human_gate_2_checklist_preserves_pending_evidence_checks():
     checklist = json.loads(CHECKLIST_PATH.read_text())
 
-    assert checklist["overall_status"] == "pending"
+    assert checklist["overall_status"] == "approved_with_restrictions"
     assert checklist["automatic_approval_allowed"] is False
     assert set(checklist["checks"]) == REQUIRED_GATE_CHECKS
     assert all(
         check["status"] == "pending" for check in checklist["checks"].values()
     )
-    assert checklist["decision"] == "TODO"
-    assert checklist["primary_task"] == "TODO"
+    assert checklist["decision"] == "approved_with_restrictions"
+    assert checklist["primary_task"] == "SLE diagnosis / case-control prediction"
 
 
 def test_project_state_preserves_phase2_safety_locks():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 2"' in state
-    assert "current_feature: P2-F010" in state
-    assert "primary_task: TODO" in state
+    assert "current_feature: P2-F011" in state
+    assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "allow_downloads: false" in state
     assert "allow_modeling: false" in state
-    assert "status: pending" in state
+    assert "human_gate_2: approved_with_restrictions" in state
