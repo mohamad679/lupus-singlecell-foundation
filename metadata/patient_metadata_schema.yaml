@@ -1,0 +1,96 @@
+fields:
+  patient_id:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Source-provided patient identifier; must never be inferred from cell names."
+  donor_id:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Source-provided donor identifier when distinct from patient_id."
+  sample_id:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Source-provided sample identifier used to map cells to samples."
+  sample_timepoint:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: true
+    description: "Sampling timepoint or visit label; TODO if unavailable."
+  cohort_id:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Cohort, study, or collection identifier needed to detect cross-cohort overlap."
+  batch_id:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Batch, site, library, chemistry, or processing identifier for leakage and confounding checks."
+  tissue:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Tissue or sample source such as PBMC, blood, kidney, urine, or renal biopsy."
+  disease_label:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Source-supported disease or control label; must not be guessed."
+  disease_activity_label:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: true
+    description: "Disease activity score, active/inactive label, flare/remission label, or documented proxy."
+  treatment_status:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: true
+    description: "Treatment exposure or status at sampling needed to evaluate confounding."
+  age:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: false
+    description: "Age or age bin if source-provided."
+  sex:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: false
+    description: "Sex or gender metadata if source-provided."
+  cell_count:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Cell count per patient, donor, or sample when source-verifiable."
+  cell_type_annotation_available:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: false
+    description: "Whether source or processed metadata include cell-type annotations."
+  raw_counts_available:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Whether raw counts are available without assuming from processed objects."
+  processed_object_available:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: false
+    description: "Whether a processed AnnData, Seurat, loom, or matrix object is available."
+  longitudinal_sample:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: true
+    description: "Whether repeated or longitudinal samples are source-documented."
+  notes:
+    required_for_training: false
+    required_for_external_validation: false
+    required_for_activity_prediction: false
+    description: "Free-text audit notes; use TODO for unknown information."
+  audit_status:
+    required_for_training: true
+    required_for_external_validation: true
+    required_for_activity_prediction: true
+    description: "Manual audit status for the row; required if any row exists."

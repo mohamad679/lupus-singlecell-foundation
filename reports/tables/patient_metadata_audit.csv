@@ -1,0 +1,1 @@
+patient_id,donor_id,sample_id,sample_timepoint,cohort_id,batch_id,tissue,disease_label,disease_activity_label,treatment_status,age,sex,cell_count,cell_type_annotation_available,raw_counts_available,processed_object_available,longitudinal_sample,notes,audit_status

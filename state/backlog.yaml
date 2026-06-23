@@ -136,12 +136,30 @@ backlog:
       - "Human Gate 1 remains PENDING."
 
   - id: P1-F005
+    title: "Patient-level metadata audit schema"
+    phase: 1
+    status: done
+    type: bioinformatics
+    blocked_by:
+      - "Human Gate 1 remains PENDING for data acquisition"
+    acceptance_criteria:
+      - "Patient metadata framework is documented."
+      - "metadata/patient_metadata_schema.yaml exists."
+      - "reports/tables/patient_metadata_audit.csv exists with headers only."
+      - "scripts/04_patient_metadata_audit.py exists."
+      - "Tests for patient metadata schema and audit safety exist."
+      - "No dataset rows are created."
+      - "No patient IDs or labels are invented."
+      - "No model code is created."
+      - "Human Gate 1 remains PENDING."
+
+  - id: P1-F006
     title: "Audit one candidate dataset for feasibility"
     phase: 1
     status: todo
     type: bioinformatics
     blocked_by:
-      - "P1-F004"
+      - "P1-F005"
       - "Human Gate 1 remains PENDING for data acquisition"
     acceptance_criteria:
       - "One candidate row in metadata/dataset_catalog.csv is populated from verified source evidence."
@@ -149,7 +167,7 @@ backlog:
       - "Access terms and raw/processed availability are recorded."
       - "No data files are downloaded."
 
-  - id: P1-F006
+  - id: P1-F007
     title: "Request dataset feasibility human gate"
     phase: 1
     status: todo

@@ -510,6 +510,75 @@ Datasets intended for prediction should contain enough independent patients, con
 
 Biological interpretation suitability depends on cell-type labels, gene identifiers, tissue relevance, raw counts or normalized matrix availability, and support for pathway or signature analysis. Interpretability cannot compensate for missing disease labels, non-human data, or unverifiable metadata.
 
+## Patient-level Metadata Audit Framework
+
+### Why Patient-level Metadata Matters
+
+Patient-level metadata determine whether a candidate single-cell lupus dataset can support patient-level prediction, leakage-free cohort splitting, external validation, and interpretable biological claims. Cell-level records alone are not sufficient because cells from the same patient are correlated and must not be split across training and evaluation sets.
+
+### Leakage Risks
+
+Major leakage risks include:
+
+- Splitting cells from the same patient across training and validation partitions.
+- Inferring patient IDs from sample names instead of using source-provided identifiers.
+- Mixing repeated samples from the same patient across partitions.
+- Ignoring batch, cohort, site, chemistry, or processing identifiers.
+- Treating treatment or disease activity labels as independent when they are confounded by patient, cohort, or timepoint.
+
+Cell-level splitting is forbidden for feasibility planning.
+
+### Donor Vs Sample Distinction
+
+The audit must distinguish patient, donor, and sample identifiers. A donor can have multiple samples, tissues, timepoints, or batches. A sample can contain many cells. Patient-level prediction requires source-supported mapping from cells to samples and samples to patients or donors.
+
+If the source only provides sample IDs but no patient or donor mapping, patient-level splitting remains unsupported.
+
+### Repeated Samples
+
+Repeated samples from the same patient must be tracked so they are grouped during splitting. Multiple tissues, technical replicates, sorted fractions, or library preparations from one patient must not be treated as independent patients.
+
+### Longitudinal Samples
+
+Longitudinal samples require explicit timepoint metadata such as visit, flare, remission, pre-treatment, post-treatment, or other source-defined timing. Disease-activity prediction requires documenting whether labels are contemporaneous with sampling.
+
+### Cohort Identifiers
+
+Cohort identifiers are required to identify discovery versus validation cohorts, multi-study merges, and possible cohort overlap across GEO, CELLxGENE, Human Cell Atlas, or publication-hosted repositories.
+
+### Batch Identifiers
+
+Batch identifiers should capture source-provided batch, site, library, chemistry, sequencing run, processing workflow, or cohort variables. Missing batch metadata limits leakage control and confounding assessment.
+
+### Disease Labels
+
+Disease labels must be source-supported and must distinguish SLE, lupus nephritis, healthy controls, and disease controls when available. Labels must not be guessed from titles, filenames, or broad autoimmune annotations.
+
+### Disease Activity Labels
+
+Disease activity labels may include disease activity scores, active/inactive status, flare/remission labels, renal activity, lupus nephritis class, or documented clinical proxies. Missing activity labels should be recorded as `TODO` and may make disease-activity prediction infeasible.
+
+### Treatment Metadata
+
+Treatment metadata should record exposure, timing, and status at sampling when available. Treatment can confound disease activity, cell state, and cohort differences, so unknown treatment status must be marked `TODO`.
+
+### External Validation Requirements
+
+External validation requires independent patient groups with compatible tissue, assay, disease labels, donor/sample mappings, and batch/cohort metadata. A validation cohort must not be only a cell-level split or sample-level split from the same patients unless human review explicitly approves that limitation.
+
+### Rejection Rules
+
+Reject or defer a candidate for patient-level prediction if:
+
+- Patient or donor identifiers are missing.
+- Patient IDs are inferred instead of source-provided.
+- Disease labels are missing or guessed.
+- Samples from the same patient cannot be grouped.
+- Cohort or batch metadata are too ambiguous to assess leakage.
+- Activity prediction is proposed without activity labels.
+- Any candidate requires dataset download before basic patient metadata feasibility can be assessed.
+- Human Gate 1 is treated as approved while it remains PENDING.
+
 ## Risks And Limitations
 
 - Public lupus single-cell datasets may have limited patient-level metadata.
