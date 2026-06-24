@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_3_complete_training_permission_blocked
+  status: phase_3_verification_in_progress_training_blocked
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F011
+  current_feature: P3-F012
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -56,7 +56,7 @@ modeling_readiness_gate:
   blocking_items: 8
   passed_items: 3
   allow_modeling: false
-  next_feature: "Future verification evidence review"
+  next_feature: "P3-F012 dataset selection and label verification"
 
 training_permission_decision:
   status: blocked
@@ -64,6 +64,20 @@ training_permission_decision:
   allow_modeling: false
   phase_4_allowed: false
   recommendation: "continue verification, not modeling"
+
+dataset_selection_and_label_verification:
+  status: completed_with_blockers
+  candidates_reviewed:
+    - GSE137029
+    - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+  primary_candidate_for_continued_verification: GSE137029
+  dataset_selected: false
+  patient_level_labels_verified: false
+  leakage_safe_identifiers_verified: false
+  training_candidate_approved: false
+  allow_modeling: false
+  training_permission: blocked
+  recommendation: "Continue approved metadata verification; do not select or train."
 
 human_gates:
   phase_0_scaffold_review:
@@ -196,6 +210,10 @@ artifacts:
   dataset_label_verification_checklist: reports/tables/dataset_label_verification_checklist.csv
   training_permission_decision: state/training_permission_decision.yaml
   training_permission_decision_report: state/judge_reports/P3-F011_training_permission_decision_report.md
+  dataset_selection_and_label_verification_plan: docs/10_dataset_selection_and_label_verification.md
+  dataset_selection_verification: reports/tables/dataset_selection_verification.csv
+  label_provenance_verification: reports/tables/label_provenance_verification.csv
+  patient_id_verification: reports/tables/patient_id_verification.csv
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -264,5 +282,6 @@ artifacts:
   modeling_readiness_gate_test: tests/test_modeling_readiness_gate.py
   dataset_label_verification_plan_test: tests/test_dataset_label_verification_plan.py
   training_permission_decision_test: tests/test_training_permission_decision.py
+  dataset_selection_label_verification_test: tests/test_dataset_selection_label_verification.py
 
 last_updated: "2026-06-24"

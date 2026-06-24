@@ -13,8 +13,8 @@ phase_2_scaffold:
     - "Pipeline scaffold only."
 
 phase_3_scaffold:
-  status: complete
-  completed_through: P3-F011
+  status: verification_in_progress
+  completed_through: P3-F012
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -867,3 +867,25 @@ backlog:
       - "tests/test_training_permission_decision.py"
     judge_gates:
       - "Human training permission gate."
+
+  - id: P3-F012
+    feature_id: P3-F012
+    title: "Dataset selection and label verification"
+    phase: 3
+    status: done
+    description: "Review repository-recorded evidence for GSE137029 and its linked CELLxGENE/HCA representation without selecting a dataset or enabling training."
+    acceptance_criteria:
+      - "Dataset selection, label provenance, and patient-ID verification reports exist."
+      - "Only GSE137029 and the linked CELLxGENE/HCA candidate are reviewed."
+      - "Verified facts have explicit evidence sources."
+      - "Patient-level label and identifier gaps remain unclear or blocked where evidence is insufficient."
+      - "No dataset is approved or added to selected_datasets."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "External validation remains TODO."
+      - "Phase 4 is not started."
+    dependencies:
+      - "P3-F011"
+    required_tests:
+      - "tests/test_dataset_selection_label_verification.py"
+    judge_gates:
+      - "Separate human dataset selection and training permission review after blockers are resolved."

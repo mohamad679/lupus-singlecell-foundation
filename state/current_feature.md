@@ -1,55 +1,40 @@
 # Current Feature
 
-Feature: P3-F011 - Training permission decision.
+Feature: P3-F012 - Dataset selection and label verification.
 
-Status: completed; training permission is `blocked`.
+Status: completed with unresolved modeling-readiness blockers.
 
-Planner and Scientific Judge decision:
+Planner and Scientific Judge findings:
 
-- Formal Training Permission Decision recorded.
-- Decision: `blocked`.
-- Modeling readiness remains `not_ready`.
-- All eight verification blockers remain unresolved.
-- `allow_modeling` and `training_allowed` remain false.
+- GSE137029 is the primary candidate for continued verification only.
+- GSE137029 is not selected and is not approved for modeling.
+- The CELLxGENE/HCA representation is useful for metadata verification but may
+  overlap GSE137029 and cannot be treated as independent.
+- Human lupus single-cell study context is verified for both candidates.
+- Patient-level diagnosis-label provenance is not verified.
+- GSE137029 patient/donor identifier availability remains unclear.
+- CELLxGENE donor identifiers are visible, but donor/sample/label linkage and
+  cross-source deduplication remain unresolved.
 
-Scientific decision:
+Modeling controls:
 
-- SLE diagnosis / case-control prediction: approved for baseline design only.
-- Disease activity prediction: `blocked`.
-- Flare prediction: `blocked`.
-- Lupus nephritis prediction: `blocked`.
-- Foundation models, deep patient-level MIL, uncertainty modeling, and dashboard
-  work are not approved.
+- `modeling_readiness`: `not_ready`
+- `training_permission`: `blocked`
+- `allow_modeling`: false
+- `selected_datasets`: []
+- `external_validation_cohort`: TODO
 
 Explicitly forbidden:
 
-- Computing real or mock calibration metrics.
-- Generating reliability diagrams or calibration curves.
-- Implementing uncertainty, abstention, or selective prediction methods.
-- Reporting performance or clinical utility claims.
-- Fitting or training models.
-- Prediction or probability generation.
-- Model artifact creation.
-- Loading real features, labels, or datasets.
-- Loading or preprocessing real cell-level data.
-- Real pseudobulk feature extraction or matrix creation.
-- Loading or preprocessing real data.
-- Deep learning or DeepSets.
-- Foundation models.
-- Uncertainty modeling.
-- Dashboard work.
-- Model artifacts.
-- Dataset approval or selection.
-- External validation assignment.
-- Cell-level splitting.
+- Training or fitting models.
+- Creating model artifacts or predictions.
+- Selecting or approving either candidate without a separate evidence-backed
+  human decision.
+- Guessing patient IDs, labels, sample relationships, or cohort independence.
+- Treating CELLxGENE/HCA as an independent external cohort.
+- Downloading full datasets.
 - Starting Phase 4.
 
-Main blockers are dataset selection, verified patient-level labels, approved
-data/QC, finalized feature policies, populated patient-level splits, passed
-real leakage checks, sample-size review, and training-cohort suitability.
-
-Recommendation: continue verification, not modeling. A future training decision
-requires all eight blockers to be verified and all blocking readiness checks to
-pass. Phase 4 is not started.
-`allow_modeling` remains false, `selected_datasets` remains `[]`, and
-`external_validation_cohort` remains TODO.
+Next work must inspect explicitly approved metadata assets, record exact
+patient/donor/sample and diagnosis-label fields, reconcile cross-source cohort
+overlap, and return for a separate selection decision.
