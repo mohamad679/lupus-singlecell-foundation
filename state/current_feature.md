@@ -1,16 +1,16 @@
 # Current Feature
 
-Feature: P3-F010 - Dataset and label verification plan.
+Feature: P3-F011 - Training permission decision.
 
-Status: completed; all eight verification blockers remain unresolved.
+Status: completed; training permission is `blocked`.
 
 Planner and Scientific Judge decision:
 
-- A strict evidence plan, schema, and eight-row verification checklist were
-  created.
-- No checklist row is verified.
-- Every modeling-readiness blocker remains pending or blocked.
-- Training remains blocked and `allow_modeling` remains false.
+- Formal Training Permission Decision recorded.
+- Decision: `blocked`.
+- Modeling readiness remains `not_ready`.
+- All eight verification blockers remain unresolved.
+- `allow_modeling` and `training_allowed` remain false.
 
 Scientific decision:
 
@@ -48,8 +48,8 @@ Main blockers are dataset selection, verified patient-level labels, approved
 data/QC, finalized feature policies, populated patient-level splits, passed
 real leakage checks, sample-size review, and training-cohort suitability.
 
-Next work is evidence collection and manual inspection under the verification
-plan, followed by a separate P3-F011 Training Permission Decision. Phase 4 is
-not started.
+Recommendation: continue verification, not modeling. A future training decision
+requires all eight blockers to be verified and all blocking readiness checks to
+pass. Phase 4 is not started.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

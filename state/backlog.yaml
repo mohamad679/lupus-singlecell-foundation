@@ -13,8 +13,8 @@ phase_2_scaffold:
     - "Pipeline scaffold only."
 
 phase_3_scaffold:
-  status: in_progress
-  completed_through: P3-F010
+  status: complete
+  completed_through: P3-F011
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -851,16 +851,19 @@ backlog:
     feature_id: P3-F011
     title: "Training permission decision"
     phase: 3
-    status: todo
+    status: done
     description: "Record an explicit human decision to approve or deny restricted baseline training after readiness evidence is reviewed."
     acceptance_criteria:
       - "Every blocking readiness condition is reviewed."
       - "Training permission is explicit and auditable."
+      - "Training permission is blocked while readiness remains not_ready."
+      - "allow_modeling and training_allowed remain false."
+      - "selected_datasets remains empty and external_validation_cohort remains TODO."
       - "Foundation models and uncertainty methods remain separately gated."
       - "Phase 4 does not start without explicit approval."
     dependencies:
       - "P3-F010"
     required_tests:
-      - "TODO"
+      - "tests/test_training_permission_decision.py"
     judge_gates:
       - "Human training permission gate."

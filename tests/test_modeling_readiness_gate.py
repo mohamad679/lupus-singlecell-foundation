@@ -87,7 +87,7 @@ def test_project_state_remains_locked_and_unassigned():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F010" in state
+    assert "current_feature: P3-F011" in state
     assert "modeling_readiness: not_ready" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state
@@ -105,7 +105,7 @@ def test_phase4_is_not_started_and_next_phase3_items_exist():
     assert "phase_4_scaffold:" not in backlog
     for feature_id in ["P3-F009", "P3-F010", "P3-F011"]:
         assert f"feature_id: {feature_id}" in backlog
-    assert "completed_through: P3-F010" in backlog
+    assert "completed_through: P3-F011" in backlog
 
 
 def test_no_model_artifacts_exist():

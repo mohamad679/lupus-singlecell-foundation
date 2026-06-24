@@ -1,0 +1,40 @@
+{
+  "decision_id": "P3-F011",
+  "decision_name": "Training Permission Decision",
+  "training_permission": "blocked",
+  "allow_modeling": false,
+  "training_allowed": false,
+  "modeling_readiness": "not_ready",
+  "reason": "unresolved modeling readiness blockers",
+  "blockers": [
+    "dataset_selection",
+    "label_provenance",
+    "patient_or_donor_id_availability",
+    "split_manifest_readiness",
+    "leakage_check_readiness",
+    "training_cohort_suitability",
+    "qc_approval",
+    "feature_manifest_readiness"
+  ],
+  "selected_datasets": [],
+  "external_validation_cohort": "TODO",
+  "phase_4_allowed": false,
+  "foundation_models_allowed": false,
+  "uncertainty_modeling_allowed": false,
+  "next_allowed_scope": [
+    "manual metadata verification",
+    "readiness evidence collection",
+    "verification checklist updates after human review",
+    "future training permission re-review"
+  ],
+  "required_before_reconsideration": [
+    "Every blocking verification row is supported by auditable evidence.",
+    "Every blocking Modeling Readiness Gate condition is passed.",
+    "A dataset and training cohort are explicitly selected by a human gate.",
+    "Patient/donor IDs and diagnosis/control labels are verified.",
+    "QC, split, leakage, and feature manifests are approved and populated.",
+    "A new explicit training permission decision is recorded."
+  ],
+  "audit_status": "training_permission_denied",
+  "notes": "This decision closes Phase 3 planning without enabling modeling or starting Phase 4."
+}
