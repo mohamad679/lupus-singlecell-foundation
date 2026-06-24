@@ -13,8 +13,8 @@ phase_2_scaffold:
     - "Pipeline scaffold only."
 
 phase_3_scaffold:
-  status: complete
-  completed_through: P3-F008
+  status: in_progress
+  completed_through: P3-F009
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -802,3 +802,61 @@ backlog:
       - "tests/test_baseline_scientific_judge_review.py"
     judge_gates:
       - "Scientific Judge decision required."
+
+  - id: P3-F009
+    feature_id: P3-F009
+    title: "Modeling Readiness Gate"
+    phase: 3
+    status: done
+    description: "Create a strict evidence gate that keeps training disabled until every blocking readiness condition is met."
+    acceptance_criteria:
+      - "state/modeling_readiness_gate.yaml exists."
+      - "Readiness status is not_ready."
+      - "All eleven required conditions are represented."
+      - "Unresolved blocking conditions remain pending."
+      - "allow_modeling and training_allowed remain false."
+      - "selected_datasets remains empty."
+      - "external_validation_cohort remains TODO."
+      - "Phase 4 is not started."
+    dependencies:
+      - "P3-F008"
+    required_tests:
+      - "tests/test_modeling_readiness_gate.py"
+    judge_gates:
+      - "Scientific Judge readiness decision."
+
+  - id: P3-F010
+    feature_id: P3-F010
+    title: "Dataset and label verification plan"
+    phase: 3
+    status: todo
+    description: "Plan auditable resolution of dataset selection, patient identifiers, and diagnosis-label provenance without training."
+    acceptance_criteria:
+      - "Dataset and label blockers have explicit evidence requirements."
+      - "No identifiers or labels are inferred."
+      - "No dataset is selected automatically."
+      - "Training remains disabled."
+    dependencies:
+      - "P3-F009"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific and Bioinformatics Judge verification review."
+
+  - id: P3-F011
+    feature_id: P3-F011
+    title: "Training permission decision"
+    phase: 3
+    status: todo
+    description: "Record an explicit human decision to approve or deny restricted baseline training after readiness evidence is reviewed."
+    acceptance_criteria:
+      - "Every blocking readiness condition is reviewed."
+      - "Training permission is explicit and auditable."
+      - "Foundation models and uncertainty methods remain separately gated."
+      - "Phase 4 does not start without explicit approval."
+    dependencies:
+      - "P3-F010"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Human training permission gate."

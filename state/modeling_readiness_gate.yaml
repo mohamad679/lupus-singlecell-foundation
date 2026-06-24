@@ -1,0 +1,133 @@
+{
+  "gate_id": "P3-F009",
+  "gate_name": "Modeling Readiness Gate",
+  "modeling_readiness": "not_ready",
+  "allow_modeling": false,
+  "training_allowed": false,
+  "phase_4_allowed": false,
+  "approved_scope": "readiness planning and blocker resolution only",
+  "conditions": [
+    {
+      "check_id": "MRG-001",
+      "requirement": "dataset selected",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Explicit human-approved dataset assignment for the restricted SLE case-control task.",
+      "current_evidence": "selected_datasets is empty; candidate datasets remain restricted planning candidates.",
+      "next_action": "Complete dataset and label verification, then request explicit dataset selection.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-002",
+      "requirement": "labels verified",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Exact patient-level diagnosis and control labels, values, definitions, linkage, and source provenance.",
+      "current_evidence": "Label schemas exist, but candidate patient-level label provenance remains unresolved.",
+      "next_action": "Verify source label fields and patient/sample linkage without inference.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-003",
+      "requirement": "patient/donor IDs verified",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Verified patient or donor identifiers with sample and repeated-measure linkage.",
+      "current_evidence": "Identifier requirements are documented; candidate-level usability is unresolved.",
+      "next_action": "Audit patient, donor, sample, timepoint, and overlap identifiers.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-004",
+      "requirement": "split manifest ready",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Populated patient-, donor-, or cohort-level split manifest with no cell-level assignments.",
+      "current_evidence": "The split manifest contains headers only.",
+      "next_action": "Populate only after dataset selection and verified identifiers.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-005",
+      "requirement": "leakage checks ready",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "All overlap, duplicate, cohort, batch, and label leakage checks pass on the approved split manifest.",
+      "current_evidence": "Mock-only leakage utilities and tests exist; no real split evidence has been evaluated.",
+      "next_action": "Run approved leakage checks only after a populated patient-level split exists.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-006",
+      "requirement": "prediction task approved",
+      "status": "passed",
+      "blocking": false,
+      "required_evidence": "Human Gate 2 approval for a specific task and scope.",
+      "current_evidence": "Human Gate 2 approved with restrictions for SLE diagnosis / case-control baseline design only.",
+      "next_action": "Preserve the restricted task; do not expand to blocked tasks.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-007",
+      "requirement": "training cohort selected",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Explicitly approved training cohort with patient counts, class balance, access, and provenance.",
+      "current_evidence": "No training cohort is assigned and selected_datasets remains empty.",
+      "next_action": "Review candidate evidence and obtain a human cohort-selection decision.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-008",
+      "requirement": "external validation plan documented",
+      "status": "passed",
+      "blocking": false,
+      "required_evidence": "Documented independence, compatibility, overlap, and evaluation criteria for future external validation.",
+      "current_evidence": "External validation criteria, audit scaffold, and cohort-independence rules are documented; cohort assignment remains TODO.",
+      "next_action": "Keep external_validation_cohort TODO until an independent cohort is verified and approved.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-009",
+      "requirement": "QC protocol approved",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Human-approved QC thresholds and reports for the selected training data.",
+      "current_evidence": "QC policy scaffold exists, but real filtering is disabled and qc_approval remains blocked.",
+      "next_action": "Acquire approved data, audit distributions, document thresholds, and obtain QC approval.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-010",
+      "requirement": "feature manifest ready",
+      "status": "pending",
+      "blocking": true,
+      "required_evidence": "Populated and audited patient-level pseudobulk or composition feature manifest.",
+      "current_evidence": "Feature manifests contain headers only; normalization and gene-filtering policies remain TODO.",
+      "next_action": "Finalize feature policies and create features only after explicit data and extraction approval.",
+      "audit_status": "readiness_reviewed"
+    },
+    {
+      "check_id": "MRG-011",
+      "requirement": "evaluation protocol ready",
+      "status": "passed",
+      "blocking": false,
+      "required_evidence": "Patient-level metric, calibration, leakage, threshold, and claim-safety contracts.",
+      "current_evidence": "Evaluation and calibration protocols exist, are tested, and were accepted with restrictions by the Scientific Judge.",
+      "next_action": "Finalize bootstrap, threshold, and ECE details before confirmatory evaluation.",
+      "audit_status": "readiness_reviewed"
+    }
+  ],
+  "blocking_check_ids": [
+    "MRG-001",
+    "MRG-002",
+    "MRG-003",
+    "MRG-004",
+    "MRG-005",
+    "MRG-007",
+    "MRG-009",
+    "MRG-010"
+  ],
+  "next_feature": "P3-F010",
+  "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
+}

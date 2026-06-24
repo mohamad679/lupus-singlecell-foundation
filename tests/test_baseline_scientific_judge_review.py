@@ -75,7 +75,7 @@ def test_project_state_remains_phase3_with_modeling_locked():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F008" in state
+    assert "current_feature: P3-F009" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state
     assert "selected_datasets: []" in state
@@ -83,13 +83,13 @@ def test_project_state_remains_phase3_with_modeling_locked():
     assert "training_allowed: false" in state
 
 
-def test_phase3_scaffold_complete_and_phase4_not_started():
+def test_phase3_readiness_work_continues_and_phase4_not_started():
     backlog = BACKLOG_PATH.read_text()
     state = STATE_PATH.read_text()
 
     assert "phase_3_scaffold:" in backlog
-    assert "status: complete" in backlog
-    assert "completed_through: P3-F008" in backlog
+    assert "status: in_progress" in backlog
+    assert "completed_through: P3-F009" in backlog
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog

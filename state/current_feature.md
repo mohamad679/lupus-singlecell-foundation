@@ -1,17 +1,16 @@
 # Current Feature
 
-Feature: P3-F008 - Baseline Scientific Judge review.
+Feature: P3-F009 - Modeling Readiness Gate.
 
-Status: completed; training remains blocked.
+Status: completed; modeling readiness is `not_ready`.
 
-Scientific Judge decision:
+Planner and Scientific Judge decision:
 
-- Phase 3 scaffold is `accepted_with_restrictions` as a baseline design
-  framework.
-- The patient-level pseudobulk, logistic, tree, composition, evaluation, and
-  calibration contracts are scientifically adequate for future gate review.
-- Training is allowed now: NO.
-- Modeling readiness is `not_ready`.
+- Modeling readiness gate created with eleven required conditions.
+- Three planning conditions are supported: restricted task approval, external
+  validation planning, and evaluation protocol readiness.
+- Eight blocking conditions remain pending.
+- Training remains blocked and `allow_modeling` remains false.
 
 Scientific decision:
 
@@ -49,7 +48,7 @@ Main blockers are dataset selection, verified patient-level labels, approved
 data/QC, finalized feature policies, populated patient-level splits, passed
 real leakage checks, sample-size review, and an external validation plan.
 
-Phase 3 scaffold is complete. The next action is a separate controlled baseline
-modeling/training gate, not training itself.
+Next work is P3-F010, Dataset and Label Verification Plan, followed by a
+separate P3-F011 Training Permission Decision. Phase 4 is not started.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

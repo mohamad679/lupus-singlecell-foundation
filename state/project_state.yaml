@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_3_scaffold_complete_training_blocked
+  status: phase_3_modeling_readiness_blocked
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F008
+  current_feature: P3-F009
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -13,6 +13,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
+  modeling_readiness: not_ready
   dataset_download_allowed: false
   allow_downloads: false
   dataset_accessions_verified: false
@@ -48,6 +49,13 @@ phase_3_scientific_review:
   modeling_ready: false
   training_allowed: false
   next_required_gate: "Controlled baseline modeling/training gate"
+
+modeling_readiness_gate:
+  status: not_ready
+  blocking_items: 8
+  passed_items: 3
+  allow_modeling: false
+  next_feature: P3-F010
 
 human_gates:
   phase_0_scaffold_review:
@@ -172,6 +180,9 @@ artifacts:
   calibration_protocol: src/evaluation/calibration_protocol.py
   baseline_scientific_judge_report: state/judge_reports/P3-F008_baseline_scientific_judge_report.md
   baseline_scientific_judge_review: reports/tables/baseline_scientific_judge_review.csv
+  modeling_readiness_gate: state/modeling_readiness_gate.yaml
+  modeling_readiness_gate_report: state/judge_reports/P3-F009_modeling_readiness_gate_report.md
+  modeling_readiness_checklist: reports/tables/modeling_readiness_checklist.csv
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -237,5 +248,6 @@ artifacts:
   baseline_evaluation_protocol_test: tests/test_baseline_evaluation_protocol.py
   calibration_metrics_scaffold_test: tests/test_calibration_metrics_scaffold.py
   baseline_scientific_judge_review_test: tests/test_baseline_scientific_judge_review.py
+  modeling_readiness_gate_test: tests/test_modeling_readiness_gate.py
 
 last_updated: "2026-06-24"
