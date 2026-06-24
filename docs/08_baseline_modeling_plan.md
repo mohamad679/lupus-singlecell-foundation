@@ -583,3 +583,118 @@ dependence must accompany any future interpretation.
 - Do not report performance or biological claims.
 
 The feature and result tables created by P3-F005 contain headers only.
+
+## Baseline Evaluation Protocol
+
+### Evaluation Objective
+
+The evaluation protocol defines how future baseline models would be compared
+for SLE diagnosis / case-control prediction without computing any current
+performance. Evaluation must estimate patient-level discrimination,
+classification behavior, and probability calibration under leakage-safe
+partitions. P3-F006 creates contracts and validation rules only.
+
+### Patient-level Evaluation Requirement
+
+Predictions must be associated with a patient or donor. Sample-level
+predictions are permitted only when samples remain linked to a verified patient
+or donor and repeated samples do not cross partitions. Cell-level predictions
+must not be reported as independent evaluation observations or converted into
+inflated patient counts.
+
+Each future prediction row must include the source dataset, split, true label,
+score, prediction unit, label verification status, leakage-check status, and
+audit status.
+
+### Cohort-level and External Validation Placeholder
+
+External validation is required later but remains TODO. A true external cohort
+must be independent of training data and have compatible patient-level labels,
+tissue, assay, feature construction, and evaluation definitions. Until a
+cohort is explicitly approved and overlap is excluded, only internal
+patient-level or leave-cohort-out evaluation may be designed, not claimed.
+
+### Required Metrics
+
+Future evaluation must define:
+
+- **AUROC:** ranking discrimination across patient-level cases and controls.
+- **AUPRC:** precision-recall performance, interpreted against class
+  prevalence.
+- **Balanced accuracy:** mean recall across classes.
+- **F1:** harmonic mean of precision and recall at a prespecified threshold.
+- **Sensitivity:** case recall at the selected threshold.
+- **Specificity:** control recall at the selected threshold.
+- **Brier score:** squared error of patient-level probability estimates.
+- **Expected Calibration Error:** binned calibration summary with binning
+  policy documented later.
+
+P3-F006 computes none of these metrics.
+
+### Confidence Interval Plan
+
+Confidence intervals are planned for patient-level metrics. The resampling unit
+must be the patient or donor, never the cell. Intervals must preserve class and
+cohort structure where feasible, report the method and number of successful
+resamples, and disclose instability caused by small patient counts.
+
+### Bootstrap Policy Placeholder
+
+Bootstrap is the planned method, but `n_bootstraps` remains TODO. A later
+feature must specify stratification, random seed, handling of single-class
+resamples, percentile or other interval construction, and whether resampling
+is nested within cohort. No bootstrap is executed here.
+
+### Class Imbalance Considerations
+
+Patient counts, not cell counts, define class prevalence. AUPRC must be
+interpreted relative to that prevalence. Balanced accuracy, sensitivity,
+specificity, and F1 should accompany AUROC. Any class weighting or threshold
+choice must be fitted without held-out patient information.
+
+### Calibration Caveats
+
+Calibration metrics require patient-level probability scores and enough
+patients across the probability range. Expected Calibration Error depends on
+binning and can be unstable in small cohorts. Calibration assessment does not
+authorize uncertainty modeling, entropy, selective prediction, or clinical
+risk claims.
+
+### Threshold Selection Policy
+
+A classification threshold must be prespecified or selected using training or
+validation patients only. The test set and future external cohort must not be
+used to choose a threshold, optimize F1, or target sensitivity/specificity.
+Every threshold-dependent metric must record the threshold source.
+
+### Leakage-prevention Dependency
+
+Evaluation cannot proceed unless patient, donor, sample, cell, cohort, batch,
+and label leakage checks pass. Feature extraction, normalization,
+hyperparameter selection, class weighting, calibration, and threshold
+selection must be isolated from held-out patients.
+
+### No Performance Claims Before Verified Labels
+
+No metric may be reported as scientific evidence until patient-level labels
+and provenance are verified. Even after verification, baseline findings remain
+preliminary until dataset scope, cohort overlap, and judge review are complete.
+This protocol makes no performance or clinical utility claim.
+
+### Failure Modes
+
+Future evaluation must fail when:
+
+- evaluation is attempted while `allow_real_evaluation` is false
+- predictions are cell-level or patient linkage is absent
+- labels are unverified
+- leakage checks have not passed
+- split or prediction manifests are missing
+- test data are used for threshold selection or model refinement
+- metrics are reported without patient counts and class counts
+- confidence intervals resample cells instead of patients
+- external validation is claimed without an approved independent cohort
+- clinical utility is claimed from scaffold or preliminary results
+
+The baseline evaluation results and prediction manifest created by P3-F006
+contain headers only.

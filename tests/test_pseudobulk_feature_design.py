@@ -133,7 +133,7 @@ def test_project_state_preserves_phase3_safety_locks():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F005" in state
+    assert "current_feature: P3-F006" in state
     assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state

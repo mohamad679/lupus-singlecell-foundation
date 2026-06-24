@@ -1,16 +1,16 @@
 # Current Feature
 
-Feature: P3-F005 - Cell-type proportion baseline scaffold.
+Feature: P3-F006 - Baseline evaluation protocol.
 
 Status: completed pending review.
 
 Builder scope:
 
-- Cell-type proportion baseline design/scaffold only.
-- Define restricted patient/donor/sample composition feature metadata.
-- Create header-only feature and result tables.
-- Validate caller-provided mock counts and fractions only.
-- Preserve patient/donor grouping and patient/cohort split requirements.
+- Evaluation protocol and validation scaffold only.
+- Define required discrimination and calibration metrics without computing them.
+- Create header-only evaluation and prediction-manifest tables.
+- Validate caller-provided mock prediction metadata only.
+- Require verified labels, patient-level units, and passed leakage checks.
 
 Scientific decision:
 
@@ -23,8 +23,9 @@ Scientific decision:
 
 Explicitly forbidden:
 
-- Computing real cell-type counts, totals, fractions, or transformations.
-- Fitting or training classifiers.
+- Computing metrics on real or mock predictions.
+- Reporting performance or clinical utility claims.
+- Fitting or training models.
 - Prediction or probability generation.
 - Model artifact creation.
 - Loading real features, labels, or datasets.
@@ -39,10 +40,9 @@ Explicitly forbidden:
 - Dataset approval or selection.
 - External validation assignment.
 - Cell-level splitting.
-- Starting P3-F006 or later features.
+- Starting P3-F007 or later features.
 
-The cell-type feature and result tables contain headers only. The utility
-validates mock metadata and numeric ranges without loading cells, computing
-proportions, fitting models, or generating predictions.
+The evaluation result and prediction-manifest tables contain headers only. The
+utility validates mock metadata without computing metrics or reading data.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

@@ -3,7 +3,7 @@ project:
   status: phase_3_baseline_modeling_scaffold
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F005
+  current_feature: P3-F006
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -154,6 +154,10 @@ artifacts:
   cell_type_proportion_features: reports/tables/cell_type_proportion_features.csv
   cell_type_proportion_results: reports/tables/cell_type_proportion_results.csv
   cell_type_proportion_scaffold: src/features/cell_type_proportions.py
+  evaluation_config: configs/evaluation.yaml
+  baseline_evaluation_results: reports/tables/baseline_evaluation_results.csv
+  baseline_prediction_manifest: reports/tables/baseline_prediction_manifest.csv
+  evaluation_protocol: src/evaluation/evaluation_protocol.py
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -216,5 +220,6 @@ artifacts:
   logistic_regression_scaffold_test: tests/test_logistic_regression_baseline_scaffold.py
   tree_baseline_scaffold_test: tests/test_tree_baseline_scaffold.py
   cell_type_proportion_baseline_test: tests/test_cell_type_proportion_baseline.py
+  baseline_evaluation_protocol_test: tests/test_baseline_evaluation_protocol.py
 
 last_updated: "2026-06-24"

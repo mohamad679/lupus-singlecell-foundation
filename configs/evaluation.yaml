@@ -1,0 +1,40 @@
+{
+  "task": "SLE diagnosis / case-control prediction",
+  "allow_real_evaluation": false,
+  "allow_performance_claims": false,
+  "require_patient_level_predictions": true,
+  "require_verified_labels": true,
+  "require_split_manifest": true,
+  "require_leakage_checks_passed": true,
+  "external_validation_required_later": true,
+  "metrics": {
+    "classification": [
+      "auroc",
+      "auprc",
+      "balanced_accuracy",
+      "f1",
+      "sensitivity",
+      "specificity"
+    ],
+    "calibration": [
+      "brier_score",
+      "expected_calibration_error"
+    ],
+    "uncertainty_later": [
+      "entropy",
+      "risk_coverage",
+      "selective_prediction"
+    ]
+  },
+  "confidence_intervals": {
+    "enabled_later": true,
+    "method": "bootstrap",
+    "n_bootstraps": "TODO"
+  },
+  "forbidden": [
+    "report_metric_without_verified_labels",
+    "evaluate_cell_level_predictions_as_patient_level",
+    "use_test_set_for_threshold_selection",
+    "claim_clinical_utility"
+  ]
+}

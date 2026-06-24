@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F005
+  completed_through: P3-F006
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -740,16 +740,20 @@ backlog:
     feature_id: P3-F006
     title: "Baseline evaluation protocol"
     phase: 3
-    status: todo
-    description: "Define patient-level metrics, comparisons, and preliminary reporting rules."
+    status: done
+    description: "Define patient-level metric, calibration, confidence-interval, and claim-safety contracts without computing performance."
     acceptance_criteria:
-      - "Metrics and confidence intervals are predefined."
-      - "Patient-level evaluation is mandatory."
-      - "External validation is not claimed while TODO."
+      - "Baseline evaluation protocol is documented."
+      - "Real evaluation and performance claims remain disabled."
+      - "Patient-level predictions and verified labels are required."
+      - "Leakage checks and split manifests are required."
+      - "Evaluation and prediction tables contain headers only."
+      - "Mock rows reject cell-level evaluation, unverified labels, and failed leakage checks."
+      - "External validation remains TODO and is not claimed."
     dependencies:
       - "P3-F001"
     required_tests:
-      - "TODO"
+      - "tests/test_baseline_evaluation_protocol.py"
     judge_gates:
       - "Scientific Judge evaluation review."
 
