@@ -3,7 +3,7 @@ project:
   status: phase_3_verification_in_progress_training_blocked
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F015
+  current_feature: P3-F016
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -56,7 +56,7 @@ modeling_readiness_gate:
   blocking_items: 8
   passed_items: 3
   allow_modeling: false
-  next_feature: "P3-F015 controlled metadata inspection execution, only after explicit approval"
+  next_feature: "P3-F017 training permission re-review remains TODO"
 
 training_permission_decision:
   status: blocked
@@ -121,6 +121,27 @@ dataset_label_evidence_review:
   modeling_readiness: not_ready
   training_permission: blocked
   allow_modeling: false
+
+modeling_readiness_recheck:
+  status: completed
+  decision: not_ready
+  recommendation: more_metadata_inspection_required
+  resolved_blocking_conditions: []
+  remaining_blocking_conditions:
+    - dataset_selection
+    - label_provenance
+    - patient_or_donor_id_availability
+    - split_manifest_readiness
+    - leakage_check_readiness
+    - training_cohort_suitability
+    - qc_approval
+    - feature_manifest_readiness
+  external_validation_plan_status: passed_plan_only
+  external_validation_cohort: TODO
+  selected_datasets: []
+  training_permission: blocked
+  allow_modeling: false
+  pivot_condition: "Pivot if explicit patient-level mappings cannot be obtained without prohibited access or inference."
 
 human_gates:
   phase_0_scaffold_review:
@@ -265,6 +286,8 @@ artifacts:
   metadata_inspection_evidence_log: reports/tables/metadata_inspection_evidence_log.csv
   metadata_inspection_gate: state/metadata_inspection_gate.yaml
   dataset_label_evidence_review: state/judge_reports/P3-F015_dataset_label_evidence_review.md
+  modeling_readiness_recheck: reports/tables/modeling_readiness_recheck.csv
+  modeling_readiness_recheck_report: state/judge_reports/P3-F016_modeling_readiness_recheck_report.md
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -337,5 +360,6 @@ artifacts:
   patient_label_evidence_plan_test: tests/test_patient_label_evidence_plan.py
   controlled_metadata_inspection_plan_test: tests/test_controlled_metadata_inspection_plan.py
   dataset_label_evidence_review_test: tests/test_dataset_label_evidence_review.py
+  modeling_readiness_recheck_test: tests/test_modeling_readiness_recheck.py
 
 last_updated: "2026-06-24"

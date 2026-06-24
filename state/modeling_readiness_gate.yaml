@@ -17,6 +17,29 @@
   "metadata_inspection_targets": "reports/tables/controlled_metadata_inspection_targets.csv",
   "metadata_inspection_evidence_log": "reports/tables/metadata_inspection_evidence_log.csv",
   "dataset_label_evidence_review": "state/judge_reports/P3-F015_dataset_label_evidence_review.md",
+  "modeling_readiness_recheck": "reports/tables/modeling_readiness_recheck.csv",
+  "modeling_readiness_recheck_report": "state/judge_reports/P3-F016_modeling_readiness_recheck_report.md",
+  "recheck_decision": {
+    "feature_id": "P3-F016",
+    "decision": "not_ready",
+    "recommendation": "more_metadata_inspection_required",
+    "resolved_blocking_check_ids": [],
+    "remaining_blocking_check_ids": [
+      "MRG-001",
+      "MRG-002",
+      "MRG-003",
+      "MRG-004",
+      "MRG-005",
+      "MRG-007",
+      "MRG-009",
+      "MRG-010"
+    ],
+    "allow_modeling": false,
+    "training_permission": "blocked",
+    "selected_datasets": [],
+    "external_validation_cohort": "TODO",
+    "pivot_trigger": "Recommend a dataset pivot if explicit patient-level mappings cannot be obtained without prohibited full-data access or inference."
+  },
   "conditions": [
     {
       "check_id": "MRG-001",
@@ -139,6 +162,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "P3-F016 metadata evidence judge review remains TODO",
+  "next_feature": "P3-F017 training permission re-review remains TODO",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }

@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F015
+  completed_through: P3-F016
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -961,18 +961,26 @@ backlog:
 
   - id: P3-F016
     feature_id: P3-F016
-    title: "Metadata evidence judge review"
+    title: "Modeling Readiness Re-check"
     phase: 3
-    status: TODO
-    description: "Review any future metadata inspection evidence for identifier, label, overlap, QC, split, and feature feasibility."
+    status: done
+    description: "Re-check every training-critical readiness condition after P3-F015 metadata review without enabling modeling."
     acceptance_criteria:
-      - "TODO: Define after controlled inspection evidence exists."
+      - "A Scientific Judge readiness re-check report exists."
+      - "The structured re-check table covers all requested requirements."
+      - "No blocking readiness condition passes without explicit sufficient evidence."
+      - "Patient/donor linkage, label provenance, split, leakage, QC, and feature blockers remain pending."
+      - "The external-validation plan remains documented while cohort assignment remains TODO."
+      - "Modeling readiness remains not_ready."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "No dataset is selected."
+      - "Phase 4 is not started."
     dependencies:
       - "P3-F015"
     required_tests:
-      - "TODO"
+      - "tests/test_modeling_readiness_recheck.py"
     judge_gates:
-      - "Scientific and Bioinformatics Judge evidence decision."
+      - "Scientific Judge readiness decision."
 
   - id: P3-F017
     feature_id: P3-F017

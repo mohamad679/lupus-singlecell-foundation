@@ -113,7 +113,7 @@ def test_training_and_project_state_remain_locked():
     state = STATE_PATH.read_text()
     decision = json.loads(DECISION_PATH.read_text())
 
-    assert "current_feature: P3-F015" in state
+    assert "current_feature: P3-F016" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -130,5 +130,5 @@ def test_phase4_not_started_and_p3_f012_recorded():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F015" in backlog
+    assert "completed_through: P3-F016" in backlog
     assert "feature_id: P3-F012" in backlog
