@@ -1,24 +1,26 @@
 # Current Feature
 
-Feature: P3-F013 - Patient/donor ID and label provenance evidence plan.
+Feature: P3-F014 - Controlled metadata inspection plan.
 
-Status: completed with all modeling-readiness blockers preserved.
+Status: completed as a plan only; no inspection has been executed.
 
 Planner, Scientific Judge, and Bioinformatics Judge findings:
 
-- A source-specific patient/donor identifier evidence plan now exists.
-- A source-specific diagnosis and comparator label provenance plan now exists.
-- GSE137029 requires exact patient/donor fields, sample mapping, and
-  case/control linkage.
-- CELLxGENE/HCA requires field-level donor completeness, sample relationships,
-  disease-label linkage, and original-source provenance.
-- GEO/CELLxGENE/HCA cohort overlap remains unresolved.
-- Disease activity and lupus nephritis labels remain blocked.
-- No evidence-plan row is verified; visible metadata is insufficient to pass a
-  modeling-readiness requirement.
+- Nine metadata/file-manifest targets are defined for GSE137029 and the linked
+  CELLxGENE/HCA candidate.
+- Allowed future actions are limited to public metadata pages, schema field
+  descriptions, file listings, and metadata-only manifests.
+- The evidence log contains headers only.
+- Every inspection target remains `pending_inspection`.
+- Patient/donor identifiers, sample linkage, label provenance, and cohort
+  overlap remain unresolved.
+- Raw/processed object, QC, feature, and split feasibility remain unverified.
 
 Modeling controls:
 
+- `inspection_gate_status`: `pending`
+- `allow_metadata_only_inspection`: true
+- `allow_full_data_download`: false
 - `modeling_readiness`: `not_ready`
 - `training_permission`: `blocked`
 - `allow_modeling`: false
@@ -27,12 +29,11 @@ Modeling controls:
 
 Explicitly forbidden:
 
-- Guessing or constructing identifiers, labels, or cohort mappings.
-- Downloading full datasets.
-- Selecting a dataset or assigning an external-validation cohort.
-- Creating a real split, features, predictions, or model artifacts.
-- Training models or starting Phase 4.
+- Executing metadata inspection without a later explicit feature.
+- Downloading full data, expression objects, sequencing reads, or file bundles.
+- Guessing identifiers, labels, sample relationships, or cohort overlap.
+- Preprocessing, splitting, feature extraction, training, or artifact creation.
+- Selecting a dataset, assigning external validation, or starting Phase 4.
 
-Next work requires a separately approved metadata evidence inspection. The
-results must preserve exact source fields and receive human review before any
-readiness blocker can pass.
+Next work remains P3-F015 TODO and requires explicit approval before any
+metadata target is inspected or evidence row is added.

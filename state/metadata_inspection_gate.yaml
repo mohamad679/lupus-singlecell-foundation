@@ -1,0 +1,41 @@
+{
+  "gate_id": "P3-F014",
+  "gate_name": "Controlled Metadata Inspection Gate",
+  "inspection_gate_status": "pending",
+  "allow_metadata_only_inspection": true,
+  "allow_full_data_download": false,
+  "allow_preprocessing": false,
+  "allow_modeling": false,
+  "training_permission": "blocked",
+  "phase_4_allowed": false,
+  "allowed_candidates": [
+    "GSE137029",
+    "CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629"
+  ],
+  "inspection_plan": "docs/12_controlled_metadata_inspection_plan.md",
+  "inspection_targets": "reports/tables/controlled_metadata_inspection_targets.csv",
+  "evidence_log": "reports/tables/metadata_inspection_evidence_log.csv",
+  "required_outputs_before_training": [
+    "verified_patient_or_donor_ids",
+    "verified_label_provenance",
+    "verified_split_manifest_feasibility",
+    "verified_no_overlap_or_documented_overlap",
+    "verified_qc_feasibility",
+    "verified_feature_manifest_feasibility"
+  ],
+  "forbidden_actions": [
+    "download_full_data",
+    "download_expression_objects",
+    "download_sequencing_reads",
+    "preprocess_data",
+    "infer_patient_or_donor_ids",
+    "infer_labels",
+    "infer_cohort_overlap",
+    "select_dataset",
+    "assign_external_validation_cohort",
+    "train_models",
+    "create_model_artifacts",
+    "start_phase_4"
+  ],
+  "notes": "This gate authorizes planning for later metadata-only inspection; it does not record completed inspection or verified evidence."
+}

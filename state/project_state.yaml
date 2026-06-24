@@ -3,7 +3,7 @@ project:
   status: phase_3_verification_in_progress_training_blocked
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F013
+  current_feature: P3-F014
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -56,7 +56,7 @@ modeling_readiness_gate:
   blocking_items: 8
   passed_items: 3
   allow_modeling: false
-  next_feature: "Future approved metadata evidence inspection"
+  next_feature: "P3-F015 controlled metadata inspection execution, only after explicit approval"
 
 training_permission_decision:
   status: blocked
@@ -93,6 +93,19 @@ patient_id_label_provenance_evidence_plan:
   modeling_readiness: not_ready
   training_permission: blocked
   allow_modeling: false
+
+controlled_metadata_inspection_plan:
+  status: completed_plan_only
+  inspection_gate_status: pending
+  allow_metadata_only_inspection: true
+  allow_full_data_download: false
+  evidence_rows_recorded: 0
+  inspection_targets_pending: 9
+  dataset_selected: false
+  modeling_readiness: not_ready
+  training_permission: blocked
+  allow_modeling: false
+  phase_4_started: false
 
 human_gates:
   phase_0_scaffold_review:
@@ -232,6 +245,10 @@ artifacts:
   patient_id_label_provenance_evidence_plan: docs/11_patient_id_label_provenance_evidence_plan.md
   patient_donor_id_evidence_plan: reports/tables/patient_donor_id_evidence_plan.csv
   label_provenance_evidence_plan: reports/tables/label_provenance_evidence_plan.csv
+  controlled_metadata_inspection_plan: docs/12_controlled_metadata_inspection_plan.md
+  controlled_metadata_inspection_targets: reports/tables/controlled_metadata_inspection_targets.csv
+  metadata_inspection_evidence_log: reports/tables/metadata_inspection_evidence_log.csv
+  metadata_inspection_gate: state/metadata_inspection_gate.yaml
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -302,5 +319,6 @@ artifacts:
   training_permission_decision_test: tests/test_training_permission_decision.py
   dataset_selection_label_verification_test: tests/test_dataset_selection_label_verification.py
   patient_label_evidence_plan_test: tests/test_patient_label_evidence_plan.py
+  controlled_metadata_inspection_plan_test: tests/test_controlled_metadata_inspection_plan.py
 
 last_updated: "2026-06-24"

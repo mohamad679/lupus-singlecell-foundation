@@ -12,6 +12,10 @@
   "verification_checklist": "reports/tables/dataset_label_verification_checklist.csv",
   "patient_donor_id_evidence_plan": "reports/tables/patient_donor_id_evidence_plan.csv",
   "label_provenance_evidence_plan": "reports/tables/label_provenance_evidence_plan.csv",
+  "controlled_metadata_inspection_plan": "docs/12_controlled_metadata_inspection_plan.md",
+  "metadata_inspection_gate": "state/metadata_inspection_gate.yaml",
+  "metadata_inspection_targets": "reports/tables/controlled_metadata_inspection_targets.csv",
+  "metadata_inspection_evidence_log": "reports/tables/metadata_inspection_evidence_log.csv",
   "conditions": [
     {
       "check_id": "MRG-001",
@@ -134,6 +138,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "Future approved metadata evidence inspection",
+  "next_feature": "P3-F015 controlled metadata inspection execution, only after explicit approval",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }

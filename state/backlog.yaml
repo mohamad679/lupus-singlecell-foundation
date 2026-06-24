@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F013
+  completed_through: P3-F014
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -912,3 +912,71 @@ backlog:
       - "tests/test_patient_label_evidence_plan.py"
     judge_gates:
       - "Scientific and Bioinformatics Judge evidence review before any blocker is changed."
+
+  - id: P3-F014
+    feature_id: P3-F014
+    title: "Controlled metadata inspection plan"
+    phase: 3
+    status: done
+    description: "Define metadata-only inspection targets, prohibited actions, evidence logging, and a pending inspection gate without inspecting or downloading data."
+    acceptance_criteria:
+      - "The controlled metadata inspection plan exists."
+      - "Exactly nine metadata and file-manifest targets are listed."
+      - "Every inspection target remains pending_inspection."
+      - "The metadata evidence log contains headers only."
+      - "The metadata inspection gate permits metadata-only inspection planning and forbids full downloads."
+      - "Modeling readiness remains not_ready."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "No dataset or external-validation cohort is assigned."
+      - "Phase 4 is not started."
+    dependencies:
+      - "P3-F013"
+    required_tests:
+      - "tests/test_controlled_metadata_inspection_plan.py"
+    judge_gates:
+      - "Explicit approval required before P3-F015 executes any metadata inspection."
+
+  - id: P3-F015
+    feature_id: P3-F015
+    title: "Controlled metadata inspection execution"
+    phase: 3
+    status: TODO
+    description: "Inspect only explicitly approved metadata targets and record source-preserving evidence without full-data download."
+    acceptance_criteria:
+      - "TODO: Define only when P3-F015 explicitly starts."
+    dependencies:
+      - "P3-F014"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Explicit metadata inspection approval."
+
+  - id: P3-F016
+    feature_id: P3-F016
+    title: "Metadata evidence judge review"
+    phase: 3
+    status: TODO
+    description: "Review any future metadata inspection evidence for identifier, label, overlap, QC, split, and feature feasibility."
+    acceptance_criteria:
+      - "TODO: Define after controlled inspection evidence exists."
+    dependencies:
+      - "P3-F015"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific and Bioinformatics Judge evidence decision."
+
+  - id: P3-F017
+    feature_id: P3-F017
+    title: "Modeling readiness and training permission re-review"
+    phase: 3
+    status: TODO
+    description: "Reconsider readiness and training permission only after all required evidence and downstream QC, split, leakage, and feature gates are resolved."
+    acceptance_criteria:
+      - "TODO: Define only after P3-F016."
+    dependencies:
+      - "P3-F016"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Explicit human training permission decision."
