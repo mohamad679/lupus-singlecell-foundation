@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F009
+  completed_through: P3-F010
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -829,9 +829,13 @@ backlog:
     feature_id: P3-F010
     title: "Dataset and label verification plan"
     phase: 3
-    status: todo
+    status: done
     description: "Plan auditable resolution of dataset selection, patient identifiers, and diagnosis-label provenance without training."
     acceptance_criteria:
+      - "docs/09_dataset_label_verification_plan.md exists."
+      - "metadata/dataset_label_verification_schema.yaml exists."
+      - "The verification checklist contains all eight blocking requirements."
+      - "No verification row is marked verified."
       - "Dataset and label blockers have explicit evidence requirements."
       - "No identifiers or labels are inferred."
       - "No dataset is selected automatically."
@@ -839,7 +843,7 @@ backlog:
     dependencies:
       - "P3-F009"
     required_tests:
-      - "TODO"
+      - "tests/test_dataset_label_verification_plan.py"
     judge_gates:
       - "Scientific and Bioinformatics Judge verification review."
 

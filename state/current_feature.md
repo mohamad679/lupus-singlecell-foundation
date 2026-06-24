@@ -1,15 +1,15 @@
 # Current Feature
 
-Feature: P3-F009 - Modeling Readiness Gate.
+Feature: P3-F010 - Dataset and label verification plan.
 
-Status: completed; modeling readiness is `not_ready`.
+Status: completed; all eight verification blockers remain unresolved.
 
 Planner and Scientific Judge decision:
 
-- Modeling readiness gate created with eleven required conditions.
-- Three planning conditions are supported: restricted task approval, external
-  validation planning, and evaluation protocol readiness.
-- Eight blocking conditions remain pending.
+- A strict evidence plan, schema, and eight-row verification checklist were
+  created.
+- No checklist row is verified.
+- Every modeling-readiness blocker remains pending or blocked.
 - Training remains blocked and `allow_modeling` remains false.
 
 Scientific decision:
@@ -46,9 +46,10 @@ Explicitly forbidden:
 
 Main blockers are dataset selection, verified patient-level labels, approved
 data/QC, finalized feature policies, populated patient-level splits, passed
-real leakage checks, sample-size review, and an external validation plan.
+real leakage checks, sample-size review, and training-cohort suitability.
 
-Next work is P3-F010, Dataset and Label Verification Plan, followed by a
-separate P3-F011 Training Permission Decision. Phase 4 is not started.
+Next work is evidence collection and manual inspection under the verification
+plan, followed by a separate P3-F011 Training Permission Decision. Phase 4 is
+not started.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

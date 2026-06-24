@@ -6,6 +6,9 @@
   "training_allowed": false,
   "phase_4_allowed": false,
   "approved_scope": "readiness planning and blocker resolution only",
+  "verification_plan": "docs/09_dataset_label_verification_plan.md",
+  "verification_schema": "metadata/dataset_label_verification_schema.yaml",
+  "verification_checklist": "reports/tables/dataset_label_verification_checklist.csv",
   "conditions": [
     {
       "check_id": "MRG-001",
@@ -14,7 +17,7 @@
       "blocking": true,
       "required_evidence": "Explicit human-approved dataset assignment for the restricted SLE case-control task.",
       "current_evidence": "selected_datasets is empty; candidate datasets remain restricted planning candidates.",
-      "next_action": "Complete dataset and label verification, then request explicit dataset selection.",
+      "next_action": "Resolve DLV-001 in reports/tables/dataset_label_verification_checklist.csv, then request explicit dataset selection.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -24,7 +27,7 @@
       "blocking": true,
       "required_evidence": "Exact patient-level diagnosis and control labels, values, definitions, linkage, and source provenance.",
       "current_evidence": "Label schemas exist, but candidate patient-level label provenance remains unresolved.",
-      "next_action": "Verify source label fields and patient/sample linkage without inference.",
+      "next_action": "Resolve DLV-002 in reports/tables/dataset_label_verification_checklist.csv without inference.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -34,7 +37,7 @@
       "blocking": true,
       "required_evidence": "Verified patient or donor identifiers with sample and repeated-measure linkage.",
       "current_evidence": "Identifier requirements are documented; candidate-level usability is unresolved.",
-      "next_action": "Audit patient, donor, sample, timepoint, and overlap identifiers.",
+      "next_action": "Resolve DLV-003 in reports/tables/dataset_label_verification_checklist.csv.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -44,7 +47,7 @@
       "blocking": true,
       "required_evidence": "Populated patient-, donor-, or cohort-level split manifest with no cell-level assignments.",
       "current_evidence": "The split manifest contains headers only.",
-      "next_action": "Populate only after dataset selection and verified identifiers.",
+      "next_action": "Resolve DLV-004 in reports/tables/dataset_label_verification_checklist.csv after dataset and ID verification.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -54,7 +57,7 @@
       "blocking": true,
       "required_evidence": "All overlap, duplicate, cohort, batch, and label leakage checks pass on the approved split manifest.",
       "current_evidence": "Mock-only leakage utilities and tests exist; no real split evidence has been evaluated.",
-      "next_action": "Run approved leakage checks only after a populated patient-level split exists.",
+      "next_action": "Resolve DLV-005 in reports/tables/dataset_label_verification_checklist.csv after a populated split exists.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -74,7 +77,7 @@
       "blocking": true,
       "required_evidence": "Explicitly approved training cohort with patient counts, class balance, access, and provenance.",
       "current_evidence": "No training cohort is assigned and selected_datasets remains empty.",
-      "next_action": "Review candidate evidence and obtain a human cohort-selection decision.",
+      "next_action": "Resolve DLV-006 in reports/tables/dataset_label_verification_checklist.csv and obtain a human cohort decision.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -94,7 +97,7 @@
       "blocking": true,
       "required_evidence": "Human-approved QC thresholds and reports for the selected training data.",
       "current_evidence": "QC policy scaffold exists, but real filtering is disabled and qc_approval remains blocked.",
-      "next_action": "Acquire approved data, audit distributions, document thresholds, and obtain QC approval.",
+      "next_action": "Resolve DLV-007 in reports/tables/dataset_label_verification_checklist.csv only after approved acquisition.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -104,7 +107,7 @@
       "blocking": true,
       "required_evidence": "Populated and audited patient-level pseudobulk or composition feature manifest.",
       "current_evidence": "Feature manifests contain headers only; normalization and gene-filtering policies remain TODO.",
-      "next_action": "Finalize feature policies and create features only after explicit data and extraction approval.",
+      "next_action": "Resolve DLV-008 in reports/tables/dataset_label_verification_checklist.csv only after data, QC, and extraction approval.",
       "audit_status": "readiness_reviewed"
     },
     {

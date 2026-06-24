@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "required_fields": [
+    "verification_id",
+    "candidate_id",
+    "requirement_type",
+    "requirement_description",
+    "required_evidence",
+    "evidence_source",
+    "evidence_status",
+    "blocking",
+    "verified_by",
+    "verification_date",
+    "notes",
+    "audit_status"
+  ],
+  "allowed_requirement_types": [
+    "dataset_selection",
+    "label_provenance",
+    "patient_or_donor_id_availability",
+    "split_manifest_readiness",
+    "leakage_check_readiness",
+    "training_cohort_suitability",
+    "qc_approval",
+    "feature_manifest_readiness"
+  ],
+  "allowed_evidence_statuses": [
+    "pending",
+    "blocked"
+  ],
+  "fields": {
+    "verification_id": {
+      "description": "Stable identifier for the verification requirement.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "candidate_id": {
+      "description": "Candidate dataset or cohort identifier; TODO until scoped.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "requirement_type": {
+      "description": "One readiness blocker type defined by this schema.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "requirement_description": {
+      "description": "Human-readable verification objective.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "required_evidence": {
+      "description": "Evidence that must be present before verification.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "evidence_source": {
+      "description": "Exact authoritative source or TODO before inspection.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "evidence_status": {
+      "description": "Pending or blocked; verified is forbidden in this planning feature.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "blocking": {
+      "description": "Whether unresolved evidence blocks training.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "verified_by": {
+      "description": "Named reviewer or TODO until evidence is reviewed.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "verification_date": {
+      "description": "ISO date or TODO until evidence is reviewed.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "notes": {
+      "description": "Risks, unresolved details, and next manual checks.",
+      "required": true,
+      "allowed_missing": false
+    },
+    "audit_status": {
+      "description": "Audit status for the verification row.",
+      "required": true,
+      "allowed_missing": false
+    }
+  }
+}
