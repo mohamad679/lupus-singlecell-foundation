@@ -3,7 +3,7 @@ project:
   status: phase_3_verification_in_progress_training_blocked
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F016
+  current_feature: P3-F017
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -15,6 +15,7 @@ project:
   training_allowed: false
   modeling_readiness: not_ready
   training_permission: blocked
+  phase4_permission: blocked
   dataset_download_allowed: false
   allow_downloads: false
   dataset_accessions_verified: false
@@ -56,7 +57,7 @@ modeling_readiness_gate:
   blocking_items: 8
   passed_items: 3
   allow_modeling: false
-  next_feature: "P3-F017 training permission re-review remains TODO"
+  next_feature: "P3-F018 evidence expansion or P3-F019 strategy decision, only after explicit instruction"
 
 training_permission_decision:
   status: blocked
@@ -64,6 +65,17 @@ training_permission_decision:
   allow_modeling: false
   phase_4_allowed: false
   recommendation: "continue verification, not modeling"
+
+training_permission_reevaluation:
+  status: completed
+  training_permission: blocked
+  allow_modeling: false
+  decision: continue_metadata_inspection
+  pivot_status: not_activated
+  phase4_permission: blocked
+  selected_datasets: []
+  external_validation_cohort: TODO
+  recommendation: "Continue controlled metadata inspection before any modeling."
 
 dataset_selection_and_label_verification:
   status: completed_with_blockers
@@ -288,6 +300,9 @@ artifacts:
   dataset_label_evidence_review: state/judge_reports/P3-F015_dataset_label_evidence_review.md
   modeling_readiness_recheck: reports/tables/modeling_readiness_recheck.csv
   modeling_readiness_recheck_report: state/judge_reports/P3-F016_modeling_readiness_recheck_report.md
+  training_permission_reevaluation: state/training_permission_reevaluation.yaml
+  training_permission_reevaluation_table: reports/tables/training_permission_reevaluation.csv
+  training_permission_reevaluation_report: state/judge_reports/P3-F017_training_permission_reevaluation_report.md
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -361,5 +376,6 @@ artifacts:
   controlled_metadata_inspection_plan_test: tests/test_controlled_metadata_inspection_plan.py
   dataset_label_evidence_review_test: tests/test_dataset_label_evidence_review.py
   modeling_readiness_recheck_test: tests/test_modeling_readiness_recheck.py
+  training_permission_reevaluation_test: tests/test_training_permission_reevaluation.py
 
 last_updated: "2026-06-24"

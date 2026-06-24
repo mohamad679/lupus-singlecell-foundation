@@ -1,0 +1,57 @@
+{
+  "decision_id": "P3-F017",
+  "decision_name": "Training Permission Re-evaluation",
+  "training_permission": "blocked",
+  "allow_modeling": false,
+  "decision": "continue_metadata_inspection",
+  "pivot_status": "not_activated",
+  "phase4_permission": "blocked",
+  "modeling_readiness": "not_ready",
+  "selected_datasets": [],
+  "external_validation_cohort": "TODO",
+  "blocking_reasons": [
+    "dataset selection unresolved",
+    "label provenance unresolved",
+    "patient/donor mapping unresolved",
+    "split manifest unavailable",
+    "leakage checks not executable on real data",
+    "QC not approved on real data",
+    "feature manifest unavailable",
+    "external validation unresolved"
+  ],
+  "allowed_next_work": [
+    "controlled metadata inspection",
+    "metadata evidence expansion",
+    "dataset strategy reassessment planning",
+    "future training permission re-evaluation after new evidence"
+  ],
+  "forbidden_actions": [
+    "download data",
+    "preprocess data",
+    "train models",
+    "create model artifacts",
+    "enable modeling",
+    "select datasets",
+    "assign external validation cohort",
+    "start Phase 4",
+    "activate pivot without a separate decision",
+    "infer missing metadata"
+  ],
+  "pivot_trigger_conditions": [
+    "No explicit patient or donor mapping can be obtained from approved metadata sources.",
+    "No complete patient/donor-to-diagnosis linkage can be verified.",
+    "Leakage-safe patient-level splitting remains impossible.",
+    "Required metadata would require prohibited inference or inaccessible full-data inspection.",
+    "No scientifically defensible training cohort can be selected after evidence expansion."
+  ],
+  "required_before_training_reconsideration": [
+    "All blocking Modeling Readiness Gate checks are passed.",
+    "A training dataset and cohort are explicitly selected by a human gate.",
+    "Patient/donor identifiers and diagnosis labels are linked and verified.",
+    "Split, leakage, QC, and feature-manifest evidence is complete and approved.",
+    "An independent external-validation strategy is documented with cohort assignment still separately gated.",
+    "A new explicit training permission decision replaces this blocked decision."
+  ],
+  "audit_status": "training_permission_reevaluated_blocked",
+  "notes": "Continue controlled metadata inspection. Pivot planning is documented as a future option but is not activated."
+}

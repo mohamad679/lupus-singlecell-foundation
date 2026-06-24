@@ -19,6 +19,8 @@
   "dataset_label_evidence_review": "state/judge_reports/P3-F015_dataset_label_evidence_review.md",
   "modeling_readiness_recheck": "reports/tables/modeling_readiness_recheck.csv",
   "modeling_readiness_recheck_report": "state/judge_reports/P3-F016_modeling_readiness_recheck_report.md",
+  "training_permission_reevaluation": "state/training_permission_reevaluation.yaml",
+  "training_permission_reevaluation_report": "state/judge_reports/P3-F017_training_permission_reevaluation_report.md",
   "recheck_decision": {
     "feature_id": "P3-F016",
     "decision": "not_ready",
@@ -162,6 +164,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "P3-F017 training permission re-review remains TODO",
+  "next_feature": "P3-F018 metadata inspection evidence expansion or P3-F019 dataset strategy decision, only after explicit instruction",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }

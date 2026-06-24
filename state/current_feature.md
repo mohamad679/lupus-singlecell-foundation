@@ -1,40 +1,36 @@
 # Current Feature
 
-Feature: P3-F016 - Modeling Readiness Re-check.
+Feature: P3-F017 - Training Permission Re-evaluation.
 
-Status: completed; readiness remains `not_ready`.
+Status: completed; training and Phase 4 remain blocked.
 
 Scientific Judge decision:
 
-- No blocking readiness condition moved to passed.
-- The external-validation planning protocol remains passed, but no external
-  cohort is assignable.
-- GSE137029 remains unselected.
-- CELLxGENE/HCA remains unsuitable as independent external validation.
-
-Remaining blockers:
-
-- dataset selection;
-- patient/donor-linked label provenance;
-- stable person identifiers and sample relationships;
-- patient/donor-level split manifest;
-- real leakage checks and exact overlap resolution;
-- training-cohort suitability;
-- dataset-specific QC approval;
-- populated feature manifest.
-
-Recommendation: `more_metadata_inspection_required`.
-
-A pivot should be considered later if explicit patient-level mappings cannot be
-obtained without prohibited full-data access or metadata inference.
-
-Modeling controls remain:
-
-- `modeling_readiness`: `not_ready`
 - `training_permission`: `blocked`
 - `allow_modeling`: false
-- `selected_datasets`: []
-- `external_validation_cohort`: TODO
+- `decision`: `continue_metadata_inspection`
+- `phase4_permission`: `blocked`
+- `pivot_status`: `not_activated`
 
-No preprocessing, training, model artifacts, dataset assignment, or Phase 4
-work is allowed.
+Blocking reasons:
+
+- dataset selection unresolved;
+- patient/donor-linked label provenance unresolved;
+- patient/donor mapping unresolved;
+- split manifest unavailable;
+- real leakage checks not executable;
+- real-data QC not approved;
+- feature manifest unavailable;
+- external validation unresolved.
+
+No dataset is selected and no external-validation cohort is assigned.
+
+Next allowed work:
+
+- controlled metadata inspection or evidence expansion;
+- dataset strategy reassessment planning;
+- future permission re-evaluation after new evidence.
+
+Pivot trigger conditions are documented, but pivot is not active. Downloading,
+preprocessing, training, model artifacts, metadata guessing, dataset
+assignment, external-validation assignment, and Phase 4 remain forbidden.

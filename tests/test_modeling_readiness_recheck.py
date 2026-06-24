@@ -123,7 +123,7 @@ def test_training_decision_and_project_state_remain_locked():
 
     assert training_decision["training_permission"] == "blocked"
     assert training_decision["allow_modeling"] is False
-    assert "current_feature: P3-F016" in state
+    assert "current_feature: P3-F017" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -147,6 +147,6 @@ def test_no_model_artifacts_and_phase4_not_started():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F016" in backlog
+    assert "completed_through: P3-F017" in backlog
     assert "feature_id: P3-F016" in backlog
     assert "feature_id: P3-F017" in backlog

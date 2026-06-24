@@ -80,7 +80,7 @@ def test_project_state_records_denial_and_remains_unassigned():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F016" in state
+    assert "current_feature: P3-F017" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -96,7 +96,7 @@ def test_phase3_is_complete_and_phase4_not_started():
 
     assert "phase_3_scaffold:" in backlog
     assert "status: complete" in backlog
-    assert "completed_through: P3-F016" in backlog
+    assert "completed_through: P3-F017" in backlog
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog

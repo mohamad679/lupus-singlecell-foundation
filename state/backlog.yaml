@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F016
+  completed_through: P3-F017
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -984,15 +984,53 @@ backlog:
 
   - id: P3-F017
     feature_id: P3-F017
-    title: "Modeling readiness and training permission re-review"
+    title: "Training Permission Re-evaluation"
     phase: 3
-    status: TODO
-    description: "Reconsider readiness and training permission only after all required evidence and downstream QC, split, leakage, and feature gates are resolved."
+    status: done
+    description: "Record the formal post-recheck training denial, continue metadata inspection, and document pivot triggers without activating a pivot."
     acceptance_criteria:
-      - "TODO: Define only after P3-F016."
+      - "The training permission reevaluation YAML and report exist."
+      - "The structured reevaluation table contains all requested decision items."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "Phase 4 permission remains blocked."
+      - "Decision is continue_metadata_inspection."
+      - "Pivot status remains not_activated."
+      - "No dataset or external-validation cohort is assigned."
+      - "No modeling or model artifact is created."
+      - "Phase 4 is not started."
     dependencies:
       - "P3-F016"
     required_tests:
+      - "tests/test_training_permission_reevaluation.py"
+    judge_gates:
+      - "Scientific Judge training permission decision."
+
+  - id: P3-F018
+    feature_id: P3-F018
+    title: "Metadata inspection evidence expansion"
+    phase: 3
+    status: TODO
+    description: "Optionally inspect additional approved metadata-only mapping assets to resolve patient/donor and label linkage."
+    acceptance_criteria:
+      - "TODO: Define only after explicit instruction."
+    dependencies:
+      - "P3-F017"
+    required_tests:
       - "TODO"
     judge_gates:
-      - "Explicit human training permission decision."
+      - "Explicit controlled metadata inspection approval."
+
+  - id: P3-F019
+    feature_id: P3-F019
+    title: "Dataset strategy decision / pivot gate"
+    phase: 3
+    status: TODO
+    description: "Optionally decide whether to continue with current candidates or activate a dataset pivot after evidence expansion."
+    acceptance_criteria:
+      - "TODO: Define only after explicit instruction and evidence review."
+    dependencies:
+      - "P3-F017"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Explicit Scientific Judge and human strategy decision."

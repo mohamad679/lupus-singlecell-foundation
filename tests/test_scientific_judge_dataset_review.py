@@ -82,7 +82,7 @@ def test_no_candidate_is_marked_approved():
 def test_state_keeps_human_gate_and_selection_pending():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P3-F016" in state
+    assert "current_feature: P3-F017" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "label: \"Human Gate 1: Dataset Feasibility Approved\"" in state
