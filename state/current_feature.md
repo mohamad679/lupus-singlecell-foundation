@@ -1,17 +1,17 @@
 # Current Feature
 
-Feature: P3-F007 - Calibration metrics scaffold.
+Feature: P3-F008 - Baseline Scientific Judge review.
 
-Status: completed pending review.
+Status: completed; training remains blocked.
 
-Builder scope:
+Scientific Judge decision:
 
-- Calibration protocol and scaffold only.
-- Define Brier score, ECE, and future reliability diagram contracts without
-  computing or plotting them.
-- Create header-only calibration and reliability-manifest tables.
-- Validate caller-provided mock calibration metadata only.
-- Keep ECE binning strategy and bin count as TODO.
+- Phase 3 scaffold is `accepted_with_restrictions` as a baseline design
+  framework.
+- The patient-level pseudobulk, logistic, tree, composition, evaluation, and
+  calibration contracts are scientifically adequate for future gate review.
+- Training is allowed now: NO.
+- Modeling readiness is `not_ready`.
 
 Scientific decision:
 
@@ -43,10 +43,13 @@ Explicitly forbidden:
 - Dataset approval or selection.
 - External validation assignment.
 - Cell-level splitting.
-- Starting P3-F008 or later features.
+- Starting Phase 4.
 
-The calibration result and reliability-manifest tables contain headers only.
-The utility validates mock metadata without computing metrics, loading
-predictions, or generating figures.
+Main blockers are dataset selection, verified patient-level labels, approved
+data/QC, finalized feature policies, populated patient-level splits, passed
+real leakage checks, sample-size review, and an external validation plan.
+
+Phase 3 scaffold is complete. The next action is a separate controlled baseline
+modeling/training gate, not training itself.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

@@ -790,3 +790,55 @@ not authorize uncertainty implementation.
 
 The calibration results and reliability diagram manifest created by P3-F007
 contain headers only.
+
+## Baseline Scientific Judge Review
+
+### Decision
+
+The Phase 3 baseline scaffold is **accepted_with_restrictions** as a scientific
+design framework for SLE diagnosis / case-control prediction.
+
+The accepted design components are patient-level pseudobulk, logistic
+regression as the primary interpretable baseline, secondary tree comparators,
+cell-type composition features, patient-level evaluation, and calibration
+contracts. Acceptance is limited to scaffold structure and does not approve
+data loading, feature extraction, fitting, prediction, evaluation, or claims.
+
+### Training Status
+
+Training is not allowed. `allow_modeling` remains false. No dataset is selected,
+and no external validation cohort is assigned.
+
+### Required Gates Before Real Modeling
+
+A separate controlled modeling/training gate must verify:
+
+- explicit dataset selection for the restricted case-control task
+- patient/donor identity and diagnosis-label provenance
+- approved data acquisition, QC, and harmonization
+- finalized normalization, gene filtering, annotation, and rare-cell policies
+- a populated patient/donor-level split manifest
+- passed overlap, cohort, batch, label, and duplicate-cell leakage checks
+- adequate patient counts, class balance, and feature dimensionality
+- prespecified scaling, tuning, weighting, threshold, bootstrap, and ECE rules
+- limits on internal versus external validation claims
+
+Any future result remains preliminary until labels and cohorts are verified and
+reviewed.
+
+### Why Foundation Models Remain Blocked
+
+Foundation models are not justified before reproducible patient-level
+baselines exist. They would add vocabulary, representation, tuning,
+interpretation, and transportability risks without an established reference
+performance. Human Gate 2 did not approve them.
+
+### Why Uncertainty Modeling Remains Blocked
+
+Calibration planning is not uncertainty modeling. Entropy, selective
+prediction, risk-coverage, abstention, conformal methods, and clinical safety
+claims require verified predictions, independent cohort evidence, adequate
+sample sizes, and a later explicit protocol and gate. None are available now.
+
+The full decision and required conditions are recorded in
+`state/judge_reports/P3-F008_baseline_scientific_judge_report.md`.

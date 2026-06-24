@@ -13,8 +13,8 @@ phase_2_scaffold:
     - "Pipeline scaffold only."
 
 phase_3_scaffold:
-  status: in_progress
-  completed_through: P3-F007
+  status: complete
+  completed_through: P3-F008
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -782,12 +782,16 @@ backlog:
     feature_id: P3-F008
     title: "Baseline Scientific Judge review"
     phase: 3
-    status: todo
+    status: done
     description: "Review future baseline evidence, leakage controls, and claim limits."
     acceptance_criteria:
-      - "All baseline findings receive scientific review."
-      - "Label and cohort limitations are documented."
-      - "No unsupported clinical claims are accepted."
+      - "Scientific Judge report and structured review table exist."
+      - "Baseline design adequacy is decided."
+      - "Training remains explicitly not approved."
+      - "Leakage, label, external validation, calibration, and overfitting risks are documented."
+      - "Required conditions before training are explicit."
+      - "No unsupported performance or clinical claims are accepted."
+      - "Phase 4 is not started."
     dependencies:
       - "P3-F003"
       - "P3-F004"
@@ -795,6 +799,6 @@ backlog:
       - "P3-F006"
       - "P3-F007"
     required_tests:
-      - "TODO"
+      - "tests/test_baseline_scientific_judge_review.py"
     judge_gates:
       - "Scientific Judge decision required."
