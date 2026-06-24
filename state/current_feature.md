@@ -1,20 +1,21 @@
 # Current Feature
 
-Feature: P3-F012 - Dataset selection and label verification.
+Feature: P3-F013 - Patient/donor ID and label provenance evidence plan.
 
-Status: completed with unresolved modeling-readiness blockers.
+Status: completed with all modeling-readiness blockers preserved.
 
-Planner and Scientific Judge findings:
+Planner, Scientific Judge, and Bioinformatics Judge findings:
 
-- GSE137029 is the primary candidate for continued verification only.
-- GSE137029 is not selected and is not approved for modeling.
-- The CELLxGENE/HCA representation is useful for metadata verification but may
-  overlap GSE137029 and cannot be treated as independent.
-- Human lupus single-cell study context is verified for both candidates.
-- Patient-level diagnosis-label provenance is not verified.
-- GSE137029 patient/donor identifier availability remains unclear.
-- CELLxGENE donor identifiers are visible, but donor/sample/label linkage and
-  cross-source deduplication remain unresolved.
+- A source-specific patient/donor identifier evidence plan now exists.
+- A source-specific diagnosis and comparator label provenance plan now exists.
+- GSE137029 requires exact patient/donor fields, sample mapping, and
+  case/control linkage.
+- CELLxGENE/HCA requires field-level donor completeness, sample relationships,
+  disease-label linkage, and original-source provenance.
+- GEO/CELLxGENE/HCA cohort overlap remains unresolved.
+- Disease activity and lupus nephritis labels remain blocked.
+- No evidence-plan row is verified; visible metadata is insufficient to pass a
+  modeling-readiness requirement.
 
 Modeling controls:
 
@@ -26,15 +27,12 @@ Modeling controls:
 
 Explicitly forbidden:
 
-- Training or fitting models.
-- Creating model artifacts or predictions.
-- Selecting or approving either candidate without a separate evidence-backed
-  human decision.
-- Guessing patient IDs, labels, sample relationships, or cohort independence.
-- Treating CELLxGENE/HCA as an independent external cohort.
+- Guessing or constructing identifiers, labels, or cohort mappings.
 - Downloading full datasets.
-- Starting Phase 4.
+- Selecting a dataset or assigning an external-validation cohort.
+- Creating a real split, features, predictions, or model artifacts.
+- Training models or starting Phase 4.
 
-Next work must inspect explicitly approved metadata assets, record exact
-patient/donor/sample and diagnosis-label fields, reconcile cross-source cohort
-overlap, and return for a separate selection decision.
+Next work requires a separately approved metadata evidence inspection. The
+results must preserve exact source fields and receive human review before any
+readiness blocker can pass.

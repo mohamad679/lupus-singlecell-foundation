@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F012
+  completed_through: P3-F013
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -889,3 +889,26 @@ backlog:
       - "tests/test_dataset_selection_label_verification.py"
     judge_gates:
       - "Separate human dataset selection and training permission review after blockers are resolved."
+
+  - id: P3-F013
+    feature_id: P3-F013
+    title: "Patient/donor ID and label provenance evidence plan"
+    phase: 3
+    status: done
+    description: "Define exact source evidence required to verify identifiers, diagnosis labels, and GEO/CELLxGENE/HCA overlap without downloading full data or enabling modeling."
+    acceptance_criteria:
+      - "The patient/donor ID and label provenance evidence plan is documented."
+      - "Patient/donor evidence rows cover GSE137029, CELLxGENE/HCA, and cohort overlap."
+      - "Label evidence rows cover diagnosis, comparator, activity, and lupus nephritis labels."
+      - "Every evidence-plan row remains pending or blocked."
+      - "Disease activity and lupus nephritis remain blocked."
+      - "The Modeling Readiness Gate references both evidence-plan tables."
+      - "No dataset is selected and no external-validation cohort is assigned."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "Phase 4 is not started."
+    dependencies:
+      - "P3-F012"
+    required_tests:
+      - "tests/test_patient_label_evidence_plan.py"
+    judge_gates:
+      - "Scientific and Bioinformatics Judge evidence review before any blocker is changed."

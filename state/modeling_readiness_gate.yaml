@@ -4,11 +4,14 @@
   "modeling_readiness": "not_ready",
   "allow_modeling": false,
   "training_allowed": false,
+  "training_permission": "blocked",
   "phase_4_allowed": false,
   "approved_scope": "readiness planning and blocker resolution only",
   "verification_plan": "docs/09_dataset_label_verification_plan.md",
   "verification_schema": "metadata/dataset_label_verification_schema.yaml",
   "verification_checklist": "reports/tables/dataset_label_verification_checklist.csv",
+  "patient_donor_id_evidence_plan": "reports/tables/patient_donor_id_evidence_plan.csv",
+  "label_provenance_evidence_plan": "reports/tables/label_provenance_evidence_plan.csv",
   "conditions": [
     {
       "check_id": "MRG-001",
@@ -27,7 +30,7 @@
       "blocking": true,
       "required_evidence": "Exact patient-level diagnosis and control labels, values, definitions, linkage, and source provenance.",
       "current_evidence": "Label schemas exist, but candidate patient-level label provenance remains unresolved.",
-      "next_action": "Resolve DLV-002 in reports/tables/dataset_label_verification_checklist.csv without inference.",
+      "next_action": "Complete reports/tables/label_provenance_evidence_plan.csv with source-supported patient/donor linkage, then resolve DLV-002 without inference.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -37,7 +40,7 @@
       "blocking": true,
       "required_evidence": "Verified patient or donor identifiers with sample and repeated-measure linkage.",
       "current_evidence": "Identifier requirements are documented; candidate-level usability is unresolved.",
-      "next_action": "Resolve DLV-003 in reports/tables/dataset_label_verification_checklist.csv.",
+      "next_action": "Complete reports/tables/patient_donor_id_evidence_plan.csv with source-supported fields and mappings, then resolve DLV-003.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -131,6 +134,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "P3-F010",
+  "next_feature": "Future approved metadata evidence inspection",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }
