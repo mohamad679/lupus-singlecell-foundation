@@ -1,7 +1,7 @@
 {
   "gate_id": "P3-F014",
   "gate_name": "Controlled Metadata Inspection Gate",
-  "inspection_gate_status": "pending",
+  "inspection_gate_status": "reviewed_with_blockers",
   "allow_metadata_only_inspection": true,
   "allow_full_data_download": false,
   "allow_preprocessing": false,
@@ -15,6 +15,26 @@
   "inspection_plan": "docs/12_controlled_metadata_inspection_plan.md",
   "inspection_targets": "reports/tables/controlled_metadata_inspection_targets.csv",
   "evidence_log": "reports/tables/metadata_inspection_evidence_log.csv",
+  "evidence_review_report": "state/judge_reports/P3-F015_dataset_label_evidence_review.md",
+  "evidence_rows_recorded": 18,
+  "resolved_metadata_facts": [
+    "GSE137029 sample-level condition field and inspected values",
+    "GSE137029 raw and processed file availability",
+    "CELLxGENE donor_id field visibility",
+    "CELLxGENE aggregate normal and SLE disease terms",
+    "source-level GEO CELLxGENE HCA linkage"
+  ],
+  "unresolved_blockers": [
+    "GSE137029 patient_or_donor_id",
+    "GSE137029 sample_to_patient_mapping",
+    "patient_level_label_linkage",
+    "CELLxGENE sample_id",
+    "CELLxGENE donor_to_disease_linkage",
+    "exact_cross_repository_overlap",
+    "qc_approval",
+    "split_manifest_readiness",
+    "feature_manifest_readiness"
+  ],
   "required_outputs_before_training": [
     "verified_patient_or_donor_ids",
     "verified_label_provenance",
@@ -37,5 +57,5 @@
     "create_model_artifacts",
     "start_phase_4"
   ],
-  "notes": "This gate authorizes planning for later metadata-only inspection; it does not record completed inspection or verified evidence."
+  "notes": "Metadata-only evidence review completed. Narrow repository facts are verified, but training-critical patient linkage and cohort independence remain blocked."
 }

@@ -82,12 +82,18 @@ def test_patient_level_labels_and_identifiers_are_not_overclaimed():
     patient_label_rows = [
         row
         for row in label_rows
-        if "patient" in row["requirement"] or "diagnosis label field" in row["requirement"]
+        if "patient" in row["requirement"]
     ]
     assert patient_label_rows
     assert all(
         row["evidence_status"] in {"blocked", "unclear", "pending"}
         for row in patient_label_rows
+    )
+    assert any(
+        row["candidate_id"] == "GSE137029"
+        and row["requirement"] == "exact diagnosis label field and observed values"
+        and row["evidence_status"] == "verified"
+        for row in label_rows
     )
     assert any(
         row["candidate_id"] == "GSE137029"
@@ -107,7 +113,7 @@ def test_training_and_project_state_remain_locked():
     state = STATE_PATH.read_text()
     decision = json.loads(DECISION_PATH.read_text())
 
-    assert "current_feature: P3-F014" in state
+    assert "current_feature: P3-F015" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -124,6 +130,5 @@ def test_phase4_not_started_and_p3_f012_recorded():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F014" in backlog
+    assert "completed_through: P3-F015" in backlog
     assert "feature_id: P3-F012" in backlog
-

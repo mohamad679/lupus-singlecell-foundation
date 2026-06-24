@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F014
+  completed_through: P3-F015
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -940,16 +940,24 @@ backlog:
     feature_id: P3-F015
     title: "Controlled metadata inspection execution"
     phase: 3
-    status: TODO
-    description: "Inspect only explicitly approved metadata targets and record source-preserving evidence without full-data download."
+    status: done
+    description: "Review explicitly approved public metadata targets and record source-preserving evidence without full-data download."
     acceptance_criteria:
-      - "TODO: Define only when P3-F015 explicitly starts."
+      - "Public GEO, SRA, CELLxGENE, HCA, and publication metadata are reviewed without full-data download."
+      - "Evidence rows contain explicit source URLs and allowed verification statuses."
+      - "GSE137029 sample-level condition values are distinguished from patient-level label linkage."
+      - "CELLxGENE donor-field visibility is distinguished from donor-to-label linkage."
+      - "Source-level overlap is documented without inventing exact donor overlap."
+      - "GSE137029 remains unselected."
+      - "CELLxGENE/HCA remains unassigned as external validation."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "Phase 4 is not started."
     dependencies:
       - "P3-F014"
     required_tests:
-      - "TODO"
+      - "tests/test_dataset_label_evidence_review.py"
     judge_gates:
-      - "Explicit metadata inspection approval."
+      - "Scientific and Bioinformatics Judge evidence decision."
 
   - id: P3-F016
     feature_id: P3-F016

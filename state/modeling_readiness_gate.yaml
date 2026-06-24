@@ -16,6 +16,7 @@
   "metadata_inspection_gate": "state/metadata_inspection_gate.yaml",
   "metadata_inspection_targets": "reports/tables/controlled_metadata_inspection_targets.csv",
   "metadata_inspection_evidence_log": "reports/tables/metadata_inspection_evidence_log.csv",
+  "dataset_label_evidence_review": "state/judge_reports/P3-F015_dataset_label_evidence_review.md",
   "conditions": [
     {
       "check_id": "MRG-001",
@@ -33,8 +34,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Exact patient-level diagnosis and control labels, values, definitions, linkage, and source provenance.",
-      "current_evidence": "Label schemas exist, but candidate patient-level label provenance remains unresolved.",
-      "next_action": "Complete reports/tables/label_provenance_evidence_plan.csv with source-supported patient/donor linkage, then resolve DLV-002 without inference.",
+      "current_evidence": "GSE137029 sample-level condition values and CELLxGENE aggregate disease terms are verified, but patient/donor-to-label linkage remains blocked.",
+      "next_action": "Obtain source-supported patient/donor linkage, completeness, and class counts; sample-level or aggregate labels cannot pass this check.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -43,8 +44,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Verified patient or donor identifiers with sample and repeated-measure linkage.",
-      "current_evidence": "Identifier requirements are documented; candidate-level usability is unresolved.",
-      "next_action": "Complete reports/tables/patient_donor_id_evidence_plan.csv with source-supported fields and mappings, then resolve DLV-003.",
+      "current_evidence": "CELLxGENE donor_id field visibility is verified; GSE137029 patient/donor IDs and both candidates' sample relationships remain unresolved.",
+      "next_action": "Obtain explicit stable person identifiers, sample mappings, repeated-sample structure, uniqueness, and missingness evidence.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -63,8 +64,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "All overlap, duplicate, cohort, batch, and label leakage checks pass on the approved split manifest.",
-      "current_evidence": "Mock-only leakage utilities and tests exist; no real split evidence has been evaluated.",
-      "next_action": "Resolve DLV-005 in reports/tables/dataset_label_verification_checklist.csv after a populated split exists.",
+      "current_evidence": "Official sources verify linked GEO/HCA/CELLxGENE provenance, but exact donor/sample/cell overlap and a real split remain unresolved.",
+      "next_action": "Resolve exact overlap and patient-level grouping before creating a split or running real leakage checks.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -83,8 +84,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Explicitly approved training cohort with patient counts, class balance, access, and provenance.",
-      "current_evidence": "No training cohort is assigned and selected_datasets remains empty.",
-      "next_action": "Resolve DLV-006 in reports/tables/dataset_label_verification_checklist.csv and obtain a human cohort decision.",
+      "current_evidence": "Metadata review did not establish patient-level linkage; no training cohort is assigned and selected_datasets remains empty.",
+      "next_action": "Keep GSE137029 unselected until ID, label, overlap, QC, split, and feature blockers are resolved and human-reviewed.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -138,6 +139,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "P3-F015 controlled metadata inspection execution, only after explicit approval",
+  "next_feature": "P3-F016 metadata evidence judge review remains TODO",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }
