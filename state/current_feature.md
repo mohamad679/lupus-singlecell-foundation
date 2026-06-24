@@ -1,16 +1,17 @@
 # Current Feature
 
-Feature: P3-F006 - Baseline evaluation protocol.
+Feature: P3-F007 - Calibration metrics scaffold.
 
 Status: completed pending review.
 
 Builder scope:
 
-- Evaluation protocol and validation scaffold only.
-- Define required discrimination and calibration metrics without computing them.
-- Create header-only evaluation and prediction-manifest tables.
-- Validate caller-provided mock prediction metadata only.
-- Require verified labels, patient-level units, and passed leakage checks.
+- Calibration protocol and scaffold only.
+- Define Brier score, ECE, and future reliability diagram contracts without
+  computing or plotting them.
+- Create header-only calibration and reliability-manifest tables.
+- Validate caller-provided mock calibration metadata only.
+- Keep ECE binning strategy and bin count as TODO.
 
 Scientific decision:
 
@@ -23,7 +24,9 @@ Scientific decision:
 
 Explicitly forbidden:
 
-- Computing metrics on real or mock predictions.
+- Computing real or mock calibration metrics.
+- Generating reliability diagrams or calibration curves.
+- Implementing uncertainty, abstention, or selective prediction methods.
 - Reporting performance or clinical utility claims.
 - Fitting or training models.
 - Prediction or probability generation.
@@ -40,9 +43,10 @@ Explicitly forbidden:
 - Dataset approval or selection.
 - External validation assignment.
 - Cell-level splitting.
-- Starting P3-F007 or later features.
+- Starting P3-F008 or later features.
 
-The evaluation result and prediction-manifest tables contain headers only. The
-utility validates mock metadata without computing metrics or reading data.
+The calibration result and reliability-manifest tables contain headers only.
+The utility validates mock metadata without computing metrics, loading
+predictions, or generating figures.
 `allow_modeling` remains false, `selected_datasets` remains `[]`, and
 `external_validation_cohort` remains TODO.

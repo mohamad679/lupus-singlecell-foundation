@@ -1,0 +1,31 @@
+{
+  "task": "SLE diagnosis / case-control prediction",
+  "allow_real_calibration": false,
+  "allow_uncertainty_methods": false,
+  "allow_reliability_plots": false,
+  "allow_performance_claims": false,
+  "require_patient_level_predictions": true,
+  "require_verified_labels": true,
+  "require_leakage_checks_passed": true,
+  "metrics": [
+    "brier_score",
+    "expected_calibration_error"
+  ],
+  "planned_plots_later": [
+    "reliability_diagram",
+    "calibration_curve",
+    "risk_coverage_curve_later"
+  ],
+  "ece_policy": {
+    "binning_strategy": "TODO",
+    "n_bins": "TODO",
+    "adaptive_binning_later": true,
+    "fixed_binning_later": true
+  },
+  "forbidden": [
+    "compute_calibration_without_verified_labels",
+    "compute_calibration_on_cell_level_predictions",
+    "claim_uncertainty_without_uncertainty_protocol",
+    "generate_reliability_plot_without_predictions"
+  ]
+}

@@ -698,3 +698,95 @@ Future evaluation must fail when:
 
 The baseline evaluation results and prediction manifest created by P3-F006
 contain headers only.
+
+## Calibration Metrics Scaffold
+
+### Why Calibration Matters in Medical Prediction
+
+Medical prediction requires more than ranking patients correctly. A probability
+should correspond to an observed event frequency within the population where
+it is used. Poorly calibrated case-control scores can encourage unsupported
+risk interpretations even when discrimination appears strong. P3-F007 defines
+calibration reporting contracts only and computes no probabilities or metrics.
+
+### Brier Score Role
+
+The Brier score is planned as a patient-level measure of squared error between
+a predicted probability and a verified binary label. It combines calibration
+and discrimination effects and depends on outcome prevalence. It must be
+reported with patient count, class balance, cohort, and prediction provenance.
+No Brier score is computed in P3-F007.
+
+### Expected Calibration Error Role
+
+Expected Calibration Error is planned as a binned comparison between predicted
+confidence and observed frequency. ECE depends materially on bin count,
+binning strategy, sample size, and empty-bin handling. `binning_strategy` and
+`n_bins` remain TODO, so no ECE value can be calculated or interpreted yet.
+
+### Reliability Diagram Plan
+
+A future reliability diagram may plot patient-level mean predicted probability
+against observed case frequency within bins, with sample counts and a reference
+diagonal. The plot must state the cohort, model, binning strategy, and label
+verification status. P3-F007 creates only a header-only figure manifest and no
+image.
+
+### Calibration Caveats for Small Cohorts
+
+Small patient counts can yield sparse bins, unstable observed frequencies, and
+misleading visual smoothness. Adaptive and fixed-width binning are future
+options but require prespecified rules. Calibration estimates should not be
+used to claim clinical readiness when cohorts are small or labels remain
+unverified.
+
+### Threshold-independent vs Threshold-dependent Metrics
+
+Brier score and ECE use probability scores and do not require a classification
+threshold. Sensitivity, specificity, F1, and balanced accuracy depend on a
+threshold selected without test-set information. Calibration does not replace
+threshold-dependent evaluation, and threshold optimization does not establish
+calibration.
+
+### Patient-level Calibration Requirement
+
+Calibration must use one auditable prediction per patient or a prespecified
+patient-level aggregation of repeated samples. Cells cannot be treated as
+independent calibration observations. Donor or linked-sample evaluation must
+preserve patient grouping and use the same split and leakage controls as the
+baseline evaluation protocol.
+
+### Cohort-shift Calibration Risk
+
+A model calibrated internally can become miscalibrated when disease
+prevalence, treatment, site, assay, tissue, or processing changes. External
+validation remains TODO, so transportability and recalibration cannot be
+assessed or claimed.
+
+### No Uncertainty Claims Yet
+
+Calibration quality is not a complete uncertainty estimate. Entropy,
+risk-coverage analysis, selective prediction, conformal methods, and other
+uncertainty methods are not implemented or approved. No confidence, abstention,
+or clinical safety claim may be derived from this scaffold.
+
+### Future Relation to Phase 6 Uncertainty
+
+Any future Phase 6 uncertainty work must use verified patient-level labels,
+independent cohorts, explicit shift analysis, and separate approval. The Phase
+3 calibration scaffold supplies only result and provenance contracts; it does
+not authorize uncertainty implementation.
+
+### Forbidden Actions Before Prediction Outputs Exist
+
+- Do not compute Brier score, ECE, or any other calibration metric.
+- Do not generate predictions or reliability plots.
+- Do not choose ECE bins from test or external data.
+- Do not treat cell-level scores as patient-level calibration observations.
+- Do not calibrate or recalibrate a model.
+- Do not implement uncertainty, abstention, or selective prediction.
+- Do not report performance, uncertainty, or clinical utility claims.
+- Do not select datasets or assign an external validation cohort.
+
+The calibration results and reliability diagram manifest created by P3-F007
+contain headers only.

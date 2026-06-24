@@ -3,7 +3,7 @@ project:
   status: phase_3_baseline_modeling_scaffold
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F006
+  current_feature: P3-F007
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -158,6 +158,10 @@ artifacts:
   baseline_evaluation_results: reports/tables/baseline_evaluation_results.csv
   baseline_prediction_manifest: reports/tables/baseline_prediction_manifest.csv
   evaluation_protocol: src/evaluation/evaluation_protocol.py
+  calibration_config: configs/calibration.yaml
+  calibration_results: reports/tables/calibration_results.csv
+  reliability_diagram_manifest: reports/tables/reliability_diagram_manifest.csv
+  calibration_protocol: src/evaluation/calibration_protocol.py
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -221,5 +225,6 @@ artifacts:
   tree_baseline_scaffold_test: tests/test_tree_baseline_scaffold.py
   cell_type_proportion_baseline_test: tests/test_cell_type_proportion_baseline.py
   baseline_evaluation_protocol_test: tests/test_baseline_evaluation_protocol.py
+  calibration_metrics_scaffold_test: tests/test_calibration_metrics_scaffold.py
 
 last_updated: "2026-06-24"

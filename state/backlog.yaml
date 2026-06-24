@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: in_progress
-  completed_through: P3-F006
+  completed_through: P3-F007
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -761,16 +761,20 @@ backlog:
     feature_id: P3-F007
     title: "Calibration metrics scaffold"
     phase: 3
-    status: todo
-    description: "Plan calibration metrics without implementing uncertainty modeling."
+    status: done
+    description: "Define patient-level Brier score, ECE, and reliability-figure contracts without computing calibration or uncertainty."
     acceptance_criteria:
-      - "Calibration metrics and sample-size limitations are documented."
-      - "No uncertainty model is implemented."
-      - "Cohort-shift limitations are explicit."
+      - "Calibration protocol and medical calibration caveats are documented."
+      - "Real calibration, reliability plots, uncertainty methods, and claims remain disabled."
+      - "Brier score and ECE are planned without computation."
+      - "ECE binning strategy and bin count remain TODO."
+      - "Calibration and reliability tables contain headers only."
+      - "Mock rows reject cell-level units, unverified labels, and failed leakage checks."
+      - "No uncertainty model or reliability figure is created."
     dependencies:
       - "P3-F006"
     required_tests:
-      - "TODO"
+      - "tests/test_calibration_metrics_scaffold.py"
     judge_gates:
       - "Scientific Judge calibration review."
 
