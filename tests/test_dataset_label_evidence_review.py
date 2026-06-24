@@ -36,12 +36,17 @@ def test_review_artifacts_and_evidence_exist():
     assert REPORT_PATH.exists()
 
     rows = read_rows(EVIDENCE_PATH)
-    assert len(rows) == 18
+    assert len(rows) == 25
     assert {row["verification_status"] for row in rows} <= ALLOWED_STATUSES
-    assert all(row["evidence_id"].startswith("P3F015-E") for row in rows)
+    assert all(
+        row["evidence_id"].startswith(("P3F015-E", "P3F018-E"))
+        for row in rows
+    )
     assert all(row["evidence_source"].strip() for row in rows)
     assert all(row["verified_by"].strip() for row in rows)
-    assert all(row["audit_status"] == "metadata_evidence_reviewed" for row in rows)
+    assert {
+        row["audit_status"] for row in rows
+    } <= {"metadata_evidence_reviewed", "metadata_evidence_expanded"}
 
 
 def test_verified_evidence_has_authoritative_url_and_no_guess_language():
@@ -57,7 +62,7 @@ def test_verified_evidence_has_authoritative_url_and_no_guess_language():
         assert "assumed donor" not in combined
 
 
-def test_training_critical_linkage_remains_blocked_or_unclear():
+def test_training_critical_gse_linkage_and_cross_cohort_independence_remain_blocked():
     dataset_rows = read_rows(DATASET_PATH)
     label_rows = read_rows(LABEL_PATH)
     patient_rows = read_rows(PATIENT_PATH)
@@ -83,6 +88,12 @@ def test_training_critical_linkage_remains_blocked_or_unclear():
     assert any(
         row["candidate_id"] == CELLXGENE_ID
         and row["requirement"] == "donor to sample and diagnosis linkage"
+        and row["evidence_status"] == "verified"
+        for row in patient_rows
+    )
+    assert any(
+        row["candidate_id"] == CELLXGENE_ID
+        and row["requirement"] == "cross-source donor overlap with GSE137029"
         and row["evidence_status"] == "blocked"
         for row in patient_rows
     )
@@ -125,7 +136,7 @@ def test_gate_and_project_state_keep_training_blocked():
     assert gate["allow_preprocessing"] is False
     assert gate["allow_modeling"] is False
     assert gate["training_permission"] == "blocked"
-    assert "current_feature: P3-F017" in state
+    assert "current_feature: P3-F018" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -148,6 +159,5 @@ def test_phase4_not_started_and_no_model_artifacts():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F017" in backlog
+    assert "completed_through: P3-F018" in backlog
     assert artifacts == []
-

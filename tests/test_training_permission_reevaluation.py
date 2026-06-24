@@ -128,7 +128,7 @@ def test_project_state_keeps_training_and_phase4_blocked():
     state = STATE_PATH.read_text()
 
     assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F017" in state
+    assert "current_feature: P3-F018" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -153,16 +153,15 @@ def test_no_model_artifacts_and_phase4_not_started():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F017" in backlog
+    assert "completed_through: P3-F018" in backlog
     assert "feature_id: P3-F017" in backlog
 
 
 def test_optional_future_items_remain_todo():
     backlog = BACKLOG_PATH.read_text()
 
-    for feature_id in ("P3-F018", "P3-F019"):
+    for feature_id in ("P3-F019",):
         marker = f"feature_id: {feature_id}"
         assert marker in backlog
         section = backlog.split(marker, 1)[1].split("\n  - id:", 1)[0]
         assert "status: TODO" in section
-

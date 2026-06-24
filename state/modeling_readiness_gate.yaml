@@ -21,6 +21,22 @@
   "modeling_readiness_recheck_report": "state/judge_reports/P3-F016_modeling_readiness_recheck_report.md",
   "training_permission_reevaluation": "state/training_permission_reevaluation.yaml",
   "training_permission_reevaluation_report": "state/judge_reports/P3-F017_training_permission_reevaluation_report.md",
+  "metadata_evidence_expansion_summary": "reports/tables/metadata_evidence_expansion_summary.csv",
+  "metadata_evidence_expansion_report": "state/judge_reports/P3-F018_metadata_evidence_expansion_report.md",
+  "evidence_expansion_decision": {
+    "feature_id": "P3-F018",
+    "modeling_readiness": "not_ready",
+    "training_permission": "blocked",
+    "allow_modeling": false,
+    "gse137029_patient_mapping": "blocked",
+    "cellxgene_hca_donor_label_mapping": "verified",
+    "cellxgene_hca_sample_mapping": "verified",
+    "cross_repository_overlap": "blocked",
+    "external_validation": "blocked",
+    "more_same_source_inspection_useful": false,
+    "prepare_pivot_gate": true,
+    "pivot_status": "not_activated"
+  },
   "recheck_decision": {
     "feature_id": "P3-F016",
     "decision": "not_ready",
@@ -59,8 +75,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Exact patient-level diagnosis and control labels, values, definitions, linkage, and source provenance.",
-      "current_evidence": "GSE137029 sample-level condition values and CELLxGENE aggregate disease terms are verified, but patient/donor-to-label linkage remains blocked.",
-      "next_action": "Obtain source-supported patient/donor linkage, completeness, and class counts; sample-level or aggregate labels cannot pass this check.",
+      "current_evidence": "CELLxGENE/HCA donor-to-disease linkage is verified; GSE137029 remains limited to pooled sample labels and no dataset is selected.",
+      "next_action": "Carry candidate-specific evidence into P3-F019; do not pass project-level label verification before a dataset strategy and selection decision.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -69,8 +85,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Verified patient or donor identifiers with sample and repeated-measure linkage.",
-      "current_evidence": "CELLxGENE donor_id field visibility is verified; GSE137029 patient/donor IDs and both candidates' sample relationships remain unresolved.",
-      "next_action": "Obtain explicit stable person identifiers, sample mappings, repeated-sample structure, uniqueness, and missingness evidence.",
+      "current_evidence": "CELLxGENE/HCA has 261 donor IDs and 274 sample UUIDs with consistent mappings; GSE137029 exposes no person identifier field.",
+      "next_action": "Use P3-F019 to decide whether the verified CELLxGENE/HCA mappings justify a new primary-candidate strategy; do not infer GSE137029 person IDs.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -164,6 +180,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "P3-F018 metadata inspection evidence expansion or P3-F019 dataset strategy decision, only after explicit instruction",
+  "next_feature": "P3-F019 dataset strategy decision / pivot gate, only after explicit instruction",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }

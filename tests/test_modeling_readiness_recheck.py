@@ -65,7 +65,9 @@ def test_recheck_table_has_required_rows_and_schema():
     assert {row["requirement"] for row in rows} == REQUIRED_REQUIREMENTS
     assert all(row["evidence_source"].strip() for row in rows)
     assert all(row["required_next_action"].strip() for row in rows)
-    assert all(row["audit_status"] == "readiness_rechecked" for row in rows)
+    assert {
+        row["audit_status"] for row in rows
+    } <= {"readiness_rechecked", "readiness_expanded"}
 
 
 def test_all_training_blockers_remain_pending():
@@ -76,7 +78,9 @@ def test_all_training_blockers_remain_pending():
     assert {row["requirement"] for row in blockers} == BLOCKING_REQUIREMENTS
     assert all(row["previous_status"] == "pending" for row in blockers)
     assert all(row["current_status"] == "pending" for row in blockers)
-    assert all(row["decision"] == "not_resolved" for row in blockers)
+    assert {
+        row["decision"] for row in blockers
+    } <= {"not_resolved", "candidate_specific_progress", "strategy_decision_required"}
 
 
 def test_external_validation_plan_stays_passed_without_cohort_assignment():
@@ -98,7 +102,9 @@ def test_readiness_checklist_did_not_pass_any_blocker():
     assert len(blockers) == 8
     assert all(row["status"] == "pending" for row in blockers)
     assert all(row["status"] != "passed" for row in blockers)
-    assert all(row["audit_status"] == "readiness_rechecked" for row in rows)
+    assert {
+        row["audit_status"] for row in rows
+    } <= {"readiness_rechecked", "readiness_expanded"}
 
 
 def test_gate_records_not_ready_decision_and_conditional_pivot():
@@ -123,7 +129,7 @@ def test_training_decision_and_project_state_remain_locked():
 
     assert training_decision["training_permission"] == "blocked"
     assert training_decision["allow_modeling"] is False
-    assert "current_feature: P3-F017" in state
+    assert "current_feature: P3-F018" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -147,6 +153,6 @@ def test_no_model_artifacts_and_phase4_not_started():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F017" in backlog
+    assert "completed_through: P3-F018" in backlog
     assert "feature_id: P3-F016" in backlog
     assert "feature_id: P3-F017" in backlog

@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F017
+  completed_through: P3-F018
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -1009,16 +1009,24 @@ backlog:
     feature_id: P3-F018
     title: "Metadata inspection evidence expansion"
     phase: 3
-    status: TODO
-    description: "Optionally inspect additional approved metadata-only mapping assets to resolve patient/donor and label linkage."
+    status: done
+    description: "Complete a final metadata-only expansion using GEO MINiML, linked UCSC metadata vectors, portal descriptions, and public manifests."
     acceptance_criteria:
-      - "TODO: Define only after explicit instruction."
+      - "The expansion report and seven-row summary table exist."
+      - "GSE137029 sample labels are distinguished from patient-level mappings."
+      - "CELLxGENE/HCA donor-label and sample-donor mappings are explicitly audited."
+      - "No expression matrix, H5AD, full metadata table, or sequencing data is downloaded."
+      - "Exact cross-repository overlap remains blocked unless explicitly verified."
+      - "No dataset or external-validation cohort is assigned."
+      - "Training permission remains blocked and allow_modeling remains false."
+      - "Pivot gate preparation is recommended without activating pivot."
+      - "Phase 4 is not started."
     dependencies:
       - "P3-F017"
     required_tests:
-      - "TODO"
+      - "tests/test_metadata_evidence_expansion.py"
     judge_gates:
-      - "Explicit controlled metadata inspection approval."
+      - "Scientific and Bioinformatics Judge expansion review."
 
   - id: P3-F019
     feature_id: P3-F019
@@ -1029,7 +1037,7 @@ backlog:
     acceptance_criteria:
       - "TODO: Define only after explicit instruction and evidence review."
     dependencies:
-      - "P3-F017"
+      - "P3-F018"
     required_tests:
       - "TODO"
     judge_gates:

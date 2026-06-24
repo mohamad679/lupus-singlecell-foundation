@@ -79,15 +79,17 @@ def test_patient_level_labels_and_identifiers_are_not_overclaimed():
     label_rows = read_table(LABEL_PATH)[1]
     patient_rows = read_table(PATIENT_PATH)[1]
 
-    patient_label_rows = [
-        row
+    assert any(
+        row["candidate_id"] == "GSE137029"
+        and row["requirement"] == "patient or donor linkage to diagnosis label"
+        and row["evidence_status"] == "blocked"
         for row in label_rows
-        if "patient" in row["requirement"]
-    ]
-    assert patient_label_rows
-    assert all(
-        row["evidence_status"] in {"blocked", "unclear", "pending"}
-        for row in patient_label_rows
+    )
+    assert any(
+        row["candidate_id"] == CELLXGENE_ID
+        and row["requirement"] == "exact patient-level diagnosis label provenance"
+        and row["evidence_status"] == "verified"
+        for row in label_rows
     )
     assert any(
         row["candidate_id"] == "GSE137029"
@@ -98,7 +100,7 @@ def test_patient_level_labels_and_identifiers_are_not_overclaimed():
     assert any(
         row["candidate_id"] == "GSE137029"
         and row["requirement"] == "patient or donor identifier field availability"
-        and row["evidence_status"] == "unclear"
+        and row["evidence_status"] == "blocked"
         for row in patient_rows
     )
     assert any(
@@ -113,7 +115,7 @@ def test_training_and_project_state_remain_locked():
     state = STATE_PATH.read_text()
     decision = json.loads(DECISION_PATH.read_text())
 
-    assert "current_feature: P3-F017" in state
+    assert "current_feature: P3-F018" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -130,5 +132,5 @@ def test_phase4_not_started_and_p3_f012_recorded():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F017" in backlog
+    assert "completed_through: P3-F018" in backlog
     assert "feature_id: P3-F012" in backlog
