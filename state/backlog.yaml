@@ -14,7 +14,7 @@ phase_2_scaffold:
 
 phase_3_scaffold:
   status: verification_in_progress
-  completed_through: P3-F018
+  completed_through: P3-F019
   restrictions:
     - "Baseline design scaffold only."
     - "No training or real model fitting."
@@ -1032,13 +1032,35 @@ backlog:
     feature_id: P3-F019
     title: "Dataset strategy decision / pivot gate"
     phase: 3
-    status: TODO
-    description: "Optionally decide whether to continue with current candidates or activate a dataset pivot after evidence expansion."
+    status: done
+    description: "Select the next dataset strategy after evidence expansion without selecting a dataset or enabling modeling."
     acceptance_criteria:
-      - "TODO: Define only after explicit instruction and evidence review."
+      - "The strategy decision YAML and judge report exist."
+      - "All five strategy options are assessed."
+      - "Open strategy blockers are documented."
+      - "CELLxGENE/HCA is designated for primary-candidate validation only."
+      - "GSE137029 remains blocked for patient-level modeling."
+      - "No dataset or external-validation cohort is assigned."
+      - "Training permission, modeling, and Phase 4 remain blocked."
+      - "The scientific-objective pivot remains not_activated."
     dependencies:
       - "P3-F018"
     required_tests:
-      - "TODO"
+      - "tests/test_dataset_strategy_decision.py"
     judge_gates:
       - "Explicit Scientific Judge and human strategy decision."
+
+  - id: P3-F020
+    feature_id: P3-F020
+    title: "CELLxGENE/HCA primary dataset validation"
+    phase: 3
+    status: TODO
+    description: "Validate the selected strategy candidate's access, metadata completeness, repeated samples, QC, donor-level split, leakage, and feature feasibility without selecting it or enabling training."
+    acceptance_criteria:
+      - "TODO: Define only after explicit instruction."
+    dependencies:
+      - "P3-F019"
+    required_tests:
+      - "TODO"
+    judge_gates:
+      - "Scientific and Bioinformatics Judge validation before dataset selection."

@@ -23,6 +23,24 @@
   "training_permission_reevaluation_report": "state/judge_reports/P3-F017_training_permission_reevaluation_report.md",
   "metadata_evidence_expansion_summary": "reports/tables/metadata_evidence_expansion_summary.csv",
   "metadata_evidence_expansion_report": "state/judge_reports/P3-F018_metadata_evidence_expansion_report.md",
+  "dataset_strategy_decision": "state/dataset_strategy_decision.yaml",
+  "dataset_strategy_options": "reports/tables/dataset_strategy_options.csv",
+  "strategy_decision_blockers": "reports/tables/strategy_decision_blockers.csv",
+  "dataset_strategy_decision_report": "state/judge_reports/P3-F019_dataset_strategy_decision_report.md",
+  "strategy_decision": {
+    "feature_id": "P3-F019",
+    "decision": "switch_primary_to_CELLxGENE_HCA",
+    "decision_scope": "primary candidate validation only",
+    "primary_validation_candidate": "CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629",
+    "pivot_status": "not_activated",
+    "modeling_readiness": "not_ready",
+    "training_permission": "blocked",
+    "allow_modeling": false,
+    "phase4_permission": "blocked",
+    "selected_datasets": [],
+    "external_validation_cohort": "TODO",
+    "next_feature": "P3-F020 CELLxGENE/HCA primary dataset validation"
+  },
   "evidence_expansion_decision": {
     "feature_id": "P3-F018",
     "modeling_readiness": "not_ready",
@@ -65,8 +83,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Explicit human-approved dataset assignment for the restricted SLE case-control task.",
-      "current_evidence": "selected_datasets is empty; candidate datasets remain restricted planning candidates.",
-      "next_action": "Resolve DLV-001 in reports/tables/dataset_label_verification_checklist.csv, then request explicit dataset selection.",
+      "current_evidence": "P3-F019 designates CELLxGENE/HCA for primary-candidate validation only; selected_datasets remains empty.",
+      "next_action": "Run P3-F020 validation, then request a separate explicit dataset-selection decision if all blockers are resolved.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -125,8 +143,8 @@
       "status": "pending",
       "blocking": true,
       "required_evidence": "Explicitly approved training cohort with patient counts, class balance, access, and provenance.",
-      "current_evidence": "Metadata review did not establish patient-level linkage; no training cohort is assigned and selected_datasets remains empty.",
-      "next_action": "Keep GSE137029 unselected until ID, label, overlap, QC, split, and feature blockers are resolved and human-reviewed.",
+      "current_evidence": "CELLxGENE/HCA donor/sample/diagnosis linkage is verified, but access, QC, split, leakage, features, and human selection remain unresolved.",
+      "next_action": "Validate CELLxGENE/HCA through P3-F020 without assigning a training role or enabling modeling.",
       "audit_status": "readiness_reviewed"
     },
     {
@@ -180,6 +198,6 @@
     "MRG-009",
     "MRG-010"
   ],
-  "next_feature": "P3-F019 dataset strategy decision / pivot gate, only after explicit instruction",
+  "next_feature": "P3-F020 CELLxGENE/HCA primary dataset validation, only after explicit instruction",
   "notes": "No condition in this gate enables training. Foundation models and uncertainty modeling remain prohibited."
 }

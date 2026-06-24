@@ -1,28 +1,36 @@
 # Current Feature
 
-Feature: P3-F018 - Metadata inspection evidence expansion.
+Feature: P3-F019 - Dataset strategy decision / pivot gate.
 
-Status: completed; strategy decision required.
+Status: completed; training remains blocked.
 
-Expanded evidence:
+Strategy decision:
 
-- GSE137029 has complete pooled sample-level condition labels but no
-  patient/donor field or sample-to-person mapping.
-- CELLxGENE/HCA has 261 donors, 274 samples, consistent donor-to-disease
-  linkage, and explicit repeated-sample grouping.
-- Exact GSE137029-to-CELLxGENE/HCA record overlap remains unresolved.
-- CELLxGENE/HCA cannot be assigned as external validation.
+- `switch_primary_to_CELLxGENE_HCA`
+- Scope: primary-candidate validation only.
+- GSE137029 remains blocked for patient-level modeling because no explicit
+  person mapping exists.
+- CELLxGENE/HCA has verified donor, sample, and diagnosis linkage and is the
+  stronger candidate for the next validation feature.
+- No dataset is selected or approved.
+- CELLxGENE/HCA is not assigned as external validation.
 
-Judge decisions:
+Pivot decision:
 
-- GSE137029 cannot be selected for patient-level training.
-- CELLxGENE/HCA mapping feasibility is improved but no dataset is selected.
-- Repeating inspection of the same public metadata sources is unlikely to
-  resolve GSE137029.
-- P3-F019 dataset strategy/pivot gate should be prepared.
-- Pivot remains `not_activated`.
+- The SLE diagnosis / case-control objective is unchanged.
+- `pivot_status`: `not_activated`.
+- A dataset-strategy adjustment is documented without activating a paper or
+  scientific-objective pivot.
 
-Modeling controls remain:
+Next allowed feature:
+
+- P3-F020 - CELLxGENE/HCA primary dataset validation.
+- Validation must address access, metadata completeness, repeated samples,
+  QC, donor-level splitting, leakage, and feature readiness.
+- A separate independent cohort search remains required for external
+  validation.
+
+Controls remain:
 
 - `modeling_readiness`: `not_ready`
 - `training_permission`: `blocked`
@@ -31,5 +39,5 @@ Modeling controls remain:
 - `selected_datasets`: []
 - `external_validation_cohort`: TODO
 
-No full data, preprocessing, training, model artifacts, pivot activation, or
+No downloads, preprocessing, training, model artifacts, dataset selection, or
 Phase 4 work is allowed.

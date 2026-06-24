@@ -1,0 +1,46 @@
+{
+  "decision_id": "P3-F019",
+  "decision_name": "Dataset Strategy Decision / Pivot Gate",
+  "decision": "switch_primary_to_CELLxGENE_HCA",
+  "decision_scope": "primary candidate validation only",
+  "decision_status": "recorded_with_restrictions",
+  "pivot_status": "not_activated",
+  "modeling_readiness": "not_ready",
+  "training_permission": "blocked",
+  "allow_modeling": false,
+  "phase4_permission": "blocked",
+  "selected_datasets": [],
+  "external_validation_cohort": "TODO",
+  "primary_validation_candidate": "CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629",
+  "gse137029_role": "blocked_for_patient_level_modeling",
+  "cellxgene_hca_role": "candidate_pending_primary_validation",
+  "scientific_rationale": [
+    "CELLxGENE/HCA exposes 261 donor identifiers, 274 sample identifiers, consistent donor-to-sample mappings, and donor-linked SLE versus normal labels.",
+    "GSE137029 exposes pooled sample-level condition labels but no patient or donor field and no sample-to-person mapping.",
+    "A validation feature can test CELLxGENE/HCA access, QC, split, leakage, and feature feasibility without selecting it or enabling training."
+  ],
+  "external_validation_strategy": "Search for a separate independent cohort after primary-candidate validation; CELLxGENE/HCA is not external validation for GSE137029.",
+  "required_next_feature": "P3-F020 - CELLxGENE/HCA primary dataset validation",
+  "required_before_dataset_selection": [
+    "Explicitly validate accessible metadata and matrix assets under a separate download gate.",
+    "Confirm donor and sample field completeness in the approved analysis object.",
+    "Confirm diagnosis label provenance and preserve source ontology values.",
+    "Resolve repeated-sample handling and construct a donor-level split manifest.",
+    "Complete dataset-specific QC review and leakage checks.",
+    "Create an audited patient-level feature manifest.",
+    "Obtain a separate human dataset-selection and training-permission decision."
+  ],
+  "forbidden_actions": [
+    "download data",
+    "preprocess data",
+    "train models",
+    "create model artifacts",
+    "set allow_modeling true",
+    "add selected datasets",
+    "assign an external validation cohort",
+    "treat GSE137029 as patient-level training data",
+    "claim CELLxGENE/HCA is independent external validation",
+    "start Phase 4"
+  ],
+  "audit_status": "strategy_decision_recorded_training_blocked"
+}

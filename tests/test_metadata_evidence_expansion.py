@@ -137,7 +137,7 @@ def test_project_state_and_backlog_do_not_start_modeling_or_phase4():
         and path.suffix.lower() in forbidden_suffixes
     ]
 
-    assert "current_feature: P3-F018" in state
+    assert "current_feature: P3-F019" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -147,8 +147,12 @@ def test_project_state_and_backlog_do_not_start_modeling_or_phase4():
     assert 'current_phase: "Phase 4"' not in state
     assert "current_feature: P4-" not in state
     assert "phase_4_scaffold:" not in backlog
-    assert "completed_through: P3-F018" in backlog
+    assert "completed_through: P3-F019" in backlog
     assert artifacts == []
 
-    p3_f019 = backlog.split("feature_id: P3-F019", 1)[1]
-    assert "status: TODO" in p3_f019
+    p3_f019 = backlog.split("feature_id: P3-F019", 1)[1].split(
+        "feature_id: P3-F020", 1
+    )[0]
+    p3_f020 = backlog.split("feature_id: P3-F020", 1)[1]
+    assert "status: done" in p3_f019
+    assert "status: TODO" in p3_f020

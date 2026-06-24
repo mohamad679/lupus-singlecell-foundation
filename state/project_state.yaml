@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_3_verification_in_progress_training_blocked
+  status: phase_3_strategy_decided_training_blocked
   current_phase: "Phase 3"
   current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F018
+  current_feature: P3-F019
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -16,6 +16,8 @@ project:
   modeling_readiness: not_ready
   training_permission: blocked
   phase4_permission: blocked
+  dataset_strategy_decision: switch_primary_to_CELLxGENE_HCA
+  pivot_status: not_activated
   dataset_download_allowed: false
   allow_downloads: false
   dataset_accessions_verified: false
@@ -57,7 +59,7 @@ modeling_readiness_gate:
   blocking_items: 8
   passed_items: 3
   allow_modeling: false
-  next_feature: "P3-F019 dataset strategy decision / pivot gate, only after explicit instruction"
+  next_feature: "P3-F020 CELLxGENE/HCA primary dataset validation, only after explicit instruction"
 
 training_permission_decision:
   status: blocked
@@ -95,12 +97,29 @@ metadata_evidence_expansion:
   training_permission: blocked
   allow_modeling: false
 
+dataset_strategy:
+  status: decided_with_restrictions
+  decision: switch_primary_to_CELLxGENE_HCA
+  decision_scope: primary_candidate_validation_only
+  primary_validation_candidate: CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+  gse137029_role: blocked_for_patient_level_modeling
+  cellxgene_hca_role: candidate_pending_primary_validation
+  external_validation_strategy: search_for_separate_independent_cohort
+  pivot_status: not_activated
+  selected_datasets: []
+  external_validation_cohort: TODO
+  modeling_readiness: not_ready
+  training_permission: blocked
+  allow_modeling: false
+  phase4_permission: blocked
+  next_feature: "P3-F020 CELLxGENE/HCA primary dataset validation"
+
 dataset_selection_and_label_verification:
   status: completed_with_blockers
   candidates_reviewed:
     - GSE137029
     - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
-  primary_candidate_for_continued_verification: GSE137029
+  primary_candidate_for_continued_verification: CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
   dataset_selected: false
   patient_level_labels_verified: false
   leakage_safe_identifiers_verified: false
@@ -323,6 +342,10 @@ artifacts:
   training_permission_reevaluation_report: state/judge_reports/P3-F017_training_permission_reevaluation_report.md
   metadata_evidence_expansion_summary: reports/tables/metadata_evidence_expansion_summary.csv
   metadata_evidence_expansion_report: state/judge_reports/P3-F018_metadata_evidence_expansion_report.md
+  dataset_strategy_decision: state/dataset_strategy_decision.yaml
+  dataset_strategy_options: reports/tables/dataset_strategy_options.csv
+  strategy_decision_blockers: reports/tables/strategy_decision_blockers.csv
+  dataset_strategy_decision_report: state/judge_reports/P3-F019_dataset_strategy_decision_report.md
   audit_script: scripts/00_audit_datasets.py
   geo_metadata_search_plan_script: scripts/01_geo_metadata_search_plan.py
   cellxgene_metadata_plan_script: scripts/02_cellxgene_metadata_plan.py
@@ -398,5 +421,6 @@ artifacts:
   modeling_readiness_recheck_test: tests/test_modeling_readiness_recheck.py
   training_permission_reevaluation_test: tests/test_training_permission_reevaluation.py
   metadata_evidence_expansion_test: tests/test_metadata_evidence_expansion.py
+  dataset_strategy_decision_test: tests/test_dataset_strategy_decision.py
 
 last_updated: "2026-06-24"
