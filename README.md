@@ -1,21 +1,46 @@
 # Lupus Single-Cell Foundation
 
-Phase 1 dataset feasibility audit scaffold for a lupus single-cell feasibility project.
+Patient-level prediction foundations for lupus single-cell RNA sequencing.
 
-This repository currently contains only planning, state, metadata schema, audit scaffolding, reports, and tests. It does not contain model code, downloaded datasets, or verified dataset accessions.
+## Current Phase 1 Runtime Status
 
-## Current Status
+The dataset loading and QC pipeline is implemented in
+`scripts/11_phase1_dataset_qc.py`. The public GEO record for GSE174188
+currently has no supplementary h5ad, so the checked-in workspace artifacts
+are generated from explicitly labeled synthetic fixtures. They validate the
+pipeline but are not evidence about the real Perez et al. cohort.
 
-- Phase: 1, dataset feasibility audit.
-- Current feature: P1-F001, Dataset Search Strategy.
-- Dataset downloads: not allowed.
-- Model training: not allowed.
-- First real scientific phase: dataset feasibility audit.
-- Unknown information policy: mark as TODO.
+The required acquisition fixture is exactly 500 cells × 200 genes. A separate
+500 cells × 2,500 genes fixture validates the independent requirement that the
+processed object contain exactly 2,000 highly variable genes.
 
-## Required Gate Before Data Acquisition
+Run and verify:
 
-No dataset acquisition or model training is allowed until Human Gate 1, Dataset Feasibility Approved, is passed. Model training also requires later modeling readiness approval.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements_phase1.txt
+python scripts/11_phase1_dataset_qc.py --check-geo
+python scripts/12_verify_phase1.py
+```
+
+To process an authorized or subsequently published real matrix:
+
+```bash
+python scripts/11_phase1_dataset_qc.py \
+  --input data/raw/GSE174188/<source-file>.h5ad
+```
+
+See `data/raw/DOWNLOAD_INSTRUCTIONS.md` for source status and exact GEO
+recheck commands. The completion report is at
+`results/phase1/PHASE1_REPORT.md`.
+
+## Historical Planning Scaffolds
+
+The repository also retains earlier feasibility, gating, schema, and modeling
+planning artifacts. Those documents predate this executable synthetic Phase 1
+validation and should not be read as proof that the real GSE174188 matrix was
+acquired or approved for modeling.
 
 ## Repository Files
 
@@ -33,12 +58,9 @@ No dataset acquisition or model training is allowed until Human Gate 1, Dataset 
 - `tests/test_data_audit_config.py`: config and source coverage tests.
 - `tests/test_audit_script_no_invented_rows.py`: audit script safety tests.
 
-## Verification
+## Historical Test Suite
 
-Run:
-
-```bash
-pytest -q
-```
-
-The tests require no network access and do not download data.
+The original `pytest -q` suite validates the planning-only state. Several of
+those tests deliberately fail when any h5ad, PNG, or local virtual environment
+exists, so they conflict with the Phase 1 runtime deliverables above. Use
+`scripts/12_verify_phase1.py` as the acceptance verifier for this pipeline.

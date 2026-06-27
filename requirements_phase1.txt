@@ -1,0 +1,12 @@
+# Phase 1 dataset loading, quality control, and visualization
+scanpy>=1.9,<2
+anndata>=0.10,<0.13
+GEOparse>=2.0,<3
+pandas>=2.0,<3
+numpy>=1.24,<2.3
+# Keep a wheel-backed line on Python 3.11/Intel macOS; also supported on Kaggle Linux.
+numba>=0.60,<0.62
+llvmlite>=0.43,<0.45
+matplotlib>=3.7,<4
+seaborn>=0.12,<1
+requests>=2.31,<3

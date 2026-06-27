@@ -1,0 +1,11 @@
+patient_id,group,sledai_score,n_cells,cell_types_present
+P001,Flare,14.0,44,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P002,Flare,15.0,44,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P003,Flare,14.0,44,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P004,Managed,7.0,44,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P005,Managed,6.0,44,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P006,Treated,4.0,46,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P007,Treated,3.0,46,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P008,Healthy,1.0,46,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P009,Healthy,0.0,46,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
+P010,Healthy,1.0,46,B cell|CD4 T cell|CD8 T cell|Classical monocyte|NK cell
