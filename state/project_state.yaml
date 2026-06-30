@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage2_closeout_in_progress
-  current_phase: Stage 2
-  current_phase_name: Stage 2 Closeout
-  current_feature: STAGE2-CLOSEOUT
+  status: stage2_completed_pending_stage3_planning
+  current_phase: Stage 3
+  current_phase_name: Stage 3 Planning
+  current_feature: STAGE3-PLANNING
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -39,7 +39,7 @@ active_status_authority:
   - stage2_geneformer_extraction_runner
   - stage2_closeout
   note: Older phase/gate/test-scaffold records are retained as historical provenance
-    and do not override the current Stage 2 closeout status.
+    and do not override the completed Stage 2 closeout status.
   historical_records_retained: true
   historical_records_should_not_block_reconciliation: true
 phase_controls:
@@ -701,7 +701,7 @@ stage2_geneformer_extraction_runner:
   - No real extraction outputs were committed by this feature.
 
 stage2_closeout:
-  status: in_progress
+  status: completed
   branch: chore/stage2-closeout
   current_feature: STAGE2-CLOSEOUT
   scope: mark Stage 2 package-side embedding extraction infrastructure complete
