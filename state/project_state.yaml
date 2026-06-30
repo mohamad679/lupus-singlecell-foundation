@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage1_cohort_summary_in_progress
+  status: stage1_anndata_schema_in_progress
   current_phase: Stage 1
-  current_phase_name: Cohort Summary Utilities
-  current_feature: STAGE1-F003
+  current_phase_name: AnnData Schema Validation Utilities
+  current_feature: STAGE1-F004
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -28,6 +28,7 @@ active_status_authority:
   - stage1_package_and_labels
   - stage1_metadata_qc
   - stage1_cohort_summary
+  - stage1_anndata_schema
   note: Older phase/gate/test-scaffold records are retained as historical provenance
     and do not override the current Stage 1 package/label extraction status.
   historical_records_retained: true
@@ -492,8 +493,8 @@ stage1_metadata_qc:
     refuses silent fallback to adata.var_names.
 
 stage1_cohort_summary:
-  status: in_progress
-  branch: feat/stage1-cohort-summary
+  status: completed
+  branch: main
   current_feature: STAGE1-F003
   package_modules_added:
   - src/lupusfm/data/cohort.py
@@ -508,3 +509,20 @@ stage1_cohort_summary:
   - Donor labels use the approved fail-closed donor-id rule.
   - Utilities summarize donor and cell counts only; they do not filter cells,
     extract embeddings, or train models.
+
+stage1_anndata_schema:
+  status: in_progress
+  branch: feat/stage1-anndata-schema
+  current_feature: STAGE1-F004
+  package_modules_added:
+  - src/lupusfm/data/anndata_schema.py
+  tests_added:
+  - tests/test_lupusfm_anndata_schema.py
+  targeted_validation: 71 passed
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  notes:
+  - AnnData schema validation is lightweight and does not import Scanpy or load real AnnData files.
+  - Schema checks validate obs/var columns, X/layer shapes, uns keys, and split-policy constraints.
+  - Cell-level split assignments are rejected before any modeling or embedding extraction is allowed.
