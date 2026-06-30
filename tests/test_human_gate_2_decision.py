@@ -82,7 +82,7 @@ def test_project_state_records_restricted_gate_without_enabling_modeling():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 3" in state
-    assert "current_feature: STAGE3-PLANNING" in state
+    assert "current_feature: STAGE3-F001" in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "primary_task: Active SLE flare discrimination" in state
     assert "selected_datasets: []" in state
