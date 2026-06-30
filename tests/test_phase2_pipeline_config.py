@@ -67,8 +67,8 @@ def test_phase2_scaffold_validation_summary():
 def test_project_state_phase2_restricted_gate_controls():
     state = STATE_PATH.read_text()
 
-    assert "current_phase: Stage 1" in state
-    assert "current_feature: STAGE1-F007" in state
+    assert "current_phase: Stage 2" in state
+    assert "current_feature: STAGE2-F001" in state
     assert "blocked: false" in state
     assert "blocked_reason: null" in state
     assert "status: approved_with_restrictions" in state

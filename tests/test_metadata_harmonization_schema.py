@@ -142,7 +142,7 @@ def test_validator_rejects_unresolved_dataset_id():
 def test_no_download_or_modeling_flags_changed():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE1-F007" in state
+    assert "current_feature: STAGE2-F001" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state

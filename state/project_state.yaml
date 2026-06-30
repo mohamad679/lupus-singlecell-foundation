@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage1_closeout_gate_in_progress
-  current_phase: Stage 1
-  current_phase_name: Stage 1 Closeout Gate
-  current_feature: STAGE1-F007
+  status: stage2_embedding_plan_in_progress
+  current_phase: Stage 2
+  current_phase_name: Stage 2 Embedding Extraction Planning
+  current_feature: STAGE2-F001
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -32,8 +32,9 @@ active_status_authority:
   - stage1_ingestion_readiness
   - stage1_manifest_contract
   - stage1_closeout_gate
+  - stage2_embedding_plan
   note: Older phase/gate/test-scaffold records are retained as historical provenance
-    and do not override the current Stage 1 package/label extraction status.
+    and do not override the current Stage 2 embedding-planning status.
   historical_records_retained: true
   historical_records_should_not_block_reconciliation: true
 phase_controls:
@@ -566,8 +567,8 @@ stage1_manifest_contract:
   - Downloads, embedding extraction, modeling, and training remain explicitly disabled.
 
 stage1_closeout_gate:
-  status: in_progress
-  branch: chore/stage1-closeout-gate
+  status: completed
+  branch: main
   current_feature: STAGE1-F007
   full_suite_validation: 499 passed
   modeling_allowed: false
@@ -576,6 +577,26 @@ stage1_closeout_gate:
   embedding_extraction_allowed: false
   geneformer_execution_allowed: false
   notes:
-  - Stage 1 ingestion/QC package foundation is complete on main through STAGE1-F006.
-  - This closeout gate records that Stage 2 remains locked until a dedicated reproducible embedding-extraction plan is approved.
-  - No data download, Geneformer execution, embedding extraction, modeling, training, or external validation is allowed in this closeout feature.
+  - Stage 1 ingestion/QC package foundation is complete on main through STAGE1-F007.
+  - The closeout gate records that Stage 2 remained locked until a dedicated reproducible embedding-extraction plan was opened.
+  - No data download, Geneformer execution, embedding extraction, modeling, training, or external validation was allowed in the closeout feature.
+
+stage2_embedding_plan:
+  status: in_progress
+  branch: docs/stage2-embedding-plan
+  current_feature: STAGE2-F001
+  scope: reproducible Geneformer embedding extraction plan only
+  package_modules_added: []
+  tests_added: []
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  notes:
+  - This feature defines Stage 2 inputs, outputs, provenance, leakage controls, and artifact restrictions.
+  - It does not download data, load AnnData files, execute Geneformer, tokenize cells, extract embeddings, train models, or add performance claims.
+  - Actual extraction remains blocked until a later approved feature validates manifest, ingestion readiness, model/tokenizer/vocabulary provenance, gene mapping, output paths, sampled cell IDs, and patient-level aggregation.

@@ -109,7 +109,7 @@ def test_strategy_blockers_remain_open_and_evidence_backed():
 def test_project_permissions_and_assignments_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE1-F007" in state
+    assert "current_feature: STAGE2-F001" in state
     assert "dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run" in state
     assert "pivot_status: not_activated" in state
     assert "modeling_readiness: not_ready" in state

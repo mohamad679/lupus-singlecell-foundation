@@ -167,8 +167,8 @@ def test_missing_audit_status_fails():
 def test_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
-    assert "current_phase: Stage 1" in state
-    assert "current_feature: STAGE1-F007" in state
+    assert "current_phase: Stage 2" in state
+    assert "current_feature: STAGE2-F001" in state
     assert "primary_task: Active SLE flare discrimination" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state

@@ -172,42 +172,31 @@ Correct wording:
 
 ## Immediate engineering plan
 
-Stage 0: Repository reconciliation
+Stage 0: COMPLETE
 
-- stop tracking system files
-- add this project status file
-- update README to distinguish historical synthetic artifacts from real exploratory Kaggle results
-- update project state files so they no longer contradict the exploratory modeling work
-- move notebooks into exploratory/final structure if needed
+- Repository state was reconciled with the real exploratory Kaggle work.
+- Historical synthetic/scaffold artifacts are retained only as provenance.
 
-Stage 1: Convert notebooks into package-based scripts
+Stage 1: COMPLETE
 
-- `src/lupusfm/data/`
-- `src/lupusfm/qc/`
-- `src/lupusfm/geneformer/`
-- `src/lupusfm/eval/`
-- `scripts/10_run_phase1_qc.py`
-- `scripts/20_extract_geneformer_embeddings.py`
-- `scripts/30_evaluate_geneformer.py`
+- Tested package utilities now define donor labels, metadata extraction,
+  mitochondrial annotation, cohort summaries, AnnData schema validation,
+  ingestion readiness, and the ingestion manifest contract.
+- Stage 1 completed with the closeout gate merged on `main`.
 
-Stage 2: Add tests and reproducibility artifacts
+Stage 2: IN PROGRESS — planning gate only
 
-- label extraction tests
-- QC tests
-- embedding manifest tests
-- split/leakage tests
-- metric reproducibility tests
+Current feature:
 
-Stage 3: Add biological validation
+- `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
+- Branch: `docs/stage2-embedding-plan`
 
-- raw/pseudobulk baselines
-- cell-type contribution
-- composition controls
-- external validation audit
+This Stage 2 planning feature is limited to documentation, state, and stale-test
+synchronization. It must not download data, load real AnnData files, execute
+Geneformer, tokenize cells, extract embeddings, train models, perform external
+validation, or add performance claims.
 
----
-
-## Current Stage 1 package progress
+## Current Stage 1 package foundation
 
 Completed on `main`:
 
@@ -226,16 +215,11 @@ Completed on `main`:
 - `src/lupusfm/data/manifest.py`
 - `tests/test_lupusfm_manifest.py`
 
-In progress on `chore/stage1-closeout-gate`:
+Current full-suite validation recorded at Stage 1 closeout:
 
-- Stage 1 closeout state documentation.
-- Stage 2 remains locked until a dedicated reproducible Geneformer embedding-extraction plan is approved.
+- `499 passed`
 
-Current validation:
-
-- `499 passed` for the full repository test suite on `main` after PR #8.
-
-Important safety decisions now implemented:
+Important safety decisions implemented:
 
 - donor metadata must come from explicit `adata.obs` columns
 - unknown donor-id patterns fail closed
@@ -245,8 +229,23 @@ Important safety decisions now implemented:
 - AnnData schema validation rejects cell-level split assignments before modeling
 - ingestion-readiness reports collect validation failures instead of starting downstream work
 - manifest utilities keep downloads, embedding extraction, modeling, and training disabled
-- Stage 2 is not allowed to run until a reproducible Geneformer extraction plan is explicitly opened and validated
 
-## Current next action
+## Stage 2 planning requirements
 
-Finish the Stage 1 closeout pull request, then start Stage 2 planning only after the closeout PR is merged.
+A later Geneformer extraction implementation must explicitly define and validate:
+
+- Geneformer model/version provenance
+- tokenizer and vocabulary provenance
+- CELLxGENE dataset ID and Census version
+- donor identifier column
+- gene-symbol and gene-ID mapping policy
+- random seed
+- sampled cell IDs per donor
+- patient-level aggregation rule
+- embedding output naming and metadata
+- finite-value and shape checks
+- artifact restrictions that reject model/training outputs
+
+Actual extraction remains blocked until a later approved feature validates the
+manifest, ingestion-readiness report, model/tokenizer/vocabulary provenance,
+gene mapping, sampled cell IDs, output paths, and patient-level aggregation.
