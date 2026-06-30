@@ -87,7 +87,7 @@ def test_project_state_preserves_phase2_safety_locks():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 1" in state
-    assert "current_feature: STAGE1-F004" in state
+    assert "current_feature: STAGE1-F005" in state
     assert "primary_task: Active SLE flare discrimination" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state

@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage1_anndata_schema_in_progress
+  status: stage1_ingestion_readiness_in_progress
   current_phase: Stage 1
-  current_phase_name: AnnData Schema Validation Utilities
-  current_feature: STAGE1-F004
+  current_phase_name: Ingestion Readiness Report Utilities
+  current_feature: STAGE1-F005
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -29,6 +29,7 @@ active_status_authority:
   - stage1_metadata_qc
   - stage1_cohort_summary
   - stage1_anndata_schema
+  - stage1_ingestion_readiness
   note: Older phase/gate/test-scaffold records are retained as historical provenance
     and do not override the current Stage 1 package/label extraction status.
   historical_records_retained: true
@@ -511,8 +512,8 @@ stage1_cohort_summary:
     extract embeddings, or train models.
 
 stage1_anndata_schema:
-  status: in_progress
-  branch: feat/stage1-anndata-schema
+  status: completed
+  branch: main
   current_feature: STAGE1-F004
   package_modules_added:
   - src/lupusfm/data/anndata_schema.py
@@ -526,3 +527,20 @@ stage1_anndata_schema:
   - AnnData schema validation is lightweight and does not import Scanpy or load real AnnData files.
   - Schema checks validate obs/var columns, X/layer shapes, uns keys, and split-policy constraints.
   - Cell-level split assignments are rejected before any modeling or embedding extraction is allowed.
+
+stage1_ingestion_readiness:
+  status: in_progress
+  branch: feat/stage1-ingestion-readiness
+  current_feature: STAGE1-F005
+  package_modules_added:
+  - src/lupusfm/data/ingestion_readiness.py
+  tests_added:
+  - tests/test_lupusfm_ingestion_readiness.py
+  targeted_validation: 80 passed
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  notes:
+  - Ingestion readiness combines schema, cohort, and explicit mitochondrial annotation checks.
+  - Readiness reports collect validation failures instead of starting downstream work.
+  - No files are loaded and no modeling, embedding extraction, filtering, or downloads are allowed.
