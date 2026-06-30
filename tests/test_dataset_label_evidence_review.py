@@ -136,7 +136,7 @@ def test_gate_and_project_state_keep_training_blocked():
     assert gate["allow_preprocessing"] is False
     assert gate["allow_modeling"] is False
     assert gate["training_permission"] == "blocked"
-    assert "current_feature: STAGE2-F002" in state
+    assert "current_feature: STAGE2-F003" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state

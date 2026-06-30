@@ -1,23 +1,22 @@
 # Current Feature
 
-## STAGE2-F002 - Embedding config contract
+## STAGE2-F003 - Embedding provenance manifest
 
 Status: in progress
-Branch: `feat/stage2-embedding-config-contract`
+Branch: `feat/stage2-embedding-provenance`
 
 ## Objective
 
-Add a lightweight, metadata-only configuration contract for future Geneformer
-embedding extraction.
+Add a metadata-only provenance manifest contract for future Geneformer embedding
+extraction.
 
-This feature adds validation utilities for Stage 2 extraction configuration, but
-does not implement extraction. It keeps all execution and modeling gates closed
-while making the required dataset, manifest, model, tokenizer, vocabulary, gene
-identifier, split, aggregation, seed, and output-path policies explicit.
+This feature records dataset, config, model, tokenizer, vocabulary, gene mapping,
+seed, split, aggregation, output, and hash-resolution provenance requirements
+before any runtime extraction feature is allowed.
 
-No code in this feature downloads data, loads real AnnData files, imports or
-executes Geneformer, tokenizes cells, extracts embeddings, trains models,
-performs external validation, or adds new performance claims.
+No code in this feature downloads data, loads real AnnData files, loads model
+runtimes, tokenizes cells, extracts embeddings, trains models, performs external
+validation, or adds new performance claims.
 
 ## Completed before this branch
 
@@ -31,41 +30,43 @@ performs external validation, or adds new performance claims.
 - `STAGE1-F007`: Stage 1 closeout gate merged on `main`.
 - `STAGE2-F001`: reproducible Geneformer embedding extraction plan merged on
   `main`.
+- `STAGE2-F002`: embedding config contract merged on `main`.
 
 ## Planned package additions
 
-- `src/lupusfm/embeddings/__init__.py`
-- `src/lupusfm/embeddings/config.py`
-- `tests/test_lupusfm_embedding_config.py`
+- `src/lupusfm/embeddings/provenance.py`
+- `tests/test_lupusfm_embedding_provenance.py`
 
-## Stage 2 config contract scope
+## Stage 2 provenance scope
 
-The config contract must validate:
+The provenance contract must validate:
 
 - approved primary CELLxGENE dataset ID
 - approved CELLxGENE Census version
 - explicit donor column
 - explicit gene-symbol column
 - explicit gene-ID mapping policy
-- required ingestion manifest path
 - Geneformer model source and revision
-- tokenizer and vocabulary source
+- tokenizer source
+- vocabulary source
+- pending or recorded sha256 hash status for model/config/tokenizer/vocabulary
 - cells per donor
 - maximum sequence length
 - batch size
 - random seed
 - patient-level split policy
 - patient-level aggregation policy
-- Stage 2 output paths
-- model/training artifact suffix restrictions
+- output path consistency with the embedding config
+- explicit record that extraction has not yet been performed
 
-## Required leakage controls
+## Required leakage and reproducibility controls
 
-- Split level must remain patient/donor/cohort-level, never cell-level.
-- Patient aggregation must be declared before extraction.
-- No supervised evaluation, standardization, cross-validation, or metric claim is
-  introduced by this feature.
-- No model or training artifact path is allowed.
+- Provenance must match the validated embedding config.
+- Runtime hashes may be pending at this stage, but fake hashes are rejected.
+- Recorded hashes must be valid sha256 hex digests.
+- Extraction performed must remain false in this feature.
+- No supervised evaluation, cross-validation, metric report, or performance claim
+  is introduced by this feature.
 
 ## Still not allowed
 
@@ -81,7 +82,12 @@ The config contract must validate:
 - No cell-level train/test split.
 - No model or training artifacts.
 
+## Countdown
+
+Stage 2 step: 3/5
+Remaining after this feature: 2
+
 ## Next action
 
-Add the metadata-only embedding config contract, run targeted and full tests,
-then open a small Stage 2 config-contract pull request.
+Add the metadata-only provenance manifest contract, run targeted and full tests,
+then open a small Stage 2 provenance pull request.

@@ -184,20 +184,21 @@ Stage 1: COMPLETE
   ingestion readiness, and the ingestion manifest contract.
 - Stage 1 completed with the closeout gate merged on `main`.
 
-Stage 2: IN PROGRESS — config contract only
+Stage 2: IN PROGRESS — provenance manifest only
 
 Completed:
 
 - `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
+- `STAGE2-F002 - Embedding config contract`
 
 Current feature:
 
-- `STAGE2-F002 - Embedding config contract`
-- Branch: `feat/stage2-embedding-config-contract`
+- `STAGE2-F003 - Embedding provenance manifest`
+- Branch: `feat/stage2-embedding-provenance`
 
-This Stage 2 feature adds a metadata-only embedding configuration contract. It
-must not download data, load real AnnData files, execute Geneformer, tokenize
-cells, extract embeddings, train models, perform external validation, or add
+This Stage 2 feature adds a metadata-only provenance manifest contract. It must
+not download data, load real AnnData files, load model runtimes, tokenize cells,
+extract embeddings, train models, perform external validation, or add
 performance claims.
 
 ## Current Stage 1 package foundation
@@ -223,6 +224,8 @@ Current Stage 2 package additions:
 
 - `src/lupusfm/embeddings/config.py`
 - `tests/test_lupusfm_embedding_config.py`
+- `src/lupusfm/embeddings/provenance.py`
+- `tests/test_lupusfm_embedding_provenance.py`
 
 Important safety decisions implemented:
 
@@ -237,23 +240,25 @@ Important safety decisions implemented:
 - embedding config utilities keep downloads, AnnData loading, Geneformer execution,
   tokenizer execution, embedding extraction, modeling, training, external
   validation, and performance claims disabled
+- embedding provenance utilities keep extraction marked as not performed and
+  require pending or valid recorded sha256 status for runtime provenance records
 
-## Stage 2 config requirements
+## Stage 2 provenance requirements
 
-The current embedding config contract validates:
+The current embedding provenance contract validates:
 
 - approved primary CELLxGENE dataset ID and Census version
-- required ingestion manifest path
-- explicit donor and gene-symbol columns
+- config-consistent donor and gene-symbol columns
 - explicit gene-ID mapping policy
 - Geneformer model source and revision
 - tokenizer and vocabulary source
+- pending or recorded sha256 hash status for model/config/tokenizer/vocabulary
 - cells per donor, maximum sequence length, and batch size
 - random seed
 - patient-level split policy
 - patient-level aggregation policy
-- Stage 2 output paths
-- model/training artifact restrictions
+- output path consistency with the embedding config
+- explicit record that extraction has not yet been performed
 
 Actual extraction remains blocked until a later approved feature validates the
 manifest, ingestion-readiness report, model/tokenizer/vocabulary provenance,
