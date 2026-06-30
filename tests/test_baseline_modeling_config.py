@@ -75,7 +75,7 @@ def test_phase3_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 1" in state
-    assert "current_feature: STAGE1-F003" in state
+    assert "current_feature: STAGE1-F004" in state
     assert "primary_task: Active SLE flare discrimination" in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "allow_modeling: false" in state
