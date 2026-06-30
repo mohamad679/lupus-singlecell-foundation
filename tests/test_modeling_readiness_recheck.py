@@ -134,7 +134,7 @@ def test_training_decision_and_project_state_remain_locked():
 
     assert training_decision["training_permission"] == "blocked"
     assert training_decision["allow_modeling"] is False
-    assert "current_feature: STAGE2-F003" in state
+    assert "current_feature: STAGE2-F004" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state

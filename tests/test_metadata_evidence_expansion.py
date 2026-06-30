@@ -141,7 +141,7 @@ def test_project_state_and_backlog_do_not_start_modeling_or_phase4():
         and path.suffix.lower() in forbidden_suffixes
     ]
 
-    assert "current_feature: STAGE2-F003" in state
+    assert "current_feature: STAGE2-F004" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
