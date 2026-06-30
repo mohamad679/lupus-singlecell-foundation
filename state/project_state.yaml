@@ -1,20 +1,20 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage0_repository_reconciliation_in_progress
-  current_phase: "Stage 0"
-  current_phase_name: "Repository Reconciliation"
-  current_feature: STAGE0-F001
+  status: stage1_package_and_labels_in_progress
+  current_phase: Stage 1
+  current_phase_name: Package Skeleton and Label Extraction
+  current_feature: STAGE1-F001
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
-  primary_task: "Active SLE flare discrimination"
+  primary_task: Active SLE flare discrimination
   external_validation_cohort: TODO
   selected_datasets:
-    - GSE174188_CELLxGENE_exploratory
+  - GSE174188_CELLxGENE_exploratory
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: exploratory_results_exist_pipeline_not_ready
+  modeling_readiness: blocked_pending_production_pipeline
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: blocked
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
@@ -22,31 +22,29 @@ project:
   dataset_download_allowed: false
   allow_downloads: false
   dataset_accessions_verified: exploratory_CELLxGENE_dataset_id_recorded_pending_formal_test
-
-
 active_status_authority:
   current_authoritative_sections:
-    - project
-    - repository_reconciliation
-  note: "Older phase, gate, and test-scaffold records are retained as historical provenance. They do not override the current Stage 0 repository reconciliation status."
+  - project
+  - stage1_package_and_labels
+  note: Older phase/gate/test-scaffold records are retained as historical provenance
+    and do not override the current Stage 1 package/label extraction status.
   historical_records_retained: true
   historical_records_should_not_block_reconciliation: true
-
 phase_controls:
-  first_real_scientific_phase: "Phase 1: Dataset Feasibility Audit"
-  no_model_training_before: "Dataset feasibility approval and later modeling readiness approval"
-  unknown_information_policy: "Mark as TODO"
-
+  first_real_scientific_phase: 'Phase 1: Dataset Feasibility Audit'
+  no_model_training_before: Dataset feasibility approval and later modeling readiness
+    approval
+  unknown_information_policy: Mark as TODO
 phase_2_restrictions:
   no_modeling: true
   no_downloads_without_explicit_feature: true
   no_cell_level_splits: true
   only_pipeline_scaffold: true
-  gse137029_scope: "Primary candidate for Phase 2 pipeline development only; not approved for modeling."
-  cellxgene_hca_scope: "Metadata harmonization design only; not approved for modeling."
-  gse174188_scope: "needs_manual_verification; not part of Phase 2 processing."
-  gse162577_scope: "limited_candidate; not primary."
-
+  gse137029_scope: Primary candidate for Phase 2 pipeline development only; not approved
+    for modeling.
+  cellxgene_hca_scope: Metadata harmonization design only; not approved for modeling.
+  gse174188_scope: needs_manual_verification; not part of Phase 2 processing.
+  gse162577_scope: limited_candidate; not primary.
 phase_3_restrictions:
   baseline_design_only: true
   no_training: true
@@ -56,28 +54,25 @@ phase_3_restrictions:
   no_cell_level_splits: true
   no_dataset_approval: true
   external_validation_unresolved: true
-
 phase_3_scientific_review:
   status: accepted_with_restrictions
   scaffold_adequate: true
   modeling_ready: false
   training_allowed: false
-  next_required_gate: "Controlled baseline modeling/training gate"
-
+  next_required_gate: Controlled baseline modeling/training gate
 modeling_readiness_gate:
   status: not_ready
   blocking_items: 8
   passed_items: 3
   allow_modeling: false
-  next_feature: "P3-F020 CELLxGENE/HCA primary dataset validation, only after explicit instruction"
-
+  next_feature: P3-F020 CELLxGENE/HCA primary dataset validation, only after explicit
+    instruction
 training_permission_decision:
   status: blocked
-  reason: "unresolved modeling readiness blockers"
+  reason: unresolved modeling readiness blockers
   allow_modeling: false
   phase_4_allowed: false
-  recommendation: "continue verification, not modeling"
-
+  recommendation: continue verification, not modeling
 training_permission_reevaluation:
   status: completed
   training_permission: blocked
@@ -87,8 +82,7 @@ training_permission_reevaluation:
   phase4_permission: blocked
   selected_datasets: []
   external_validation_cohort: TODO
-  recommendation: "Continue controlled metadata inspection before any modeling."
-
+  recommendation: Continue controlled metadata inspection before any modeling.
 metadata_evidence_expansion:
   status: completed
   evidence_rows_added: 7
@@ -106,7 +100,6 @@ metadata_evidence_expansion:
   modeling_readiness: not_ready
   training_permission: blocked
   allow_modeling: false
-
 dataset_strategy:
   status: decided_with_restrictions
   decision: switch_primary_to_CELLxGENE_HCA
@@ -122,13 +115,12 @@ dataset_strategy:
   training_permission: blocked
   allow_modeling: false
   phase4_permission: blocked
-  next_feature: "P3-F020 CELLxGENE/HCA primary dataset validation"
-
+  next_feature: P3-F020 CELLxGENE/HCA primary dataset validation
 dataset_selection_and_label_verification:
   status: completed_with_blockers
   candidates_reviewed:
-    - GSE137029
-    - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+  - GSE137029
+  - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
   primary_candidate_for_continued_verification: CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
   dataset_selected: false
   patient_level_labels_verified: false
@@ -136,13 +128,12 @@ dataset_selection_and_label_verification:
   training_candidate_approved: false
   allow_modeling: false
   training_permission: blocked
-  recommendation: "Continue approved metadata verification; do not select or train."
-
+  recommendation: Continue approved metadata verification; do not select or train.
 patient_id_label_provenance_evidence_plan:
   status: completed_with_blockers
   candidates:
-    - GSE137029
-    - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+  - GSE137029
+  - CELLxGENE_HCA_436154da-bcf1-4130-9c8b-120ff9a888f2_218acb0f-9f2f-4f76-b90b-15a4b7c7f629
   patient_donor_id_evidence_verified: false
   patient_level_label_provenance_verified: false
   cohort_overlap_resolved: false
@@ -152,7 +143,6 @@ patient_id_label_provenance_evidence_plan:
   modeling_readiness: not_ready
   training_permission: blocked
   allow_modeling: false
-
 controlled_metadata_inspection_plan:
   status: evidence_review_completed_with_blockers
   inspection_gate_status: reviewed_with_blockers
@@ -165,7 +155,6 @@ controlled_metadata_inspection_plan:
   training_permission: blocked
   allow_modeling: false
   phase_4_started: false
-
 dataset_label_evidence_review:
   status: completed_with_blockers
   gse137029_selection: blocked
@@ -180,67 +169,67 @@ dataset_label_evidence_review:
   modeling_readiness: not_ready
   training_permission: blocked
   allow_modeling: false
-
 modeling_readiness_recheck:
   status: completed
   decision: not_ready
   recommendation: more_metadata_inspection_required
   resolved_blocking_conditions: []
   remaining_blocking_conditions:
-    - dataset_selection
-    - label_provenance
-    - patient_or_donor_id_availability
-    - split_manifest_readiness
-    - leakage_check_readiness
-    - training_cohort_suitability
-    - qc_approval
-    - feature_manifest_readiness
+  - dataset_selection
+  - label_provenance
+  - patient_or_donor_id_availability
+  - split_manifest_readiness
+  - leakage_check_readiness
+  - training_cohort_suitability
+  - qc_approval
+  - feature_manifest_readiness
   external_validation_plan_status: passed_plan_only
   external_validation_cohort: TODO
   selected_datasets: []
   training_permission: blocked
   allow_modeling: false
-  pivot_condition: "Pivot if explicit patient-level mappings cannot be obtained without prohibited access or inference."
-
+  pivot_condition: Pivot if explicit patient-level mappings cannot be obtained without
+    prohibited access or inference.
 human_gates:
   phase_0_scaffold_review:
     status: completed_by_user_instruction
     owner: TODO
-    required_before: "Phase 1 start"
+    required_before: Phase 1 start
   dataset_feasibility_approval:
-    label: "Human Gate 1: Dataset Feasibility Approved"
+    label: 'Human Gate 1: Dataset Feasibility Approved'
     status: approved_with_restrictions
     owner: TODO
-    required_before: "Restricted Phase 2 scaffold only; downloads, dataset selection, and modeling still require later explicit gates"
+    required_before: Restricted Phase 2 scaffold only; downloads, dataset selection,
+      and modeling still require later explicit gates
   data_acquisition_approval:
     status: blocked
     owner: TODO
-    required_before: "Bioinformatics QC"
+    required_before: Bioinformatics QC
   qc_approval:
     status: blocked
     owner: TODO
-    required_before: "Baseline analysis"
+    required_before: Baseline analysis
   baseline_analysis_approval:
     status: blocked
     owner: TODO
-    required_before: "Modeling readiness review"
+    required_before: Modeling readiness review
   modeling_readiness_approval:
     status: blocked
     owner: TODO
-    required_before: "Any model training"
+    required_before: Any model training
   prediction_task_approval:
-    label: "Human Gate 2: Labels and Prediction Task Approval"
+    label: 'Human Gate 2: Labels and Prediction Task Approval'
     status: approved_with_restrictions
     owner: TODO
-    required_before: "Phase 3 baseline design for SLE diagnosis / case-control prediction only"
+    required_before: Phase 3 baseline design for SLE diagnosis / case-control prediction
+      only
     restrictions:
-      - "No training until a baseline feature explicitly starts."
-      - "No cell-level split."
-      - "Patient- or donor-level split required."
-      - "External validation remains TODO."
-      - "Label provenance required before reporting results."
-      - "Baseline results remain preliminary until labels are verified."
-
+    - No training until a baseline feature explicitly starts.
+    - No cell-level split.
+    - Patient- or donor-level split required.
+    - External validation remains TODO.
+    - Label provenance required before reporting results.
+    - Baseline results remain preliminary until labels are verified.
 artifacts:
   master_spec: docs/00_master_spec.md
   scientific_hypothesis: docs/01_scientific_hypothesis.md
@@ -432,9 +421,7 @@ artifacts:
   training_permission_reevaluation_test: tests/test_training_permission_reevaluation.py
   metadata_evidence_expansion_test: tests/test_metadata_evidence_expansion.py
   dataset_strategy_decision_test: tests/test_dataset_strategy_decision.py
-
-last_updated: "2026-06-24"
-
+last_updated: '2026-06-24'
 repository_reconciliation:
   status: in_progress
   branch: chore/reconcile-project-state
@@ -444,17 +431,41 @@ repository_reconciliation:
     accession: GSE174188
     source: CELLxGENE Census
     dataset_id: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
-    census_version: "2025-11-08"
+    census_version: '2025-11-08'
   exploratory_outputs:
     phase1_notebook: notebooks/phase1_kaggle.ipynb
     phase3_notebook: notebooks/phase3_kaggle.ipynb
     embeddings: external_kaggle_dataset_lupus_embeddings
   publication_claim_status: exploratory_not_publication_ready
   next_required_work:
-    - reconcile_repository_documentation
-    - build_package_skeleton
-    - convert_phase1_notebook_to_tested_modules
-    - convert_phase2_embedding_extraction_to_tested_script
-    - convert_phase3_evaluation_to_leakage_safe_script
-    - add_baselines_and_cell_type_contribution
-    - audit_external_validation_candidates
+  - reconcile_repository_documentation
+  - build_package_skeleton
+  - convert_phase1_notebook_to_tested_modules
+  - convert_phase2_embedding_extraction_to_tested_script
+  - convert_phase3_evaluation_to_leakage_safe_script
+  - add_baselines_and_cell_type_contribution
+  - audit_external_validation_candidates
+stage1_package_and_labels:
+  status: in_progress
+  branch: feat/stage1-labels-package
+  current_feature: STAGE1-F001
+  scope: package skeleton and donor label extraction
+  completed:
+  - created src/lupusfm package skeleton
+  - implemented donor-id clinical label inference
+  - added fail-closed handling for unknown donor-id patterns
+  - added unit tests for label extraction
+  - added pyproject.toml package configuration
+  - removed tracked reports/.DS_Store and src/.DS_Store metadata
+  validation:
+    targeted_tests: python3 -m pytest tests/test_lupusfm_labels.py -q
+    expected_result: 19 passed
+  scientific_constraints:
+  - active flare discrimination only
+  - no future flare prediction claim
+  - no fully zero-shot clinical prediction claim
+  - no modeling or training in this feature
+  next_required_work:
+  - metadata schema utilities for primary CELLxGENE ingestion
+  - QC utilities with explicit gene-symbol handling
+  - manifest and reproducibility checks before embedding generation

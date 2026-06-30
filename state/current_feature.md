@@ -1,66 +1,57 @@
 # Current Feature
 
-Feature: STAGE0-F001 - Repository reconciliation for real exploratory Kaggle/CELLxGENE results.
+## STAGE1-F001 - Package skeleton and donor label extraction
 
-Status: in progress.
+Status: in progress
+Branch: `feat/stage1-labels-package`
 
-## Purpose
+## Objective
 
-The repository is being reconciled from a historical planning/synthetic-fixture scaffold into a real, reproducible computational biology project based on exploratory Kaggle/CELLxGENE work.
+Move the first production-safe logic out of exploratory notebooks and into a
+tested Python package.
 
-The immediate goal is not to run new modeling. The immediate goal is to make the repository accurately describe the current state of the project before converting notebooks into tested scripts.
+The current feature implements patient/donor-level clinical label extraction
+for the primary CELLxGENE/Perez lupus cohort.
 
-## Current scientific objective
+## Approved label rule
 
-The active scientific objective is patient-level discrimination of active SLE flare from managed SLE using frozen single-cell foundation-model embeddings.
+- `FLARE*` donor identifiers -> `Flare`
+- `HC-*` donor identifiers -> `Healthy`
+- `IGTB*` donor identifiers -> `Healthy`
+- purely numeric donor identifiers -> `Managed`
 
-This is currently framed as active flare discrimination, not future flare prediction.
+Unknown donor-id patterns must fail closed with an explicit error. They must
+not be silently assigned to any class.
 
-## Current evidence status
+## Completed in this branch
 
-Exploratory work has already produced:
+- Added `src/lupusfm/` package skeleton.
+- Added `src/lupusfm/data/labels.py`.
+- Added unit tests for donor-id normalization, clinical-status inference,
+  unknown-pattern rejection, and order-preserving batch label creation.
+- Added `pyproject.toml` for editable package installation.
+- Updated `.gitignore` for Python packaging/build artifacts.
+- Removed remaining tracked macOS `.DS_Store` metadata from Git.
 
-- real CELLxGENE Census loading of the Perez et al. lupus PBMC cohort
-- exploratory donor-level label extraction
-- per-patient Geneformer embeddings
-- preliminary patient-level Logistic Regression evaluation
-- preliminary permutation and confounder checks
+## Validation
 
-These results are promising but remain exploratory until regenerated from clean scripts with saved predictions, metrics, manifests, and tests.
+Current targeted test:
 
-## Current production status
+`python3 -m pytest tests/test_lupusfm_labels.py -q`
 
-Production-grade modeling and publication claims remain blocked until the following are completed:
+Expected result:
 
-- repository documentation and state reconciliation
-- package-based Phase 1/2/3 scripts
-- label extraction tests
-- QC tests
-- embedding manifest and integrity tests
-- leakage-safe evaluation scripts
-- reproducible raw/pseudobulk baselines
-- cell-type contribution analysis
-- external validation audit
+`19 passed`
 
-## Current branch goal
+## Not allowed in this feature
 
-The current branch should only reconcile documentation and project state.
+- No modeling or training.
+- No new performance claims.
+- No external validation.
+- No large data downloads.
+- No changes to exploratory notebook results.
 
-Allowed work on this branch:
+## Next feature
 
-- remove system files from Git tracking
-- add PROJECT_STATUS.md
-- update README.md
-- update state files to reflect exploratory results and production blockers
-
-Not allowed on this branch:
-
-- new modeling
-- new external validation
-- large data downloads
-- rewriting notebooks into scripts
-- changing scientific results
-
-## Next feature after this branch
-
-After this reconciliation branch is complete, the next feature should create the package skeleton and begin converting Phase 1 label/QC logic into tested Python modules.
+Stage 1 should continue with production-safe metadata/QC utilities for the
+primary AnnData/CELLxGENE ingestion path.
