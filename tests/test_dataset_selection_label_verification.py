@@ -115,7 +115,7 @@ def test_training_and_project_state_remain_locked():
     state = STATE_PATH.read_text()
     decision = json.loads(DECISION_PATH.read_text())
 
-    assert "current_feature: STAGE2-F005" in state
+    assert "current_feature: STAGE2-CLOSEOUT" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state

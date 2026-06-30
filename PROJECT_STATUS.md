@@ -179,12 +179,12 @@ Stage 0: COMPLETE
 
 Stage 1: COMPLETE
 
-- Tested package utilities now define donor labels, metadata extraction,
+- Tested package utilities define donor labels, metadata extraction,
   mitochondrial annotation, cohort summaries, AnnData schema validation,
   ingestion readiness, and the ingestion manifest contract.
 - Stage 1 completed with the closeout gate merged on `main`.
 
-Stage 2: IN PROGRESS — permission-gated extraction runner
+Stage 2: COMPLETE — package-side embedding extraction infrastructure
 
 Completed:
 
@@ -192,17 +192,20 @@ Completed:
 - `STAGE2-F002 - Embedding config contract`
 - `STAGE2-F003 - Embedding provenance manifest`
 - `STAGE2-F004 - Dry-run extraction readiness`
-
-Current feature:
-
 - `STAGE2-F005 - Actual Geneformer extraction runner`
-- Branch: `feat/stage2-geneformer-extraction-runner`
 
-This Stage 2 feature adds a permission-gated and dependency-injected runner
-interface for future Geneformer embedding extraction. The package still does not
-import runtime stacks, download data, load real AnnData files, execute real
-Geneformer/tokenizer logic during tests, train models, perform external
-validation, or add performance claims.
+Current closeout branch:
+
+- `STAGE2-CLOSEOUT - Stage 2 closeout gate`
+- Branch: `chore/stage2-closeout`
+
+Stage 2 completed package-side infrastructure for future Geneformer embedding
+extraction. The package now has config, provenance, dry-run readiness, and a
+permission-gated dependency-injected runner interface.
+
+Stage 2 did not download data, load real AnnData files, execute real
+Geneformer/tokenizer logic, commit embedding artifacts, train models, perform
+external validation, or add performance claims.
 
 ## Current Stage 1 package foundation
 
@@ -223,7 +226,7 @@ Completed on `main`:
 - `src/lupusfm/data/manifest.py`
 - `tests/test_lupusfm_manifest.py`
 
-Current Stage 2 package additions:
+Completed Stage 2 package foundation:
 
 - `src/lupusfm/embeddings/config.py`
 - `tests/test_lupusfm_embedding_config.py`
@@ -256,17 +259,13 @@ Important safety decisions implemented:
 - downloads, modeling, training, external validation, and performance claims
   remain prohibited even for the extraction runner
 
-## Stage 2 extraction-runner requirements
+## Next stage recommendation
 
-The current extraction runner validates:
+Next stage:
 
-- dry-run readiness passes before callback execution
-- explicit runtime permission is present
-- approved runtime environment is named
-- approver and reason are recorded
-- downloads remain disabled
-- modeling/training/external validation/performance claims remain disabled
-- runtime actions are supplied as callbacks
-- package code avoids runtime-stack imports
+`STAGE3 - Patient-level embedding aggregation and leakage-safe evaluation design`
 
-No real embedding outputs are committed by this feature.
+Stage 3 should first define patient-level aggregation, split policy, baseline
+controls, and evaluation contracts. It should remain conservative: active SLE
+flare discrimination only, no future flare prediction claim, no cell-level
+splits, and no modeling until an explicit modeling gate is approved.
