@@ -1,26 +1,27 @@
 project:
   name: lupus-singlecell-foundation
-  status: phase_3_strategy_decided_training_blocked
-  current_phase: "Phase 3"
-  current_phase_name: "Baseline Modeling Scaffold"
-  current_feature: P3-F019
+  status: stage0_repository_reconciliation_in_progress
+  current_phase: "Stage 0"
+  current_phase_name: "Repository Reconciliation"
+  current_feature: STAGE0-F001
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
-  primary_task: "SLE diagnosis / case-control prediction"
+  primary_task: "Active SLE flare discrimination"
   external_validation_cohort: TODO
-  selected_datasets: []
+  selected_datasets:
+    - GSE174188_CELLxGENE_exploratory
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: not_ready
-  training_permission: blocked
+  modeling_readiness: exploratory_results_exist_pipeline_not_ready
+  training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: blocked
-  dataset_strategy_decision: switch_primary_to_CELLxGENE_HCA
+  dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
   pivot_status: not_activated
   dataset_download_allowed: false
   allow_downloads: false
-  dataset_accessions_verified: false
+  dataset_accessions_verified: exploratory_CELLxGENE_dataset_id_recorded_pending_formal_test
 
 phase_controls:
   first_real_scientific_phase: "Phase 1: Dataset Feasibility Audit"
@@ -424,3 +425,27 @@ artifacts:
   dataset_strategy_decision_test: tests/test_dataset_strategy_decision.py
 
 last_updated: "2026-06-24"
+
+repository_reconciliation:
+  status: in_progress
+  branch: chore/reconcile-project-state
+  real_exploratory_work_completed: true
+  production_pipeline_ready: false
+  primary_exploratory_dataset:
+    accession: GSE174188
+    source: CELLxGENE Census
+    dataset_id: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    census_version: "2025-11-08"
+  exploratory_outputs:
+    phase1_notebook: notebooks/phase1_kaggle.ipynb
+    phase3_notebook: notebooks/phase3_kaggle.ipynb
+    embeddings: external_kaggle_dataset_lupus_embeddings
+  publication_claim_status: exploratory_not_publication_ready
+  next_required_work:
+    - reconcile_repository_documentation
+    - build_package_skeleton
+    - convert_phase1_notebook_to_tested_modules
+    - convert_phase2_embedding_extraction_to_tested_script
+    - convert_phase3_evaluation_to_leakage_safe_script
+    - add_baselines_and_cell_type_contribution
+    - audit_external_validation_candidates
