@@ -223,15 +223,17 @@ Completed on `main`:
 - `tests/test_lupusfm_anndata_schema.py`
 - `src/lupusfm/data/ingestion_readiness.py`
 - `tests/test_lupusfm_ingestion_readiness.py`
-
-In progress on `feat/stage1-manifest-contract`:
-
 - `src/lupusfm/data/manifest.py`
 - `tests/test_lupusfm_manifest.py`
 
-Current targeted validation:
+In progress on `chore/stage1-closeout-gate`:
 
-- `103 passed` for labels, metadata extraction, mitochondrial annotation, cohort summary, AnnData schema validation, ingestion-readiness report, and manifest contract tests.
+- Stage 1 closeout state documentation.
+- Stage 2 remains locked until a dedicated reproducible Geneformer embedding-extraction plan is approved.
+
+Current validation:
+
+- `499 passed` for the full repository test suite on `main` after PR #8.
 
 Important safety decisions now implemented:
 
@@ -243,7 +245,8 @@ Important safety decisions now implemented:
 - AnnData schema validation rejects cell-level split assignments before modeling
 - ingestion-readiness reports collect validation failures instead of starting downstream work
 - manifest utilities keep downloads, embedding extraction, modeling, and training disabled
+- Stage 2 is not allowed to run until a reproducible Geneformer extraction plan is explicitly opened and validated
 
 ## Current next action
 
-Finish the small Stage 1 manifest/reproducibility contract pull request, then prepare the Stage 1 closeout gate before any embedding extraction or modeling.
+Finish the Stage 1 closeout pull request, then start Stage 2 planning only after the closeout PR is merged.

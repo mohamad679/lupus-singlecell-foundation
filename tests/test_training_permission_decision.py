@@ -80,7 +80,7 @@ def test_project_state_records_denial_and_remains_unassigned():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 1" in state
-    assert "current_feature: STAGE1-F006" in state
+    assert "current_feature: STAGE1-F007" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
