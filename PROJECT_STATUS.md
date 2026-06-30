@@ -219,15 +219,17 @@ Completed on `main`:
 - `tests/test_lupusfm_mitochondrial.py`
 - `src/lupusfm/data/cohort.py`
 - `tests/test_lupusfm_cohort.py`
-
-In progress on `feat/stage1-anndata-schema`:
-
 - `src/lupusfm/data/anndata_schema.py`
 - `tests/test_lupusfm_anndata_schema.py`
 
+In progress on `feat/stage1-ingestion-readiness`:
+
+- `src/lupusfm/data/ingestion_readiness.py`
+- `tests/test_lupusfm_ingestion_readiness.py`
+
 Current targeted validation:
 
-- `71 passed` for labels, metadata extraction, mitochondrial annotation, cohort summary, and AnnData schema validation tests.
+- `80 passed` for labels, metadata extraction, mitochondrial annotation, cohort summary, AnnData schema validation, and ingestion-readiness report tests.
 
 Important safety decisions now implemented:
 
@@ -237,7 +239,8 @@ Important safety decisions now implemented:
 - mitochondrial annotation refuses silent fallback to `adata.var_names`
 - cohort summaries count donors and cells only; they do not filter, embed, or train
 - AnnData schema validation rejects cell-level split assignments before modeling
+- ingestion-readiness reports collect validation failures instead of starting downstream work
 
 ## Current next action
 
-Finish the small Stage 1 AnnData schema validation pull request, then continue with additional production-safe ingestion/QC utilities before any embedding extraction or modeling.
+Finish the small Stage 1 ingestion-readiness pull request, then continue with the manifest/reproducibility contract before any embedding extraction or modeling.
