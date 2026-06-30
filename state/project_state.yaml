@@ -23,6 +23,15 @@ project:
   allow_downloads: false
   dataset_accessions_verified: exploratory_CELLxGENE_dataset_id_recorded_pending_formal_test
 
+
+active_status_authority:
+  current_authoritative_sections:
+    - project
+    - repository_reconciliation
+  note: "Older phase, gate, and test-scaffold records are retained as historical provenance. They do not override the current Stage 0 repository reconciliation status."
+  historical_records_retained: true
+  historical_records_should_not_block_reconciliation: true
+
 phase_controls:
   first_real_scientific_phase: "Phase 1: Dataset Feasibility Audit"
   no_model_training_before: "Dataset feasibility approval and later modeling readiness approval"
