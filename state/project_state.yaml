@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage1_manifest_contract_in_progress
+  status: stage1_closeout_gate_in_progress
   current_phase: Stage 1
-  current_phase_name: Manifest / Reproducibility Contract Utilities
-  current_feature: STAGE1-F006
+  current_phase_name: Stage 1 Closeout Gate
+  current_feature: STAGE1-F007
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -31,6 +31,7 @@ active_status_authority:
   - stage1_anndata_schema
   - stage1_ingestion_readiness
   - stage1_manifest_contract
+  - stage1_closeout_gate
   note: Older phase/gate/test-scaffold records are retained as historical provenance
     and do not override the current Stage 1 package/label extraction status.
   historical_records_retained: true
@@ -547,8 +548,8 @@ stage1_ingestion_readiness:
   - No files are loaded and no modeling, embedding extraction, filtering, or downloads are allowed.
 
 stage1_manifest_contract:
-  status: in_progress
-  branch: feat/stage1-manifest-contract
+  status: completed
+  branch: main
   current_feature: STAGE1-F006
   package_modules_added:
   - src/lupusfm/data/manifest.py
@@ -563,3 +564,18 @@ stage1_manifest_contract:
   - Manifest utilities define a reproducibility contract before Stage 2 work.
   - Dataset identifiers, metadata columns, expected counts, random seed, and output paths are validated.
   - Downloads, embedding extraction, modeling, and training remain explicitly disabled.
+
+stage1_closeout_gate:
+  status: in_progress
+  branch: chore/stage1-closeout-gate
+  current_feature: STAGE1-F007
+  full_suite_validation: 499 passed
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  notes:
+  - Stage 1 ingestion/QC package foundation is complete on main through STAGE1-F006.
+  - This closeout gate records that Stage 2 remains locked until a dedicated reproducible embedding-extraction plan is approved.
+  - No data download, Geneformer execution, embedding extraction, modeling, training, or external validation is allowed in this closeout feature.
