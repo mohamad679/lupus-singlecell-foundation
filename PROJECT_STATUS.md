@@ -184,23 +184,25 @@ Stage 1: COMPLETE
   ingestion readiness, and the ingestion manifest contract.
 - Stage 1 completed with the closeout gate merged on `main`.
 
-Stage 2: IN PROGRESS — dry-run readiness only
+Stage 2: IN PROGRESS — permission-gated extraction runner
 
 Completed:
 
 - `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
 - `STAGE2-F002 - Embedding config contract`
 - `STAGE2-F003 - Embedding provenance manifest`
+- `STAGE2-F004 - Dry-run extraction readiness`
 
 Current feature:
 
-- `STAGE2-F004 - Dry-run extraction readiness`
-- Branch: `feat/stage2-dry-run-readiness`
+- `STAGE2-F005 - Actual Geneformer extraction runner`
+- Branch: `feat/stage2-geneformer-extraction-runner`
 
-This Stage 2 feature adds a metadata-only dry-run readiness gate. It must not
-download data, load real AnnData files, load model runtimes, tokenize cells,
-extract embeddings, train models, perform external validation, write artifacts,
-or add performance claims.
+This Stage 2 feature adds a permission-gated and dependency-injected runner
+interface for future Geneformer embedding extraction. The package still does not
+import runtime stacks, download data, load real AnnData files, execute real
+Geneformer/tokenizer logic during tests, train models, perform external
+validation, or add performance claims.
 
 ## Current Stage 1 package foundation
 
@@ -229,6 +231,8 @@ Current Stage 2 package additions:
 - `tests/test_lupusfm_embedding_provenance.py`
 - `src/lupusfm/embeddings/readiness.py`
 - `tests/test_lupusfm_embedding_readiness.py`
+- `src/lupusfm/embeddings/extraction.py`
+- `tests/test_lupusfm_geneformer_extraction_runner.py`
 
 Important safety decisions implemented:
 
@@ -247,18 +251,22 @@ Important safety decisions implemented:
   require pending or valid recorded sha256 status for runtime provenance records
 - embedding dry-run readiness collects failures across manifest, readiness,
   config, provenance, and output-path consistency before any runtime work starts
+- the Geneformer extraction runner requires explicit permission and caller-
+  provided callbacks before runtime actions can be invoked
+- downloads, modeling, training, external validation, and performance claims
+  remain prohibited even for the extraction runner
 
-## Stage 2 dry-run requirements
+## Stage 2 extraction-runner requirements
 
-The current dry-run readiness gate validates:
+The current extraction runner validates:
 
-- Stage 1 ingestion manifest against ingestion-readiness report
-- embedding config contract
-- embedding config against ingestion manifest
-- embedding provenance manifest contract
-- embedding provenance against embedding config
-- distinct Stage 2 output paths
-- execution/modeling/download/performance gates remain disabled
+- dry-run readiness passes before callback execution
+- explicit runtime permission is present
+- approved runtime environment is named
+- approver and reason are recorded
+- downloads remain disabled
+- modeling/training/external validation/performance claims remain disabled
+- runtime actions are supplied as callbacks
+- package code avoids runtime-stack imports
 
-Actual extraction remains blocked until this dry-run gate passes and a later
-approved execution feature explicitly allows runtime extraction.
+No real embedding outputs are committed by this feature.

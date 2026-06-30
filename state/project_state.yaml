@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage2_dry_run_readiness_in_progress
+  status: stage2_geneformer_extraction_runner_in_progress
   current_phase: Stage 2
-  current_phase_name: Stage 2 Dry-Run Extraction Readiness
-  current_feature: STAGE2-F004
+  current_phase_name: Stage 2 Geneformer Extraction Runner
+  current_feature: STAGE2-F005
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -36,8 +36,9 @@ active_status_authority:
   - stage2_embedding_config_contract
   - stage2_embedding_provenance
   - stage2_dry_run_readiness
+  - stage2_geneformer_extraction_runner
   note: Older phase/gate/test-scaffold records are retained as historical provenance
-    and do not override the current Stage 2 dry-run readiness status.
+    and do not override the current Stage 2 Geneformer extraction-runner status.
   historical_records_retained: true
   historical_records_should_not_block_reconciliation: true
 phase_controls:
@@ -650,10 +651,10 @@ stage2_embedding_provenance:
   - Actual extraction remained blocked until a later approved dry-run or execution feature validates manifest, ingestion readiness, provenance, sampled cell IDs, and runtime environment.
 
 stage2_dry_run_readiness:
-  status: in_progress
-  branch: feat/stage2-dry-run-readiness
+  status: completed
+  branch: main
   current_feature: STAGE2-F004
-  scope: metadata-only dry-run embedding extraction readiness gate
+  full_suite_validation: 601 passed
   package_modules_added:
   - src/lupusfm/embeddings/readiness.py
   tests_added:
@@ -672,3 +673,28 @@ stage2_dry_run_readiness:
   - This feature combines the Stage 1 ingestion manifest, ingestion-readiness report, Stage 2 embedding config, and Stage 2 provenance manifest.
   - Dry-run readiness collects failures and does not start runtime extraction work.
   - Actual extraction remains blocked until the dry-run gate passes and a later approved execution feature explicitly allows runtime extraction.
+
+stage2_geneformer_extraction_runner:
+  status: in_progress
+  branch: feat/stage2-geneformer-extraction-runner
+  current_feature: STAGE2-F005
+  scope: permission-gated dependency-injected Geneformer extraction runner
+  package_modules_added:
+  - src/lupusfm/embeddings/extraction.py
+  tests_added:
+  - tests/test_lupusfm_geneformer_extraction_runner.py
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: permission_gated_only
+  geneformer_execution_allowed: permission_gated_only
+  tokenizer_execution_allowed: permission_gated_only
+  anndata_loading_allowed: permission_gated_only
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  extraction_performed: false
+  notes:
+  - The package runner requires the dry-run readiness gate to pass before runtime callbacks can be called.
+  - Downloads, modeling, training, external validation, and performance claims remain prohibited.
+  - Runtime actions are dependency-injected callbacks and are not imported or executed by package import.
+  - No real extraction outputs are committed by this feature.
