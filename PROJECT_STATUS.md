@@ -213,17 +213,19 @@ Completed on `main`:
 
 - `src/lupusfm/data/labels.py`
 - `tests/test_lupusfm_labels.py`
-
-In progress on `feat/stage1-metadata-qc`:
-
 - `src/lupusfm/data/metadata.py`
 - `tests/test_lupusfm_metadata.py`
 - `src/lupusfm/qc/mitochondrial.py`
 - `tests/test_lupusfm_mitochondrial.py`
 
+In progress on `feat/stage1-cohort-summary`:
+
+- `src/lupusfm/data/cohort.py`
+- `tests/test_lupusfm_cohort.py`
+
 Current targeted validation:
 
-- `49 passed` for labels, metadata extraction, and mitochondrial annotation tests.
+- `59 passed` for labels, metadata extraction, mitochondrial annotation, and cohort summary tests.
 
 Important safety decisions now implemented:
 
@@ -231,7 +233,8 @@ Important safety decisions now implemented:
 - unknown donor-id patterns fail closed
 - mitochondrial annotation requires an explicit gene-symbol column
 - mitochondrial annotation refuses silent fallback to `adata.var_names`
+- cohort summaries count donors and cells only; they do not filter, embed, or train
 
 ## Current next action
 
-Finish the small Stage 1 metadata/QC pull request, then run broader repository tests to identify stale historical scaffold tests that still refer to old phase/state literals.
+Finish the small Stage 1 cohort summary pull request, then continue with additional production-safe ingestion/QC utilities before any embedding extraction or modeling.
