@@ -184,17 +184,21 @@ Stage 1: COMPLETE
   ingestion readiness, and the ingestion manifest contract.
 - Stage 1 completed with the closeout gate merged on `main`.
 
-Stage 2: IN PROGRESS — planning gate only
+Stage 2: IN PROGRESS — config contract only
+
+Completed:
+
+- `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
 
 Current feature:
 
-- `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
-- Branch: `docs/stage2-embedding-plan`
+- `STAGE2-F002 - Embedding config contract`
+- Branch: `feat/stage2-embedding-config-contract`
 
-This Stage 2 planning feature is limited to documentation, state, and stale-test
-synchronization. It must not download data, load real AnnData files, execute
-Geneformer, tokenize cells, extract embeddings, train models, perform external
-validation, or add performance claims.
+This Stage 2 feature adds a metadata-only embedding configuration contract. It
+must not download data, load real AnnData files, execute Geneformer, tokenize
+cells, extract embeddings, train models, perform external validation, or add
+performance claims.
 
 ## Current Stage 1 package foundation
 
@@ -215,9 +219,10 @@ Completed on `main`:
 - `src/lupusfm/data/manifest.py`
 - `tests/test_lupusfm_manifest.py`
 
-Current full-suite validation recorded at Stage 1 closeout:
+Current Stage 2 package additions:
 
-- `499 passed`
+- `src/lupusfm/embeddings/config.py`
+- `tests/test_lupusfm_embedding_config.py`
 
 Important safety decisions implemented:
 
@@ -229,23 +234,28 @@ Important safety decisions implemented:
 - AnnData schema validation rejects cell-level split assignments before modeling
 - ingestion-readiness reports collect validation failures instead of starting downstream work
 - manifest utilities keep downloads, embedding extraction, modeling, and training disabled
+- embedding config utilities keep downloads, AnnData loading, Geneformer execution,
+  tokenizer execution, embedding extraction, modeling, training, external
+  validation, and performance claims disabled
 
-## Stage 2 planning requirements
+## Stage 2 config requirements
 
-A later Geneformer extraction implementation must explicitly define and validate:
+The current embedding config contract validates:
 
-- Geneformer model/version provenance
-- tokenizer and vocabulary provenance
-- CELLxGENE dataset ID and Census version
-- donor identifier column
-- gene-symbol and gene-ID mapping policy
+- approved primary CELLxGENE dataset ID and Census version
+- required ingestion manifest path
+- explicit donor and gene-symbol columns
+- explicit gene-ID mapping policy
+- Geneformer model source and revision
+- tokenizer and vocabulary source
+- cells per donor, maximum sequence length, and batch size
 - random seed
-- sampled cell IDs per donor
-- patient-level aggregation rule
-- embedding output naming and metadata
-- finite-value and shape checks
-- artifact restrictions that reject model/training outputs
+- patient-level split policy
+- patient-level aggregation policy
+- Stage 2 output paths
+- model/training artifact restrictions
 
 Actual extraction remains blocked until a later approved feature validates the
 manifest, ingestion-readiness report, model/tokenizer/vocabulary provenance,
-gene mapping, sampled cell IDs, output paths, and patient-level aggregation.
+gene mapping, sampled cell IDs, output paths, patient-level aggregation, and
+runtime environment.
