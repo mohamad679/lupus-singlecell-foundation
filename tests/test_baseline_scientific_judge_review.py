@@ -75,7 +75,7 @@ def test_project_state_remains_phase3_with_modeling_locked():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 2" in state
-    assert "current_feature: STAGE2-F001" in state
+    assert "current_feature: STAGE2-F002" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state
     assert "selected_datasets: []" in state

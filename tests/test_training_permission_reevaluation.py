@@ -128,7 +128,7 @@ def test_project_state_keeps_training_and_phase4_blocked():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 2" in state
-    assert "current_feature: STAGE2-F001" in state
+    assert "current_feature: STAGE2-F002" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state

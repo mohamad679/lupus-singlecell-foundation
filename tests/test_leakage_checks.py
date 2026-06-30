@@ -202,7 +202,7 @@ def test_run_all_leakage_checks_returns_fail_for_invalid_mock_rows():
 def test_state_remains_locked_for_phase2_scaffold():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE2-F001" in state
+    assert "current_feature: STAGE2-F002" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state

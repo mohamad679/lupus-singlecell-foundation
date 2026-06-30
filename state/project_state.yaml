@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage2_embedding_plan_in_progress
+  status: stage2_embedding_config_contract_in_progress
   current_phase: Stage 2
-  current_phase_name: Stage 2 Embedding Extraction Planning
-  current_feature: STAGE2-F001
+  current_phase_name: Stage 2 Embedding Config Contract
+  current_feature: STAGE2-F002
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -33,8 +33,9 @@ active_status_authority:
   - stage1_manifest_contract
   - stage1_closeout_gate
   - stage2_embedding_plan
+  - stage2_embedding_config_contract
   note: Older phase/gate/test-scaffold records are retained as historical provenance
-    and do not override the current Stage 2 embedding-planning status.
+    and do not override the current Stage 2 embedding-config contract status.
   historical_records_retained: true
   historical_records_should_not_block_reconciliation: true
 phase_controls:
@@ -582,12 +583,10 @@ stage1_closeout_gate:
   - No data download, Geneformer execution, embedding extraction, modeling, training, or external validation was allowed in the closeout feature.
 
 stage2_embedding_plan:
-  status: in_progress
-  branch: docs/stage2-embedding-plan
+  status: completed
+  branch: main
   current_feature: STAGE2-F001
-  scope: reproducible Geneformer embedding extraction plan only
-  package_modules_added: []
-  tests_added: []
+  full_suite_validation: 499 passed
   modeling_allowed: false
   training_allowed: false
   downloads_allowed: false
@@ -597,6 +596,29 @@ stage2_embedding_plan:
   external_validation_allowed: false
   performance_claims_allowed: false
   notes:
-  - This feature defines Stage 2 inputs, outputs, provenance, leakage controls, and artifact restrictions.
-  - It does not download data, load AnnData files, execute Geneformer, tokenize cells, extract embeddings, train models, or add performance claims.
-  - Actual extraction remains blocked until a later approved feature validates manifest, ingestion readiness, model/tokenizer/vocabulary provenance, gene mapping, output paths, sampled cell IDs, and patient-level aggregation.
+  - This feature defined Stage 2 inputs, outputs, provenance, leakage controls, and artifact restrictions.
+  - It did not download data, load AnnData files, execute Geneformer, tokenize cells, extract embeddings, train models, or add performance claims.
+  - Actual extraction remained blocked until a later approved feature validates manifest, ingestion readiness, model/tokenizer/vocabulary provenance, gene mapping, output paths, sampled cell IDs, and patient-level aggregation.
+
+stage2_embedding_config_contract:
+  status: in_progress
+  branch: feat/stage2-embedding-config-contract
+  current_feature: STAGE2-F002
+  scope: metadata-only embedding extraction configuration contract
+  package_modules_added:
+  - src/lupusfm/embeddings/config.py
+  tests_added:
+  - tests/test_lupusfm_embedding_config.py
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  notes:
+  - This feature validates Stage 2 config metadata without importing Geneformer, loading AnnData files, downloading data, tokenizing cells, extracting embeddings, modeling, training, or evaluating performance.
+  - The config contract requires approved dataset and Census identifiers, explicit donor and gene-symbol columns, gene-ID mapping policy, model/tokenizer/vocabulary sources, random seed, patient-level split and aggregation policies, and safe output paths.
+  - Actual extraction remains blocked until a later approved dry-run or execution feature validates manifest, ingestion readiness, provenance, sampled cell IDs, and runtime environment.

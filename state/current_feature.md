@@ -1,19 +1,19 @@
 # Current Feature
 
-## STAGE2-F001 - Reproducible Geneformer embedding extraction plan
+## STAGE2-F002 - Embedding config contract
 
 Status: in progress
-Branch: `docs/stage2-embedding-plan`
+Branch: `feat/stage2-embedding-config-contract`
 
 ## Objective
 
-Define the locked Stage 2 plan for reproducible, leakage-safe Geneformer
-embedding extraction before any extraction work is implemented or run.
+Add a lightweight, metadata-only configuration contract for future Geneformer
+embedding extraction.
 
-This feature is documentation/state/test synchronization only. It defines the
-inputs, outputs, provenance requirements, leakage controls, and safety gates
-that must be satisfied before a later feature may add an embedding configuration
-contract or dry-run validator.
+This feature adds validation utilities for Stage 2 extraction configuration, but
+does not implement extraction. It keeps all execution and modeling gates closed
+while making the required dataset, manifest, model, tokenizer, vocabulary, gene
+identifier, split, aggregation, seed, and output-path policies explicit.
 
 No code in this feature downloads data, loads real AnnData files, imports or
 executes Geneformer, tokenizes cells, extracts embeddings, trains models,
@@ -29,49 +29,43 @@ performs external validation, or adds new performance claims.
 - `STAGE1-F005`: ingestion-readiness report utilities.
 - `STAGE1-F006`: manifest/reproducibility contract utilities.
 - `STAGE1-F007`: Stage 1 closeout gate merged on `main`.
+- `STAGE2-F001`: reproducible Geneformer embedding extraction plan merged on
+  `main`.
 
-## Stage 2 extraction plan scope
+## Planned package additions
 
-A later extraction implementation must explicitly define and validate:
+- `src/lupusfm/embeddings/__init__.py`
+- `src/lupusfm/embeddings/config.py`
+- `tests/test_lupusfm_embedding_config.py`
 
-- primary dataset accession and CELLxGENE dataset ID
-- CELLxGENE Census version
-- donor identifier column
-- gene-symbol and gene-ID mapping policy
-- Geneformer model source and version
+## Stage 2 config contract scope
+
+The config contract must validate:
+
+- approved primary CELLxGENE dataset ID
+- approved CELLxGENE Census version
+- explicit donor column
+- explicit gene-symbol column
+- explicit gene-ID mapping policy
+- required ingestion manifest path
+- Geneformer model source and revision
 - tokenizer and vocabulary source
-- model/config/vocabulary provenance hashes when available
+- cells per donor
+- maximum sequence length
+- batch size
 - random seed
-- sampled cell IDs per donor
-- cells per donor and maximum sequence length
-- patient-level aggregation rule
-- output directory and file naming convention
-- embedding dtype and expected shape checks
-- finite-value checks
-- patient-level metadata consistency checks
+- patient-level split policy
+- patient-level aggregation policy
+- Stage 2 output paths
+- model/training artifact suffix restrictions
 
 ## Required leakage controls
 
-- All downstream evaluation must remain patient-level.
-- Cell-level train/test split assignments remain forbidden.
-- Standardization or preprocessing for supervised evaluation must occur inside
-  each patient-level cross-validation fold.
-- No performance claim may be added from this planning feature.
-- No supervised model artifact may be created in Stage 2 planning.
-
-## Required safety gates before actual extraction
-
-Actual Geneformer embedding extraction remains blocked until a later approved
-feature verifies that:
-
-- the Stage 1 manifest validates successfully
-- ingestion readiness passes
-- dataset ID and Census version match the approved contract
-- donor and gene-symbol columns are explicit
-- token IDs are validated against the model vocabulary size
-- output paths do not use model/training artifact suffixes
-- sampled cell IDs can be recorded reproducibly
-- no modeling, training, or external validation is triggered
+- Split level must remain patient/donor/cohort-level, never cell-level.
+- Patient aggregation must be declared before extraction.
+- No supervised evaluation, standardization, cross-validation, or metric claim is
+  introduced by this feature.
+- No model or training artifact path is allowed.
 
 ## Still not allowed
 
@@ -89,5 +83,5 @@ feature verifies that:
 
 ## Next action
 
-Update Stage 2 planning documentation and stale state tests, run the repository
-test suite, then open a small Stage 2 planning pull request.
+Add the metadata-only embedding config contract, run targeted and full tests,
+then open a small Stage 2 config-contract pull request.
