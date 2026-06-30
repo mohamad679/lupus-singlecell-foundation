@@ -1,22 +1,22 @@
 # Current Feature
 
-## STAGE2-F004 - Dry-run extraction readiness
+## STAGE2-F005 - Actual Geneformer extraction runner
 
 Status: in progress
-Branch: `feat/stage2-dry-run-readiness`
+Branch: `feat/stage2-geneformer-extraction-runner`
 
 ## Objective
 
-Add a metadata-only dry-run readiness gate for future Geneformer embedding
-extraction.
+Add a permission-gated and dependency-injected Geneformer extraction runner.
 
-This feature combines the Stage 1 ingestion manifest, ingestion-readiness report,
-Stage 2 embedding config, and Stage 2 embedding provenance manifest to determine
-whether a later extraction feature is allowed to proceed.
+This feature defines the runner interface that can later execute extraction only
+when a human-approved runtime environment, explicit execution permission, and
+caller-provided callbacks are supplied.
 
-No code in this feature downloads data, loads real AnnData files, loads model
-runtimes, tokenizes cells, extracts embeddings, trains models, performs external
-validation, writes artifacts, or adds new performance claims.
+The package itself still does not import Geneformer, tokenizer runtimes, Scanpy,
+AnnData, CELLxGENE, PyTorch, or any deep-learning runtime. It also does not
+download data, load real AnnData files, run extraction during tests, train
+models, perform external validation, or add performance claims.
 
 ## Completed before this branch
 
@@ -32,52 +32,47 @@ validation, writes artifacts, or adds new performance claims.
   `main`.
 - `STAGE2-F002`: embedding config contract merged on `main`.
 - `STAGE2-F003`: embedding provenance manifest merged on `main`.
+- `STAGE2-F004`: dry-run extraction readiness merged on `main`.
 
 ## Planned package additions
 
-- `src/lupusfm/embeddings/readiness.py`
-- `tests/test_lupusfm_embedding_readiness.py`
+- `src/lupusfm/embeddings/extraction.py`
+- `tests/test_lupusfm_geneformer_extraction_runner.py`
 
-## Stage 2 dry-run scope
+## Stage 2 extraction-runner scope
 
-The dry-run readiness gate must validate:
+The runner must:
 
-- Stage 1 ingestion manifest against ingestion-readiness report
-- embedding config contract
-- embedding config against ingestion manifest
-- embedding provenance manifest contract
-- embedding provenance against embedding config
-- distinct Stage 2 output paths
-- extraction remains not performed
-- execution/modeling/download/performance gates remain disabled
+- require the dry-run readiness gate to pass first
+- require explicit runtime extraction permission
+- require a named approved runtime environment
+- require a named approver and reason
+- keep downloads disabled
+- keep modeling/training/external validation/performance claims disabled
+- use caller-provided callbacks for runtime actions
+- avoid importing runtime stacks at package import time
+- return result metadata from a permitted extraction call
 
-## Required leakage and reproducibility controls
+## Still not allowed in this PR
 
-- No cell-level split may be introduced.
-- Patient-level split and aggregation policies must remain explicit.
-- Dry-run reports must collect failures instead of starting runtime work.
-- The dry-run gate must be pass/fail only; it must not add metrics or claims.
-
-## Still not allowed
-
+- No real Geneformer execution.
+- No real tokenizer execution.
+- No real AnnData loading.
+- No CELLxGENE download.
+- No runtime dependency import in package code.
+- No extraction run committed to the repository.
+- No embedding artifacts committed to the repository.
 - No modeling or training.
-- No embedding extraction.
-- No Geneformer execution.
-- No tokenizer execution.
-- No new performance claims.
+- No performance claims.
 - No external validation.
-- No large data downloads.
-- No real AnnData file loading.
-- No AnnData filtering or matrix preprocessing.
 - No cell-level train/test split.
-- No model or training artifacts.
 
 ## Countdown
 
-Stage 2 step: 4/5
-Remaining after this feature: 1
+Stage 2 step: 5/5
+Remaining after this feature: 0
 
 ## Next action
 
-Add the metadata-only dry-run readiness gate, run targeted and full tests, then
-open a small Stage 2 dry-run readiness pull request.
+Add the permission-gated extraction runner, run targeted and full tests, then
+open the final Stage 2 pull request.
