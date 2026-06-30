@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage2_embedding_config_contract_in_progress
+  status: stage2_embedding_provenance_in_progress
   current_phase: Stage 2
-  current_phase_name: Stage 2 Embedding Config Contract
-  current_feature: STAGE2-F002
+  current_phase_name: Stage 2 Embedding Provenance Manifest
+  current_feature: STAGE2-F003
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -34,8 +34,9 @@ active_status_authority:
   - stage1_closeout_gate
   - stage2_embedding_plan
   - stage2_embedding_config_contract
+  - stage2_embedding_provenance
   note: Older phase/gate/test-scaffold records are retained as historical provenance
-    and do not override the current Stage 2 embedding-config contract status.
+    and do not override the current Stage 2 embedding-provenance status.
   historical_records_retained: true
   historical_records_should_not_block_reconciliation: true
 phase_controls:
@@ -601,10 +602,10 @@ stage2_embedding_plan:
   - Actual extraction remained blocked until a later approved feature validates manifest, ingestion readiness, model/tokenizer/vocabulary provenance, gene mapping, output paths, sampled cell IDs, and patient-level aggregation.
 
 stage2_embedding_config_contract:
-  status: in_progress
-  branch: feat/stage2-embedding-config-contract
+  status: completed
+  branch: main
   current_feature: STAGE2-F002
-  scope: metadata-only embedding extraction configuration contract
+  full_suite_validation: 543 passed
   package_modules_added:
   - src/lupusfm/embeddings/config.py
   tests_added:
@@ -619,6 +620,30 @@ stage2_embedding_config_contract:
   external_validation_allowed: false
   performance_claims_allowed: false
   notes:
-  - This feature validates Stage 2 config metadata without importing Geneformer, loading AnnData files, downloading data, tokenizing cells, extracting embeddings, modeling, training, or evaluating performance.
+  - This feature validated Stage 2 config metadata without loading model runtimes, loading AnnData files, downloading data, tokenizing cells, extracting embeddings, modeling, training, or evaluating performance.
   - The config contract requires approved dataset and Census identifiers, explicit donor and gene-symbol columns, gene-ID mapping policy, model/tokenizer/vocabulary sources, random seed, patient-level split and aggregation policies, and safe output paths.
+  - Actual extraction remained blocked until a later approved dry-run or execution feature validates manifest, ingestion readiness, provenance, sampled cell IDs, and runtime environment.
+
+stage2_embedding_provenance:
+  status: in_progress
+  branch: feat/stage2-embedding-provenance
+  current_feature: STAGE2-F003
+  scope: metadata-only embedding provenance manifest contract
+  package_modules_added:
+  - src/lupusfm/embeddings/provenance.py
+  tests_added:
+  - tests/test_lupusfm_embedding_provenance.py
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  extraction_performed: false
+  notes:
+  - This feature records dataset, config, model, tokenizer, vocabulary, gene mapping, seed, split, aggregation, output, and hash-resolution provenance requirements.
+  - Runtime hashes may remain pending at this stage, but recorded hashes must be valid sha256 digests and fake pending hashes are rejected.
   - Actual extraction remains blocked until a later approved dry-run or execution feature validates manifest, ingestion readiness, provenance, sampled cell IDs, and runtime environment.
