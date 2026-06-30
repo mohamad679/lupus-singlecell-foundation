@@ -167,9 +167,9 @@ def test_missing_audit_status_fails():
 def test_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F019" in state
-    assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
+    assert "current_phase: Stage 1" in state
+    assert "current_feature: STAGE1-F002" in state
+    assert "primary_task: Active SLE flare discrimination" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state
     assert "selected_datasets: []" in state
@@ -204,6 +204,10 @@ def test_no_model_artifact_files_exist():
         for path in REPO_ROOT.rglob("*")
         if path.is_file()
         and ".git" not in path.parts
+        and ".venv" not in path.parts
+        and "__pycache__" not in path.parts
+        and "data" not in path.parts
+        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 

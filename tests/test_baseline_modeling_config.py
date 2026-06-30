@@ -48,7 +48,7 @@ def test_all_baseline_families_are_disabled_for_training():
 def test_baseline_package_markers_exist_without_implementations():
     features_dir = SRC_PATH / "features"
     assert features_dir.exists()
-    assert {path.name for path in features_dir.iterdir()} == {
+    assert {path.name for path in features_dir.iterdir() if path.name != "__pycache__"} == {
         "__init__.py",
         "cell_type_proportions.py",
         "pseudobulk_design.py",
@@ -56,7 +56,7 @@ def test_baseline_package_markers_exist_without_implementations():
 
     models_dir = SRC_PATH / "models"
     assert models_dir.exists()
-    assert {path.name for path in models_dir.iterdir()} == {
+    assert {path.name for path in models_dir.iterdir() if path.name != "__pycache__"} == {
         "__init__.py",
         "logistic_regression_baseline.py",
         "tree_baselines.py",
@@ -64,7 +64,7 @@ def test_baseline_package_markers_exist_without_implementations():
 
     evaluation_dir = SRC_PATH / "evaluation"
     assert evaluation_dir.exists()
-    assert {path.name for path in evaluation_dir.iterdir()} == {
+    assert {path.name for path in evaluation_dir.iterdir() if path.name != "__pycache__"} == {
         "__init__.py",
         "calibration_protocol.py",
         "evaluation_protocol.py",
@@ -74,9 +74,9 @@ def test_baseline_package_markers_exist_without_implementations():
 def test_phase3_state_preserves_modeling_and_dataset_locks():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F019" in state
-    assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
+    assert "current_phase: Stage 1" in state
+    assert "current_feature: STAGE1-F002" in state
+    assert "primary_task: Active SLE flare discrimination" in state
     assert "human_gate_2: approved_with_restrictions" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state

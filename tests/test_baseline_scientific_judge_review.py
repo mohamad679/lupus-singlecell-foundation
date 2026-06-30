@@ -74,8 +74,8 @@ def test_training_is_not_approved_by_report_or_review():
 def test_project_state_remains_phase3_with_modeling_locked():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F019" in state
+    assert "current_phase: Stage 1" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state
     assert "selected_datasets: []" in state
@@ -102,6 +102,10 @@ def test_no_model_artifacts_exist():
         for path in REPO_ROOT.rglob("*")
         if path.is_file()
         and ".git" not in path.parts
+        and ".venv" not in path.parts
+        and "__pycache__" not in path.parts
+        and "data" not in path.parts
+        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 

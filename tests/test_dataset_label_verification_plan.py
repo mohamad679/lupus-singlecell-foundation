@@ -97,8 +97,8 @@ def test_modeling_gate_references_verification_artifacts_and_remains_locked():
 def test_project_state_remains_unassigned_and_training_blocked():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F019" in state
+    assert "current_phase: Stage 1" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "modeling_readiness: not_ready" in state
     assert "allow_modeling: false" in state
     assert "training_allowed: false" in state

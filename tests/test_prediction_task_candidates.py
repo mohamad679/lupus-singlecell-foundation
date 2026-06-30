@@ -86,9 +86,9 @@ def test_human_gate_2_checklist_preserves_pending_evidence_checks():
 def test_project_state_preserves_phase2_safety_locks():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F019" in state
-    assert 'primary_task: "SLE diagnosis / case-control prediction"' in state
+    assert "current_phase: Stage 1" in state
+    assert "current_feature: STAGE1-F002" in state
+    assert "primary_task: Active SLE flare discrimination" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "allow_downloads: false" in state

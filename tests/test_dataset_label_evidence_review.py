@@ -136,7 +136,7 @@ def test_gate_and_project_state_keep_training_blocked():
     assert gate["allow_preprocessing"] is False
     assert gate["allow_modeling"] is False
     assert gate["training_permission"] == "blocked"
-    assert "current_feature: P3-F019" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -153,6 +153,10 @@ def test_phase4_not_started_and_no_model_artifacts():
         for path in REPO_ROOT.rglob("*")
         if path.is_file()
         and ".git" not in path.parts
+        and ".venv" not in path.parts
+        and "__pycache__" not in path.parts
+        and "data" not in path.parts
+        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 

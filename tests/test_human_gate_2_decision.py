@@ -81,10 +81,10 @@ def test_gate_checklist_records_restricted_decision_but_checks_remain_pending():
 def test_project_state_records_restricted_gate_without_enabling_modeling():
     state = STATE_PATH.read_text()
 
-    assert 'current_phase: "Phase 3"' in state
-    assert "current_feature: P3-F019" in state
+    assert "current_phase: Stage 1" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "human_gate_2: approved_with_restrictions" in state
-    assert f'primary_task: "{PRIMARY_TASK}"' in state
+    assert "primary_task: Active SLE flare discrimination" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "allow_modeling: false" in state
@@ -107,7 +107,7 @@ def test_phase_3_models_package_contains_scaffold_only():
     models_dir = REPO_ROOT / "src" / "models"
 
     assert models_dir.exists()
-    assert {path.name for path in models_dir.iterdir()} == {
+    assert {path.name for path in models_dir.iterdir() if path.name != "__pycache__"} == {
         "__init__.py",
         "logistic_regression_baseline.py",
         "tree_baselines.py",

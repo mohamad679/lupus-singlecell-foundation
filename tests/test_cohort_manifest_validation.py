@@ -117,7 +117,7 @@ def test_selected_dataset_assignment_is_rejected():
 def test_selected_datasets_and_external_validation_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P3-F019" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state
