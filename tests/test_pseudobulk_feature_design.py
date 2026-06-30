@@ -133,7 +133,7 @@ def test_project_state_preserves_phase3_safety_locks():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 2" in state
-    assert "current_feature: STAGE2-F005" in state
+    assert "current_feature: STAGE2-CLOSEOUT" in state
     assert "primary_task: Active SLE flare discrimination" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state
