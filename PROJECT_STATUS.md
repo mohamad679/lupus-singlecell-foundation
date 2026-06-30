@@ -184,22 +184,23 @@ Stage 1: COMPLETE
   ingestion readiness, and the ingestion manifest contract.
 - Stage 1 completed with the closeout gate merged on `main`.
 
-Stage 2: IN PROGRESS — provenance manifest only
+Stage 2: IN PROGRESS — dry-run readiness only
 
 Completed:
 
 - `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
 - `STAGE2-F002 - Embedding config contract`
+- `STAGE2-F003 - Embedding provenance manifest`
 
 Current feature:
 
-- `STAGE2-F003 - Embedding provenance manifest`
-- Branch: `feat/stage2-embedding-provenance`
+- `STAGE2-F004 - Dry-run extraction readiness`
+- Branch: `feat/stage2-dry-run-readiness`
 
-This Stage 2 feature adds a metadata-only provenance manifest contract. It must
-not download data, load real AnnData files, load model runtimes, tokenize cells,
-extract embeddings, train models, perform external validation, or add
-performance claims.
+This Stage 2 feature adds a metadata-only dry-run readiness gate. It must not
+download data, load real AnnData files, load model runtimes, tokenize cells,
+extract embeddings, train models, perform external validation, write artifacts,
+or add performance claims.
 
 ## Current Stage 1 package foundation
 
@@ -226,6 +227,8 @@ Current Stage 2 package additions:
 - `tests/test_lupusfm_embedding_config.py`
 - `src/lupusfm/embeddings/provenance.py`
 - `tests/test_lupusfm_embedding_provenance.py`
+- `src/lupusfm/embeddings/readiness.py`
+- `tests/test_lupusfm_embedding_readiness.py`
 
 Important safety decisions implemented:
 
@@ -242,25 +245,20 @@ Important safety decisions implemented:
   validation, and performance claims disabled
 - embedding provenance utilities keep extraction marked as not performed and
   require pending or valid recorded sha256 status for runtime provenance records
+- embedding dry-run readiness collects failures across manifest, readiness,
+  config, provenance, and output-path consistency before any runtime work starts
 
-## Stage 2 provenance requirements
+## Stage 2 dry-run requirements
 
-The current embedding provenance contract validates:
+The current dry-run readiness gate validates:
 
-- approved primary CELLxGENE dataset ID and Census version
-- config-consistent donor and gene-symbol columns
-- explicit gene-ID mapping policy
-- Geneformer model source and revision
-- tokenizer and vocabulary source
-- pending or recorded sha256 hash status for model/config/tokenizer/vocabulary
-- cells per donor, maximum sequence length, and batch size
-- random seed
-- patient-level split policy
-- patient-level aggregation policy
-- output path consistency with the embedding config
-- explicit record that extraction has not yet been performed
+- Stage 1 ingestion manifest against ingestion-readiness report
+- embedding config contract
+- embedding config against ingestion manifest
+- embedding provenance manifest contract
+- embedding provenance against embedding config
+- distinct Stage 2 output paths
+- execution/modeling/download/performance gates remain disabled
 
-Actual extraction remains blocked until a later approved feature validates the
-manifest, ingestion-readiness report, model/tokenizer/vocabulary provenance,
-gene mapping, sampled cell IDs, output paths, patient-level aggregation, and
-runtime environment.
+Actual extraction remains blocked until this dry-run gate passes and a later
+approved execution feature explicitly allows runtime extraction.

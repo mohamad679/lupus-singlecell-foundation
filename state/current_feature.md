@@ -1,22 +1,22 @@
 # Current Feature
 
-## STAGE2-F003 - Embedding provenance manifest
+## STAGE2-F004 - Dry-run extraction readiness
 
 Status: in progress
-Branch: `feat/stage2-embedding-provenance`
+Branch: `feat/stage2-dry-run-readiness`
 
 ## Objective
 
-Add a metadata-only provenance manifest contract for future Geneformer embedding
+Add a metadata-only dry-run readiness gate for future Geneformer embedding
 extraction.
 
-This feature records dataset, config, model, tokenizer, vocabulary, gene mapping,
-seed, split, aggregation, output, and hash-resolution provenance requirements
-before any runtime extraction feature is allowed.
+This feature combines the Stage 1 ingestion manifest, ingestion-readiness report,
+Stage 2 embedding config, and Stage 2 embedding provenance manifest to determine
+whether a later extraction feature is allowed to proceed.
 
 No code in this feature downloads data, loads real AnnData files, loads model
 runtimes, tokenizes cells, extracts embeddings, trains models, performs external
-validation, or adds new performance claims.
+validation, writes artifacts, or adds new performance claims.
 
 ## Completed before this branch
 
@@ -31,42 +31,32 @@ validation, or adds new performance claims.
 - `STAGE2-F001`: reproducible Geneformer embedding extraction plan merged on
   `main`.
 - `STAGE2-F002`: embedding config contract merged on `main`.
+- `STAGE2-F003`: embedding provenance manifest merged on `main`.
 
 ## Planned package additions
 
-- `src/lupusfm/embeddings/provenance.py`
-- `tests/test_lupusfm_embedding_provenance.py`
+- `src/lupusfm/embeddings/readiness.py`
+- `tests/test_lupusfm_embedding_readiness.py`
 
-## Stage 2 provenance scope
+## Stage 2 dry-run scope
 
-The provenance contract must validate:
+The dry-run readiness gate must validate:
 
-- approved primary CELLxGENE dataset ID
-- approved CELLxGENE Census version
-- explicit donor column
-- explicit gene-symbol column
-- explicit gene-ID mapping policy
-- Geneformer model source and revision
-- tokenizer source
-- vocabulary source
-- pending or recorded sha256 hash status for model/config/tokenizer/vocabulary
-- cells per donor
-- maximum sequence length
-- batch size
-- random seed
-- patient-level split policy
-- patient-level aggregation policy
-- output path consistency with the embedding config
-- explicit record that extraction has not yet been performed
+- Stage 1 ingestion manifest against ingestion-readiness report
+- embedding config contract
+- embedding config against ingestion manifest
+- embedding provenance manifest contract
+- embedding provenance against embedding config
+- distinct Stage 2 output paths
+- extraction remains not performed
+- execution/modeling/download/performance gates remain disabled
 
 ## Required leakage and reproducibility controls
 
-- Provenance must match the validated embedding config.
-- Runtime hashes may be pending at this stage, but fake hashes are rejected.
-- Recorded hashes must be valid sha256 hex digests.
-- Extraction performed must remain false in this feature.
-- No supervised evaluation, cross-validation, metric report, or performance claim
-  is introduced by this feature.
+- No cell-level split may be introduced.
+- Patient-level split and aggregation policies must remain explicit.
+- Dry-run reports must collect failures instead of starting runtime work.
+- The dry-run gate must be pass/fail only; it must not add metrics or claims.
 
 ## Still not allowed
 
@@ -84,10 +74,10 @@ The provenance contract must validate:
 
 ## Countdown
 
-Stage 2 step: 3/5
-Remaining after this feature: 2
+Stage 2 step: 4/5
+Remaining after this feature: 1
 
 ## Next action
 
-Add the metadata-only provenance manifest contract, run targeted and full tests,
-then open a small Stage 2 provenance pull request.
+Add the metadata-only dry-run readiness gate, run targeted and full tests, then
+open a small Stage 2 dry-run readiness pull request.

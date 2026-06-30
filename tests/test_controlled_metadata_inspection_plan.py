@@ -159,7 +159,7 @@ def test_project_state_remains_unassigned_and_phase4_not_started():
     backlog = BACKLOG_PATH.read_text()
 
     assert "current_phase: Stage 2" in state
-    assert "current_feature: STAGE2-F003" in state
+    assert "current_feature: STAGE2-F004" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
