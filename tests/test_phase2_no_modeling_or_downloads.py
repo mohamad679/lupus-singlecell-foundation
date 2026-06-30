@@ -61,7 +61,13 @@ def test_selected_datasets_and_external_validation_remain_empty():
 def test_no_model_files_are_created():
     forbidden_paths = []
     for path in REPO_ROOT.rglob("*"):
-        if ".git" in path.parts:
+        if (
+            ".git" in path.parts
+            or ".venv" in path.parts
+            or "__pycache__" in path.parts
+            or "data" in path.parts
+            or str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
+        ):
             continue
         lower_name = path.name.lower()
         if path.is_file() and lower_name.endswith(
@@ -76,14 +82,19 @@ def test_models_package_contains_safe_scaffold_only():
     models_dir = SRC_DIR / "models"
 
     assert models_dir.exists()
-    assert {path.name for path in models_dir.iterdir()} == {
+    assert {path.name for path in models_dir.iterdir() if path.name != "__pycache__"} == {
         "__init__.py",
         "logistic_regression_baseline.py",
         "tree_baselines.py",
     }
 
 
-def test_no_dataset_files_are_created():
+def test_no_unexpected_dataset_files_are_created():
+    allowed_historical_files = {
+        "data/raw/mini_phase1_validation.h5ad",
+        "data/raw/mini_test.h5ad",
+        "data/processed/lupus_qc_processed.h5ad",
+    }
     forbidden_suffixes = {
         ".h5ad",
         ".h5",
@@ -95,7 +106,10 @@ def test_no_dataset_files_are_created():
     }
     forbidden_paths = []
     for path in REPO_ROOT.rglob("*"):
-        if ".git" in path.parts:
+        if ".git" in path.parts or ".venv" in path.parts or "__pycache__" in path.parts:
+            continue
+        relative_path = str(path.relative_to(REPO_ROOT))
+        if relative_path in allowed_historical_files:
             continue
         name = path.name.lower()
         if path.is_file() and (

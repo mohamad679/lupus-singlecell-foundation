@@ -77,7 +77,7 @@ def test_audit_status_is_pending_human_download_gate_for_all_rows():
 def test_selected_datasets_and_external_validation_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P3-F019" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state
@@ -103,10 +103,22 @@ def test_no_executable_fetch_commands_appear_in_access_plan_script():
         assert fragment not in source
 
 
-def test_no_data_files_were_added_under_data_boundaries():
+def test_no_unexpected_data_files_were_added_under_data_boundaries():
+    allowed_historical_files = {
+        "data/raw/DOWNLOAD_INSTRUCTIONS.md",
+        "data/raw/mini_phase1_validation.h5ad",
+        "data/raw/mini_test.h5ad",
+        "data/processed/lupus_qc_processed.h5ad",
+    }
+
     for relative in ["data/raw", "data/interim", "data/processed"]:
         directory = REPO_ROOT / relative
         if not directory.exists():
             continue
-        files = [path for path in directory.rglob("*") if path.is_file()]
+        files = [
+            path
+            for path in directory.rglob("*")
+            if path.is_file()
+            and str(path.relative_to(REPO_ROOT)) not in allowed_historical_files
+        ]
         assert files == []

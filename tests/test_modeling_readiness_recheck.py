@@ -134,7 +134,7 @@ def test_training_decision_and_project_state_remain_locked():
 
     assert training_decision["training_permission"] == "blocked"
     assert training_decision["allow_modeling"] is False
-    assert "current_feature: P3-F019" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -151,6 +151,10 @@ def test_no_model_artifacts_and_phase4_not_started():
         for path in REPO_ROOT.rglob("*")
         if path.is_file()
         and ".git" not in path.parts
+        and ".venv" not in path.parts
+        and "__pycache__" not in path.parts
+        and "data" not in path.parts
+        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 

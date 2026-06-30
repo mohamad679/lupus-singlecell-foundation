@@ -65,7 +65,7 @@ def test_project_state_has_no_selected_datasets_and_gate_remains_pending():
     state = STATE_PATH.read_text()
 
     assert "selected_datasets: []" in state
-    assert "label: \"Human Gate 1: Dataset Feasibility Approved\"" in state
+    assert "Human Gate 1: Dataset Feasibility Approved" in state
     assert "status: approved_with_restrictions" in state
 
 

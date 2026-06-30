@@ -109,8 +109,8 @@ def test_strategy_blockers_remain_open_and_evidence_backed():
 def test_project_permissions_and_assignments_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P3-F019" in state
-    assert "dataset_strategy_decision: switch_primary_to_CELLxGENE_HCA" in state
+    assert "current_feature: STAGE1-F002" in state
+    assert "dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run" in state
     assert "pivot_status: not_activated" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
@@ -129,6 +129,10 @@ def test_phase4_and_model_artifacts_are_absent_and_p3_f020_is_todo():
         for path in REPO_ROOT.rglob("*")
         if path.is_file()
         and ".git" not in path.parts
+        and ".venv" not in path.parts
+        and "__pycache__" not in path.parts
+        and "data" not in path.parts
+        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 

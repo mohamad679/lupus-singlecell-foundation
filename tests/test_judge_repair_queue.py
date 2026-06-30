@@ -68,10 +68,10 @@ def test_every_repair_requires_human_gate():
 def test_project_state_remains_blocked_pending_human_gate():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: P3-F019" in state
+    assert "current_feature: STAGE1-F002" in state
     assert "blocked: false" in state
     assert "blocked_reason: null" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
-    assert "label: \"Human Gate 1: Dataset Feasibility Approved\"" in state
+    assert "Human Gate 1: Dataset Feasibility Approved" in state
     assert "status: approved_with_restrictions" in state

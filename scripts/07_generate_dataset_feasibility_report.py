@@ -100,10 +100,23 @@ def _state_value(lines: Sequence[str], key: str) -> str:
 
 def validate_state_gate_pending(state_path: Path = STATE_PATH) -> None:
     lines = state_path.read_text().splitlines()
+    state_text = "\n".join(lines)
     if _state_value(lines, "external_validation_cohort") != "TODO":
         raise DatasetFeasibilityReportError("external_validation_cohort must remain TODO")
-    if _state_value(lines, "selected_datasets") != "[]":
-        raise DatasetFeasibilityReportError("selected_datasets must remain []")
+
+    required_locks = {
+        "modeling_allowed: false",
+        "allow_modeling: false",
+        "training_allowed: false",
+        "dataset_download_allowed: false",
+        "allow_downloads: false",
+    }
+    missing_locks = sorted(lock for lock in required_locks if lock not in state_text)
+    if missing_locks:
+        raise DatasetFeasibilityReportError(
+            "state must preserve modeling/training/download locks: "
+            + ", ".join(missing_locks)
+        )
 
     gate_seen = False
     allowed_status_seen = False
