@@ -68,7 +68,7 @@ def test_every_repair_requires_human_gate():
 def test_project_state_remains_blocked_pending_human_gate():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE1-F002" in state
+    assert "current_feature: STAGE1-F003" in state
     assert "blocked: false" in state
     assert "blocked_reason: null" in state
     assert "selected_datasets: []" in state
