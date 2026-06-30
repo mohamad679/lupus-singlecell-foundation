@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage1_ingestion_readiness_in_progress
+  status: stage1_manifest_contract_in_progress
   current_phase: Stage 1
-  current_phase_name: Ingestion Readiness Report Utilities
-  current_feature: STAGE1-F005
+  current_phase_name: Manifest / Reproducibility Contract Utilities
+  current_feature: STAGE1-F006
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -30,6 +30,7 @@ active_status_authority:
   - stage1_cohort_summary
   - stage1_anndata_schema
   - stage1_ingestion_readiness
+  - stage1_manifest_contract
   note: Older phase/gate/test-scaffold records are retained as historical provenance
     and do not override the current Stage 1 package/label extraction status.
   historical_records_retained: true
@@ -529,8 +530,8 @@ stage1_anndata_schema:
   - Cell-level split assignments are rejected before any modeling or embedding extraction is allowed.
 
 stage1_ingestion_readiness:
-  status: in_progress
-  branch: feat/stage1-ingestion-readiness
+  status: completed
+  branch: main
   current_feature: STAGE1-F005
   package_modules_added:
   - src/lupusfm/data/ingestion_readiness.py
@@ -544,3 +545,21 @@ stage1_ingestion_readiness:
   - Ingestion readiness combines schema, cohort, and explicit mitochondrial annotation checks.
   - Readiness reports collect validation failures instead of starting downstream work.
   - No files are loaded and no modeling, embedding extraction, filtering, or downloads are allowed.
+
+stage1_manifest_contract:
+  status: in_progress
+  branch: feat/stage1-manifest-contract
+  current_feature: STAGE1-F006
+  package_modules_added:
+  - src/lupusfm/data/manifest.py
+  tests_added:
+  - tests/test_lupusfm_manifest.py
+  targeted_validation: 103 passed
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  notes:
+  - Manifest utilities define a reproducibility contract before Stage 2 work.
+  - Dataset identifiers, metadata columns, expected counts, random seed, and output paths are validated.
+  - Downloads, embedding extraction, modeling, and training remain explicitly disabled.

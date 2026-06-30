@@ -221,15 +221,17 @@ Completed on `main`:
 - `tests/test_lupusfm_cohort.py`
 - `src/lupusfm/data/anndata_schema.py`
 - `tests/test_lupusfm_anndata_schema.py`
-
-In progress on `feat/stage1-ingestion-readiness`:
-
 - `src/lupusfm/data/ingestion_readiness.py`
 - `tests/test_lupusfm_ingestion_readiness.py`
 
+In progress on `feat/stage1-manifest-contract`:
+
+- `src/lupusfm/data/manifest.py`
+- `tests/test_lupusfm_manifest.py`
+
 Current targeted validation:
 
-- `80 passed` for labels, metadata extraction, mitochondrial annotation, cohort summary, AnnData schema validation, and ingestion-readiness report tests.
+- `103 passed` for labels, metadata extraction, mitochondrial annotation, cohort summary, AnnData schema validation, ingestion-readiness report, and manifest contract tests.
 
 Important safety decisions now implemented:
 
@@ -240,7 +242,8 @@ Important safety decisions now implemented:
 - cohort summaries count donors and cells only; they do not filter, embed, or train
 - AnnData schema validation rejects cell-level split assignments before modeling
 - ingestion-readiness reports collect validation failures instead of starting downstream work
+- manifest utilities keep downloads, embedding extraction, modeling, and training disabled
 
 ## Current next action
 
-Finish the small Stage 1 ingestion-readiness pull request, then continue with the manifest/reproducibility contract before any embedding extraction or modeling.
+Finish the small Stage 1 manifest/reproducibility contract pull request, then prepare the Stage 1 closeout gate before any embedding extraction or modeling.
