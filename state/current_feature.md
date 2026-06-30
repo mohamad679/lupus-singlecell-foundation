@@ -1,40 +1,54 @@
 # Current Feature
 
-## STAGE3-PLANNING - Patient-level embedding aggregation and leakage-safe evaluation design
+## STAGE3-F001 - Embedding artifact schema contract
 
-Status: planning pending
-Branch: `chore/finalize-stage2-state`
+Status: in progress
+Branch: `feat/stage3-embedding-artifact-schema`
 
 ## Objective
 
-Prepare the repository state for Stage 3 after Stage 2 closeout was merged.
+Define the metadata-only schema contract for future frozen Geneformer embedding
+artifacts before any patient-level aggregation, leakage-safe evaluation, or
+modeling is considered.
 
-This cleanup does not add runtime code, download data, load AnnData files,
-execute Geneformer, execute tokenizers, extract embeddings, train models,
-perform external validation, commit artifacts, or add performance claims.
+This feature does not load real embedding artifacts, load AnnData files,
+download data, execute Geneformer, execute tokenizers, extract embeddings,
+aggregate embeddings, train models, perform external validation, or add
+performance claims.
 
-## Completed prerequisite
+## Contract scope
 
-Stage 2 is complete:
+The schema validates future artifact metadata such as:
 
-- `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
-- `STAGE2-F002 - Embedding config contract`
-- `STAGE2-F003 - Embedding provenance manifest`
-- `STAGE2-F004 - Dry-run extraction readiness`
-- `STAGE2-F005 - Actual Geneformer extraction runner`
-- `STAGE2-CLOSEOUT - Stage 2 closeout gate`
+- approved dataset ID
+- approved CELLxGENE Census version
+- donor/patient identifier column
+- cell or sampled-cell identifier column
+- embedding column
+- embedding dimensionality
+- embedding source
+- artifact format
+- record level
+- split level
+- model provenance reference
+- extraction config reference
+- declared artifact paths
 
-## Next scientific stage
+## Safety rules
 
-`STAGE3 - Patient-level embedding aggregation and leakage-safe evaluation design`
-
-Stage 3 must remain conservative and patient-level only. It must not claim
-future flare prediction, clinical utility, external validation, or model
-performance. It should first define embedding artifact contracts, aggregation,
-split policy, baseline controls, anti-leakage checks, and evaluation contracts
-before any modeling is considered.
+- Patient/donor split level only.
+- No cell-level split assignments.
+- No model artifacts.
+- No training artifacts.
+- No modeling.
+- No training.
+- No external validation.
+- No performance claims.
+- Fake-data tests only.
 
 ## Countdown
 
-Stage 3 step: planning
-Remaining before Stage 3 implementation: open Stage 3 feature branch after this cleanup PR is merged
+Stage 3 step: F001
+Remaining before modeling can be considered: aggregation contract, leakage-safe
+split utilities, evaluation protocol scaffold, baseline/control plan, and
+modeling readiness gate.

@@ -144,7 +144,7 @@ def test_train_test_entity_overlap_fails_in_mock_manifest():
 def test_selected_datasets_and_external_validation_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE3-PLANNING" in state
+    assert "current_feature: STAGE3-F001" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state

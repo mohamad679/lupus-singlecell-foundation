@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage2_completed_pending_stage3_planning
+  status: stage3_f001_embedding_artifact_schema_in_progress
   current_phase: Stage 3
-  current_phase_name: Stage 3 Planning
-  current_feature: STAGE3-PLANNING
+  current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
+  current_feature: STAGE3-F001
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -722,3 +722,25 @@ stage2_closeout:
   - No real Geneformer extraction was performed during Stage 2.
   - No embedding artifacts, model artifacts, model training, external validation, or performance claims were added.
   - The next stage should define patient-level aggregation, leakage-safe evaluation design, and baselines before any modeling is permitted.
+
+
+stage3_embedding_artifact_schema:
+  status: in_progress
+  branch: feat/stage3-embedding-artifact-schema
+  current_feature: STAGE3-F001
+  scope: define metadata-only embedding artifact schema contract for future patient-level analysis
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed: false
+  notes:
+  - Defines future embedding artifact metadata expectations without loading real artifacts.
+  - Requires donor/patient split level and rejects cell-level split policy.
+  - Rejects model/training artifact-like outputs and forbidden modeling/training flags.
+  - Uses fake-data tests only.
