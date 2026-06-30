@@ -1,66 +1,180 @@
-# Lupus Single-Cell Foundation
+# Lupus Single-Cell Foundation Model
 
-Patient-level prediction foundations for lupus single-cell RNA sequencing.
+Patient-level benchmarking of frozen single-cell foundation-model embeddings for active systemic lupus erythematosus (SLE) flare discrimination from peripheral blood single-cell RNA-seq.
 
-## Current Phase 1 Runtime Status
+## Scientific objective
 
-The dataset loading and QC pipeline is implemented in
-`scripts/11_phase1_dataset_qc.py`. The public GEO record for GSE174188
-currently has no supplementary h5ad, so the checked-in workspace artifacts
-are generated from explicitly labeled synthetic fixtures. They validate the
-pipeline but are not evidence about the real Perez et al. cohort.
+This project investigates whether frozen single-cell foundation-model representations, especially Geneformer embeddings, can support patient-level discrimination of active SLE flare from managed SLE.
 
-The required acquisition fixture is exactly 500 cells × 200 genes. A separate
-500 cells × 2,500 genes fixture validates the independent requirement that the
-processed object contain exactly 2,000 highly variable genes.
+The current working claim is intentionally conservative:
 
-Run and verify:
+> Frozen Geneformer embeddings encode patient-level transcriptional structure sufficient to discriminate active SLE flare from managed SLE in a large PBMC single-cell cohort.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements_phase1.txt
-python scripts/11_phase1_dataset_qc.py --check-geo
-python scripts/12_verify_phase1.py
-```
+This project should not currently be described as future flare prediction. The available primary analysis is cross-sectional active flare discrimination, not longitudinal pre-flare forecasting.
 
-To process an authorized or subsequently published real matrix:
+## Current status
 
-```bash
-python scripts/11_phase1_dataset_qc.py \
-  --input data/raw/GSE174188/<source-file>.h5ad
-```
+This repository is being reconciled from an exploratory Kaggle/notebook project into a reproducible, testable, publication-grade computational biology pipeline.
 
-See `data/raw/DOWNLOAD_INSTRUCTIONS.md` for source status and exact GEO
-recheck commands. The completion report is at
-`results/phase1/PHASE1_REPORT.md`.
+Current exploratory evidence exists for:
 
-## Historical Planning Scaffolds
+- CELLxGENE Census loading of the Perez et al. lupus PBMC cohort
+- patient-level label extraction from donor_id
+- per-patient Geneformer embedding extraction
+- patient-level logistic-regression evaluation
+- preliminary permutation and confounder controls
 
-The repository also retains earlier feasibility, gating, schema, and modeling
-planning artifacts. Those documents predate this executable synthetic Phase 1
-validation and should not be read as proof that the real GSE174188 matrix was
-acquired or approved for modeling.
+However, the project is not yet publication-ready because the exploratory notebooks must be converted into scripts, tests, manifests, and reproducible result artifacts.
 
-## Repository Files
+For the detailed current state, see:
 
-- `docs/00_master_spec.md`: project phases, gates, acceptance criteria, and judge rubrics.
-- `docs/01_scientific_hypothesis.md`: draft hypothesis placeholder and required evidence.
-- `docs/02_dataset_feasibility_audit.md`: audit plan, criteria, workflow, and rejection rules.
-- `configs/data_audit.yaml`: approved search terms, sources, required fields, scoring fields, and forbidden actions.
-- `state/project_state.yaml`: current project state and gate status.
-- `state/backlog.yaml`: small, testable backlog items.
-- `state/current_feature.md`: active feature scope and blocked work.
-- `metadata/dataset_catalog.csv`: dataset feasibility catalog schema with TODO placeholders.
-- `scripts/00_audit_datasets.py`: safe local scaffold for validating metadata and writing feasibility tables.
-- `reports/tables/dataset_feasibility_table.csv`: local feasibility table generated from existing catalog rows only.
-- `tests/test_metadata_schema.py`: schema tests for the dataset catalog.
-- `tests/test_data_audit_config.py`: config and source coverage tests.
-- `tests/test_audit_script_no_invented_rows.py`: audit script safety tests.
+- PROJECT_STATUS.md
 
-## Historical Test Suite
+## Primary dataset
 
-The original `pytest -q` suite validates the planning-only state. Several of
-those tests deliberately fail when any h5ad, PNG, or local virtual environment
-exists, so they conflict with the Phase 1 runtime deliverables above. Use
-`scripts/12_verify_phase1.py` as the acceptance verifier for this pipeline.
+Primary exploratory cohort:
+
+- Dataset: GSE174188 / Perez et al. lupus PBMC single-cell RNA-seq cohort
+- Source used in exploratory work: CELLxGENE Census
+- CELLxGENE dataset_id: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+- Census version used in exploratory notebooks: 2025-11-08
+
+Exploratory donor grouping rule:
+
+- FLARE* -> Flare
+- HC-* or IGTB* -> Healthy
+- numeric donor IDs -> Managed SLE
+
+This label rule must be formalized and tested before final publication claims.
+
+## Important repository note
+
+Earlier versions of this repository contained historical planning scaffolds and synthetic Phase 1 validation artifacts. Those files are retained for provenance, but they should not be interpreted as the final scientific pipeline.
+
+The checked-in historical Phase 1 synthetic report validates local pipeline mechanics only. It is not evidence about the real Perez et al. cohort.
+
+The active engineering priority is to reconcile the repository with the real exploratory Kaggle/CELLxGENE work and then convert the notebooks into a clean package-based workflow.
+
+## Exploratory results summary
+
+Preliminary patient-level Geneformer mean-pooling results from exploratory notebooks:
+
+| Task | AUROC | Sensitivity |
+|---|---:|---:|
+| Flare vs Healthy | ~0.993 | 12/14 |
+| Flare vs Managed | ~0.996 | 14/14 |
+
+These values are exploratory. Final reported values must be regenerated from clean scripts with saved predictions, confidence intervals, leakage checks, and versioned metrics.
+
+## Main scientific risk
+
+The key risk is overclaiming.
+
+The preliminary Geneformer performance is strong, but raw/pseudobulk expression baselines are also strong. Therefore, the final paper must answer whether frozen foundation-model embeddings provide meaningful incremental value beyond simpler baselines.
+
+The final analysis must address:
+
+1. Geneformer vs raw/pseudobulk/PCA baselines
+2. donor-level leakage prevention
+3. sex and ancestry controls
+4. cell-count and cell-type-composition confounding
+5. cell-type contribution analysis
+6. external validation or dataset-shift robustness
+
+## Planned production pipeline
+
+Target structure:
+
+    src/lupusfm/
+      data/
+      qc/
+      geneformer/
+      eval/
+      reporting/
+
+    scripts/
+      10_run_phase1_qc.py
+      20_extract_geneformer_embeddings.py
+      30_evaluate_geneformer.py
+      31_evaluate_raw_baseline.py
+      40_celltype_contribution.py
+      50_external_validation_audit.py
+
+    configs/
+      phase1_census.yaml
+      phase2_geneformer.yaml
+      phase3_eval.yaml
+
+    tests/
+      test_labels.py
+      test_qc.py
+      test_embeddings.py
+      test_splits.py
+      test_metrics.py
+
+## Immediate roadmap
+
+### Stage 0 — Repository reconciliation
+
+- remove system files from Git tracking
+- document current real project status
+- update README and state files
+- separate historical synthetic artifacts from active exploratory results
+
+### Stage 1 — Package-based Phase 1 pipeline
+
+- build CELLxGENE Census loader
+- formalize donor label extraction
+- fix and test mitochondrial QC
+- generate reproducible patient summary
+
+### Stage 2 — Geneformer embedding pipeline
+
+- convert notebook extraction into scripts
+- create embedding manifest
+- record sampled cell IDs and random seed
+- test vocabulary bounds and embedding integrity
+
+### Stage 3 — Evaluation pipeline
+
+- rebuild LOOCV evaluation with leakage-safe preprocessing
+- save predictions and metrics
+- add AUPRC, bootstrap confidence intervals, and corrected permutation p-values
+
+### Stage 4 — Baselines and biological interpretation
+
+- raw/pseudobulk baseline
+- PCA baseline
+- cell-type contribution analysis
+- composition controls
+
+### Stage 5 — External validation gate
+
+- audit GSE137029 or alternative cohorts
+- verify patient/sample mapping
+- check donor overlap and label provenance
+- run external or dataset-shift validation only after passing the audit
+
+## Reproducibility status
+
+Current reproducibility level:
+
+- exploratory notebooks: available
+- clean scripts: in progress
+- tests: in progress
+- embedding manifest: pending
+- external validation: pending
+
+## Development workflow
+
+Work should happen on feature branches, not directly on main.
+
+Each branch should make a small, reviewable change:
+
+1. documentation/state reconciliation
+2. package structure
+3. Phase 1 pipeline
+4. Phase 2 embedding pipeline
+5. Phase 3 evaluation pipeline
+6. baselines and biological validation
+7. external validation audit
