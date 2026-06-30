@@ -207,6 +207,31 @@ Stage 3: Add biological validation
 
 ---
 
+## Current Stage 1 package progress
+
+Completed on `main`:
+
+- `src/lupusfm/data/labels.py`
+- `tests/test_lupusfm_labels.py`
+
+In progress on `feat/stage1-metadata-qc`:
+
+- `src/lupusfm/data/metadata.py`
+- `tests/test_lupusfm_metadata.py`
+- `src/lupusfm/qc/mitochondrial.py`
+- `tests/test_lupusfm_mitochondrial.py`
+
+Current targeted validation:
+
+- `49 passed` for labels, metadata extraction, and mitochondrial annotation tests.
+
+Important safety decisions now implemented:
+
+- donor metadata must come from explicit `adata.obs` columns
+- unknown donor-id patterns fail closed
+- mitochondrial annotation requires an explicit gene-symbol column
+- mitochondrial annotation refuses silent fallback to `adata.var_names`
+
 ## Current next action
 
-The next repository action is to reconcile documentation and state files so the repository accurately reflects the real project status before further modeling or external validation.
+Finish the small Stage 1 metadata/QC pull request, then run broader repository tests to identify stale historical scaffold tests that still refer to old phase/state literals.

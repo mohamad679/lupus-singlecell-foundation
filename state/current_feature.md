@@ -1,57 +1,57 @@
 # Current Feature
 
-## STAGE1-F001 - Package skeleton and donor label extraction
+## STAGE1-F002 - Metadata extraction and QC utilities
 
 Status: in progress
-Branch: `feat/stage1-labels-package`
+Branch: `feat/stage1-metadata-qc`
 
 ## Objective
 
-Move the first production-safe logic out of exploratory notebooks and into a
-tested Python package.
+Continue moving production-safe dataset-ingestion logic out of exploratory
+notebooks and into the tested `lupusfm` Python package.
 
-The current feature implements patient/donor-level clinical label extraction
-for the primary CELLxGENE/Perez lupus cohort.
-
-## Approved label rule
-
-- `FLARE*` donor identifiers -> `Flare`
-- `HC-*` donor identifiers -> `Healthy`
-- `IGTB*` donor identifiers -> `Healthy`
-- purely numeric donor identifiers -> `Managed`
-
-Unknown donor-id patterns must fail closed with an explicit error. They must
-not be silently assigned to any class.
+This feature adds small, explicit utilities for AnnData/CELLxGENE metadata
+inspection and QC annotation safety before any embedding extraction or modeling
+is allowed.
 
 ## Completed in this branch
 
-- Added `src/lupusfm/` package skeleton.
-- Added `src/lupusfm/data/labels.py`.
-- Added unit tests for donor-id normalization, clinical-status inference,
-  unknown-pattern rejection, and order-preserving batch label creation.
-- Added `pyproject.toml` for editable package installation.
-- Updated `.gitignore` for Python packaging/build artifacts.
-- Removed remaining tracked macOS `.DS_Store` metadata from Git.
+- Added `src/lupusfm/data/metadata.py`.
+- Added tests for required `adata.obs` columns.
+- Added tests for donor-id extraction from `adata.obs`.
+- Added tests for first-seen donor deduplication and missing donor rejection.
+- Added `src/lupusfm/qc/mitochondrial.py`.
+- Added tests requiring an explicit gene-symbol column for mitochondrial-gene
+  detection.
+- Added tests preventing silent fallback to `adata.var_names`.
+- Added tests for mitochondrial-gene masks, counts, summaries, and custom
+  prefixes.
 
 ## Validation
 
 Current targeted test:
 
-`python3 -m pytest tests/test_lupusfm_labels.py -q`
+`python3 -m pytest tests/test_lupusfm_labels.py tests/test_lupusfm_metadata.py tests/test_lupusfm_mitochondrial.py -q`
 
-Expected result:
+Current result:
 
-`19 passed`
+`49 passed`
+
+Note: the local `pytest_asyncio` deprecation warning is unrelated to these
+modules.
 
 ## Not allowed in this feature
 
 - No modeling or training.
+- No embedding extraction.
 - No new performance claims.
 - No external validation.
 - No large data downloads.
-- No changes to exploratory notebook results.
+- No AnnData filtering or matrix preprocessing.
+- No silent donor-label assignment.
+- No silent mitochondrial annotation from `var_names`.
 
-## Next feature
+## Next action
 
-Stage 1 should continue with production-safe metadata/QC utilities for the
-primary AnnData/CELLxGENE ingestion path.
+Update state documentation, run targeted tests, then open a small pull request
+for Stage 1 metadata/QC utilities.
