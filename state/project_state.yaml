@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage1_package_and_labels_in_progress
+  status: stage1_metadata_qc_in_progress
   current_phase: Stage 1
-  current_phase_name: Package Skeleton and Label Extraction
-  current_feature: STAGE1-F001
+  current_phase_name: Metadata Extraction and QC Utilities
+  current_feature: STAGE1-F002
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -26,6 +26,7 @@ active_status_authority:
   current_authoritative_sections:
   - project
   - stage1_package_and_labels
+  - stage1_metadata_qc
   note: Older phase/gate/test-scaffold records are retained as historical provenance
     and do not override the current Stage 1 package/label extraction status.
   historical_records_retained: true
@@ -446,8 +447,8 @@ repository_reconciliation:
   - add_baselines_and_cell_type_contribution
   - audit_external_validation_candidates
 stage1_package_and_labels:
-  status: in_progress
-  branch: feat/stage1-labels-package
+  status: completed
+  branch: main
   current_feature: STAGE1-F001
   scope: package skeleton and donor label extraction
   completed:
@@ -469,3 +470,22 @@ stage1_package_and_labels:
   - metadata schema utilities for primary CELLxGENE ingestion
   - QC utilities with explicit gene-symbol handling
   - manifest and reproducibility checks before embedding generation
+
+stage1_metadata_qc:
+  status: in_progress
+  branch: feat/stage1-metadata-qc
+  package_modules_added:
+  - src/lupusfm/data/metadata.py
+  - src/lupusfm/qc/mitochondrial.py
+  tests_added:
+  - tests/test_lupusfm_metadata.py
+  - tests/test_lupusfm_mitochondrial.py
+  targeted_validation: 49 passed
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  notes:
+  - Metadata utilities require explicit donor_id columns and fail closed on
+    missing or unknown donor identifiers.
+  - Mitochondrial gene annotation requires an explicit gene-symbol column and
+    refuses silent fallback to adata.var_names.
