@@ -1,0 +1,29 @@
+{
+  "package": "stage6_real_artifact_evaluation",
+  "source_archive": "all_embeddings.zip",
+  "source_archive_committed": false,
+  "reason_raw_archive_not_committed": "large derived embedding artifact; keep outside Git and document provenance",
+  "task": "FLARE vs managed SLE",
+  "n_total_donor_files": 261,
+  "primary_eval": {
+    "n_flare": 14,
+    "n_managed_sle": 148,
+    "healthy_controls_excluded": true,
+    "icc_control_excluded": true
+  },
+  "embedding_shape_per_donor": "300 x 1152",
+  "external_validation_performed": false,
+  "clinical_generalization_claim_allowed": false,
+  "large_row_level_prediction_tables_committed": false,
+  "reason_row_level_tables_not_committed": "summary metrics, split metrics, and audit files are sufficient for Git-tracked evidence; full row-level tables remain in local artifact zip",
+  "files": [
+    "reports/stage6_real_artifact_evaluation/README.md",
+    "reports/stage6_real_artifact_evaluation/internal_robustness/02_ablation_cv_summary_with_ci.csv",
+    "reports/stage6_real_artifact_evaluation/internal_robustness/03_threshold_policy_summary_with_ci.csv",
+    "reports/stage6_real_artifact_evaluation/internal_robustness/04_permutation_test_summary.csv",
+    "reports/stage6_real_artifact_evaluation/internal_robustness/05_leakage_and_artifact_audit.json",
+    "reports/stage6_real_artifact_evaluation/primary_eval/dataset_summary.json",
+    "reports/stage6_real_artifact_evaluation/primary_eval/primary_cv_summary_metrics.csv",
+    "reports/stage6_real_artifact_evaluation/figures/stage6_result_summary.svg"
+  ]
+}
