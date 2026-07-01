@@ -13,6 +13,7 @@ from lupusfm.embeddings.real_artifact_validation import (
     RealEmbeddingArtifactManifest,
     RealEmbeddingArtifactValidationError,
     collect_artifact_filesystem_metadata,
+    collect_embedding_directory_metadata,
     real_embedding_artifact_manifest_from_mapping,
     real_embedding_artifact_manifest_to_dict,
     validate_real_embedding_artifact_manifest,
@@ -92,6 +93,71 @@ def test_real_embedding_artifact_manifest_from_mapping_normalizes_values():
     assert manifest.cell_id_column is None
     assert manifest.declared_columns == ("donor_id", "embedding")
     assert manifest.validation_status == "validated"
+
+
+def test_real_embedding_artifact_manifest_accepts_npy_directory_contract():
+    manifest = real_embedding_artifact_manifest_from_mapping(
+        {
+            "local_artifact_path": " /tmp/lupusfm/all_embeddings ",
+            "artifact_format": "npy_directory",
+            "artifact_layout": "directory",
+            "directory_file_suffix": ".npy",
+            "record_level": "donor",
+            "split_level": "donor",
+            "cell_id_column": None,
+            "declared_columns": [" donor_id ", " embedding "],
+            "expected_file_count": "261",
+            "observed_file_count": "261",
+            "total_size_bytes": "360839808",
+            "min_file_size_bytes": "1382528",
+            "max_file_size_bytes": "1382528",
+            "all_files_same_size": "true",
+            "validation_status": "validated",
+        }
+    )
+
+    assert manifest.local_artifact_path == "/tmp/lupusfm/all_embeddings"
+    assert manifest.artifact_format == "npy_directory"
+    assert manifest.artifact_layout == "directory"
+    assert manifest.directory_file_suffix == ".npy"
+    assert manifest.record_level == "donor"
+    assert manifest.split_level == "donor"
+    assert manifest.expected_file_count == 261
+    assert manifest.observed_file_count == 261
+    assert manifest.total_size_bytes == 360839808
+    assert manifest.min_file_size_bytes == 1382528
+    assert manifest.max_file_size_bytes == 1382528
+    assert manifest.all_files_same_size is True
+
+
+def test_real_embedding_artifact_manifest_rejects_npy_directory_single_file_layout():
+    with pytest.raises(
+        RealEmbeddingArtifactValidationError,
+        match="npy_directory artifacts must use directory layout",
+    ):
+        validate_real_embedding_artifact_manifest(
+            _valid_manifest(
+                artifact_format="npy_directory",
+                artifact_layout="single_file",
+                record_level="donor",
+                split_level="donor",
+                cell_id_column=None,
+            )
+        )
+
+
+def test_real_embedding_artifact_manifest_rejects_npy_directory_cell_record_level():
+    with pytest.raises(
+        RealEmbeddingArtifactValidationError,
+        match="donor-level files",
+    ):
+        validate_real_embedding_artifact_manifest(
+            _valid_manifest(
+                artifact_format="npy_directory",
+                artifact_layout="directory",
+                record_level="cell",
+            )
+        )
 
 
 def test_real_embedding_artifact_manifest_requires_primary_dataset_contract():
@@ -231,6 +297,58 @@ def test_collect_artifact_filesystem_metadata_rejects_checksum_for_missing_path(
         match="existing regular file",
     ):
         collect_artifact_filesystem_metadata(str(artifact), compute_sha256=True)
+
+
+def test_collect_embedding_directory_metadata_counts_npy_files_without_loading(tmp_path):
+    directory = tmp_path / "all_embeddings"
+    directory.mkdir()
+
+    payload = b"metadata only"
+    for name in ["FLARE001.npy", "HC-002.npy", "IGTB1290.npy", "1004.npy"]:
+        (directory / name).write_bytes(payload)
+    (directory / "README.txt").write_text("not an embedding")
+
+    metadata = collect_embedding_directory_metadata(str(directory))
+
+    assert metadata.local_artifact_path == str(directory)
+    assert metadata.exists is True
+    assert metadata.is_dir is True
+    assert metadata.file_suffix == ".npy"
+    assert metadata.total_top_level_files == 5
+    assert metadata.embedding_files == 4
+    assert metadata.non_embedding_files == 1
+    assert metadata.total_embedding_size_bytes == len(payload) * 4
+    assert metadata.min_embedding_file_size_bytes == len(payload)
+    assert metadata.max_embedding_file_size_bytes == len(payload)
+    assert metadata.all_embedding_files_same_size is True
+    assert dict(metadata.filename_category_counts) == {
+        "flare_like": 1,
+        "healthy_hc_like": 1,
+        "healthy_igtb_like": 1,
+        "managed_sle_numeric_like": 1,
+    }
+
+
+def test_collect_embedding_directory_metadata_reports_missing_directory(tmp_path):
+    directory = tmp_path / "missing_embeddings"
+
+    metadata = collect_embedding_directory_metadata(str(directory))
+
+    assert metadata.exists is False
+    assert metadata.is_dir is False
+    assert metadata.embedding_files == 0
+    assert metadata.total_embedding_size_bytes == 0
+
+
+def test_collect_embedding_directory_metadata_rejects_regular_file(tmp_path):
+    artifact = tmp_path / "artifact.npy"
+    artifact.write_bytes(b"metadata only")
+
+    with pytest.raises(
+        RealEmbeddingArtifactValidationError,
+        match="existing directory",
+    ):
+        collect_embedding_directory_metadata(str(artifact))
 
 
 def test_real_artifact_validation_module_has_no_modeling_or_loading_imports():

@@ -11,6 +11,7 @@ validation, or add performance claims.
 from __future__ import annotations
 
 import hashlib
+from collections import Counter
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -35,6 +36,19 @@ from lupusfm.embeddings.artifact_schema import (
 STAGE4_CURRENT_FEATURE = "STAGE4-F001"
 DEFAULT_HASH_ALGORITHM = "sha256"
 ALLOWED_HASH_ALGORITHMS = (DEFAULT_HASH_ALGORITHM,)
+
+NPY_DIRECTORY_ARTIFACT_FORMAT = "npy_directory"
+ALLOWED_REAL_EMBEDDING_ARTIFACT_FORMATS = (
+    *ALLOWED_EMBEDDING_ARTIFACT_FORMATS,
+    NPY_DIRECTORY_ARTIFACT_FORMAT,
+)
+
+SINGLE_FILE_ARTIFACT_LAYOUT = "single_file"
+DIRECTORY_ARTIFACT_LAYOUT = "directory"
+ALLOWED_ARTIFACT_LAYOUTS = (SINGLE_FILE_ARTIFACT_LAYOUT, DIRECTORY_ARTIFACT_LAYOUT)
+
+DEFAULT_DIRECTORY_EMBEDDING_SUFFIX = ".npy"
+ALLOWED_DIRECTORY_EMBEDDING_SUFFIXES = (DEFAULT_DIRECTORY_EMBEDDING_SUFFIX,)
 
 NOT_CHECKED = "not_checked"
 VALIDATED = "validated"
@@ -80,6 +94,8 @@ class RealEmbeddingArtifactManifest:
     census_version: str = PRIMARY_CELLXGENE_CENSUS_VERSION
     current_feature: str = STAGE4_CURRENT_FEATURE
     artifact_format: str = "parquet"
+    artifact_layout: str = SINGLE_FILE_ARTIFACT_LAYOUT
+    directory_file_suffix: str | None = None
     record_level: str = "cell"
     split_level: str = "patient"
     donor_id_column: str = DEFAULT_DONOR_COLUMN
@@ -90,6 +106,12 @@ class RealEmbeddingArtifactManifest:
     embedding_source: str = DEFAULT_EMBEDDING_SOURCE
     declared_columns: tuple[str, ...] = ()
     size_bytes: int | None = None
+    expected_file_count: int | None = None
+    observed_file_count: int | None = None
+    total_size_bytes: int | None = None
+    min_file_size_bytes: int | None = None
+    max_file_size_bytes: int | None = None
+    all_files_same_size: bool | None = None
     sha256: str | None = None
     hash_algorithm: str | None = None
     validation_status: str = NOT_CHECKED
@@ -131,6 +153,24 @@ class RealEmbeddingArtifactFilesystemMetadata:
     size_bytes: int | None = None
     sha256: str | None = None
     hash_algorithm: str | None = None
+
+
+@dataclass(frozen=True)
+class RealEmbeddingArtifactDirectoryMetadata:
+    """Directory metadata collected without loading .npy embedding payloads."""
+
+    local_artifact_path: str
+    exists: bool
+    is_dir: bool
+    file_suffix: str = DEFAULT_DIRECTORY_EMBEDDING_SUFFIX
+    total_top_level_files: int = 0
+    embedding_files: int = 0
+    non_embedding_files: int = 0
+    total_embedding_size_bytes: int = 0
+    min_embedding_file_size_bytes: int | None = None
+    max_embedding_file_size_bytes: int | None = None
+    all_embedding_files_same_size: bool | None = None
+    filename_category_counts: tuple[tuple[str, int], ...] = ()
 
 
 def _clean_required_string(value: object, field_name: str) -> str:
@@ -243,6 +283,37 @@ def _validate_local_artifact_path(path: object) -> str:
     return normalized
 
 
+def _validate_directory_file_suffix(value: object) -> str:
+    suffix = _clean_required_string(value, "directory_file_suffix")
+    if not suffix.startswith("."):
+        raise RealEmbeddingArtifactValidationError(
+            "directory_file_suffix must start with '.'."
+        )
+    return _validate_choice(
+        suffix,
+        ALLOWED_DIRECTORY_EMBEDDING_SUFFIXES,
+        "directory_file_suffix",
+    )
+
+
+def _optional_bool(value: object, field_name: str) -> bool | None:
+    if value is None:
+        return None
+
+    if isinstance(value, bool):
+        return value
+
+    text_value = str(value).strip().lower()
+    if text_value in {"1", "true", "yes"}:
+        return True
+    if text_value in {"0", "false", "no"}:
+        return False
+
+    raise RealEmbeddingArtifactValidationError(
+        f"{field_name} must be bool-like or None."
+    )
+
+
 def _validate_sha256(value: object, algorithm: object) -> tuple[str | None, str | None]:
     digest = _clean_optional_string(value)
     hash_algorithm = _clean_optional_string(algorithm)
@@ -294,9 +365,28 @@ def validate_real_embedding_artifact_manifest(
 
     artifact_format = _validate_choice(
         manifest.artifact_format,
-        ALLOWED_EMBEDDING_ARTIFACT_FORMATS,
+        ALLOWED_REAL_EMBEDDING_ARTIFACT_FORMATS,
         "artifact_format",
     )
+    artifact_layout = _validate_choice(
+        manifest.artifact_layout,
+        ALLOWED_ARTIFACT_LAYOUTS,
+        "artifact_layout",
+    )
+    directory_file_suffix = _clean_optional_string(manifest.directory_file_suffix)
+
+    if artifact_format == NPY_DIRECTORY_ARTIFACT_FORMAT:
+        if artifact_layout != DIRECTORY_ARTIFACT_LAYOUT:
+            raise RealEmbeddingArtifactValidationError(
+                "npy_directory artifacts must use directory layout."
+            )
+        directory_file_suffix = _validate_directory_file_suffix(
+            directory_file_suffix or DEFAULT_DIRECTORY_EMBEDDING_SUFFIX
+        )
+    elif artifact_layout == DIRECTORY_ARTIFACT_LAYOUT:
+        raise RealEmbeddingArtifactValidationError(
+            "directory layout is currently only allowed for npy_directory artifacts."
+        )
     record_level = _validate_choice(
         manifest.record_level,
         ALLOWED_EMBEDDING_RECORD_LEVELS,
@@ -318,6 +408,10 @@ def validate_real_embedding_artifact_manifest(
     if record_level == "cell" and cell_id_column is None and sampled_cell_id_column is None:
         raise RealEmbeddingArtifactValidationError(
             "cell-level artifacts require cell_id_column or sampled_cell_id_column."
+        )
+    if artifact_format == NPY_DIRECTORY_ARTIFACT_FORMAT and record_level != "donor":
+        raise RealEmbeddingArtifactValidationError(
+            "npy_directory artifacts are expected to be donor-level files."
         )
 
     sha256, hash_algorithm = _validate_sha256(
@@ -371,6 +465,8 @@ def validate_real_embedding_artifact_manifest(
         census_version=census_version,
         current_feature=current_feature,
         artifact_format=artifact_format,
+        artifact_layout=artifact_layout,
+        directory_file_suffix=directory_file_suffix,
         record_level=record_level,
         split_level=split_level,
         donor_id_column=_clean_required_string(
@@ -393,6 +489,30 @@ def validate_real_embedding_artifact_manifest(
         ),
         declared_columns=_normalize_declared_columns(manifest.declared_columns),
         size_bytes=_optional_positive_int(manifest.size_bytes, "size_bytes"),
+        expected_file_count=_optional_positive_int(
+            manifest.expected_file_count,
+            "expected_file_count",
+        ),
+        observed_file_count=_optional_positive_int(
+            manifest.observed_file_count,
+            "observed_file_count",
+        ),
+        total_size_bytes=_optional_positive_int(
+            manifest.total_size_bytes,
+            "total_size_bytes",
+        ),
+        min_file_size_bytes=_optional_positive_int(
+            manifest.min_file_size_bytes,
+            "min_file_size_bytes",
+        ),
+        max_file_size_bytes=_optional_positive_int(
+            manifest.max_file_size_bytes,
+            "max_file_size_bytes",
+        ),
+        all_files_same_size=_optional_bool(
+            manifest.all_files_same_size,
+            "all_files_same_size",
+        ),
         sha256=sha256,
         hash_algorithm=hash_algorithm,
         validation_status=_validate_choice(
@@ -444,6 +564,8 @@ def real_embedding_artifact_manifest_from_mapping(
             ),
             current_feature=data.get("current_feature", STAGE4_CURRENT_FEATURE),
             artifact_format=data.get("artifact_format", "parquet"),
+            artifact_layout=data.get("artifact_layout", SINGLE_FILE_ARTIFACT_LAYOUT),
+            directory_file_suffix=data.get("directory_file_suffix"),
             record_level=data.get("record_level", "cell"),
             split_level=data.get("split_level", "patient"),
             donor_id_column=data.get("donor_id_column", DEFAULT_DONOR_COLUMN),
@@ -457,6 +579,12 @@ def real_embedding_artifact_manifest_from_mapping(
             embedding_source=data.get("embedding_source", DEFAULT_EMBEDDING_SOURCE),
             declared_columns=tuple(data.get("declared_columns", ())),
             size_bytes=data.get("size_bytes"),
+            expected_file_count=data.get("expected_file_count"),
+            observed_file_count=data.get("observed_file_count"),
+            total_size_bytes=data.get("total_size_bytes"),
+            min_file_size_bytes=data.get("min_file_size_bytes"),
+            max_file_size_bytes=data.get("max_file_size_bytes"),
+            all_files_same_size=data.get("all_files_same_size"),
             sha256=data.get("sha256"),
             hash_algorithm=data.get("hash_algorithm"),
             validation_status=data.get("validation_status", NOT_CHECKED),
@@ -548,4 +676,68 @@ def collect_artifact_filesystem_metadata(
         size_bytes=size_bytes,
         sha256=digest,
         hash_algorithm=hash_algorithm,
+    )
+
+
+def _filename_category(filename: str) -> str:
+    """Classify donor-like filenames without opening embedding payloads."""
+
+    stem = Path(filename).stem
+    if stem.startswith("FLARE"):
+        return "flare_like"
+    if stem.startswith("HC-"):
+        return "healthy_hc_like"
+    if stem.startswith("IGTB"):
+        return "healthy_igtb_like"
+    if stem == "ICC_control":
+        return "control_like"
+    if stem.isdigit():
+        return "managed_sle_numeric_like"
+
+    return "other"
+
+
+def collect_embedding_directory_metadata(
+    local_artifact_path: str,
+    *,
+    file_suffix: str = DEFAULT_DIRECTORY_EMBEDDING_SUFFIX,
+) -> RealEmbeddingArtifactDirectoryMetadata:
+    """Collect directory metadata without loading .npy embedding payloads."""
+
+    normalized_path = _validate_local_artifact_path(local_artifact_path)
+    suffix = _validate_directory_file_suffix(file_suffix)
+    path = Path(normalized_path)
+
+    if not path.exists():
+        return RealEmbeddingArtifactDirectoryMetadata(
+            local_artifact_path=normalized_path,
+            exists=False,
+            is_dir=False,
+            file_suffix=suffix,
+        )
+
+    if not path.is_dir():
+        raise RealEmbeddingArtifactValidationError(
+            "embedding directory metadata requires an existing directory."
+        )
+
+    files = sorted(child for child in path.iterdir() if child.is_file())
+    embedding_files = [child for child in files if child.suffix == suffix]
+    non_embedding_files = [child for child in files if child.suffix != suffix]
+    sizes = [child.stat().st_size for child in embedding_files]
+    category_counts = Counter(_filename_category(child.name) for child in embedding_files)
+
+    return RealEmbeddingArtifactDirectoryMetadata(
+        local_artifact_path=normalized_path,
+        exists=True,
+        is_dir=True,
+        file_suffix=suffix,
+        total_top_level_files=len(files),
+        embedding_files=len(embedding_files),
+        non_embedding_files=len(non_embedding_files),
+        total_embedding_size_bytes=sum(sizes),
+        min_embedding_file_size_bytes=min(sizes) if sizes else None,
+        max_embedding_file_size_bytes=max(sizes) if sizes else None,
+        all_embedding_files_same_size=(len(set(sizes)) == 1) if sizes else None,
+        filename_category_counts=tuple(sorted(category_counts.items())),
     )
