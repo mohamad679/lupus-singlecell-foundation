@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage3_f006_modeling_readiness_gate_in_progress
+  status: stage3_complete
   current_phase: Stage 3
   current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
-  current_feature: STAGE3-F006
+  current_feature: STAGE3-CLOSEOUT
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -870,7 +870,7 @@ stage3_baseline_control_plan:
 
 
 stage3_modeling_readiness_gate:
-  status: in_progress
+  status: completed
   branch: feat/stage3-modeling-readiness-gate
   current_feature: STAGE3-F006
   scope: define final metadata-only Stage 3 readiness gate
@@ -902,3 +902,56 @@ stage3_modeling_readiness_gate:
   - Verifies Stage 3 scaffold components before the real-data validation path.
   - Allows only the next-stage decision to proceed toward real embedding artifact validation or controlled extraction.
   - Does not load artifacts, compute metrics, fit models, train, validate externally, or add performance claims.
+
+
+stage3_closeout:
+  status: completed
+  branch: chore/stage3-closeout
+  current_feature: STAGE3-CLOSEOUT
+  scope: close Stage 3 after F001-F006 readiness scaffolds
+  completed_features:
+  - STAGE3-F001 embedding artifact schema
+  - STAGE3-F002 patient-level aggregation design
+  - STAGE3-F003 leakage-safe split utilities
+  - STAGE3-F004 evaluation protocol scaffold
+  - STAGE3-F005 baseline/control plan
+  - STAGE3-F006 modeling readiness gate
+  stage3_complete: true
+  next_phase: Stage 4
+  next_feature: STAGE4-F001
+  next_feature_name: Real embedding artifact validation
+  real_data_validation_allowed_next_stage: true
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  feature_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed_in_closeout: false
+  metric_computation_allowed: false
+  model_fitting_allowed: false
+  notes:
+  - Stage 3 is complete after the modeling readiness gate.
+  - Stage 4 should begin with real embedding artifact validation or controlled embedding extraction.
+  - This closeout does not load real data, execute Geneformer, fit models, compute metrics, or add performance claims.
+
+stage4_planning:
+  status: pending
+  next_phase: Stage 4
+  next_feature: STAGE4-F001
+  next_feature_name: Real embedding artifact validation
+  allowed_starting_paths:
+  - real_embedding_artifact_validation
+  - controlled_embedding_extraction
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  notes:
+  - Stage 4 is not started by this closeout.
+  - Stage 4 may validate the existing local embedding artifact path or define a controlled extraction run.
+  - Downstream classifier modeling remains blocked until real artifact validation, aggregation, split, and evaluation inputs are validated.

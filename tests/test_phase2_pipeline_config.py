@@ -68,7 +68,7 @@ def test_project_state_phase2_restricted_gate_controls():
     state = STATE_PATH.read_text()
 
     assert "current_phase: Stage 3" in state
-    assert "current_feature: STAGE3-F006" in state
+    assert "current_feature: STAGE3-CLOSEOUT" in state
     assert "blocked: false" in state
     assert "blocked_reason: null" in state
     assert "status: approved_with_restrictions" in state
