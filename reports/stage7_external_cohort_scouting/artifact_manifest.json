@@ -1,0 +1,18 @@
+{
+  "package": "stage7_external_cohort_scouting",
+  "stage": "Stage 7",
+  "purpose": "external cohort scouting and feasibility decision",
+  "data_downloaded": false,
+  "embeddings_extracted": false,
+  "external_validation_performed": false,
+  "selected_next_candidate": "GSE135779",
+  "candidate_status": "priority metadata feasibility audit candidate",
+  "strict_external_validation_confirmed": false,
+  "clinical_generalization_claim_allowed": false,
+  "files": [
+    "reports/stage7_external_cohort_scouting/README.md",
+    "reports/stage7_external_cohort_scouting/external_cohort_candidates.csv",
+    "reports/stage7_external_cohort_scouting/stage7_external_validation_decision.md",
+    "reports/stage7_external_cohort_scouting/artifact_manifest.json"
+  ]
+}
