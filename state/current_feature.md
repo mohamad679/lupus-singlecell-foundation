@@ -1,42 +1,44 @@
 # Current Feature
 
-## STAGE4-F006 - Stage 4 final closeout and modeling handoff decision
+## STAGE5-F001 - Modeling approval scaffold
 
-Status: completed
-Branch: `feat/stage4-final-closeout-modeling-handoff-decision`
+Status: in_progress
+Branch: `feat/stage5-modeling-approval-scaffold`
 
-## Completed stage
+## Current stage
+
+Stage 5 - Modeling stage approval and execution planning
+
+Stage 5 has started, but modeling is not authorized.
+
+## Upstream handoff
 
 Stage 4 is complete.
 
-## Completed Stage 4 features
-
-- STAGE4-F001 - real embedding artifact validation
-- STAGE4-F002 - real donor-level aggregation run plan
-- STAGE4-F003 - real leakage-safe split manifest validation
-- STAGE4-F004 - real evaluation input readiness validation
-- STAGE4-F005 - real pre-modeling audit gate
-
-## Handoff decision
-
-The Stage 4 handoff decision is:
+The Stage 4 handoff decision remains:
 
 `separate_modeling_stage_required`
 
-This means Stage 4 does not authorize modeling. Any modeling work requires a
-separate stage, a new branch, explicit modeling approval, and preserved
-donor-level leakage controls.
+This means Stage 5 may document approval requirements and execution planning,
+but Stage 5-F001 does not authorize model fitting, prediction generation,
+metric computation, training, external validation, or performance claims.
 
-## Required handoff gates
+## Scope
 
-- Separate modeling stage remains required.
-- New branch for modeling work remains required.
-- Explicit modeling approval remains required.
-- Human review before modeling remains required.
-- Reproducibility review remains required.
-- Leakage review remains required.
-- Artifact integrity review remains required.
-- Scope review remains required.
+This feature is metadata-only.
+
+It records:
+
+- explicit modeling approval remains required
+- human review before modeling remains required
+- reproducibility review remains required
+- leakage review remains required
+- artifact integrity review remains required
+- scope review remains required
+- a modeling execution protocol is required before execution
+- donor-level controls are required
+- cell-level split is forbidden
+- large real artifacts must not be committed
 
 ## Safety locks retained
 
@@ -61,8 +63,18 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next phase
+## Previous completed stage
+
+## STAGE4-F006 - Stage 4 final closeout and modeling handoff decision
+
+Status: completed
+
+Stage 4 is complete.
+
+The Stage 4 handoff decision was:
+
+`separate_modeling_stage_required`
+
+Stage 4 does not authorize modeling.
 
 A separate modeling stage may be planned only after explicit approval.
-
-Stage 4 itself remains metadata-only and closed.
