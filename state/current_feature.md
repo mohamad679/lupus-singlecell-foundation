@@ -1,32 +1,34 @@
 # Current Feature
 
-## STAGE3-F004 - Evaluation protocol scaffold
+## STAGE3-F005 - Baseline/control plan
 
 Status: in progress
-Branch: `feat/stage3-evaluation-protocol-scaffold`
+Branch: `feat/stage3-baseline-control-plan`
 
 ## Objective
 
-Define the metadata-only patient-level evaluation protocol scaffold before
-baseline/control planning or modeling readiness gates are considered.
+Define the metadata-only baseline/control comparison plan before the final
+modeling readiness gate is considered.
 
 This feature does not load real embedding artifacts, load AnnData files,
-download data, execute Geneformer, execute tokenizers, extract embeddings, fit
-scalers, train models, compute real metrics, perform external validation, or add
-performance claims.
+download data, execute Geneformer, execute tokenizers, extract embeddings,
+extract baseline features, fit scalers, train models, compute real metrics,
+perform external validation, or add performance claims.
 
 ## Contract scope
 
-The evaluation protocol scaffold validates:
+The baseline/control plan validates:
 
-- approved evaluation task
+- candidate representation
 - patient/donor split level
-- required primary metrics
-- optional secondary metrics
-- uncertainty reporting plan
-- permutation control plan
-- baseline comparison requirement
-- confounder control requirement
+- required pseudobulk baseline
+- required cell-type proportion baseline
+- required donor cell-count control
+- required metadata confounder control
+- required label permutation control
+- same splits as candidate representation
+- fold-internal preprocessing requirement
+- no feature extraction in the scaffold
 - no metric computation in the scaffold
 - no model fitting in the scaffold
 - no performance claims
@@ -34,9 +36,10 @@ The evaluation protocol scaffold validates:
 ## Safety rules
 
 - Patient/donor split level only.
-- No cell-level split assignments.
+- No cell-level features.
 - No real artifact loading.
 - No AnnData loading.
+- No feature extraction.
 - No global preprocessing across folds.
 - No scaler fitting outside training folds.
 - No model fitting.
@@ -45,10 +48,9 @@ The evaluation protocol scaffold validates:
 - No training.
 - No external validation.
 - No performance claims.
-- Metadata-only protocol contract.
+- Metadata-only baseline/control plan.
 
 ## Countdown
 
-Stage 3 step: F004
-Remaining before modeling can be considered: baseline/control plan and modeling
-readiness gate.
+Stage 3 step: F005
+Remaining before modeling can be considered: modeling readiness gate.
