@@ -1,0 +1,15 @@
+field_or_gate,evidence_source,status,interpretation,next_action
+public_status,GEO_series_page,pass,GSE135779 is public.,none
+cohort_size,GEO_series_page,pass,Series reports 33 childhood SLE and 11 childhood healthy donors plus 8 adult SLE and 6 adult healthy controls.,none
+raw_data_access,GEO_series_page,restricted,Raw data are in dbGaP due to privacy concerns.,use processed matrices from GEO only
+processed_data,GEO_series_and_sample_pages,pass,Processed Matrix Market files and barcodes are provided as supplementary files.,prepare import plan if endpoint becomes valid
+gene_reference,GEO_series_page,pass,GSE135779_genes.tsv.gz is provided as a shared genes file.,prepare gene identifier compatibility check
+sample_identity,GEO_sample_pages,pass,Sample titles include cSLE/cHD/aSLE/aHD plus bracketed JB identifiers.,build sample manifest if proceeding
+age,GEO_sample_pages,pass,Sample pages include age.,include in confound audit
+age_group,GEO_sample_pages,pass,Sample pages include Children or Adult.,stratify or sensitivity-check if proceeding
+group_label,GEO_sample_pages,pass,Sample pages include SLE or HD group label.,usable for SLE-vs-healthy transfer only
+flare_label,GEO_sample_pages,fail,No direct flare label found in inspected sample pages.,do not claim matched flare validation
+managed_sle_label,GEO_sample_pages,fail,No direct managed-SLE label found in inspected sample pages.,do not claim matched managed-SLE validation
+disease_activity_score,GEO_sample_pages,unresolved,No activity score visible in inspected sample pages; GEO points to supplementary table 1 for clinical information.,obtain and inspect supplementary table 1
+strict_external_validation,derived_decision,fail,Endpoint cannot yet be mapped to Stage 6 binary task.,block strict validation
+limited_transfer_test,derived_decision,conditional,SLE-vs-HD transfer or biology replication may be possible with cautious framing.,define separately from primary endpoint
