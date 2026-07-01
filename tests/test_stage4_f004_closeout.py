@@ -12,23 +12,26 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage4_f004_readiness_block_is_retained_after_closeout():
+def test_stage4_f004_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_evaluation_input_readiness_validation:")
 
     assert "status: stage4_f004_complete" in state
     assert "current_phase: Stage 4" in state
     assert "current_feature: STAGE4-F004-CLOSEOUT" in state
-    assert "status: completed" in block
-    assert "current_feature: STAGE4-F004" in block
-    assert "closeout_feature: STAGE4-F004-CLOSEOUT" in block
-    assert "next_feature: STAGE4-F005" in block
+    assert "completed_stage4_feature: STAGE4-F004" in state
+    assert "next_feature: STAGE4-F005" in state
+    assert "next_feature_name: Real pre-modeling audit gate" in state
 
 
-def test_stage4_f004_records_readiness_scope_and_upstream_gates_after_closeout():
+def test_stage4_f004_closeout_records_completed_readiness_validation():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_evaluation_input_readiness_validation:")
 
+    assert "status: completed" in block
+    assert "branch: chore/stage4-f004-closeout" in block
+    assert "current_feature: STAGE4-F004" in block
+    assert "closeout_feature: STAGE4-F004-CLOSEOUT" in block
+    assert "next_feature: STAGE4-F005" in block
     assert "artifact_validation_status: completed" in block
     assert "aggregation_plan_status: completed" in block
     assert "split_manifest_validation_status: completed" in block
@@ -40,7 +43,7 @@ def test_stage4_f004_records_readiness_scope_and_upstream_gates_after_closeout()
     assert "observed_real_donor_count: 261" in block
 
 
-def test_stage4_f004_preserves_safety_locks_after_closeout():
+def test_stage4_f004_closeout_preserves_safety_locks():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_evaluation_input_readiness_validation:")
 
@@ -56,14 +59,19 @@ def test_stage4_f004_preserves_safety_locks_after_closeout():
     assert "training_allowed: false" in block
     assert "external_validation_allowed: false" in block
     assert "performance_claims_allowed: false" in block
+    assert "materialize evaluation arrays" in block
+    assert "generate predictions" in block
+    assert "compute metrics" in block
+    assert "add performance claims" in block
 
 
-def test_stage4_f004_current_feature_document_records_closeout_scope():
+def test_stage4_f004_closeout_current_feature_document_is_final():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE4-F004-CLOSEOUT - Real evaluation input readiness validation closeout" in current_feature
     assert "Status: completed" in current_feature
     assert "STAGE4-F004 - Real evaluation input readiness validation" in current_feature
+    assert "input artifact format: `npy_directory`" in current_feature
     assert "No evaluation array is materialized" in current_feature
     assert "No predictions are generated" in current_feature
     assert "No real metrics are computed" in current_feature
