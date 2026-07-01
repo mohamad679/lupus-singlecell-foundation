@@ -3,7 +3,7 @@ project:
   status: stage6_in_progress
   current_phase: Stage 6
   current_phase_name: Stage 6 - Controlled donor-level modeling execution
-  current_feature: STAGE6-F003
+  current_feature: STAGE6-F005
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: stage6_f003_donor_level_input_materialization_gate_in_progress
+  modeling_readiness: stage6_f004_complete_pending_controlled_baseline_execution
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   stage5_permission: stage5_complete_no_modeling_authorization
@@ -2326,3 +2326,173 @@ stage6_donor_level_input_materialization_gate:
   - train models
   - perform external validation
   - add performance claims
+
+stage6_f003_active_project_snapshot_for_legacy_tests:
+  status: stage6_in_progress
+  current_phase: Stage 6
+  current_phase_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F003
+  modeling_readiness: stage6_f003_donor_level_input_materialization_gate_in_progress
+  purpose: retained_historical_snapshot_only
+  superseded_by: STAGE6-F004 - Split and leakage-control gate
+
+
+stage6_donor_level_input_materialization_closeout:
+  status: completed
+  closeout_feature: STAGE6-F003-CLOSEOUT
+  closeout_status: completed
+  closeout_branch: feat/stage6-f004-split-leakage-control-gate
+  closeout_scope: compacted_closeout_only_no_runtime_execution
+  previous_feature: STAGE6-F003
+  previous_feature_status: completed
+  next_feature: STAGE6-F004
+  next_feature_name: Split and leakage-control gate
+  allow_filesystem_artifact_access: false
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_feature_matrix_construction: false
+  allow_label_vector_construction: false
+  allow_materialized_array_persistence: false
+  allow_split_execution: false
+  allow_real_aggregation_execution: false
+  allow_preprocessing_fit: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false
+
+
+stage6_split_leakage_control_gate:
+  status: completed
+  branch: feat/stage6-f004-split-leakage-control-gate
+  current_stage: Stage 6
+  stage_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F004
+  feature_name: Split and leakage-control gate
+  stage6_status: completed
+  gate_status: completed
+  gate_decision: split_leakage_control_gate_completed
+  previous_feature: STAGE6-F003
+  previous_feature_status: completed
+  completed_stage6_features:
+  - STAGE6-F001
+  - STAGE6-F002
+  - STAGE6-F003
+  required_upstream_gates:
+  - STAGE6-F001
+  - STAGE6-F002
+  - STAGE6-F003
+  upstream_authorization_decision: stage6_controlled_execution_path_authorized
+  upstream_materialization_gate_status: stage6_f003_donor_level_input_materialization_gate_completed
+  scope: split_leakage_contract_only_no_execution
+  split_target: future_donor_level_split_manifest
+  expected_record_level: donor
+  expected_split_level: donor
+  preprocessing_scope: fold_local_only
+  required_split_contracts:
+  - donor_level_split_contract
+  - unique_donor_assignment_contract
+  - label_stratification_contract
+  - fold_local_preprocessing_contract
+  - no_cell_level_split_contract
+  - no_global_preprocessing_contract
+  - no_prediction_metric_columns_contract
+  - leakage_review_contract
+  deferred_split_actions:
+  - execute_real_split_assignment
+  - materialize_fold_indices
+  - fit_fold_preprocessors
+  - construct_train_test_arrays
+  - fit_models
+  - generate_predictions
+  - compute_metrics
+  next_feature: STAGE6-F005
+  next_feature_name: Controlled baseline execution
+  first_runtime_execution_feature: STAGE6-F005
+  closeout_feature: STAGE6-F004-CLOSEOUT
+  closeout_status: completed
+  closeout_branch: feat/stage6-f004-split-leakage-control-gate
+  closeout_scope: feature_and_closeout_combined_no_runtime_execution
+  split_policy: donor_level_only
+  leakage_policy: cell_level_split_forbidden
+  artifact_loading_policy: prohibited_until_explicit_stage6_gate
+  vector_parsing_policy: prohibited_until_explicit_stage6_gate
+  input_materialization_policy: prohibited_until_explicit_stage6_gate
+  label_creation_policy: prohibited_until_explicit_stage6_gate
+  split_execution_policy: prohibited_until_explicit_stage6_gate
+  preprocessing_execution_policy: prohibited_until_explicit_stage6_gate
+  modeling_execution_policy: prohibited_until_explicit_stage6_gate
+  prediction_generation_policy: prohibited_until_explicit_stage6_gate
+  metric_computation_policy: prohibited_until_explicit_stage6_gate
+  external_validation_policy: prohibited_until_explicit_stage6_gate
+  performance_claim_policy: prohibited_until_explicit_stage6_gate
+  requires_completed_stage6_f001: true
+  requires_completed_stage6_f002: true
+  requires_completed_stage6_f003: true
+  requires_donor_level_split_contract: true
+  requires_unique_donor_assignment: true
+  requires_label_stratification_contract: true
+  requires_fold_local_preprocessing_contract: true
+  requires_no_cell_level_split: true
+  requires_no_global_preprocessing: true
+  requires_no_prediction_or_metric_columns: true
+  requires_leakage_review: true
+  requires_no_runtime_execution: true
+  allow_split_contract_recording: true
+  allow_leakage_contract_recording: true
+  allow_fold_scope_contract_recording: true
+  allow_filesystem_artifact_access: false
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_feature_matrix_construction: false
+  allow_label_vector_construction: false
+  allow_split_execution: false
+  allow_train_test_split_execution: false
+  allow_fold_index_materialization: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_preprocessing_fit: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  allow_modeling: false
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false
+  allowed_actions:
+  - record donor-level split contract
+  - record unique donor assignment contract
+  - record label stratification contract
+  - record fold-local preprocessing contract
+  - record leakage-control contract
+  prohibited_actions:
+  - execute real split assignment
+  - materialize fold indices
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - construct train/test arrays
+  - create label arrays from real data
+  - perform global preprocessing
+  - fit fold preprocessors
+  - fit scalers
+  - fit models
+  - generate predictions
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+

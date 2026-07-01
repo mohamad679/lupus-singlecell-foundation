@@ -3,6 +3,64 @@
 ## Stage 6 active
 
 Status: in_progress
+Branch: `feat/stage6-f004-split-leakage-control-gate`
+
+## Active stage
+
+Stage 6 - Controlled donor-level modeling execution
+
+Stage 6 remains the single controlled execution stage.
+
+No Stage 7 is required for execution.
+
+## Active feature
+
+## STAGE6-F005 - Controlled baseline execution
+
+Status: ready
+Branch: `feat/stage6-f004-split-leakage-control-gate`
+
+STAGE6-F003 and STAGE6-F004 are complete.
+
+STAGE6-F005 is the next required feature.
+
+STAGE6-F005 is the first controlled runtime execution feature and must remain donor-level only.
+
+## Completed Stage 6 feature
+
+## STAGE6-F004 - Split and leakage-control gate
+
+Status: completed
+Branch: `feat/stage6-f004-split-leakage-control-gate`
+
+Closeout feature: STAGE6-F004-CLOSEOUT
+
+The split and leakage-control gate is closed as metadata-only.
+
+No real split assignment is executed.
+No fold index is materialized.
+No `.npy` embedding payload is loaded.
+No embedding vector is parsed.
+No feature matrix is constructed.
+No label array is created from real data.
+No evaluation array is materialized.
+No global preprocessing is performed.
+No fold preprocessor is fit.
+No scalers are fit.
+No models are fit.
+No predictions are generated.
+No real metrics are computed.
+No training is performed.
+No external validation is performed.
+No performance claims are added.
+
+---
+
+# Current Feature
+
+## Stage 6 active
+
+Status: in_progress
 Branch: `feat/stage6-donor-level-input-materialization-gate`
 
 ## Active stage
