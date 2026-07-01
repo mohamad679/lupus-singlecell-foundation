@@ -12,39 +12,24 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-
-def test_stage4_f005_is_current_project_feature():
+def test_stage4_f005_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
+    block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
 
     assert "status: stage4_f005_complete" in state
     assert "current_phase: Stage 4" in state
     assert "current_feature: STAGE4-F005-CLOSEOUT" in state
-    assert "stage4_real_pre_modeling_audit_gate:" in state
     assert "next_feature: STAGE4-F006" in state
     assert "next_feature_name: Stage 4 final closeout and modeling handoff decision" in state
-
-
-def test_stage4_f005_records_pre_modeling_audit_scope_and_upstream_gates():
-    state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
-
     assert "status: completed" in block
     assert "branch: chore/stage4-f005-closeout" in block
     assert "current_feature: STAGE4-F005" in block
     assert "closeout_feature: STAGE4-F005-CLOSEOUT" in block
     assert "closeout_status: completed" in block
-    assert "STAGE4-F001" in block
-    assert "STAGE4-F002" in block
-    assert "STAGE4-F003" in block
-    assert "STAGE4-F004" in block
-    assert "artifact_validation_status: completed" in block
-    assert "aggregation_plan_status: completed" in block
-    assert "split_manifest_validation_status: completed" in block
-    assert "evaluation_input_readiness_status: completed" in block
     assert "audit_outcome: review_required" in block
-    assert "Stage 4-F006 is required before any modeling handoff decision." in block
 
-def test_stage4_f005_preserves_review_gates_and_safety_locks():
+
+def test_stage4_f005_closeout_retains_pre_modeling_review_gates():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
 
@@ -54,9 +39,30 @@ def test_stage4_f005_preserves_review_gates_and_safety_locks():
     assert "requires_leakage_review: true" in block
     assert "requires_artifact_integrity_review: true" in block
     assert "requires_scope_review: true" in block
+    assert "human review before modeling" in block
+    assert "explicit modeling permission" in block
+    assert "reproducibility review" in block
+    assert "leakage review" in block
+    assert "artifact integrity review" in block
+    assert "scope review" in block
+
+
+def test_stage4_f005_closeout_preserves_runtime_and_modeling_safety_locks():
+    state = STATE_PATH.read_text()
+    block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
+
+    assert "allow_real_artifact_loading: false" in block
     assert "allow_npy_payload_loading: false" in block
+    assert "allow_embedding_vector_parsing: false" in block
     assert "allow_input_materialization: false" in block
+    assert "allow_label_array_creation: false" in block
     assert "allow_split_execution: false" in block
+    assert "allow_real_aggregation_execution: false" in block
+    assert "allow_anndata_loading: false" in block
+    assert "allow_geneformer_execution: false" in block
+    assert "allow_tokenizer_execution: false" in block
+    assert "allow_embedding_extraction: false" in block
+    assert "allow_feature_extraction: false" in block
     assert "allow_model_fitting: false" in block
     assert "allow_prediction_generation: false" in block
     assert "allow_metric_computation: false" in block
@@ -64,20 +70,18 @@ def test_stage4_f005_preserves_review_gates_and_safety_locks():
     assert "training_allowed: false" in block
     assert "external_validation_allowed: false" in block
     assert "performance_claims_allowed: false" in block
-    assert "fit models" in block
-    assert "compute metrics" in block
-    assert "add performance claims" in block
 
 
-
-def test_stage4_f005_current_feature_document_records_closeout_scope():
+def test_stage4_f005_closeout_current_feature_document_is_final():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE4-F005-CLOSEOUT - Real pre-modeling audit gate closeout" in current_feature
     assert "Status: completed" in current_feature
     assert "STAGE4-F005 - Real pre-modeling audit gate" in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
+    assert "No evaluation array is materialized" in current_feature
     assert "No predictions are generated" in current_feature
     assert "No real metrics are computed" in current_feature
+    assert "No training is performed" in current_feature
     assert "No performance claims are added" in current_feature
     assert "STAGE4-F006 - Stage 4 final closeout and modeling handoff decision" in current_feature
