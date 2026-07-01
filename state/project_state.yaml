@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage4_f002_complete
+  status: stage4_f003_in_progress
   current_phase: Stage 4
-  current_phase_name: Stage 4 - Real donor-level aggregation run plan closeout
-  current_feature: STAGE4-F002-CLOSEOUT
+  current_phase_name: Stage 4 - Real leakage-safe split manifest validation
+  current_feature: STAGE4-F003
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -947,26 +947,25 @@ stage3_closeout:
 stage4_planning:
   status: in_progress
   current_phase: Stage 4
-  current_feature: STAGE4-F002-CLOSEOUT
-  current_feature_name: Real donor-level aggregation run plan closeout
-  branch: chore/stage4-f002-closeout
-  completed_feature: STAGE4-F001
-  completed_feature_name: Real embedding artifact validation
-  completed_stage4_feature: STAGE4-F002
-  current_stage4_feature: STAGE4-F002-CLOSEOUT
-  next_feature: STAGE4-F003
-  next_feature_name: Real leakage-safe split manifest validation
+  current_feature: STAGE4-F003
+  current_feature_name: Real leakage-safe split manifest validation
+  branch: feat/stage4-real-leakage-safe-split-manifest-validation
+  completed_feature: STAGE4-F002
+  completed_feature_name: Real donor-level aggregation run plan
+  current_stage4_feature: STAGE4-F003
+  next_feature: STAGE4-F004
+  next_feature_name: Real evaluation input readiness validation
   allowed_starting_paths:
-  - real_embedding_artifact_validation
-  - controlled_embedding_extraction
+  - real_leakage_safe_split_manifest_validation
   modeling_allowed: false
   training_allowed: false
   external_validation_allowed: false
   performance_claims_allowed: false
   notes:
-  - Stage 4 has started with safe real embedding artifact validation.
-  - Stage 4 may validate the existing local embedding artifact path or define a controlled extraction run.
-  - Downstream classifier modeling remains blocked until real artifact validation, aggregation, split, and evaluation inputs are validated.
+  - Stage 4-F003 validates donor-level split manifest metadata only.
+  - Donor IDs must not leak across split assignments.
+  - Cell-level split assignments remain prohibited.
+  - Downstream evaluation inputs remain blocked until split manifest validation is complete.
 
 stage4_real_embedding_artifact_validation:
   status: completed
@@ -1080,6 +1079,75 @@ stage4_real_donor_aggregation_run_plan:
   - train models
   - perform external validation
   - add performance claims
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_metric_computation: false
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+
+stage4_real_leakage_safe_split_manifest_validation:
+  status: in_progress
+  branch: feat/stage4-real-leakage-safe-split-manifest-validation
+  current_feature: STAGE4-F003
+  feature_name: Real leakage-safe split manifest validation
+  scope: define and validate donor-level split manifest metadata without loading embeddings or computing metrics
+  prerequisite_feature: STAGE4-F002
+  prerequisite_status: completed
+  input_artifact_format: npy_directory
+  input_record_level: donor
+  required_split_level: donor
+  allowed_split_names:
+  - train
+  - validation
+  - test
+  allowed_label_groups:
+  - flare_like
+  - healthy_hc_like
+  - healthy_igtb_like
+  - managed_sle_numeric_like
+  - control_like
+  expected_real_donor_count: 261
+  leakage_controls:
+  - donor_id values must be unique
+  - donor_id values must not appear in multiple splits
+  - split manifest must be donor-level
+  - cell-level split columns are prohibited
+  allowed_actions:
+  - define donor-level split manifest validation schema
+  - validate unique donor IDs across splits
+  - validate required split names
+  - validate label group names
+  - summarize split and label counts without computing model metrics
+  prohibited_actions:
+  - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+  allow_cell_level_splits: false
+  allow_duplicate_donors_across_splits: false
   allow_real_artifact_loading: false
   allow_npy_payload_loading: false
   allow_embedding_vector_parsing: false

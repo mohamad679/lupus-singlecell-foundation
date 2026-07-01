@@ -14,7 +14,8 @@ def _block_between(text, start_marker, end_marker=None):
 
 
 
-def test_stage4_f001_validation_block_is_retained_after_f002_start():
+
+def test_stage4_f001_validation_block_is_retained_after_f003_start():
     state = STATE_PATH.read_text()
     block = _block_between(
         state,
@@ -22,9 +23,9 @@ def test_stage4_f001_validation_block_is_retained_after_f002_start():
         "stage4_real_donor_aggregation_run_plan:",
     )
 
-    assert "status: stage4_f002_complete" in state
+    assert "status: stage4_f003_in_progress" in state
     assert "current_phase: Stage 4" in state
-    assert "current_feature: STAGE4-F002-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F003" in state
     assert "status: completed" in block
     assert "current_feature: STAGE4-F001" in block
     assert "closeout_feature: STAGE4-F001-CLOSEOUT" in block
@@ -53,16 +54,19 @@ def test_stage4_f001_validation_block_keeps_runtime_and_modeling_blocked():
 
 
 
-def test_stage4_f001_current_feature_document_has_advanced_to_f002():
-    current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE4-F002-CLOSEOUT - Real donor-level aggregation run plan closeout" in current_feature
-    assert "Status: completed" in current_feature
-    assert "identity_donor_embedding_directory" in current_feature
+def test_stage4_f001_current_feature_document_has_advanced_to_f003():
+    current_feature = CURRENT_FEATURE_PATH.read_text()
+    normalized_current_feature = " ".join(current_feature.split())
+
+    assert "STAGE4-F003 - Real leakage-safe split manifest validation" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "donor-level split manifest contract" in current_feature
+    assert "Donor IDs must not leak across train, validation, and test assignments" in normalized_current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No real donor-level aggregation is executed" in current_feature
     assert "No real metrics are computed" in current_feature
-    assert "STAGE4-F003 - Real leakage-safe split manifest validation" in current_feature
+    assert "STAGE4-F004 - Real evaluation input readiness validation" in current_feature
 
 def test_gitignore_blocks_large_local_embedding_and_model_artifacts():
     gitignore = GITIGNORE_PATH.read_text()
