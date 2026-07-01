@@ -945,7 +945,7 @@ stage4_planning:
   current_phase: Stage 4
   current_feature: STAGE4-F001
   current_feature_name: Real embedding artifact validation
-  branch: feat/stage4-real-embedding-artifact-validation
+  branch: feat/stage4-real-artifact-directory-manifest
   allowed_starting_paths:
   - real_embedding_artifact_validation
   - controlled_embedding_extraction
@@ -960,16 +960,33 @@ stage4_planning:
 
 stage4_real_embedding_artifact_validation:
   status: in_progress
-  branch: feat/stage4-real-embedding-artifact-validation
+  branch: feat/stage4-real-artifact-directory-manifest
   current_feature: STAGE4-F001
   feature_name: Real embedding artifact validation
   scope: validate safe metadata for a local real embedding artifact without committing it
-  existing_local_artifact_path: TODO_USER_PROVIDED_LOCAL_PATH
-  manifest_status: scaffold_added_pending_local_path
+  existing_local_artifact_path: external_local_directory_not_committed
+  manifest_status: observed_npy_directory_metadata_without_payload_loading
+  observed_artifact_format: npy_directory
+  observed_record_level: donor
+  observed_directory_file_suffix: .npy
+  observed_file_count: 261
+  observed_total_size_bytes: 360839808
+  observed_total_size_mb: 344.12
+  observed_all_files_same_size: true
+  observed_min_file_size_bytes: 1382528
+  observed_max_file_size_bytes: 1382528
+  observed_filename_category_counts:
+    flare_like: 14
+    healthy_hc_like: 48
+    healthy_igtb_like: 50
+    managed_sle_numeric_like: 148
+    control_like: 1
   allowed_actions:
   - validate local artifact path string
   - check file existence
   - check file size metadata
+  - count top-level .npy files in a local directory
+  - summarize filename categories without opening embedding payloads
   - compute sha256 checksum only when explicitly requested
   - validate safe manifest fields
   - record audit metadata without storing embeddings
@@ -981,6 +998,7 @@ stage4_real_embedding_artifact_validation:
   - execute tokenizer
   - extract embeddings
   - parse embedding payload tables
+  - load .npy embedding payloads
   - aggregate real embeddings
   - fit scalers
   - fit models
