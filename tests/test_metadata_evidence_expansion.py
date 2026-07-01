@@ -141,15 +141,15 @@ def test_project_state_and_backlog_do_not_start_modeling_or_phase4():
         and path.suffix.lower() in forbidden_suffixes
     ]
 
-    assert "current_feature: STAGE3-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F001" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
-    assert "phase4_permission: blocked" in state
+    assert "phase4_permission: real_artifact_validation_only" in state
     assert 'current_phase: "Phase 4"' not in state
-    assert "current_feature: P4-" not in state
+    assert "current_feature: STAGE4-F001" in state
     assert "phase_4_scaffold:" not in backlog
     assert "completed_through: P3-F019" in backlog
     assert artifacts == []
