@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage3_f001_embedding_artifact_schema_in_progress
+  status: stage3_f002_patient_aggregation_design_in_progress
   current_phase: Stage 3
   current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
-  current_feature: STAGE3-F001
+  current_feature: STAGE3-F002
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -725,7 +725,7 @@ stage2_closeout:
 
 
 stage3_embedding_artifact_schema:
-  status: in_progress
+  status: completed
   branch: feat/stage3-embedding-artifact-schema
   current_feature: STAGE3-F001
   scope: define metadata-only embedding artifact schema contract for future patient-level analysis
@@ -744,3 +744,26 @@ stage3_embedding_artifact_schema:
   - Requires donor/patient split level and rejects cell-level split policy.
   - Rejects model/training artifact-like outputs and forbidden modeling/training flags.
   - Uses fake-data tests only.
+
+
+stage3_patient_aggregation_design:
+  status: in_progress
+  branch: feat/stage3-patient-aggregation-design
+  current_feature: STAGE3-F002
+  scope: define fake-data patient-level aggregation contract from cell embeddings to donor embeddings
+  default_aggregation: mean_pool_per_donor
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed: false
+  notes:
+  - Defines donor-level mean pooling over fake cell embedding records only.
+  - Requires donor IDs, cell IDs, finite numeric embeddings, and consistent dimensions.
+  - Rejects cell-level split policy and forbidden modeling/training/runtime flags.
+  - Produces donor-level embedding records without training or evaluation.
