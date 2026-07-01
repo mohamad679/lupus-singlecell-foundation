@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage3_f003_leakage_safe_splits_in_progress
+  status: stage3_f004_evaluation_protocol_scaffold_in_progress
   current_phase: Stage 3
   current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
-  current_feature: STAGE3-F003
+  current_feature: STAGE3-F004
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -770,7 +770,7 @@ stage3_patient_aggregation_design:
 
 
 stage3_leakage_safe_splits:
-  status: in_progress
+  status: completed
   branch: feat/stage3-leakage-safe-splits
   current_feature: STAGE3-F003
   scope: define fake-data leakage-safe split utilities at donor/patient level only
@@ -795,3 +795,39 @@ stage3_leakage_safe_splits:
   - Validates donor-level train/test disjointness and held-out donor coverage.
   - Rejects cell-level split policy, global preprocessing, scaler fitting outside fold, and model fitting.
   - Does not train, evaluate, or report performance.
+
+
+stage3_evaluation_protocol_scaffold:
+  status: in_progress
+  branch: feat/stage3-evaluation-protocol-scaffold
+  current_feature: STAGE3-F004
+  scope: define metadata-only patient-level evaluation protocol scaffold
+  planned_tasks:
+  - flare_vs_managed
+  - flare_vs_healthy
+  - flare_vs_nonflare
+  required_primary_metrics:
+  - auroc
+  - auprc
+  - balanced_accuracy
+  uncertainty_required: true
+  permutation_required: true
+  baseline_comparison_required: true
+  confounder_controls_required: true
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed: false
+  metric_computation_allowed: false
+  model_fitting_allowed: false
+  notes:
+  - Defines planned patient-level metrics without computing metrics.
+  - Requires uncertainty and permutation controls before future performance reporting.
+  - Requires baseline comparison and confounder controls.
+  - Rejects cell-level split policy, metric computation, model fitting, and performance claims.
