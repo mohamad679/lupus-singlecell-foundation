@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage4_f002_in_progress
+  status: stage4_f002_complete
   current_phase: Stage 4
-  current_phase_name: Stage 4 - Real embedding artifact validation
-  current_feature: STAGE4-F002
+  current_phase_name: Stage 4 - Real donor-level aggregation run plan closeout
+  current_feature: STAGE4-F002-CLOSEOUT
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_real_donor_aggregation_run_plan
+  modeling_readiness: blocked_pending_real_leakage_safe_split_manifest_validation
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
@@ -600,6 +600,8 @@ stage2_embedding_plan:
   anndata_loading_allowed: false
   external_validation_allowed: false
   performance_claims_allowed: false
+  f002_complete: true
+  next_stage4_feature_ready: STAGE4-F003
   f001_complete: true
   next_stage4_feature_ready: STAGE4-F002
   notes:
@@ -945,12 +947,13 @@ stage3_closeout:
 stage4_planning:
   status: in_progress
   current_phase: Stage 4
-  current_feature: STAGE4-F002
-  current_feature_name: Real donor-level aggregation run plan
-  branch: feat/stage4-real-donor-aggregation-run-plan
+  current_feature: STAGE4-F002-CLOSEOUT
+  current_feature_name: Real donor-level aggregation run plan closeout
+  branch: chore/stage4-f002-closeout
   completed_feature: STAGE4-F001
   completed_feature_name: Real embedding artifact validation
-  current_stage4_feature: STAGE4-F002
+  completed_stage4_feature: STAGE4-F002
+  current_stage4_feature: STAGE4-F002-CLOSEOUT
   next_feature: STAGE4-F003
   next_feature_name: Real leakage-safe split manifest validation
   allowed_starting_paths:
@@ -1025,10 +1028,13 @@ stage4_real_embedding_artifact_validation:
   performance_claims_allowed: false
 
 stage4_real_donor_aggregation_run_plan:
-  status: in_progress
-  branch: feat/stage4-real-donor-aggregation-run-plan
+  status: completed
+  branch: chore/stage4-f002-closeout
   current_feature: STAGE4-F002
   feature_name: Real donor-level aggregation run plan
+  closeout_feature: STAGE4-F002-CLOSEOUT
+  next_feature: STAGE4-F003
+  next_feature_name: Real leakage-safe split manifest validation
   scope: define a safe run plan for the observed donor-level npy_directory artifact without executing aggregation
   prerequisite_feature: STAGE4-F001
   prerequisite_status: completed

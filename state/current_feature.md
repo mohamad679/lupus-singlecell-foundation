@@ -1,41 +1,38 @@
 # Current Feature
 
-## STAGE4-F002 - Real donor-level aggregation run plan
+## STAGE4-F002-CLOSEOUT - Real donor-level aggregation run plan closeout
 
-Status: in_progress
-Branch: `feat/stage4-real-donor-aggregation-run-plan`
+Status: completed
+Branch: `chore/stage4-f002-closeout`
 
-## Objective
+## Completed feature
 
-Define a guarded run plan for the observed real donor-level embedding artifact
-without loading `.npy` payloads or executing real aggregation.
+STAGE4-F002 - Real donor-level aggregation run plan
 
-The artifact observed in STAGE4-F001 is already donor-level:
+## Result
+
+Stage 4-F002 defined a guarded metadata-only run plan for the observed real
+donor-level embedding artifact.
+
+The observed artifact from STAGE4-F001 remains:
 
 - artifact format: `npy_directory`
 - artifact layout: `directory`
 - input record level: `donor`
 - output record level: `donor`
+- split level: `donor`
 - observed files: 261
 - total observed size: 360,839,808 bytes / 344.12 MB
 - all files same size: true
 
-Therefore the F002 aggregation strategy is:
+The selected F002 strategy is:
 
 `identity_donor_embedding_directory`
 
-This means the plan treats each donor `.npy` file as one donor-level embedding
-candidate, but does not open, load, parse, or aggregate the file payloads.
+This confirms that the artifact is treated as already donor-level. No cell-to-
+donor pooling is planned or executed in F002.
 
-## Allowed in this feature
-
-- Define donor-level aggregation run plan metadata.
-- Validate that expected and observed donor file counts match.
-- Validate that filename category counts sum to observed donor file count.
-- Preserve identity strategy for an already donor-level artifact.
-- Record that real aggregation execution remains blocked.
-
-## Not allowed in this feature
+## Safety rules preserved
 
 No real embedding artifact is committed.
 No `.npy` embedding payload is loaded.
@@ -54,7 +51,7 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next expected feature
+## Next feature
 
 STAGE4-F003 - Real leakage-safe split manifest validation
 

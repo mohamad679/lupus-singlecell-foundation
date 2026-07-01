@@ -12,25 +12,27 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage4_f002_run_plan_block_is_retained_after_closeout():
+def test_stage4_f002_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_donor_aggregation_run_plan:")
 
     assert "status: stage4_f002_complete" in state
     assert "current_phase: Stage 4" in state
     assert "current_feature: STAGE4-F002-CLOSEOUT" in state
-    assert "status: completed" in block
-    assert "current_feature: STAGE4-F002" in block
-    assert "closeout_feature: STAGE4-F002-CLOSEOUT" in block
-    assert "next_feature: STAGE4-F003" in block
+    assert "completed_stage4_feature: STAGE4-F002" in state
+    assert "next_feature: STAGE4-F003" in state
+    assert "next_feature_name: Real leakage-safe split manifest validation" in state
 
 
-def test_stage4_f002_run_plan_records_identity_donor_strategy_after_closeout():
+def test_stage4_f002_closeout_records_completed_identity_donor_plan():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_donor_aggregation_run_plan:")
 
+    assert "status: completed" in block
+    assert "branch: chore/stage4-f002-closeout" in block
+    assert "current_feature: STAGE4-F002" in block
+    assert "closeout_feature: STAGE4-F002-CLOSEOUT" in block
+    assert "next_feature: STAGE4-F003" in block
     assert "aggregation_strategy: identity_donor_embedding_directory" in block
-    assert "input_artifact_format: npy_directory" in block
     assert "input_record_level: donor" in block
     assert "output_record_level: donor" in block
     assert "split_level: donor" in block
@@ -42,7 +44,7 @@ def test_stage4_f002_run_plan_records_identity_donor_strategy_after_closeout():
     assert "requires_real_aggregation_execution: false" in block
 
 
-def test_stage4_f002_run_plan_preserves_safety_locks_after_closeout():
+def test_stage4_f002_closeout_preserves_safety_locks():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_donor_aggregation_run_plan:")
 
@@ -56,13 +58,18 @@ def test_stage4_f002_run_plan_preserves_safety_locks_after_closeout():
     assert "training_allowed: false" in block
     assert "external_validation_allowed: false" in block
     assert "performance_claims_allowed: false" in block
+    assert "load .npy embedding payloads" in block
+    assert "aggregate real embeddings" in block
+    assert "compute metrics" in block
+    assert "add performance claims" in block
 
 
-def test_stage4_f002_current_feature_document_records_closeout_scope():
+def test_stage4_f002_closeout_current_feature_document_is_final():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE4-F002-CLOSEOUT - Real donor-level aggregation run plan closeout" in current_feature
     assert "Status: completed" in current_feature
+    assert "STAGE4-F002 - Real donor-level aggregation run plan" in current_feature
     assert "identity_donor_embedding_directory" in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No real donor-level aggregation is executed" in current_feature
