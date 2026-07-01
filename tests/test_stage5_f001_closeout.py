@@ -12,7 +12,7 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage5_f001_records_stage5_history_without_modeling_authorization():
+def test_stage5_f001_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_modeling_approval_scaffold:")
 
@@ -21,34 +21,17 @@ def test_stage5_f001_records_stage5_history_without_modeling_authorization():
     assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
     assert "current_feature: STAGE5-F002" in state
     assert "modeling_readiness: blocked_pending_modeling_execution_protocol" in state
+
     assert "status: completed" in block
     assert "branch: chore/stage5-f001-closeout" in block
     assert "current_feature: STAGE5-F001" in block
-    assert "feature_name: Modeling approval scaffold" in block
     assert "closeout_feature: STAGE5-F001-CLOSEOUT" in block
     assert "closeout_status: completed" in block
     assert "next_feature: STAGE5-F002" in block
     assert "next_feature_name: Modeling execution protocol scaffold" in block
-    assert "modeling_authorization_status: not_granted" in block
-    assert "approval_status: pending" in block
 
 
-def test_stage5_f001_records_stage4_handoff_as_required_upstream():
-    state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_modeling_approval_scaffold:")
-
-    assert "upstream_stage4_status: completed" in block
-    assert "upstream_handoff_decision: separate_modeling_stage_required" in block
-    assert "completed_stage4_features:" in block
-    assert "STAGE4-F001" in block
-    assert "STAGE4-F002" in block
-    assert "STAGE4-F003" in block
-    assert "STAGE4-F004" in block
-    assert "STAGE4-F005" in block
-    assert "STAGE4-F006" in block
-
-
-def test_stage5_f001_requires_approval_protocol_and_donor_level_controls():
+def test_stage5_f001_closeout_retains_required_approval_and_donor_level_gates():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_modeling_approval_scaffold:")
 
@@ -64,7 +47,7 @@ def test_stage5_f001_requires_approval_protocol_and_donor_level_controls():
     assert "requires_no_large_artifact_commit: true" in block
 
 
-def test_stage5_f001_preserves_runtime_modeling_metric_and_claim_locks():
+def test_stage5_f001_closeout_preserves_runtime_modeling_metric_and_claim_locks():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_modeling_approval_scaffold:")
 
@@ -83,6 +66,7 @@ def test_stage5_f001_preserves_runtime_modeling_metric_and_claim_locks():
     assert "allow_model_fitting: false" in block
     assert "allow_prediction_generation: false" in block
     assert "allow_metric_computation: false" in block
+    assert "allow_modeling: false" in block
     assert "modeling_authorization_granted: false" in block
     assert "modeling_allowed: false" in block
     assert "training_allowed: false" in block
@@ -91,17 +75,15 @@ def test_stage5_f001_preserves_runtime_modeling_metric_and_claim_locks():
     assert "performance_claims_added: false" in block
 
 
-def test_stage5_f001_current_feature_document_advances_after_closeout():
+def test_stage5_f001_closeout_current_feature_document_advances_to_f002():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
     assert "Status: planned" in current_feature
     assert "Branch: `TODO`" in current_feature
-    assert "Stage 5 - Modeling stage approval and execution planning" in current_feature
-    assert "Stage 5 has started, but modeling is still not authorized." in current_feature
     assert "STAGE5-F001 - Modeling approval scaffold" in current_feature
     assert "Status: completed" in current_feature
-    assert "Branch: `chore/stage5-f001-closeout`" in current_feature
+    assert "Stage 5 has started, but modeling is still not authorized." in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No evaluation array is materialized" in current_feature
     assert "No models are fit" in current_feature

@@ -3,7 +3,7 @@ project:
   status: stage5_in_progress
   current_phase: Stage 5
   current_phase_name: Stage 5 - Modeling stage approval and execution planning
-  current_feature: STAGE5-F001
+  current_feature: STAGE5-F002
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_explicit_modeling_approval
+  modeling_readiness: blocked_pending_modeling_execution_protocol
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   stage5_permission: modeling_approval_scaffold_only
@@ -1439,12 +1439,16 @@ stage4_project_snapshot_at_closeout:
   training_allowed: false
   performance_claims_allowed: false
 stage5_modeling_approval_scaffold:
-  status: in_progress
-  branch: feat/stage5-modeling-approval-scaffold
+  status: completed
+  branch: chore/stage5-f001-closeout
   current_stage: Stage 5
   stage_name: Stage 5 - Modeling stage approval and execution planning
   current_feature: STAGE5-F001
   feature_name: Modeling approval scaffold
+  closeout_feature: STAGE5-F001-CLOSEOUT
+  closeout_status: completed
+  next_feature: STAGE5-F002
+  next_feature_name: Modeling execution protocol scaffold
   scope: approval_scaffold_only_no_modeling_execution
   upstream_stage4_status: completed
   upstream_handoff_decision: separate_modeling_stage_required
