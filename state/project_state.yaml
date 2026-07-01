@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage3_f002_patient_aggregation_design_in_progress
+  status: stage3_f003_leakage_safe_splits_in_progress
   current_phase: Stage 3
   current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
-  current_feature: STAGE3-F002
+  current_feature: STAGE3-F003
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -747,7 +747,7 @@ stage3_embedding_artifact_schema:
 
 
 stage3_patient_aggregation_design:
-  status: in_progress
+  status: completed
   branch: feat/stage3-patient-aggregation-design
   current_feature: STAGE3-F002
   scope: define fake-data patient-level aggregation contract from cell embeddings to donor embeddings
@@ -767,3 +767,31 @@ stage3_patient_aggregation_design:
   - Requires donor IDs, cell IDs, finite numeric embeddings, and consistent dimensions.
   - Rejects cell-level split policy and forbidden modeling/training/runtime flags.
   - Produces donor-level embedding records without training or evaluation.
+
+
+stage3_leakage_safe_splits:
+  status: in_progress
+  branch: feat/stage3-leakage-safe-splits
+  current_feature: STAGE3-F003
+  scope: define fake-data leakage-safe split utilities at donor/patient level only
+  allowed_methods:
+  - leave_one_donor_out
+  - group_k_fold
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed: false
+  global_preprocessing_allowed: false
+  scaler_outside_fold_allowed: false
+  model_fitting_allowed: false
+  notes:
+  - Defines leave-one-donor-out and deterministic GroupKFold-like fake split utilities.
+  - Validates donor-level train/test disjointness and held-out donor coverage.
+  - Rejects cell-level split policy, global preprocessing, scaler fitting outside fold, and model fitting.
+  - Does not train, evaluate, or report performance.
