@@ -12,24 +12,26 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage5_f003_sets_current_donor_contract_without_execution_authorization():
+def test_stage5_f003_records_donor_contract_history_without_execution_authorization():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_donor_level_execution_contract_approval:")
 
     assert "status: stage5_in_progress" in state
     assert "current_phase: Stage 5" in state
     assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
-    assert "current_feature: STAGE5-F003" in state
-    assert "modeling_readiness: blocked_pending_donor_level_execution_contract_approval" in state
+    assert "current_feature: STAGE5-F004" in state
+    assert "modeling_readiness: blocked_pending_pre_execution_audit_gate" in state
 
-    assert "status: in_progress" in block
-    assert "branch: feat/stage5-donor-level-execution-contract-approval" in block
+    assert "status: completed" in block
+    assert "branch: chore/stage5-f003-closeout" in block
     assert "current_feature: STAGE5-F003" in block
     assert "feature_name: Donor-level execution contract approval" in block
     assert "previous_protocol_feature: STAGE5-F002" in block
     assert "previous_protocol_status: completed" in block
     assert "next_feature: STAGE5-F004" in block
     assert "next_feature_name: Pre-execution audit gate" in block
+    assert "closeout_feature: STAGE5-F003-CLOSEOUT" in block
+    assert "closeout_status: completed" in block
     assert "contract_approval_decision: pending_contract_review" in block
 
 
@@ -98,9 +100,9 @@ def test_stage5_f003_current_feature_document_records_contract_scope():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
-    assert "Status: in_progress" in current_feature
-    assert "Branch: `feat/stage5-donor-level-execution-contract-approval`" in current_feature
-    assert "Stage 5-F003 reviews donor-level execution contract constraints only." in current_feature
+    assert "Status: planned" in current_feature
+    assert "Branch: `TODO`" in current_feature
+    assert "STAGE5-F004 - Pre-execution audit gate" in current_feature
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
     assert "Status: completed" in current_feature
     assert "STAGE5-F001 - Modeling approval scaffold" in current_feature
