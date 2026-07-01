@@ -1,9 +1,9 @@
 # Current Feature
 
-## STAGE5-F004 - Pre-execution audit gate
+## STAGE5-F005 - Final Stage 5 modeling handoff decision
 
-Status: in_progress
-Branch: `feat/stage5-pre-execution-audit-gate`
+Status: planned
+Branch: `TODO`
 
 ## Current stage
 
@@ -11,30 +11,13 @@ Stage 5 - Modeling stage approval and execution planning
 
 Stage 5 has started, but modeling is still not authorized.
 
-Stage 5-F004 validates pre-execution audit constraints only.
+## Required next step
 
-## Scope
+The next feature should record the final Stage 5 modeling handoff decision.
 
-This feature is metadata-only.
-
-It records the pre-execution audit gate for future execution planning:
-
-- prior Stage 5 planning gates must be complete
-- audit record level must remain donor
-- split policy must remain donor-level only
-- cell-level split remains forbidden
-- audit scope is audit-only and does not execute anything
-- artifact loading remains prohibited until an explicit later gate
-- input materialization remains prohibited until an explicit later gate
-- label creation remains prohibited until an explicit later gate
-- split execution remains prohibited until an explicit later gate
-- aggregation execution remains prohibited until an explicit later gate
-- modeling execution remains prohibited until an explicit later gate
-- prediction generation remains prohibited until an explicit later gate
-- metric computation is future-only and not computed here
-- external validation remains prohibited until an explicit later gate
-- performance claims remain prohibited until an explicit later gate
-- final Stage 5 handoff decision remains required
+This decision must verify the completed Stage 5 approval chain and decide whether
+future modeling may be handed off to a separate explicitly approved execution
+stage.
 
 ## Required gates retained
 
@@ -48,7 +31,7 @@ It records the pre-execution audit gate for future execution planning:
 - cell-level split is forbidden
 - large real artifacts must not be committed
 - a separate execution gate remains required
-- a final Stage 5 handoff decision remains required
+- no modeling execution is authorized by this closeout
 
 ## Safety locks retained
 
@@ -73,17 +56,20 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next planned feature
-
-## STAGE5-F005 - Final Stage 5 modeling handoff decision
-
-Status: planned
-Branch: `TODO`
-
-The next feature should record the final Stage 5 handoff decision. It may only
-authorize future modeling if all required explicit gates are approved.
-
 ## Previous completed feature
+
+## STAGE5-F004 - Pre-execution audit gate
+
+Status: completed
+Branch: `chore/stage5-f004-closeout`
+
+Stage 5-F004 recorded the metadata-only pre-execution audit gate.
+
+It did not authorize input materialization, label creation, split execution,
+model fitting, prediction generation, metric computation, training, external
+validation, or performance claims.
+
+## Earlier completed feature
 
 ## STAGE5-F003 - Donor-level execution contract approval
 
