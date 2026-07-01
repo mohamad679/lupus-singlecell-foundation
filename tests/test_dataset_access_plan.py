@@ -77,7 +77,7 @@ def test_audit_status_is_pending_human_download_gate_for_all_rows():
 def test_selected_datasets_and_external_validation_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE3-F005" in state
+    assert "current_feature: STAGE3-F006" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "modeling_allowed: false" in state
