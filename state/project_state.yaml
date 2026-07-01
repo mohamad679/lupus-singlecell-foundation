@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage5_in_progress
+  status: stage5_complete
   current_phase: Stage 5
-  current_phase_name: Stage 5 - Modeling stage approval and execution planning
-  current_feature: STAGE5-F005
+  current_phase_name: Stage 5 - Complete
+  current_feature: STAGE5-COMPLETE
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -17,8 +17,8 @@ project:
   modeling_readiness: blocked_pending_separate_modeling_execution_stage
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
-  stage5_permission: final_handoff_decision_only
-  stage5_permission: final_handoff_decision_only
+  stage5_permission: stage5_complete_no_modeling_authorization
+  stage5_permission: stage5_complete_no_modeling_authorization
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
   pivot_status: not_activated
   dataset_download_allowed: false
@@ -1806,12 +1806,14 @@ stage5_pre_execution_audit_gate:
   performance_claims_allowed: false
   performance_claims_added: false
 stage5_final_modeling_handoff_decision:
-  status: in_progress
-  branch: feat/stage5-final-modeling-handoff-decision
+  status: completed
+  branch: chore/stage5-final-closeout
   current_stage: Stage 5
   stage_name: Stage 5 - Modeling stage approval and execution planning
   current_feature: STAGE5-F005
   feature_name: Final Stage 5 modeling handoff decision
+  closeout_feature: STAGE5-FINAL-CLOSEOUT
+  closeout_status: completed
   scope: final_handoff_decision_only_no_execution
   completed_stage5_features:
   - STAGE5-F001

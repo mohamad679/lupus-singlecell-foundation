@@ -16,10 +16,10 @@ def test_stage5_f001_records_stage5_history_without_modeling_authorization():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_modeling_approval_scaffold:")
 
-    assert "status: stage5_in_progress" in state
+    assert "status: stage5_complete" in state
     assert "current_phase: Stage 5" in state
-    assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
-    assert "current_feature: STAGE5-F005" in state
+    assert "current_phase_name: Stage 5 - Complete" in state
+    assert "current_feature: STAGE5-COMPLETE" in state
     assert "modeling_readiness: blocked_pending_separate_modeling_execution_stage" in state
     assert "status: completed" in block
     assert "branch: chore/stage5-f001-closeout" in block
@@ -95,8 +95,8 @@ def test_stage5_f001_current_feature_document_advances_after_closeout():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
-    assert "Status: in_progress" in current_feature
-    assert "Branch: `feat/stage5-final-modeling-handoff-decision`" in current_feature
+    assert "Status: completed" in current_feature
+    assert "Branch: `chore/stage5-final-closeout`" in current_feature
     assert "Stage 5 - Modeling stage approval and execution planning" in current_feature
     assert "Stage 5 has started, but modeling is still not authorized." in current_feature
     assert "STAGE5-F001 - Modeling approval scaffold" in current_feature

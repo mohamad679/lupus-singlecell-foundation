@@ -12,7 +12,7 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage5_f005_sets_current_final_handoff_without_modeling_authorization():
+def test_stage5_final_closeout_marks_stage5_complete_without_modeling_authorization():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
@@ -27,22 +27,30 @@ def test_stage5_f005_sets_current_final_handoff_without_modeling_authorization()
     assert "branch: chore/stage5-final-closeout" in block
     assert "current_feature: STAGE5-F005" in block
     assert "feature_name: Final Stage 5 modeling handoff decision" in block
+    assert "closeout_feature: STAGE5-FINAL-CLOSEOUT" in block
+    assert "closeout_status: completed" in block
+
+
+def test_stage5_final_closeout_preserves_final_handoff_decision():
+    state = STATE_PATH.read_text()
+    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
+
     assert "handoff_decision: separate_modeling_execution_stage_required" in block
     assert "modeling_authorization_status: stage5_does_not_authorize_modeling" in block
     assert "future_modeling_policy: future_only_explicit_execution_stage" in block
     assert "previous_audit_feature: STAGE5-F004" in block
     assert "previous_audit_status: completed" in block
-
-
-def test_stage5_f005_records_completed_stage5_chain_and_handoff_policies():
-    state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
-
     assert "completed_stage5_features:" in block
     assert "STAGE5-F001" in block
     assert "STAGE5-F002" in block
     assert "STAGE5-F003" in block
     assert "STAGE5-F004" in block
+
+
+def test_stage5_final_closeout_preserves_donor_level_and_no_leakage_policies():
+    state = STATE_PATH.read_text()
+    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
+
     assert "handoff_record_level: donor" in block
     assert "split_policy: donor_level_only" in block
     assert "leakage_policy: cell_level_split_forbidden" in block
@@ -51,12 +59,15 @@ def test_stage5_f005_records_completed_stage5_chain_and_handoff_policies():
     assert "input_materialization_policy: prohibited_until_explicit_gate" in block
     assert "label_creation_policy: prohibited_until_explicit_gate" in block
     assert "split_execution_policy: prohibited_until_explicit_gate" in block
+    assert "aggregation_execution_policy: prohibited_until_explicit_gate" in block
     assert "modeling_execution_policy: prohibited_until_explicit_gate" in block
     assert "prediction_generation_policy: prohibited_until_explicit_gate" in block
     assert "metric_computation_policy: future_only_no_computation" in block
+    assert "external_validation_policy: prohibited_until_explicit_gate" in block
+    assert "performance_claim_policy: prohibited_until_explicit_gate" in block
 
 
-def test_stage5_f005_requires_separate_execution_stage_and_reviews():
+def test_stage5_final_closeout_keeps_required_future_execution_stage_gates():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
@@ -73,7 +84,7 @@ def test_stage5_f005_requires_separate_execution_stage_and_reviews():
     assert "requires_protocol_before_execution: true" in block
 
 
-def test_stage5_f005_preserves_runtime_modeling_metric_and_claim_locks():
+def test_stage5_final_closeout_preserves_all_runtime_modeling_metric_and_claim_locks():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
@@ -103,17 +114,16 @@ def test_stage5_f005_preserves_runtime_modeling_metric_and_claim_locks():
     assert "performance_claims_added: false" in block
 
 
-def test_stage5_f005_current_feature_document_records_final_handoff_scope():
+def test_stage5_final_closeout_current_feature_document_records_completion():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE5-F005 - Final Stage 5 modeling handoff decision" in current_feature
+    assert "Stage 5 is complete." in current_feature
     assert "Status: completed" in current_feature
     assert "Branch: `chore/stage5-final-closeout`" in current_feature
-    assert "Stage 5-F005 records the final Stage 5 modeling handoff decision only." in current_feature
-    assert "separate modeling execution stage is required" in current_feature
-    assert "Stage 5 does not authorize modeling execution" in current_feature
-    assert "STAGE5-F004 - Pre-execution audit gate" in current_feature
-    assert "Status: completed" in current_feature
+    assert "STAGE5-F005 - Final Stage 5 modeling handoff decision" in current_feature
+    assert "`separate_modeling_execution_stage_required`" in current_feature
+    assert "Stage 5 does not authorize modeling execution." in current_feature
+    assert "A separate explicitly approved modeling execution stage is required." in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No evaluation array is materialized" in current_feature
     assert "No models are fit" in current_feature
