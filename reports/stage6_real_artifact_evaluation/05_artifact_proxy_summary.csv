@@ -1,0 +1,3 @@
+label,n,n_embedding_rows_min,n_embedding_rows_max,mean_embedding_l2_norm_mean,mean_embedding_l2_norm_std,std_embedding_l2_norm_mean,std_embedding_l2_norm_std
+flare,14,300,300,32.583035,0.027075397,5.050564,0.066091664
+managed_sle,148,300,300,32.533703,0.06885196,5.1424913,0.18911567

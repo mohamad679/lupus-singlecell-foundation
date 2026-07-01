@@ -1,0 +1,42 @@
+{
+  "primary_task": "flare_vs_managed_sle",
+  "n_total_npy_files": 261,
+  "label_counts_all_files": {
+    "managed_sle": 148,
+    "healthy": 98,
+    "flare": 14,
+    "unknown": 1
+  },
+  "excluded_labels": [
+    "healthy",
+    "unknown"
+  ],
+  "excluded_unknown_donor_ids": [
+    "ICC_control"
+  ],
+  "n_primary_donors": 162,
+  "n_flare": 14,
+  "n_managed_sle": 148,
+  "all_arrays_finite": true,
+  "shape_counts": {
+    "(300, 1152)": 261
+  },
+  "dtype_counts": {
+    "float32": 261
+  },
+  "donor_level_split_only": true,
+  "cell_level_leakage_possible_in_current_evaluation": false,
+  "duplicate_donor_ids": [],
+  "primary_n_embedding_rows_unique": [
+    300
+  ],
+  "cell_count_proxy_variable": false,
+  "max_nearest_neighbor_cosine_scaled_mean_embedding": 0.9650839567184448,
+  "top_nearest_pair": {
+    "donor_id": "1256",
+    "label": "managed_sle",
+    "nearest_donor_id": "1249",
+    "nearest_label": "managed_sle",
+    "cosine_similarity_scaled_mean_embedding": 0.9650839567184448
+  }
+}
