@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: stage6_f001_complete_pending_real_artifact_access_integrity_gate
+  modeling_readiness: stage6_f002_real_artifact_access_integrity_gate_in_progress
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   stage5_permission: stage5_complete_no_modeling_authorization
@@ -2015,6 +2015,135 @@ next_feature_status: ready
   - preserve no-large-artifact-commit policy
   prohibited_actions:
   - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - materialize evaluation arrays
+  - create label arrays from real data
+  - execute real split assignment
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - generate predictions
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+
+
+stage6_f001_closeout_snapshot_for_legacy_tests:
+  status: stage6_in_progress
+  current_phase: Stage 6
+  current_phase_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F002
+  modeling_readiness: stage6_f001_complete_pending_real_artifact_access_integrity_gate
+  purpose: retained_historical_snapshot_only
+  superseded_by: STAGE6-F002 - Real artifact access and integrity gate
+
+stage6_real_artifact_access_integrity_gate:
+  status: in_progress
+  branch: feat/stage6-real-artifact-access-integrity-gate
+  current_stage: Stage 6
+  stage_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F002
+  feature_name: Real artifact access and integrity gate
+  stage6_status: in_progress
+  gate_status: in_progress
+  gate_decision: metadata_access_integrity_gate_opened
+  previous_feature: STAGE6-F001
+  previous_feature_status: completed
+  completed_stage6_features:
+  - STAGE6-F001
+  upstream_authorization_decision: stage6_controlled_execution_path_authorized
+  scope: artifact_access_integrity_contract_only_no_runtime_execution
+  access_scope: path_schema_permission_contract_only
+  integrity_scope: metadata_integrity_contract_only
+  artifact_family: geneformer_donor_embeddings
+  expected_artifact_format: npy_directory
+  expected_artifact_layout: one_file_per_donor_embedding
+  expected_record_level: donor
+  expected_split_level: donor
+  expected_artifact_location_policy: external_local_or_remote_path_not_committed
+  required_integrity_contracts:
+  - path_schema_contract
+  - permission_contract
+  - record_level_contract
+  - artifact_format_contract
+  - no_large_artifact_commit_contract
+  deferred_real_artifact_checks:
+  - filesystem_existence_check
+  - file_count_scan
+  - checksum_calculation
+  - npy_payload_loading
+  - embedding_vector_parsing
+  - shape_validation_from_payload
+  next_feature: STAGE6-F003
+  next_feature_name: Donor-level input materialization gate
+  first_runtime_execution_feature: STAGE6-F005
+  split_policy: donor_level_only
+  leakage_policy: cell_level_split_forbidden
+  artifact_loading_policy: prohibited_until_explicit_stage6_gate
+  input_materialization_policy: prohibited_until_explicit_stage6_gate
+  label_creation_policy: prohibited_until_explicit_stage6_gate
+  split_execution_policy: prohibited_until_explicit_stage6_gate
+  aggregation_execution_policy: prohibited_until_explicit_stage6_gate
+  modeling_execution_policy: prohibited_until_explicit_stage6_gate
+  prediction_generation_policy: prohibited_until_explicit_stage6_gate
+  metric_computation_policy: prohibited_until_explicit_stage6_gate
+  external_validation_policy: prohibited_until_explicit_stage6_gate
+  performance_claim_policy: prohibited_until_explicit_stage6_gate
+  requires_completed_stage6_f001: true
+  requires_artifact_integrity_review: true
+  requires_permission_contract: true
+  requires_donor_level_only: true
+  forbids_cell_level_split: true
+  requires_no_large_artifact_commit: true
+  requires_payload_free_integrity_gate: true
+  requires_no_runtime_execution: true
+  allow_artifact_path_contract_recording: true
+  allow_schema_contract_recording: true
+  allow_permission_contract_recording: true
+  allow_filesystem_artifact_access: false
+  allow_real_artifact_loading: false
+  allow_file_count_scan: false
+  allow_checksum_calculation: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_split_execution: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  allow_modeling: false
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false
+  allowed_actions:
+  - record artifact path/schema/permission/integrity contracts
+  - record expected donor-level artifact format and layout
+  - record no-large-artifact-commit controls
+  - record that real artifact checks are deferred to explicit later gates
+  prohibited_actions:
+  - access real artifact files on disk
+  - commit real embedding artifacts
+  - scan real artifact file counts
+  - calculate checksums over real artifacts
   - load .npy embedding payloads
   - parse embedding vectors
   - materialize evaluation arrays
