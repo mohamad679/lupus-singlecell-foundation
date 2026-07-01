@@ -100,8 +100,8 @@ def test_stage5_f003_current_feature_document_records_contract_scope():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
-    assert "Status: planned" in current_feature
-    assert "Branch: `TODO`" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "Branch: `feat/stage5-pre-execution-audit-gate`" in current_feature
     assert "STAGE5-F004 - Pre-execution audit gate" in current_feature
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
     assert "Status: completed" in current_feature

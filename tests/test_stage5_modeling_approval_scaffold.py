@@ -95,8 +95,8 @@ def test_stage5_f001_current_feature_document_advances_after_closeout():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
-    assert "Status: planned" in current_feature
-    assert "Branch: `TODO`" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "Branch: `feat/stage5-pre-execution-audit-gate`" in current_feature
     assert "Stage 5 - Modeling stage approval and execution planning" in current_feature
     assert "Stage 5 has started, but modeling is still not authorized." in current_feature
     assert "STAGE5-F001 - Modeling approval scaffold" in current_feature
