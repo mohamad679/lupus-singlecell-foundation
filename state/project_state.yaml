@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage4_f005_in_progress
+  status: stage4_f005_complete
   current_phase: Stage 4
-  current_phase_name: Stage 4 - Real pre-modeling audit gate
-  current_feature: STAGE4-F005
+  current_phase_name: Stage 4 - Real pre-modeling audit gate closeout
+  current_feature: STAGE4-F005-CLOSEOUT
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_real_pre_modeling_audit_gate
+  modeling_readiness: blocked_pending_stage4_final_closeout_and_modeling_handoff_decision
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
@@ -949,25 +949,25 @@ stage3_closeout:
 stage4_planning:
   status: in_progress
   current_phase: Stage 4
-  current_feature: STAGE4-F005
-  current_feature_name: Real pre-modeling audit gate
-  branch: feat/stage4-real-pre-modeling-audit-gate
-  completed_feature: STAGE4-F004
-  completed_feature_name: Real evaluation input readiness validation
-  current_stage4_feature: STAGE4-F005
+  current_feature: STAGE4-F005-CLOSEOUT
+  current_feature_name: Real pre-modeling audit gate closeout
+  branch: chore/stage4-f005-closeout
+  completed_feature: STAGE4-F005
+  completed_feature_name: Real pre-modeling audit gate
+  current_stage4_feature: STAGE4-F005-CLOSEOUT
   next_feature: STAGE4-F006
   next_feature_name: Stage 4 final closeout and modeling handoff decision
   allowed_starting_paths:
-  - real_pre_modeling_audit_gate
+  - stage4_final_closeout_and_modeling_handoff_decision
   modeling_allowed: false
   training_allowed: false
   external_validation_allowed: false
   performance_claims_allowed: false
   notes:
-  - Stage 4-F005 validates a metadata-only pre-modeling audit gate.
-  - It confirms F001 through F004 are complete.
+  - Stage 4-F005 is complete.
+  - The pre-modeling audit gate remains metadata-only.
   - It does not grant modeling permission.
-  - Modeling remains blocked pending final Stage 4 closeout and explicit handoff decision.
+  - Modeling remains blocked pending Stage 4-F006 final closeout and explicit handoff decision.
 
 stage4_real_embedding_artifact_validation:
   status: completed
@@ -1255,10 +1255,12 @@ stage4_real_evaluation_input_readiness_validation:
   next_stage4_feature_ready: STAGE4-F005
 
 stage4_real_pre_modeling_audit_gate:
-  status: in_progress
-  branch: feat/stage4-real-pre-modeling-audit-gate
+  status: completed
+  branch: chore/stage4-f005-closeout
   current_feature: STAGE4-F005
   feature_name: Real pre-modeling audit gate
+  closeout_feature: STAGE4-F005-CLOSEOUT
+  closeout_status: completed
   scope: validate a metadata-only pre-modeling audit gate without granting modeling permission
   completed_upstream_features:
   - STAGE4-F001
@@ -1332,3 +1334,7 @@ stage4_real_pre_modeling_audit_gate:
   training_allowed: false
   external_validation_allowed: false
   performance_claims_allowed: false
+  closeout_notes:
+  - F005 pre-modeling audit gate completed as metadata-only validation.
+  - Modeling remains blocked.
+  - Stage 4-F006 is required before any modeling handoff decision.
