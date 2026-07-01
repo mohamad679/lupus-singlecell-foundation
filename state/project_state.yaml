@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage3_f005_baseline_control_plan_in_progress
+  status: stage3_f006_modeling_readiness_gate_in_progress
   current_phase: Stage 3
   current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
-  current_feature: STAGE3-F005
+  current_feature: STAGE3-F006
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -834,7 +834,7 @@ stage3_evaluation_protocol_scaffold:
 
 
 stage3_baseline_control_plan:
-  status: in_progress
+  status: completed
   branch: feat/stage3-baseline-control-plan
   current_feature: STAGE3-F005
   scope: define metadata-only baseline and control comparison plan
@@ -867,3 +867,38 @@ stage3_baseline_control_plan:
   - Requires pseudobulk, cell-type proportion, donor cell-count, metadata confounder, and label permutation controls.
   - Requires same donor/patient splits as the candidate representation.
   - Rejects cell-level features, feature extraction, metric computation, model fitting, and performance claims.
+
+
+stage3_modeling_readiness_gate:
+  status: in_progress
+  branch: feat/stage3-modeling-readiness-gate
+  current_feature: STAGE3-F006
+  scope: define final metadata-only Stage 3 readiness gate
+  required_completed_components:
+  - embedding_artifact_schema
+  - patient_aggregation_design
+  - leakage_safe_splits
+  - evaluation_protocol_scaffold
+  - baseline_control_plan
+  readiness_decision: approved_for_real_data_validation
+  next_allowed_step:
+  - real_embedding_artifact_validation
+  - controlled_embedding_extraction
+  real_data_validation_allowed_next_stage: true
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  feature_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed_in_gate: false
+  metric_computation_allowed: false
+  model_fitting_allowed: false
+  notes:
+  - Verifies Stage 3 scaffold components before the real-data validation path.
+  - Allows only the next-stage decision to proceed toward real embedding artifact validation or controlled extraction.
+  - Does not load artifacts, compute metrics, fit models, train, validate externally, or add performance claims.
