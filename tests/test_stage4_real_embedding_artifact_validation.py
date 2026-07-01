@@ -13,21 +13,23 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage4_f001_is_current_project_feature():
+def test_stage4_f001_validation_block_is_retained_after_closeout():
     state = STATE_PATH.read_text()
 
-    assert "status: stage4_f001_in_progress" in state
+    assert "status: stage4_f001_complete" in state
     assert "current_phase: Stage 4" in state
-    assert "current_feature: STAGE4-F001" in state
+    assert "current_feature: STAGE4-F001-CLOSEOUT" in state
     assert "stage4_real_embedding_artifact_validation:" in state
+    assert "completed_feature: STAGE4-F001" in state
+    assert "next_feature: STAGE4-F002" in state
 
 
 def test_stage4_f001_validation_block_keeps_runtime_and_modeling_blocked():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_embedding_artifact_validation:")
 
-    assert "status: in_progress" in block
-    assert "branch: feat/stage4-real-artifact-directory-manifest" in block
+    assert "status: completed" in block
+    assert "branch: chore/stage4-f001-closeout" in block
     assert "artifact_commit_allowed: false" in block
     assert "large_artifact_commit_allowed: false" in block
     assert "modeling_allowed: false" in block
@@ -44,17 +46,18 @@ def test_stage4_f001_validation_block_keeps_runtime_and_modeling_blocked():
     assert "compute metrics" in block
 
 
-def test_stage4_f001_current_feature_document_describes_safe_scope():
+def test_stage4_f001_current_feature_document_records_closeout_scope():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
+    assert "STAGE4-F001-CLOSEOUT - Real embedding artifact validation closeout" in current_feature
+    assert "Status: completed" in current_feature
     assert "STAGE4-F001 - Real embedding artifact validation" in current_feature
-    assert "Status: in_progress" in current_feature
     assert "No real embedding artifact is committed" in current_feature
     assert "No AnnData files are loaded" in current_feature
     assert "No Geneformer execution is performed" in current_feature
     assert "No real metrics are computed" in current_feature
-    assert "directory of 261 `.npy` files" in current_feature
-    assert "absolute local path is not committed" in current_feature
+    assert "observed files: 261" in current_feature
+    assert "absolute local artifact path is not committed" in current_feature
 
 
 def test_gitignore_blocks_large_local_embedding_and_model_artifacts():
