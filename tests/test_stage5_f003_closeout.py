@@ -16,10 +16,10 @@ def test_stage5_f003_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage5_donor_level_execution_contract_approval:")
 
-    assert "status: stage5_in_progress" in state
+    assert "status: stage5_complete" in state
     assert "current_phase: Stage 5" in state
-    assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
-    assert "current_feature: STAGE5-F005" in state
+    assert "current_phase_name: Stage 5 - Complete" in state
+    assert "current_feature: STAGE5-COMPLETE" in state
     assert "modeling_readiness: blocked_pending_separate_modeling_execution_stage" in state
 
     assert "status: completed" in block
@@ -83,8 +83,8 @@ def test_stage5_f003_closeout_current_feature_document_advances_to_f004():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F004 - Pre-execution audit gate" in current_feature
-    assert "Status: in_progress" in current_feature
-    assert "Branch: `feat/stage5-final-modeling-handoff-decision`" in current_feature
+    assert "Status: completed" in current_feature
+    assert "Branch: `chore/stage5-final-closeout`" in current_feature
     assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
     assert "Status: completed" in current_feature
     assert "Branch: `chore/stage5-f003-closeout`" in current_feature
