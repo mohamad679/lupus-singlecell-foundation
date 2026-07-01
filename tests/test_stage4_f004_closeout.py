@@ -12,20 +12,31 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage4_f004_closeout_marks_feature_complete_and_next_feature_ready():
+
+def test_stage4_f004_closeout_history_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
+    block = _block_between(
+        state,
+        "stage4_real_evaluation_input_readiness_validation:",
+        "stage4_real_pre_modeling_audit_gate:",
+    )
 
-    assert "status: stage4_f004_complete" in state
+    assert "status: stage4_f005_in_progress" in state
     assert "current_phase: Stage 4" in state
-    assert "current_feature: STAGE4-F004-CLOSEOUT" in state
-    assert "completed_stage4_feature: STAGE4-F004" in state
-    assert "next_feature: STAGE4-F005" in state
-    assert "next_feature_name: Real pre-modeling audit gate" in state
-
+    assert "current_feature: STAGE4-F005" in state
+    assert "status: completed" in block
+    assert "current_feature: STAGE4-F004" in block
+    assert "closeout_feature: STAGE4-F004-CLOSEOUT" in block
+    assert "next_feature: STAGE4-F005" in block
+    assert "next_feature_name: Real pre-modeling audit gate" in block
 
 def test_stage4_f004_closeout_records_completed_readiness_validation():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_evaluation_input_readiness_validation:")
+    block = _block_between(
+        state,
+        "stage4_real_evaluation_input_readiness_validation:",
+        "stage4_real_pre_modeling_audit_gate:",
+    )
 
     assert "status: completed" in block
     assert "branch: chore/stage4-f004-closeout" in block
@@ -45,7 +56,11 @@ def test_stage4_f004_closeout_records_completed_readiness_validation():
 
 def test_stage4_f004_closeout_preserves_safety_locks():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_evaluation_input_readiness_validation:")
+    block = _block_between(
+        state,
+        "stage4_real_evaluation_input_readiness_validation:",
+        "stage4_real_pre_modeling_audit_gate:",
+    )
 
     assert "allow_input_materialization: false" in block
     assert "allow_label_array_creation: false" in block
@@ -65,14 +80,15 @@ def test_stage4_f004_closeout_preserves_safety_locks():
     assert "add performance claims" in block
 
 
-def test_stage4_f004_closeout_current_feature_document_is_final():
+
+def test_stage4_f004_closeout_current_feature_document_has_advanced_to_f005():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE4-F004-CLOSEOUT - Real evaluation input readiness validation closeout" in current_feature
-    assert "Status: completed" in current_feature
-    assert "STAGE4-F004 - Real evaluation input readiness validation" in current_feature
-    assert "input artifact format: `npy_directory`" in current_feature
-    assert "No evaluation array is materialized" in current_feature
+    assert "STAGE4-F005 - Real pre-modeling audit gate" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "pre-modeling audit gate" in current_feature
+    assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No predictions are generated" in current_feature
     assert "No real metrics are computed" in current_feature
-    assert "STAGE4-F005 - Real pre-modeling audit gate" in current_feature
+    assert "No performance claims are added" in current_feature
+    assert "STAGE4-F006 - Stage 4 final closeout and modeling handoff decision" in current_feature
