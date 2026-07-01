@@ -1612,3 +1612,98 @@ stage5_modeling_execution_protocol_scaffold:
   external_validation_allowed: false
   performance_claims_allowed: false
   performance_claims_added: false
+stage5_donor_level_execution_contract_approval:
+  status: in_progress
+  branch: feat/stage5-donor-level-execution-contract-approval
+  current_stage: Stage 5
+  stage_name: Stage 5 - Modeling stage approval and execution planning
+  current_feature: STAGE5-F003
+  feature_name: Donor-level execution contract approval
+  scope: donor_level_contract_approval_only_no_execution
+  completed_stage5_features:
+  - STAGE5-F001
+  - STAGE5-F002
+  previous_protocol_feature: STAGE5-F002
+  previous_protocol_status: completed
+  next_feature: STAGE5-F004
+  next_feature_name: Pre-execution audit gate
+  contract_status: in_progress
+  contract_approval_decision: pending_contract_review
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  contract_record_level: donor
+  contract_split_level: donor
+  contract_label_level: donor
+  contract_prediction_level: donor
+  split_policy: donor_level_only
+  leakage_policy: cell_level_split_forbidden
+  contract_scope_policy: contract_review_only_no_execution
+  artifact_loading_policy: prohibited_until_explicit_gate
+  input_materialization_policy: prohibited_until_explicit_gate
+  label_creation_policy: prohibited_until_explicit_gate
+  split_execution_policy: prohibited_until_explicit_gate
+  aggregation_execution_policy: prohibited_until_explicit_gate
+  modeling_execution_policy: prohibited_until_explicit_gate
+  prediction_generation_policy: prohibited_until_explicit_gate
+  metric_computation_policy: future_only_no_computation
+  external_validation_policy: prohibited_until_explicit_gate
+  performance_claim_policy: prohibited_until_explicit_gate
+  allowed_actions:
+  - record Stage 5 donor-level execution contract approval
+  - document donor-level contract constraints
+  - document future pre-execution audit requirement
+  - preserve runtime and modeling safety locks
+  prohibited_actions:
+  - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - materialize evaluation arrays
+  - create label arrays from real data
+  - execute real split assignment
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - generate predictions
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+  requires_explicit_modeling_approval: true
+  requires_human_review_before_modeling: true
+  requires_reproducibility_review: true
+  requires_leakage_review: true
+  requires_artifact_integrity_review: true
+  requires_scope_review: true
+  requires_donor_level_only: true
+  forbids_cell_level_split: true
+  requires_no_large_artifact_commit: true
+  requires_protocol_before_execution: true
+  requires_separate_execution_gate: true
+  requires_pre_execution_audit: true
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_split_execution: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  allow_modeling: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false

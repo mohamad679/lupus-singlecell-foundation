@@ -2,8 +2,8 @@
 
 ## STAGE5-F003 - Donor-level execution contract approval
 
-Status: planned
-Branch: `TODO`
+Status: in_progress
+Branch: `feat/stage5-donor-level-execution-contract-approval`
 
 ## Current stage
 
@@ -11,14 +11,32 @@ Stage 5 - Modeling stage approval and execution planning
 
 Stage 5 has started, but modeling is still not authorized.
 
-## Required next step
+Stage 5-F003 reviews donor-level execution contract constraints only.
 
-The next feature should define and validate a metadata-only donor-level
-execution contract approval gate.
+## Scope
 
-This gate must review the future execution contract before any real input
-materialization, label creation, split execution, aggregation execution,
-model fitting, prediction generation, or metric computation can be considered.
+This feature is metadata-only.
+
+It records the donor-level execution contract constraints for future execution
+planning:
+
+- contract record level must remain donor
+- contract split level must remain donor
+- contract label level must remain donor
+- contract prediction level must remain donor
+- split policy must remain donor-level only
+- cell-level split remains forbidden
+- contract scope is review-only and does not execute anything
+- artifact loading remains prohibited until an explicit later gate
+- input materialization remains prohibited until an explicit later gate
+- label creation remains prohibited until an explicit later gate
+- split execution remains prohibited until an explicit later gate
+- aggregation execution remains prohibited until an explicit later gate
+- modeling execution remains prohibited until an explicit later gate
+- prediction generation remains prohibited until an explicit later gate
+- metric computation is future-only and not computed here
+- external validation remains prohibited until an explicit later gate
+- performance claims remain prohibited until an explicit later gate
 
 ## Required gates retained
 
@@ -32,6 +50,7 @@ model fitting, prediction generation, or metric computation can be considered.
 - cell-level split is forbidden
 - large real artifacts must not be committed
 - a separate execution gate remains required
+- a pre-execution audit remains required
 
 ## Safety locks retained
 
@@ -55,6 +74,16 @@ No real metrics are computed.
 No training is performed.
 No external validation is performed.
 No performance claims are added.
+
+## Next planned feature
+
+## STAGE5-F004 - Pre-execution audit gate
+
+Status: planned
+Branch: `TODO`
+
+The next feature should validate a metadata-only pre-execution audit gate before
+any real execution or modeling can be considered.
 
 ## Previous completed feature
 
