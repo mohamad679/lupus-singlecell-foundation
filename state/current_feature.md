@@ -3,6 +3,62 @@
 ## Stage 6 active
 
 Status: in_progress
+Branch: `feat/stage6-f005-controlled-baseline-execution`
+
+## Active stage
+
+Stage 6 - Controlled donor-level modeling execution
+
+Stage 6 remains the single controlled execution stage.
+
+No Stage 7 is required for execution.
+
+## Active feature
+
+## STAGE6-F006 - Prediction and metric computation
+
+Status: ready
+Branch: `feat/stage6-f005-controlled-baseline-execution`
+
+STAGE6-F005 is complete.
+
+STAGE6-F006 is the next required feature.
+
+## Completed Stage 6 feature
+
+## STAGE6-F005 - Controlled baseline execution
+
+Status: completed
+Branch: `feat/stage6-f005-controlled-baseline-execution`
+
+Closeout feature: STAGE6-F005-CLOSEOUT
+
+Controlled baseline fitting is allowed only for in-memory donor-level records.
+
+F005 adds a dependency-free nearest-centroid baseline fit path using train donors only.
+
+No filesystem artifact access is performed.
+No real artifact file is loaded.
+No `.npy` embedding payload is loaded.
+No embedding vector is parsed from disk.
+No input arrays are materialized from files.
+No label arrays are materialized from files.
+No split assignment is executed from files.
+No global preprocessing is performed.
+No scalers are fit outside training folds.
+No model artifact is persisted.
+No predictions are generated in F005.
+No metrics are computed in F005.
+No external validation is performed.
+No performance claims are added.
+
+---
+
+# Current Feature
+
+## Stage 6 active
+
+Status: in_progress
 Branch: `feat/stage6-f004-split-leakage-control-gate`
 
 ## Active stage
