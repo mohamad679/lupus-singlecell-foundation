@@ -1,5 +1,81 @@
 # Current Feature
 
+## Stage 6 active
+
+Status: in_progress
+Branch: `feat/stage6-controlled-donor-level-modeling-execution`
+
+## Active stage
+
+Stage 6 - Controlled donor-level modeling execution
+
+Stage 6 is now the single controlled execution stage.
+
+No Stage 7 is required for execution.
+
+Real execution must proceed inside Stage 6 after explicit feature gates.
+
+## Active feature
+
+## STAGE6-F001 - Modeling execution authorization
+
+Status: in_progress
+Branch: `feat/stage6-controlled-donor-level-modeling-execution`
+
+Stage 6-F001 records the authorization to open Stage 6 as the controlled
+donor-level modeling execution stage.
+
+It does not perform runtime execution.
+
+It does not authorize immediate real artifact loading, input materialization,
+label creation, split execution, model fitting, prediction generation, metric
+computation, training, external validation, or performance claims.
+
+## Stage 6 execution structure
+
+- STAGE6-F001 - Modeling execution authorization
+- STAGE6-F002 - Real artifact access and integrity gate
+- STAGE6-F003 - Donor-level input materialization gate
+- STAGE6-F004 - Split and leakage-control gate
+- STAGE6-F005 - Controlled baseline execution
+- STAGE6-F006 - Prediction and metric computation
+- STAGE6-F007 - Stage 6 final result report and closeout
+
+## Runtime safety locks retained in STAGE6-F001
+
+No real embedding artifact is committed.
+No `.npy` embedding payload is loaded.
+No embedding vector is parsed.
+No evaluation array is materialized.
+No label array is created from real data.
+No real split assignment is executed.
+No real donor-level aggregation is executed.
+No AnnData files are loaded.
+No downloads are performed.
+No Geneformer execution is performed.
+No tokenizer execution is performed.
+No embedding extraction is performed.
+No baseline feature extraction is performed.
+No scalers are fit.
+No models are fit.
+No predictions are generated.
+No real metrics are computed.
+No training is performed.
+No external validation is performed.
+No performance claims are added.
+
+## Required controls retained
+
+- donor-level controls are required
+- cell-level split is forbidden
+- no large real artifact may be committed
+- runtime execution requires explicit Stage 6 feature gates
+- all real execution must remain leakage-controlled
+
+---
+
+# Current Feature
+
 ## Stage 5 complete
 
 Status: completed

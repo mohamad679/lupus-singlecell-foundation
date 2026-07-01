@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage5_complete
-  current_phase: Stage 5
-  current_phase_name: Stage 5 - Complete
-  current_feature: STAGE5-COMPLETE
+  status: stage6_in_progress
+  current_phase: Stage 6
+  current_phase_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F001
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_separate_modeling_execution_stage
+  modeling_readiness: stage6_controlled_execution_path_opened_pending_feature_gates
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   stage5_permission: stage5_complete_no_modeling_authorization
@@ -1900,3 +1900,129 @@ stage5_final_modeling_handoff_decision:
   external_validation_allowed: false
   performance_claims_allowed: false
   performance_claims_added: false
+
+
+stage5_completed_project_snapshot_for_legacy_tests:
+  status: stage5_complete
+  current_phase: Stage 5
+  current_phase_name: Stage 5 - Complete
+  current_feature: STAGE5-COMPLETE
+  modeling_readiness: blocked_pending_separate_modeling_execution_stage
+  purpose: retained_historical_snapshot_only
+  superseded_by: Stage 6 - Controlled donor-level modeling execution
+
+stage6_modeling_execution_authorization:
+  status: in_progress
+  branch: feat/stage6-controlled-donor-level-modeling-execution
+  current_stage: Stage 6
+  stage_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F001
+  feature_name: Modeling execution authorization
+  stage6_status: in_progress
+  authorization_status: in_progress
+  authorization_decision: stage6_controlled_execution_path_authorized
+  modeling_authorization_status: stage6_opened_no_runtime_execution
+  upstream_project_status: stage5_complete
+  upstream_current_phase: Stage 5
+  upstream_current_phase_name: Stage 5 - Complete
+  upstream_current_feature: STAGE5-COMPLETE
+  upstream_stage5_status: completed
+  upstream_handoff_decision: separate_modeling_execution_stage_required
+  completed_stage5_features:
+  - STAGE5-F001
+  - STAGE5-F002
+  - STAGE5-F003
+  - STAGE5-F004
+  - STAGE5-F005
+  previous_stage5_feature: STAGE5-F005
+  previous_stage5_closeout_status: completed
+  stage6_execution_policy: controlled_donor_level_execution_in_stage6
+  additional_execution_stage_policy: no_additional_execution_stage_required
+  scope: authorization_only_no_runtime_execution
+  first_runtime_execution_feature: STAGE6-F005
+  next_feature: STAGE6-F002
+  next_feature_name: Real artifact access and integrity gate
+  remaining_stage6_features:
+  - STAGE6-F002
+  - STAGE6-F003
+  - STAGE6-F004
+  - STAGE6-F005
+  - STAGE6-F006
+  - STAGE6-F007
+  handoff_record_level: donor
+  split_policy: donor_level_only
+  leakage_policy: cell_level_split_forbidden
+  artifact_loading_policy: prohibited_until_explicit_stage6_gate
+  input_materialization_policy: prohibited_until_explicit_stage6_gate
+  label_creation_policy: prohibited_until_explicit_stage6_gate
+  split_execution_policy: prohibited_until_explicit_stage6_gate
+  aggregation_execution_policy: prohibited_until_explicit_stage6_gate
+  modeling_execution_policy: prohibited_until_explicit_stage6_gate
+  prediction_generation_policy: prohibited_until_explicit_stage6_gate
+  metric_computation_policy: prohibited_until_explicit_stage6_gate
+  external_validation_policy: prohibited_until_explicit_stage6_gate
+  performance_claim_policy: prohibited_until_explicit_stage6_gate
+  requires_explicit_modeling_approval: true
+  requires_human_review_before_modeling: true
+  requires_reproducibility_review: true
+  requires_leakage_review: true
+  requires_artifact_integrity_review: true
+  requires_scope_review: true
+  requires_donor_level_only: true
+  forbids_cell_level_split: true
+  requires_no_large_artifact_commit: true
+  requires_protocol_before_execution: true
+  requires_no_additional_execution_stage: true
+  permits_stage6_controlled_execution_path: true
+  stage7_required: false
+  separate_stage7_required: false
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_split_execution: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  allow_modeling: false
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false
+  allowed_actions:
+  - open Stage 6 as the controlled donor-level execution stage
+  - record that Stage 6 contains execution and no Stage 7 is required
+  - record that runtime execution remains blocked until explicit Stage 6 gates
+  - preserve donor-level and leakage-control requirements
+  - preserve no-large-artifact-commit policy
+  prohibited_actions:
+  - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - materialize evaluation arrays
+  - create label arrays from real data
+  - execute real split assignment
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - generate predictions
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
