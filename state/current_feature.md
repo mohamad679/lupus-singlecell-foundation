@@ -3,6 +3,62 @@
 ## Stage 6 active
 
 Status: in_progress
+Branch: `feat/stage6-f006-prediction-metric-computation`
+
+## Active stage
+
+Stage 6 - Controlled donor-level modeling execution
+
+Stage 6 remains the single controlled execution stage.
+
+No Stage 7 is required for execution.
+
+## Active feature
+
+## STAGE6-F007 - Stage 6 final result report and closeout
+
+Status: ready
+Branch: `feat/stage6-f006-prediction-metric-computation`
+
+STAGE6-F006 is complete.
+
+STAGE6-F007 is the final Stage 6 closeout feature.
+
+## Completed Stage 6 feature
+
+## STAGE6-F006 - Prediction and metric computation
+
+Status: completed
+Branch: `feat/stage6-f006-prediction-metric-computation`
+
+Closeout feature: STAGE6-F006-CLOSEOUT
+
+Prediction generation is allowed only for in-memory donor-level records.
+
+Metric computation is allowed only for in-memory donor-level predictions.
+
+F006 does not write report tables or prediction artifacts.
+
+No filesystem artifact access is performed.
+No real artifact file is loaded.
+No `.npy` embedding payload is loaded.
+No embedding vector is parsed from disk.
+No split assignment is executed from files.
+No model refit is performed.
+No training is performed.
+No model artifact is persisted.
+No prediction manifest is written.
+No metric table is written.
+No external validation is performed.
+No performance claims are added.
+
+---
+
+# Current Feature
+
+## Stage 6 active
+
+Status: in_progress
 Branch: `feat/stage6-f005-controlled-baseline-execution`
 
 ## Active stage
