@@ -3,6 +3,88 @@
 ## Stage 6 active
 
 Status: in_progress
+Branch: `chore/stage6-f001-closeout`
+
+## Active stage
+
+Stage 6 - Controlled donor-level modeling execution
+
+Stage 6 remains the single controlled execution stage.
+
+No Stage 7 is required for execution.
+
+## Active feature
+
+## STAGE6-F002 - Real artifact access and integrity gate
+
+Status: ready
+Branch: `chore/stage6-f001-closeout`
+
+STAGE6-F001 is complete.
+
+STAGE6-F002 is the next required gate.
+
+STAGE6-F002 may define and verify real artifact access and integrity
+requirements, but it must not load `.npy` payloads, parse embedding
+vectors, materialize evaluation arrays, create real labels, execute
+splits, fit models, generate predictions, compute metrics, train models,
+run external validation, or add performance claims.
+
+## Completed Stage 6 feature
+
+## STAGE6-F001 - Modeling execution authorization
+
+Status: completed
+Branch: `chore/stage6-f001-closeout`
+
+Stage 6-F001 opened Stage 6 as the controlled donor-level modeling
+execution stage.
+
+It recorded that execution must proceed inside Stage 6 and that no
+Stage 7 is required for execution.
+
+It did not perform runtime execution.
+
+## Stage 6 execution structure
+
+- STAGE6-F001 - Modeling execution authorization
+- STAGE6-F002 - Real artifact access and integrity gate
+- STAGE6-F003 - Donor-level input materialization gate
+- STAGE6-F004 - Split and leakage-control gate
+- STAGE6-F005 - Controlled baseline execution
+- STAGE6-F006 - Prediction and metric computation
+- STAGE6-F007 - Stage 6 final result report and closeout
+
+## Runtime safety locks retained after STAGE6-F001 closeout
+
+No real embedding artifact is committed.
+No `.npy` embedding payload is loaded.
+No embedding vector is parsed.
+No evaluation array is materialized.
+No label array is created from real data.
+No real split assignment is executed.
+No real donor-level aggregation is executed.
+No AnnData files are loaded.
+No downloads are performed.
+No Geneformer execution is performed.
+No tokenizer execution is performed.
+No embedding extraction is performed.
+No baseline feature extraction is performed.
+No scalers are fit.
+No models are fit.
+No predictions are generated.
+No real metrics are computed.
+No training is performed.
+No external validation is performed.
+No performance claims are added.
+
+---
+
+# Current Feature
+
+## Stage 6 active
+
+Status: in_progress
 Branch: `feat/stage6-controlled-donor-level-modeling-execution`
 
 ## Active stage
