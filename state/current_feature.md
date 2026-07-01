@@ -2,8 +2,8 @@
 
 ## STAGE5-F004 - Pre-execution audit gate
 
-Status: planned
-Branch: `TODO`
+Status: in_progress
+Branch: `feat/stage5-pre-execution-audit-gate`
 
 ## Current stage
 
@@ -11,12 +11,30 @@ Stage 5 - Modeling stage approval and execution planning
 
 Stage 5 has started, but modeling is still not authorized.
 
-## Required next step
+Stage 5-F004 validates pre-execution audit constraints only.
 
-The next feature should validate a metadata-only pre-execution audit gate.
+## Scope
 
-This gate must verify that all prior Stage 5 planning and contract gates are
-complete before any real execution or modeling can be considered.
+This feature is metadata-only.
+
+It records the pre-execution audit gate for future execution planning:
+
+- prior Stage 5 planning gates must be complete
+- audit record level must remain donor
+- split policy must remain donor-level only
+- cell-level split remains forbidden
+- audit scope is audit-only and does not execute anything
+- artifact loading remains prohibited until an explicit later gate
+- input materialization remains prohibited until an explicit later gate
+- label creation remains prohibited until an explicit later gate
+- split execution remains prohibited until an explicit later gate
+- aggregation execution remains prohibited until an explicit later gate
+- modeling execution remains prohibited until an explicit later gate
+- prediction generation remains prohibited until an explicit later gate
+- metric computation is future-only and not computed here
+- external validation remains prohibited until an explicit later gate
+- performance claims remain prohibited until an explicit later gate
+- final Stage 5 handoff decision remains required
 
 ## Required gates retained
 
@@ -54,6 +72,16 @@ No real metrics are computed.
 No training is performed.
 No external validation is performed.
 No performance claims are added.
+
+## Next planned feature
+
+## STAGE5-F005 - Final Stage 5 modeling handoff decision
+
+Status: planned
+Branch: `TODO`
+
+The next feature should record the final Stage 5 handoff decision. It may only
+authorize future modeling if all required explicit gates are approved.
 
 ## Previous completed feature
 

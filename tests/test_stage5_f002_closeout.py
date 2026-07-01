@@ -81,8 +81,8 @@ def test_stage5_f002_closeout_current_feature_document_advances_to_f003():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
-    assert "Status: planned" in current_feature
-    assert "Branch: `TODO`" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "Branch: `feat/stage5-pre-execution-audit-gate`" in current_feature
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
     assert "Status: completed" in current_feature
     assert "Branch: `chore/stage5-f002-closeout`" in current_feature
