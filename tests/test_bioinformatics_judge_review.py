@@ -76,7 +76,7 @@ def test_no_candidate_is_approved_by_bioinformatics_review():
 def test_state_keeps_gate_selection_and_external_validation_pending():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE3-F001" in state
+    assert "current_feature: STAGE3-F002" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
     assert "Human Gate 1: Dataset Feasibility Approved" in state
