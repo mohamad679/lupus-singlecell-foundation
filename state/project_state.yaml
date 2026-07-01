@@ -3,7 +3,7 @@ project:
   status: stage6_in_progress
   current_phase: Stage 6
   current_phase_name: Stage 6 - Controlled donor-level modeling execution
-  current_feature: STAGE6-F002
+  current_feature: STAGE6-F003
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: stage6_f002_real_artifact_access_integrity_gate_in_progress
+  modeling_readiness: stage6_f002_complete_pending_donor_level_input_materialization_gate
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   stage5_permission: stage5_complete_no_modeling_authorization
@@ -2044,15 +2044,33 @@ stage6_f001_closeout_snapshot_for_legacy_tests:
   purpose: retained_historical_snapshot_only
   superseded_by: STAGE6-F002 - Real artifact access and integrity gate
 
+stage6_f002_closeout_snapshot_for_legacy_tests:
+  status: stage6_in_progress
+  current_phase: Stage 6
+  current_phase_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F002
+  modeling_readiness: stage6_f002_real_artifact_access_integrity_gate_in_progress
+  purpose: retained_historical_snapshot_only
+  superseded_by: STAGE6-F003 - Donor-level input materialization gate
+
 stage6_real_artifact_access_integrity_gate:
-  status: in_progress
+  status: completed
   branch: feat/stage6-real-artifact-access-integrity-gate
   current_stage: Stage 6
   stage_name: Stage 6 - Controlled donor-level modeling execution
   current_feature: STAGE6-F002
   feature_name: Real artifact access and integrity gate
+closeout_feature: STAGE6-F002-CLOSEOUT
+closeout_status: completed
+closeout_branch: chore/stage6-f002-closeout
+closeout_scope: closeout_only_no_runtime_execution
+pre_closeout_status: in_progress
+completed_stage6_features_after_closeout:
+- STAGE6-F001
+- STAGE6-F002
+next_feature_status: ready
   stage6_status: in_progress
-  gate_status: in_progress
+  gate_status: completed
   gate_decision: metadata_access_integrity_gate_opened
   previous_feature: STAGE6-F001
   previous_feature_status: completed
