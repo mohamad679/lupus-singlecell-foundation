@@ -3,6 +3,69 @@
 ## Stage 6 active
 
 Status: in_progress
+Branch: `feat/stage6-real-artifact-access-integrity-gate`
+
+## Active stage
+
+Stage 6 - Controlled donor-level modeling execution
+
+Stage 6 remains the single controlled execution stage.
+
+No Stage 7 is required for execution.
+
+## Active feature
+
+## STAGE6-F002 - Real artifact access and integrity gate
+
+Status: in_progress
+Branch: `feat/stage6-real-artifact-access-integrity-gate`
+
+STAGE6-F002 records path/schema/permission/integrity contracts only.
+
+It identifies the expected donor-level artifact family, format, layout,
+record level, and no-large-artifact-commit policy.
+
+It does not perform runtime execution.
+
+## Next Stage 6 feature
+
+## STAGE6-F003 - Donor-level input materialization gate
+
+STAGE6-F003 is the next required gate after STAGE6-F002.
+
+## Runtime safety locks retained in STAGE6-F002
+
+No filesystem artifact access is performed.
+No real embedding artifact is committed.
+No real artifact file count is scanned.
+No checksum is calculated over real artifacts.
+No `.npy` embedding payload is loaded.
+No embedding vector is parsed.
+No evaluation array is materialized.
+No labels are created from real data.
+No real split assignment is executed.
+No real donor-level aggregation is executed.
+No AnnData files are loaded.
+No downloads are performed.
+No Geneformer execution is performed.
+No tokenizer execution is performed.
+No embedding extraction is performed.
+No baseline feature extraction is performed.
+No scalers are fit.
+No models are fit.
+No predictions are generated.
+No real metrics are computed.
+No training is performed.
+No external validation is performed.
+No performance claims are added.
+
+---
+
+# Current Feature
+
+## Stage 6 active
+
+Status: in_progress
 Branch: `chore/stage6-f001-closeout`
 
 ## Active stage
