@@ -1,41 +1,40 @@
 # Current Feature
 
-## STAGE4-F004-CLOSEOUT - Real evaluation input readiness validation closeout
+## STAGE4-F005 - Real pre-modeling audit gate
 
-Status: completed
-Branch: `chore/stage4-f004-closeout`
+Status: in_progress
+Branch: `feat/stage4-real-pre-modeling-audit-gate`
 
-## Completed feature
+## Objective
 
-STAGE4-F004 - Real evaluation input readiness validation
-
-## Result
-
-Stage 4-F004 defined a metadata-only readiness contract for connecting the
-completed Stage 4 upstream contracts:
+Define a metadata-only pre-modeling audit gate after completion of the upstream
+Stage 4 contracts:
 
 - STAGE4-F001 - real embedding artifact validation
 - STAGE4-F002 - real donor-level aggregation run plan
 - STAGE4-F003 - real leakage-safe split manifest validation
+- STAGE4-F004 - real evaluation input readiness validation
 
-The completed readiness contract requires:
+This feature confirms that all pre-modeling review gates remain required before
+any real modeling, metric computation, or performance claim can be considered.
 
-- real artifact validation status: `completed`
-- donor aggregation run plan status: `completed`
-- leakage-safe split manifest validation status: `completed`
-- input artifact format: `npy_directory`
-- input artifact layout: `directory`
-- input record level: `donor`
-- aggregation strategy: `identity_donor_embedding_directory`
-- split level: `donor`
-- expected donor count: 261
-- observed donor count: 261
-- expected donor count matching observed donor count
-- unique donor IDs across splits remaining required
-- cell-level split assignments remaining prohibited
-- prediction, probability, metric, and model-output columns remaining prohibited
+## Required audit gates
 
-## Safety rules preserved
+- Human review before modeling remains required.
+- Explicit modeling permission remains required.
+- Reproducibility review remains required.
+- Leakage review remains required.
+- Artifact integrity review remains required.
+- Scope review remains required.
+
+## Allowed in this feature
+
+- Define pre-modeling audit gate metadata contract.
+- Validate completed upstream Stage 4 metadata contracts.
+- Verify all pre-modeling review gates remain required.
+- Summarize audit status without granting modeling permission.
+
+## Not allowed in this feature
 
 No real embedding artifact is committed.
 No `.npy` embedding payload is loaded.
@@ -58,9 +57,9 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next feature
+## Next expected feature
 
-STAGE4-F005 - Real pre-modeling audit gate
+STAGE4-F006 - Stage 4 final closeout and modeling handoff decision
 
-The next feature should define a final pre-modeling audit gate before any real
-modeling, metric computation, or performance claim can be considered.
+The next feature should close Stage 4 and record whether the project remains
+blocked or can move toward a separately approved modeling stage.
