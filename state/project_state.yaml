@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage4_f001_complete
+  status: stage4_f002_in_progress
   current_phase: Stage 4
   current_phase_name: Stage 4 - Real embedding artifact validation
-  current_feature: STAGE4-F001-CLOSEOUT
+  current_feature: STAGE4-F002
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_real_aggregation_plan
+  modeling_readiness: blocked_pending_real_donor_aggregation_run_plan
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
@@ -945,13 +945,14 @@ stage3_closeout:
 stage4_planning:
   status: in_progress
   current_phase: Stage 4
-  current_feature: STAGE4-F001-CLOSEOUT
-  current_feature_name: Real embedding artifact validation closeout
-  branch: chore/stage4-f001-closeout
+  current_feature: STAGE4-F002
+  current_feature_name: Real donor-level aggregation run plan
+  branch: feat/stage4-real-donor-aggregation-run-plan
   completed_feature: STAGE4-F001
   completed_feature_name: Real embedding artifact validation
-  next_feature: STAGE4-F002
-  next_feature_name: Real donor-level aggregation run plan
+  current_stage4_feature: STAGE4-F002
+  next_feature: STAGE4-F003
+  next_feature_name: Real leakage-safe split manifest validation
   allowed_starting_paths:
   - real_embedding_artifact_validation
   - controlled_embedding_extraction
@@ -1018,6 +1019,74 @@ stage4_real_embedding_artifact_validation:
   artifact_commit_allowed: false
   large_artifact_commit_allowed: false
   local_path_required_from_user: true
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+
+stage4_real_donor_aggregation_run_plan:
+  status: in_progress
+  branch: feat/stage4-real-donor-aggregation-run-plan
+  current_feature: STAGE4-F002
+  feature_name: Real donor-level aggregation run plan
+  scope: define a safe run plan for the observed donor-level npy_directory artifact without executing aggregation
+  prerequisite_feature: STAGE4-F001
+  prerequisite_status: completed
+  input_artifact_format: npy_directory
+  input_artifact_layout: directory
+  input_record_level: donor
+  output_record_level: donor
+  split_level: donor
+  aggregation_strategy: identity_donor_embedding_directory
+  expected_donor_file_count: 261
+  observed_donor_file_count: 261
+  observed_total_size_bytes: 360839808
+  observed_all_files_same_size: true
+  filename_category_counts:
+    flare_like: 14
+    healthy_hc_like: 48
+    healthy_igtb_like: 50
+    managed_sle_numeric_like: 148
+    control_like: 1
+  requires_cell_to_donor_pooling: false
+  requires_payload_loading: false
+  requires_npy_payload_loading: false
+  requires_real_aggregation_execution: false
+  allowed_actions:
+  - define donor-level aggregation run plan metadata
+  - assert observed donor-level artifact count compatibility
+  - assert filename category counts sum to observed donor file count
+  - preserve identity strategy for already donor-level embeddings
+  - record next required validation gates
+  prohibited_actions:
+  - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_metric_computation: false
   modeling_allowed: false
   training_allowed: false
   external_validation_allowed: false
