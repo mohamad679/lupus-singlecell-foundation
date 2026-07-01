@@ -13,6 +13,7 @@ def _block_between(text, start_marker, end_marker=None):
 
 
 
+
 def test_stage4_f002_closeout_history_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
     block = _block_between(
@@ -21,9 +22,9 @@ def test_stage4_f002_closeout_history_marks_feature_complete_and_next_feature_re
         "stage4_real_leakage_safe_split_manifest_validation:",
     )
 
-    assert "status: stage4_f003_complete" in state
+    assert "status: stage4_f004_in_progress" in state
     assert "current_phase: Stage 4" in state
-    assert "current_feature: STAGE4-F003-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F004" in state
     assert "status: completed" in block
     assert "current_feature: STAGE4-F002" in block
     assert "closeout_feature: STAGE4-F002-CLOSEOUT" in block
@@ -80,15 +81,15 @@ def test_stage4_f002_closeout_preserves_safety_locks():
 
 
 
-def test_stage4_f002_closeout_current_feature_document_has_advanced_to_f003():
-    current_feature = CURRENT_FEATURE_PATH.read_text()
-    normalized_current_feature = " ".join(current_feature.split())
 
-    assert "STAGE4-F003-CLOSEOUT - Real leakage-safe split manifest validation closeout" in current_feature
-    assert "Status: completed" in current_feature
-    assert "STAGE4-F003 - Real leakage-safe split manifest validation" in current_feature
-    assert "split level: `donor`" in current_feature
-    assert "No `.npy` embedding payload is loaded" in current_feature
-    assert "No real donor-level aggregation is executed" in current_feature
-    assert "No real metrics are computed" in current_feature
+def test_stage4_f002_closeout_current_feature_document_has_advanced_to_f004():
+    current_feature = CURRENT_FEATURE_PATH.read_text()
+
     assert "STAGE4-F004 - Real evaluation input readiness validation" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "Validate metadata-only readiness" in current_feature
+    assert "No evaluation array is materialized" in current_feature
+    assert "No label array is created from real data" in current_feature
+    assert "No predictions are generated" in current_feature
+    assert "No real metrics are computed" in current_feature
+    assert "STAGE4-F005 - Real pre-modeling audit gate" in current_feature

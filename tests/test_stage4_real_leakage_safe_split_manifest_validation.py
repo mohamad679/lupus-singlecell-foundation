@@ -12,22 +12,30 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage4_f003_split_manifest_block_is_retained_after_closeout():
-    state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_leakage_safe_split_manifest_validation:")
 
-    assert "status: stage4_f003_complete" in state
+def test_stage4_f003_split_manifest_block_is_retained_after_f004_start():
+    state = STATE_PATH.read_text()
+    block = _block_between(
+        state,
+        "stage4_real_leakage_safe_split_manifest_validation:",
+        "stage4_real_evaluation_input_readiness_validation:",
+    )
+
+    assert "status: stage4_f004_in_progress" in state
     assert "current_phase: Stage 4" in state
-    assert "current_feature: STAGE4-F003-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F004" in state
     assert "status: completed" in block
     assert "current_feature: STAGE4-F003" in block
     assert "closeout_feature: STAGE4-F003-CLOSEOUT" in block
     assert "next_feature: STAGE4-F004" in block
 
-
 def test_stage4_f003_records_donor_level_split_manifest_scope_after_closeout():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_leakage_safe_split_manifest_validation:")
+    block = _block_between(
+        state,
+        "stage4_real_leakage_safe_split_manifest_validation:",
+        "stage4_real_evaluation_input_readiness_validation:",
+    )
 
     assert "input_artifact_format: npy_directory" in block
     assert "input_record_level: donor" in block
@@ -40,7 +48,11 @@ def test_stage4_f003_records_donor_level_split_manifest_scope_after_closeout():
 
 def test_stage4_f003_preserves_safety_locks_after_closeout():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_leakage_safe_split_manifest_validation:")
+    block = _block_between(
+        state,
+        "stage4_real_leakage_safe_split_manifest_validation:",
+        "stage4_real_evaluation_input_readiness_validation:",
+    )
 
     assert "allow_cell_level_splits: false" in block
     assert "allow_duplicate_donors_across_splits: false" in block
@@ -56,13 +68,15 @@ def test_stage4_f003_preserves_safety_locks_after_closeout():
     assert "performance_claims_allowed: false" in block
 
 
-def test_stage4_f003_current_feature_document_records_closeout_scope():
+
+def test_stage4_f003_current_feature_document_has_advanced_to_f004():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE4-F003-CLOSEOUT - Real leakage-safe split manifest validation closeout" in current_feature
-    assert "Status: completed" in current_feature
-    assert "STAGE4-F003 - Real leakage-safe split manifest validation" in current_feature
-    assert "split level: `donor`" in current_feature
-    assert "No `.npy` embedding payload is loaded" in current_feature
-    assert "No real metrics are computed" in current_feature
     assert "STAGE4-F004 - Real evaluation input readiness validation" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "Validate metadata-only readiness" in current_feature
+    assert "No evaluation array is materialized" in current_feature
+    assert "No label array is created from real data" in current_feature
+    assert "No predictions are generated" in current_feature
+    assert "No real metrics are computed" in current_feature
+    assert "STAGE4-F005 - Real pre-modeling audit gate" in current_feature
