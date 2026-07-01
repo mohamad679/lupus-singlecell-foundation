@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage3_f004_evaluation_protocol_scaffold_in_progress
+  status: stage3_f005_baseline_control_plan_in_progress
   current_phase: Stage 3
   current_phase_name: Stage 3 - Patient-level embedding aggregation and leakage-safe evaluation design
-  current_feature: STAGE3-F004
+  current_feature: STAGE3-F005
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -798,7 +798,7 @@ stage3_leakage_safe_splits:
 
 
 stage3_evaluation_protocol_scaffold:
-  status: in_progress
+  status: completed
   branch: feat/stage3-evaluation-protocol-scaffold
   current_feature: STAGE3-F004
   scope: define metadata-only patient-level evaluation protocol scaffold
@@ -831,3 +831,39 @@ stage3_evaluation_protocol_scaffold:
   - Requires uncertainty and permutation controls before future performance reporting.
   - Requires baseline comparison and confounder controls.
   - Rejects cell-level split policy, metric computation, model fitting, and performance claims.
+
+
+stage3_baseline_control_plan:
+  status: in_progress
+  branch: feat/stage3-baseline-control-plan
+  current_feature: STAGE3-F005
+  scope: define metadata-only baseline and control comparison plan
+  candidate_representation: frozen_geneformer_donor_embedding
+  required_baseline_families:
+  - pseudobulk_expression
+  - cell_type_proportion
+  - donor_cell_count
+  - metadata_confounder_control
+  - label_permutation_control
+  same_splits_as_candidate_required: true
+  fold_internal_preprocessing_required: true
+  baseline_comparison_required: true
+  confounder_controls_required: true
+  modeling_allowed: false
+  training_allowed: false
+  downloads_allowed: false
+  embedding_extraction_allowed: false
+  feature_extraction_allowed: false
+  geneformer_execution_allowed: false
+  tokenizer_execution_allowed: false
+  anndata_loading_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  real_artifact_loading_allowed: false
+  metric_computation_allowed: false
+  model_fitting_allowed: false
+  notes:
+  - Defines planned baseline/control families without extracting features.
+  - Requires pseudobulk, cell-type proportion, donor cell-count, metadata confounder, and label permutation controls.
+  - Requires same donor/patient splits as the candidate representation.
+  - Rejects cell-level features, feature extraction, metric computation, model fitting, and performance claims.
