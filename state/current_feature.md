@@ -1,34 +1,38 @@
 # Current Feature
 
-## STAGE4-F005-CLOSEOUT - Real pre-modeling audit gate closeout
+## STAGE4-F006 - Stage 4 final closeout and modeling handoff decision
 
 Status: completed
-Branch: `chore/stage4-f005-closeout`
+Branch: `feat/stage4-final-closeout-modeling-handoff-decision`
 
-## Completed feature
+## Completed stage
 
-STAGE4-F005 - Real pre-modeling audit gate
+Stage 4 is complete.
 
-## Closeout summary
-
-The real pre-modeling audit gate is complete.
-
-The completed audit confirms that the upstream Stage 4 metadata contracts are
-complete:
+## Completed Stage 4 features
 
 - STAGE4-F001 - real embedding artifact validation
 - STAGE4-F002 - real donor-level aggregation run plan
 - STAGE4-F003 - real leakage-safe split manifest validation
 - STAGE4-F004 - real evaluation input readiness validation
+- STAGE4-F005 - real pre-modeling audit gate
 
-The audit also confirms that all pre-modeling review gates remain required
-before any real modeling, metric computation, training, external validation, or
-performance claim can be considered.
+## Handoff decision
 
-## Required review gates retained
+The Stage 4 handoff decision is:
 
+`separate_modeling_stage_required`
+
+This means Stage 4 does not authorize modeling. Any modeling work requires a
+separate stage, a new branch, explicit modeling approval, and preserved
+donor-level leakage controls.
+
+## Required handoff gates
+
+- Separate modeling stage remains required.
+- New branch for modeling work remains required.
+- Explicit modeling approval remains required.
 - Human review before modeling remains required.
-- Explicit modeling permission remains required.
 - Reproducibility review remains required.
 - Leakage review remains required.
 - Artifact integrity review remains required.
@@ -57,9 +61,8 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next expected feature
+## Next phase
 
-STAGE4-F006 - Stage 4 final closeout and modeling handoff decision
+A separate modeling stage may be planned only after explicit approval.
 
-The next feature should close Stage 4 and record whether the project remains
-blocked or can move toward a separately approved modeling stage.
+Stage 4 itself remains metadata-only and closed.

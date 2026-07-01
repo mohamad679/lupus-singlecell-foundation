@@ -14,11 +14,15 @@ def _block_between(text, start_marker, end_marker=None):
 
 def test_stage4_f005_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
+    block = _block_between(
+        state,
+        "stage4_real_pre_modeling_audit_gate:",
+        "stage4_final_closeout_and_modeling_handoff_decision:",
+    )
 
-    assert "status: stage4_f005_complete" in state
+    assert "status: stage4_complete" in state
     assert "current_phase: Stage 4" in state
-    assert "current_feature: STAGE4-F005-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F006" in state
     assert "next_feature: STAGE4-F006" in state
     assert "next_feature_name: Stage 4 final closeout and modeling handoff decision" in state
     assert "status: completed" in block
@@ -31,7 +35,11 @@ def test_stage4_f005_closeout_marks_feature_complete_and_next_feature_ready():
 
 def test_stage4_f005_closeout_retains_pre_modeling_review_gates():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
+    block = _block_between(
+        state,
+        "stage4_real_pre_modeling_audit_gate:",
+        "stage4_final_closeout_and_modeling_handoff_decision:",
+    )
 
     assert "requires_human_review_before_modeling: true" in block
     assert "requires_explicit_modeling_permission: true" in block
@@ -49,7 +57,11 @@ def test_stage4_f005_closeout_retains_pre_modeling_review_gates():
 
 def test_stage4_f005_closeout_preserves_runtime_and_modeling_safety_locks():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_pre_modeling_audit_gate:")
+    block = _block_between(
+        state,
+        "stage4_real_pre_modeling_audit_gate:",
+        "stage4_final_closeout_and_modeling_handoff_decision:",
+    )
 
     assert "allow_real_artifact_loading: false" in block
     assert "allow_npy_payload_loading: false" in block
@@ -72,16 +84,17 @@ def test_stage4_f005_closeout_preserves_runtime_and_modeling_safety_locks():
     assert "performance_claims_allowed: false" in block
 
 
-def test_stage4_f005_closeout_current_feature_document_is_final():
+
+def test_stage4_f005_closeout_current_feature_document_has_advanced_to_f006():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE4-F005-CLOSEOUT - Real pre-modeling audit gate closeout" in current_feature
+    assert "STAGE4-F006 - Stage 4 final closeout and modeling handoff decision" in current_feature
     assert "Status: completed" in current_feature
-    assert "STAGE4-F005 - Real pre-modeling audit gate" in current_feature
+    assert "Stage 4 is complete." in current_feature
+    assert "`separate_modeling_stage_required`" in current_feature
+    assert "Stage 4 does not authorize modeling" in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
-    assert "No evaluation array is materialized" in current_feature
     assert "No predictions are generated" in current_feature
     assert "No real metrics are computed" in current_feature
-    assert "No training is performed" in current_feature
     assert "No performance claims are added" in current_feature
-    assert "STAGE4-F006 - Stage 4 final closeout and modeling handoff decision" in current_feature
+    assert "A separate modeling stage may be planned only after explicit approval." in current_feature

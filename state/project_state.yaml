@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage4_f005_complete
+  status: stage4_complete
   current_phase: Stage 4
-  current_phase_name: Stage 4 - Real pre-modeling audit gate closeout
-  current_feature: STAGE4-F005-CLOSEOUT
+  current_phase_name: Stage 4 - Final closeout and modeling handoff decision
+  current_feature: STAGE4-F006
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_stage4_final_closeout_and_modeling_handoff_decision
+  modeling_readiness: blocked_pending_separate_modeling_stage_approval
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
@@ -947,27 +947,27 @@ stage3_closeout:
   - This closeout does not load real data, execute Geneformer, fit models, compute metrics, or add performance claims.
 
 stage4_planning:
-  status: in_progress
+  status: completed
   current_phase: Stage 4
-  current_feature: STAGE4-F005-CLOSEOUT
-  current_feature_name: Real pre-modeling audit gate closeout
-  branch: chore/stage4-f005-closeout
-  completed_feature: STAGE4-F005
-  completed_feature_name: Real pre-modeling audit gate
-  current_stage4_feature: STAGE4-F005-CLOSEOUT
-  next_feature: STAGE4-F006
-  next_feature_name: Stage 4 final closeout and modeling handoff decision
-  allowed_starting_paths:
-  - stage4_final_closeout_and_modeling_handoff_decision
+  current_feature: STAGE4-F006
+  current_feature_name: Stage 4 final closeout and modeling handoff decision
+  branch: feat/stage4-final-closeout-modeling-handoff-decision
+  completed_feature: STAGE4-F006
+  completed_feature_name: Stage 4 final closeout and modeling handoff decision
+  current_stage4_feature: STAGE4-F006
+  stage4_closeout_status: completed
+  handoff_decision: separate_modeling_stage_required
+  next_phase: separate_modeling_stage_requires_explicit_approval
+  next_phase_name: Modeling stage planning requires explicit approval
   modeling_allowed: false
   training_allowed: false
   external_validation_allowed: false
   performance_claims_allowed: false
   notes:
-  - Stage 4-F005 is complete.
-  - The pre-modeling audit gate remains metadata-only.
-  - It does not grant modeling permission.
-  - Modeling remains blocked pending Stage 4-F006 final closeout and explicit handoff decision.
+  - Stage 4 is closed out.
+  - Real artifact metadata, aggregation planning, split manifest validation, evaluation input readiness, and pre-modeling audit gates are complete.
+  - Modeling is not authorized in Stage 4.
+  - Any modeling work requires a separate stage, new branch, explicit approval, and preserved donor-level leakage controls.
 
 stage4_real_embedding_artifact_validation:
   status: completed
@@ -1338,3 +1338,92 @@ stage4_real_pre_modeling_audit_gate:
   - F005 pre-modeling audit gate completed as metadata-only validation.
   - Modeling remains blocked.
   - Stage 4-F006 is required before any modeling handoff decision.
+
+stage4_final_closeout_and_modeling_handoff_decision:
+  status: completed
+  branch: feat/stage4-final-closeout-modeling-handoff-decision
+  current_feature: STAGE4-F006
+  feature_name: Stage 4 final closeout and modeling handoff decision
+  stage4_closeout_status: completed
+  decision_status: completed
+  handoff_decision: separate_modeling_stage_required
+  modeling_handoff_scope: planning_only_no_modeling_authorization
+  completed_stage4_features:
+  - STAGE4-F001
+  - STAGE4-F002
+  - STAGE4-F003
+  - STAGE4-F004
+  - STAGE4-F005
+  upstream_status: completed
+  artifact_validation_status: completed
+  aggregation_plan_status: completed
+  split_manifest_validation_status: completed
+  evaluation_input_readiness_status: completed
+  pre_modeling_audit_status: completed
+  next_phase: separate_modeling_stage_requires_explicit_approval
+  next_phase_name: Modeling stage planning requires explicit approval
+  required_handoff_gates:
+  - separate modeling stage
+  - new branch for modeling work
+  - explicit modeling approval
+  - human review before modeling
+  - reproducibility review
+  - leakage review
+  - artifact integrity review
+  - scope review
+  allowed_actions:
+  - record Stage 4 final closeout
+  - record metadata-only modeling handoff decision
+  - require a separate modeling stage before any model fitting
+  - preserve all pre-modeling safety locks
+  prohibited_actions:
+  - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - materialize evaluation arrays
+  - create label arrays from real data
+  - execute real split assignment
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - generate predictions
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+  requires_separate_modeling_stage: true
+  requires_new_branch_for_modeling: true
+  requires_explicit_modeling_approval: true
+  requires_human_review_before_modeling: true
+  requires_reproducibility_review: true
+  requires_leakage_review: true
+  requires_artifact_integrity_review: true
+  requires_scope_review: true
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_split_execution: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false
