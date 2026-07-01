@@ -1,9 +1,9 @@
 # Current Feature
 
-## STAGE5-F003 - Donor-level execution contract approval
+## STAGE5-F004 - Pre-execution audit gate
 
-Status: in_progress
-Branch: `feat/stage5-donor-level-execution-contract-approval`
+Status: planned
+Branch: `TODO`
 
 ## Current stage
 
@@ -11,32 +11,12 @@ Stage 5 - Modeling stage approval and execution planning
 
 Stage 5 has started, but modeling is still not authorized.
 
-Stage 5-F003 reviews donor-level execution contract constraints only.
+## Required next step
 
-## Scope
+The next feature should validate a metadata-only pre-execution audit gate.
 
-This feature is metadata-only.
-
-It records the donor-level execution contract constraints for future execution
-planning:
-
-- contract record level must remain donor
-- contract split level must remain donor
-- contract label level must remain donor
-- contract prediction level must remain donor
-- split policy must remain donor-level only
-- cell-level split remains forbidden
-- contract scope is review-only and does not execute anything
-- artifact loading remains prohibited until an explicit later gate
-- input materialization remains prohibited until an explicit later gate
-- label creation remains prohibited until an explicit later gate
-- split execution remains prohibited until an explicit later gate
-- aggregation execution remains prohibited until an explicit later gate
-- modeling execution remains prohibited until an explicit later gate
-- prediction generation remains prohibited until an explicit later gate
-- metric computation is future-only and not computed here
-- external validation remains prohibited until an explicit later gate
-- performance claims remain prohibited until an explicit later gate
+This gate must verify that all prior Stage 5 planning and contract gates are
+complete before any real execution or modeling can be considered.
 
 ## Required gates retained
 
@@ -50,7 +30,7 @@ planning:
 - cell-level split is forbidden
 - large real artifacts must not be committed
 - a separate execution gate remains required
-- a pre-execution audit remains required
+- a final Stage 5 handoff decision remains required
 
 ## Safety locks retained
 
@@ -75,17 +55,20 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next planned feature
-
-## STAGE5-F004 - Pre-execution audit gate
-
-Status: planned
-Branch: `TODO`
-
-The next feature should validate a metadata-only pre-execution audit gate before
-any real execution or modeling can be considered.
-
 ## Previous completed feature
+
+## STAGE5-F003 - Donor-level execution contract approval
+
+Status: completed
+Branch: `chore/stage5-f003-closeout`
+
+Stage 5-F003 recorded donor-level execution contract constraints only.
+
+It did not authorize input materialization, label creation, split execution,
+model fitting, prediction generation, metric computation, training, external
+validation, or performance claims.
+
+## Earlier completed feature
 
 ## STAGE5-F002 - Modeling execution protocol scaffold
 
