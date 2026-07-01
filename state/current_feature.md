@@ -1,33 +1,22 @@
 # Current Feature
 
-## STAGE5-F001 - Modeling approval scaffold
+## STAGE5-F002 - Modeling execution protocol scaffold
 
-Status: in_progress
-Branch: `feat/stage5-modeling-approval-scaffold`
+Status: planned
+Branch: `TODO`
 
 ## Current stage
 
 Stage 5 - Modeling stage approval and execution planning
 
-Stage 5 has started, but modeling is not authorized.
+Stage 5 has started, but modeling is still not authorized.
 
-## Upstream handoff
+## Required next step
 
-Stage 4 is complete.
+The next feature should define a metadata-only modeling execution protocol
+scaffold before any real execution can be considered.
 
-The Stage 4 handoff decision remains:
-
-`separate_modeling_stage_required`
-
-This means Stage 5 may document approval requirements and execution planning,
-but Stage 5-F001 does not authorize model fitting, prediction generation,
-metric computation, training, external validation, or performance claims.
-
-## Scope
-
-This feature is metadata-only.
-
-It records:
+The protocol scaffold must preserve:
 
 - explicit modeling approval remains required
 - human review before modeling remains required
@@ -35,7 +24,6 @@ It records:
 - leakage review remains required
 - artifact integrity review remains required
 - scope review remains required
-- a modeling execution protocol is required before execution
 - donor-level controls are required
 - cell-level split is forbidden
 - large real artifacts must not be committed
@@ -63,7 +51,19 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Previous completed stage
+## Previous completed feature
+
+## STAGE5-F001 - Modeling approval scaffold
+
+Status: completed
+Branch: `chore/stage5-f001-closeout`
+
+Stage 5-F001 recorded the modeling approval scaffold only.
+
+It did not authorize model fitting, prediction generation, metric computation,
+training, external validation, or performance claims.
+
+## Historical completed Stage 4 handoff
 
 ## STAGE4-F006 - Stage 4 final closeout and modeling handoff decision
 
@@ -76,5 +76,12 @@ The Stage 4 handoff decision was:
 `separate_modeling_stage_required`
 
 Stage 4 does not authorize modeling.
+
+No `.npy` embedding payload is loaded.
+No evaluation array is materialized.
+No predictions are generated.
+No real metrics are computed.
+No training is performed.
+No performance claims are added.
 
 A separate modeling stage may be planned only after explicit approval.
