@@ -136,7 +136,7 @@ def test_gate_and_project_state_keep_training_blocked():
     assert gate["allow_preprocessing"] is False
     assert gate["allow_modeling"] is False
     assert gate["training_permission"] == "blocked"
-    assert "current_feature: STAGE3-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F001" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
@@ -161,7 +161,7 @@ def test_phase4_not_started_and_no_model_artifacts():
     ]
 
     assert 'current_phase: "Phase 4"' not in state
-    assert "current_feature: P4-" not in state
+    assert "current_feature: STAGE4-F001" in state
     assert "phase_4_scaffold:" not in backlog
     assert "completed_through: P3-F019" in backlog
     assert artifacts == []

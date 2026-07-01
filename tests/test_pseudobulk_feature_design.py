@@ -132,8 +132,8 @@ def test_unsupported_aggregation_unit_fails():
 def test_project_state_preserves_phase3_safety_locks():
     state = STATE_PATH.read_text()
 
-    assert "current_phase: Stage 3" in state
-    assert "current_feature: STAGE3-CLOSEOUT" in state
+    assert "current_phase: Stage 4" in state
+    assert "current_feature: STAGE4-F001" in state
     assert "primary_task: Active SLE flare discrimination" in state
     assert "allow_modeling: false" in state
     assert "modeling_allowed: false" in state

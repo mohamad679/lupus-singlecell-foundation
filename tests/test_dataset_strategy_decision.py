@@ -109,13 +109,13 @@ def test_strategy_blockers_remain_open_and_evidence_backed():
 def test_project_permissions_and_assignments_remain_locked():
     state = STATE_PATH.read_text()
 
-    assert "current_feature: STAGE3-CLOSEOUT" in state
+    assert "current_feature: STAGE4-F001" in state
     assert "dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run" in state
     assert "pivot_status: not_activated" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
-    assert "phase4_permission: blocked" in state
+    assert "phase4_permission: real_artifact_validation_only" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
 
@@ -138,7 +138,7 @@ def test_phase4_and_model_artifacts_are_absent_and_p3_f020_is_todo():
 
     assert artifacts == []
     assert 'current_phase: "Phase 4"' not in state
-    assert "current_feature: P4-" not in state
+    assert "current_feature: STAGE4-F001" in state
     assert "phase_4_scaffold:" not in backlog
     assert "completed_through: P3-F019" in backlog
 

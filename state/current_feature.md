@@ -1,39 +1,40 @@
 # Current Feature
 
-## STAGE3-CLOSEOUT - Stage 3 closeout
+## STAGE4-F001 - Real embedding artifact validation
 
-Status: completed
-Branch: `chore/stage3-closeout`
+Status: in_progress
+Branch: `feat/stage4-real-embedding-artifact-validation`
 
 ## Objective
 
-Close Stage 3 after completing the full metadata-only readiness scaffold:
+Start Stage 4 by validating a user-supplied local real embedding artifact path
+through safe metadata checks only.
 
-- STAGE3-F001 embedding artifact schema
-- STAGE3-F002 patient-level aggregation design
-- STAGE3-F003 leakage-safe split utilities
-- STAGE3-F004 evaluation protocol scaffold
-- STAGE3-F005 baseline/control plan
-- STAGE3-F006 modeling readiness gate
+This feature defines a guarded manifest and filesystem metadata contract for the
+existing local embedding artifact produced outside the repository.
 
-Stage 3 is complete after this closeout.
+## Allowed in this feature
 
-## Result
+- Record a local artifact path string.
+- Check whether the local path exists.
+- Check whether the path is a regular file or directory.
+- Record file size metadata.
+- Compute a checksum only when explicitly requested.
+- Validate safe manifest fields such as dataset id, artifact format, record
+  level, donor/cell identifier column names, embedding dimension, and safety
+  flags.
 
-The project is ready to move toward the Stage 4 path, starting with real
-embedding artifact validation or controlled embedding extraction.
+## Not allowed in this feature
 
-Next phase: Stage 4
-Next feature: STAGE4-F001 - Real embedding artifact validation
-
-## Safety rules
-
-No real embedding artifacts are loaded in this closeout.
+No real embedding artifact is committed.
+No model artifact is committed.
 No AnnData files are loaded.
 No downloads are performed.
 No Geneformer execution is performed.
 No tokenizer execution is performed.
 No embedding extraction is performed.
+No embedding payload table is parsed.
+No real donor-level aggregation is performed.
 No baseline feature extraction is performed.
 No scalers are fit.
 No models are fit.
@@ -42,9 +43,10 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Stage 4 entry condition
+## Local artifact rule
 
-Stage 4 may begin only by validating an existing local embedding artifact path
-or by defining a controlled embedding extraction run. Downstream classifier
-modeling remains blocked until real artifact validation, donor-level aggregation,
-leakage-safe splits, and evaluation inputs are validated.
+The real embedding artifact remains outside Git. Only path, filesystem metadata,
+checksum metadata, schema/status fields, and audit notes may be recorded in a
+safe manifest.
+
+The local artifact path is still pending user input.

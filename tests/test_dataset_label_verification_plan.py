@@ -97,8 +97,8 @@ def test_modeling_gate_references_verification_artifacts_and_remains_locked():
 def test_project_state_remains_unassigned_and_training_blocked():
     state = STATE_PATH.read_text()
 
-    assert "current_phase: Stage 3" in state
-    assert "current_feature: STAGE3-CLOSEOUT" in state
+    assert "current_phase: Stage 4" in state
+    assert "current_feature: STAGE4-F001" in state
     assert "modeling_readiness: not_ready" in state
     assert "allow_modeling: false" in state
     assert "training_allowed: false" in state
@@ -111,7 +111,7 @@ def test_phase4_is_not_started_and_p3_f011_remains_todo():
     backlog = BACKLOG_PATH.read_text()
 
     assert 'current_phase: "Phase 4"' not in state
-    assert "current_feature: P4-" not in state
+    assert "current_feature: STAGE4-F001" in state
     assert "phase_4_scaffold:" not in backlog
     assert "completed_through: P3-F019" in backlog
     assert "feature_id: P3-F011" in backlog

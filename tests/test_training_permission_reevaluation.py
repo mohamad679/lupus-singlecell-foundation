@@ -127,12 +127,12 @@ def test_pivot_is_documented_but_not_activated():
 def test_project_state_keeps_training_and_phase4_blocked():
     state = STATE_PATH.read_text()
 
-    assert "current_phase: Stage 3" in state
-    assert "current_feature: STAGE3-CLOSEOUT" in state
+    assert "current_phase: Stage 4" in state
+    assert "current_feature: STAGE4-F001" in state
     assert "modeling_readiness: not_ready" in state
     assert "training_permission: blocked" in state
     assert "allow_modeling: false" in state
-    assert "phase4_permission: blocked" in state
+    assert "phase4_permission: real_artifact_validation_only" in state
     assert "selected_datasets: []" in state
     assert "external_validation_cohort: TODO" in state
 
@@ -155,7 +155,7 @@ def test_no_model_artifacts_and_phase4_not_started():
 
     assert artifacts == []
     assert 'current_phase: "Phase 4"' not in state
-    assert "current_feature: P4-" not in state
+    assert "current_feature: STAGE4-F001" in state
     assert "phase_4_scaffold:" not in backlog
     assert "completed_through: P3-F019" in backlog
     assert "feature_id: P3-F017" in backlog
