@@ -12,9 +12,9 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage5_f001_closeout_marks_feature_complete_and_next_feature_ready():
+def test_stage5_f002_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_modeling_approval_scaffold:")
+    block = _block_between(state, "stage5_modeling_execution_protocol_scaffold:")
 
     assert "status: stage5_in_progress" in state
     assert "current_phase: Stage 5" in state
@@ -23,33 +23,35 @@ def test_stage5_f001_closeout_marks_feature_complete_and_next_feature_ready():
     assert "modeling_readiness: blocked_pending_donor_level_execution_contract_approval" in state
 
     assert "status: completed" in block
-    assert "branch: chore/stage5-f001-closeout" in block
-    assert "current_feature: STAGE5-F001" in block
-    assert "closeout_feature: STAGE5-F001-CLOSEOUT" in block
+    assert "branch: chore/stage5-f002-closeout" in block
+    assert "current_feature: STAGE5-F002" in block
+    assert "closeout_feature: STAGE5-F002-CLOSEOUT" in block
     assert "closeout_status: completed" in block
-    assert "next_feature: STAGE5-F002" in block
-    assert "next_feature_name: Modeling execution protocol scaffold" in block
+    assert "next_feature: STAGE5-F003" in block
+    assert "next_feature_name: Donor-level execution contract approval" in block
 
 
-def test_stage5_f001_closeout_retains_required_approval_and_donor_level_gates():
+def test_stage5_f002_closeout_retains_protocol_policy_locks():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_modeling_approval_scaffold:")
+    block = _block_between(state, "stage5_modeling_execution_protocol_scaffold:")
 
-    assert "requires_explicit_modeling_approval: true" in block
-    assert "requires_human_review_before_modeling: true" in block
-    assert "requires_reproducibility_review: true" in block
-    assert "requires_leakage_review: true" in block
-    assert "requires_artifact_integrity_review: true" in block
-    assert "requires_scope_review: true" in block
-    assert "requires_protocol_before_execution: true" in block
-    assert "requires_donor_level_only: true" in block
-    assert "forbids_cell_level_split: true" in block
-    assert "requires_no_large_artifact_commit: true" in block
+    assert "protocol_record_level: donor" in block
+    assert "split_policy: donor_level_only" in block
+    assert "leakage_policy: cell_level_split_forbidden" in block
+    assert "artifact_loading_policy: prohibited_until_explicit_gate" in block
+    assert "input_materialization_policy: prohibited_until_explicit_gate" in block
+    assert "label_creation_policy: prohibited_until_explicit_gate" in block
+    assert "aggregation_execution_policy: prohibited_until_explicit_gate" in block
+    assert "modeling_execution_policy: prohibited_until_explicit_gate" in block
+    assert "prediction_generation_policy: prohibited_until_explicit_gate" in block
+    assert "metric_computation_policy: future_only_no_computation" in block
+    assert "external_validation_policy: prohibited_until_explicit_gate" in block
+    assert "performance_claim_policy: prohibited_until_explicit_gate" in block
 
 
-def test_stage5_f001_closeout_preserves_runtime_modeling_metric_and_claim_locks():
+def test_stage5_f002_closeout_preserves_runtime_modeling_metric_and_claim_locks():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_modeling_approval_scaffold:")
+    block = _block_between(state, "stage5_modeling_execution_protocol_scaffold:")
 
     assert "allow_real_artifact_loading: false" in block
     assert "allow_npy_payload_loading: false" in block
@@ -75,14 +77,15 @@ def test_stage5_f001_closeout_preserves_runtime_modeling_metric_and_claim_locks(
     assert "performance_claims_added: false" in block
 
 
-def test_stage5_f001_closeout_current_feature_document_advances_to_f002():
+def test_stage5_f002_closeout_current_feature_document_advances_to_f003():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
+    assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
     assert "Status: planned" in current_feature
     assert "Branch: `TODO`" in current_feature
-    assert "STAGE5-F001 - Modeling approval scaffold" in current_feature
+    assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
     assert "Status: completed" in current_feature
+    assert "Branch: `chore/stage5-f002-closeout`" in current_feature
     assert "Stage 5 has started, but modeling is still not authorized." in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No evaluation array is materialized" in current_feature
