@@ -1,62 +1,50 @@
 # Current Feature
 
-## STAGE3-F006 - Modeling readiness gate
+## STAGE3-CLOSEOUT - Stage 3 closeout
 
-Status: in progress
-Branch: `feat/stage3-modeling-readiness-gate`
+Status: completed
+Branch: `chore/stage3-closeout`
 
 ## Objective
 
-Define the final metadata-only Stage 3 readiness gate before the future
-real-data validation or downstream modeling path can be considered.
+Close Stage 3 after completing the full metadata-only readiness scaffold:
 
-This feature does not load real embedding artifacts, load AnnData files,
-download data, execute Geneformer, execute tokenizers, extract embeddings,
-extract baseline features, fit scalers, train models, compute real metrics,
-perform external validation, or add performance claims.
+- STAGE3-F001 embedding artifact schema
+- STAGE3-F002 patient-level aggregation design
+- STAGE3-F003 leakage-safe split utilities
+- STAGE3-F004 evaluation protocol scaffold
+- STAGE3-F005 baseline/control plan
+- STAGE3-F006 modeling readiness gate
 
-## Contract scope
+Stage 3 is complete after this closeout.
 
-The readiness gate validates:
+## Result
 
-- embedding artifact schema completed
-- patient aggregation design completed
-- leakage-safe split utilities completed
-- evaluation protocol scaffold completed
-- baseline/control plan completed
-- patient/donor-level evaluation unit
-- same candidate and baseline split policy
-- fold-internal preprocessing requirement
-- uncertainty plan requirement
-- permutation plan requirement
-- next-stage real-data validation decision
-- no runtime execution inside the gate
-- no model fitting inside the gate
-- no metric computation inside the gate
-- no performance claims
+The project is ready to move toward the Stage 4 path, starting with real
+embedding artifact validation or controlled embedding extraction.
+
+Next phase: Stage 4
+Next feature: STAGE4-F001 - Real embedding artifact validation
 
 ## Safety rules
 
-- Patient/donor split level only.
-- No cell-level split assignments.
-- No cell-level features.
-- No real artifact loading inside the gate.
-- No AnnData loading.
-- No Geneformer execution.
-- No tokenizer execution.
-- No embedding extraction.
-- No baseline feature extraction.
-- No global preprocessing across folds.
-- No scaler fitting outside training folds.
-- No model fitting.
-- No metric computation.
-- No modeling.
-- No training.
-- No external validation.
-- No performance claims.
+No real embedding artifacts are loaded in this closeout.
+No AnnData files are loaded.
+No downloads are performed.
+No Geneformer execution is performed.
+No tokenizer execution is performed.
+No embedding extraction is performed.
+No baseline feature extraction is performed.
+No scalers are fit.
+No models are fit.
+No real metrics are computed.
+No training is performed.
+No external validation is performed.
+No performance claims are added.
 
-## Countdown
+## Stage 4 entry condition
 
-Stage 3 step: F006
-Remaining before real-data validation path can be considered: none after this
-gate is merged.
+Stage 4 may begin only by validating an existing local embedding artifact path
+or by defining a controlled embedding extraction run. Downstream classifier
+modeling remains blocked until real artifact validation, donor-level aggregation,
+leakage-safe splits, and evaluation inputs are validated.
