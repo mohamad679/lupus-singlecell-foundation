@@ -1,45 +1,41 @@
 # Current Feature
 
-## STAGE4-F004 - Real evaluation input readiness validation
+## STAGE4-F004-CLOSEOUT - Real evaluation input readiness validation closeout
 
-Status: in_progress
-Branch: `feat/stage4-real-evaluation-input-readiness-validation`
+Status: completed
+Branch: `chore/stage4-f004-closeout`
 
-## Objective
+## Completed feature
 
-Validate metadata-only readiness for connecting the completed Stage 4 upstream
-contracts:
+STAGE4-F004 - Real evaluation input readiness validation
+
+## Result
+
+Stage 4-F004 defined a metadata-only readiness contract for connecting the
+completed Stage 4 upstream contracts:
 
 - STAGE4-F001 - real embedding artifact validation
 - STAGE4-F002 - real donor-level aggregation run plan
 - STAGE4-F003 - real leakage-safe split manifest validation
 
-This feature checks whether the donor-level artifact contract, identity donor
-aggregation plan, and leakage-safe split manifest contract are compatible enough
-for a future evaluation-input wiring step.
+The completed readiness contract requires:
 
-## Required readiness gates
+- real artifact validation status: `completed`
+- donor aggregation run plan status: `completed`
+- leakage-safe split manifest validation status: `completed`
+- input artifact format: `npy_directory`
+- input artifact layout: `directory`
+- input record level: `donor`
+- aggregation strategy: `identity_donor_embedding_directory`
+- split level: `donor`
+- expected donor count: 261
+- observed donor count: 261
+- expected donor count matching observed donor count
+- unique donor IDs across splits remaining required
+- cell-level split assignments remaining prohibited
+- prediction, probability, metric, and model-output columns remaining prohibited
 
-- Real artifact validation must be completed.
-- Donor aggregation run plan must be completed.
-- Leakage-safe split manifest validation must be completed.
-- Input artifact format must remain `npy_directory`.
-- Input record level must remain `donor`.
-- Split level must remain `donor`.
-- Expected donor count must match observed donor count.
-- Unique donor IDs across splits must remain required.
-- Cell-level split assignments must remain prohibited.
-- Prediction, probability, metric, and model-output columns must remain prohibited.
-
-## Allowed in this feature
-
-- Define evaluation input readiness metadata contract.
-- Validate completed upstream Stage 4 metadata contracts.
-- Validate donor count compatibility.
-- Validate leakage-safety gates remain enabled.
-- Summarize readiness gates without materializing evaluation inputs.
-
-## Not allowed in this feature
+## Safety rules preserved
 
 No real embedding artifact is committed.
 No `.npy` embedding payload is loaded.
@@ -62,7 +58,7 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next expected feature
+## Next feature
 
 STAGE4-F005 - Real pre-modeling audit gate
 
