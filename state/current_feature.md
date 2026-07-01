@@ -2,6 +2,61 @@
 
 ## Stage 6 active
 
+Status: completed
+Branch: `chore/stage6-final-result-report-closeout`
+
+## Active stage
+
+Stage 6 Complete
+
+Stage 6 remains the single controlled execution stage.
+
+No Stage 7 is required.
+
+## Active feature
+
+## STAGE6-COMPLETE
+
+Status: completed
+Branch: `chore/stage6-final-result-report-closeout`
+
+STAGE6-F007 is complete.
+
+Stage 6 is complete.
+
+## Completed Stage 6 feature
+
+## STAGE6-F007 - Stage 6 final result report and closeout
+
+Status: completed
+Branch: `chore/stage6-final-result-report-closeout`
+
+Closeout feature: STAGE6-F007-CLOSEOUT
+
+Stage 6 final closeout is metadata-only.
+
+Prediction and metric computation were limited to in-memory donor-level records.
+
+No filesystem artifact access was performed.
+No real artifact file was loaded.
+No `.npy` embedding payload was loaded.
+No embedding vector was parsed from disk.
+No split assignment was executed from files.
+No model refit was performed.
+No training was performed.
+No model artifact was persisted.
+No prediction manifest was written.
+No metric table was written.
+No report artifact was written.
+No external validation was performed.
+No real-cohort performance claim is added.
+
+---
+
+# Current Feature
+
+## Stage 6 active
+
 Status: in_progress
 Branch: `feat/stage6-f006-prediction-metric-computation`
 

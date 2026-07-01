@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage6_in_progress
+  status: stage6_complete
   current_phase: Stage 6
-  current_phase_name: Stage 6 - Controlled donor-level modeling execution
-  current_feature: STAGE6-F007
+  current_phase_name: Stage 6 Complete
+  current_feature: STAGE6-COMPLETE
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,7 +14,7 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: stage6_f006_complete_pending_final_result_report_closeout
+  modeling_readiness: stage6_complete_no_stage7_required
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
   stage5_permission: stage5_complete_no_modeling_authorization
@@ -2722,3 +2722,112 @@ stage6_prediction_metric_computation:
   - write metric table
   - perform external validation
   - add performance claims
+
+stage6_f007_active_project_snapshot_for_legacy_tests:
+  status: stage6_in_progress
+  current_phase: Stage 6
+  current_phase_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F007
+  modeling_readiness: stage6_f006_complete_pending_final_result_report_closeout
+  purpose: retained_historical_snapshot_only
+  superseded_by: STAGE6-COMPLETE
+
+
+stage6_final_result_report_closeout:
+  status: completed
+  branch: chore/stage6-final-result-report-closeout
+  current_stage: Stage 6
+  stage_name: Stage 6 - Controlled donor-level modeling execution
+  current_feature: STAGE6-F007
+  feature_name: Stage 6 final result report and closeout
+  closeout_feature: STAGE6-F007-CLOSEOUT
+  closeout_status: completed
+  closeout_decision: stage6_final_result_report_closeout_completed
+  previous_feature: STAGE6-F006
+  previous_feature_status: completed
+  completed_stage6_features:
+  - STAGE6-F001
+  - STAGE6-F002
+  - STAGE6-F003
+  - STAGE6-F004
+  - STAGE6-F005
+  - STAGE6-F006
+  - STAGE6-F007
+  required_prior_features:
+  - STAGE6-F001
+  - STAGE6-F002
+  - STAGE6-F003
+  - STAGE6-F004
+  - STAGE6-F005
+  - STAGE6-F006
+  required_closeout_sections:
+  - authorization_summary
+  - artifact_access_integrity_summary
+  - input_materialization_summary
+  - split_leakage_control_summary
+  - controlled_baseline_execution_summary
+  - prediction_metric_scope_summary
+  - safety_limitations_summary
+  - next_research_handoff_summary
+  required_final_limitations:
+  - no_real_cohort_performance_claim
+  - no_external_validation_performed
+  - no_prediction_or_metric_artifact_written
+  - no_npy_payload_loaded
+  - no_embedding_vector_parsed_from_disk
+  - no_model_artifact_persisted
+  - in_memory_execution_scope_only
+  final_stage_status: completed
+  final_current_feature: STAGE6-COMPLETE
+  scope: stage6_final_report_closeout_no_real_performance_claims
+  record_level: donor
+  execution_scope: in_memory_only
+  stage7_policy: no_stage7_required
+  prediction_metric_scope: in_memory_donor_level_predictions_only
+  report_artifact_policy: no_report_artifact_written
+  performance_claim_policy: no_real_cohort_performance_claim
+  external_validation_policy: not_performed
+  allow_final_report_metadata: true
+  allow_stage6_closeout: true
+  allow_next_research_handoff_summary: true
+  require_all_stage6_features_completed: true
+  require_metric_scope_documented: true
+  require_limitations_documented: true
+  require_no_stage7: true
+  allow_filesystem_artifact_access: false
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing_from_disk: false
+  allow_split_execution_from_file: false
+  allow_model_refit: false
+  allow_training: false
+  training_allowed: false
+  allow_model_artifact_persistence: false
+  allow_prediction_manifest_write: false
+  allow_metric_table_write: false
+  allow_report_artifact_write: false
+  external_validation_allowed: false
+  allow_external_validation: false
+  performance_claims_allowed: false
+  performance_claims_added: false
+  final_summary:
+  - Stage 6 authorized the controlled donor-level execution path.
+  - Stage 6 retained donor-level-only and no-cell-level-split controls.
+  - Stage 6 added controlled in-memory baseline fitting.
+  - Stage 6 added controlled in-memory prediction and metric computation.
+  - Stage 6 did not write real prediction or metric artifacts.
+  - Stage 6 did not perform external validation.
+  - Stage 6 did not add real-cohort performance claims.
+  - No Stage 7 is required.
+  prohibited_actions:
+  - access real artifact files on disk
+  - load .npy embedding payloads
+  - parse embedding vectors from disk
+  - execute split assignment from files
+  - refit or train models
+  - persist model artifacts
+  - write prediction manifest
+  - write metric table
+  - write report artifact
+  - perform external validation
+  - add real-cohort performance claims
