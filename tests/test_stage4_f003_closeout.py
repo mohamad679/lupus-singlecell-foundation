@@ -12,25 +12,26 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage4_f003_split_manifest_block_is_retained_after_closeout():
+def test_stage4_f003_closeout_marks_feature_complete_and_next_feature_ready():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage4_real_leakage_safe_split_manifest_validation:")
 
     assert "status: stage4_f003_complete" in state
     assert "current_phase: Stage 4" in state
     assert "current_feature: STAGE4-F003-CLOSEOUT" in state
-    assert "status: completed" in block
-    assert "current_feature: STAGE4-F003" in block
-    assert "closeout_feature: STAGE4-F003-CLOSEOUT" in block
-    assert "next_feature: STAGE4-F004" in block
+    assert "completed_stage4_feature: STAGE4-F003" in state
+    assert "next_feature: STAGE4-F004" in state
+    assert "next_feature_name: Real evaluation input readiness validation" in state
 
 
-def test_stage4_f003_records_donor_level_split_manifest_scope_after_closeout():
+def test_stage4_f003_closeout_records_completed_split_manifest_validation():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_leakage_safe_split_manifest_validation:")
 
-    assert "input_artifact_format: npy_directory" in block
-    assert "input_record_level: donor" in block
+    assert "status: completed" in block
+    assert "branch: chore/stage4-f003-closeout" in block
+    assert "current_feature: STAGE4-F003" in block
+    assert "closeout_feature: STAGE4-F003-CLOSEOUT" in block
+    assert "next_feature: STAGE4-F004" in block
     assert "required_split_level: donor" in block
     assert "expected_real_donor_count: 261" in block
     assert "donor_id values must be unique" in block
@@ -38,7 +39,7 @@ def test_stage4_f003_records_donor_level_split_manifest_scope_after_closeout():
     assert "cell-level split columns are prohibited" in block
 
 
-def test_stage4_f003_preserves_safety_locks_after_closeout():
+def test_stage4_f003_closeout_preserves_safety_locks():
     state = STATE_PATH.read_text()
     block = _block_between(state, "stage4_real_leakage_safe_split_manifest_validation:")
 
@@ -54,9 +55,12 @@ def test_stage4_f003_preserves_safety_locks_after_closeout():
     assert "training_allowed: false" in block
     assert "external_validation_allowed: false" in block
     assert "performance_claims_allowed: false" in block
+    assert "load .npy embedding payloads" in block
+    assert "compute metrics" in block
+    assert "add performance claims" in block
 
 
-def test_stage4_f003_current_feature_document_records_closeout_scope():
+def test_stage4_f003_closeout_current_feature_document_is_final():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE4-F003-CLOSEOUT - Real leakage-safe split manifest validation closeout" in current_feature
