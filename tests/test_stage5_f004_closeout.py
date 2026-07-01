@@ -20,8 +20,8 @@ def test_stage5_f004_closeout_marks_audit_complete_and_final_handoff_ready():
     assert "current_phase: Stage 5" in state
     assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
     assert "current_feature: STAGE5-F005" in state
-    assert "modeling_readiness: blocked_pending_final_stage5_modeling_handoff_decision" in state
-    assert "stage5_permission: final_stage5_modeling_handoff_decision_only" in state
+    assert "modeling_readiness: blocked_pending_separate_modeling_execution_stage" in state
+    assert "stage5_permission: final_handoff_decision_only" in state
 
     assert "status: completed" in block
     assert "branch: chore/stage5-f004-closeout" in block
@@ -111,8 +111,8 @@ def test_stage5_f004_closeout_current_feature_document_advances_to_f005():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F005 - Final Stage 5 modeling handoff decision" in current_feature
-    assert "Status: planned" in current_feature
-    assert "Branch: `TODO`" in current_feature
+    assert "Status: in_progress" in current_feature
+    assert "Branch: `feat/stage5-final-modeling-handoff-decision`" in current_feature
     assert "STAGE5-F004 - Pre-execution audit gate" in current_feature
     assert "Status: completed" in current_feature
     assert "Branch: `chore/stage5-f004-closeout`" in current_feature

@@ -2,8 +2,8 @@
 
 ## STAGE5-F005 - Final Stage 5 modeling handoff decision
 
-Status: planned
-Branch: `TODO`
+Status: in_progress
+Branch: `feat/stage5-final-modeling-handoff-decision`
 
 ## Current stage
 
@@ -11,17 +11,46 @@ Stage 5 - Modeling stage approval and execution planning
 
 Stage 5 has started, but modeling is still not authorized.
 
-## Required next step
+Stage 5-F005 records the final Stage 5 modeling handoff decision only.
 
-The next feature should record the final Stage 5 modeling handoff decision.
+## Handoff decision
 
-This decision must verify the completed Stage 5 approval chain and decide whether
-future modeling may be handed off to a separate explicitly approved execution
-stage.
+The Stage 5 handoff decision is:
+
+`separate_modeling_execution_stage_required`
+
+A separate modeling execution stage is required before any real modeling,
+prediction generation, metric computation, training, external validation, or
+performance claim can be considered.
+
+Stage 5 does not authorize modeling execution.
+
+## Scope
+
+This feature is metadata-only.
+
+It records the final Stage 5 handoff decision:
+
+- prior Stage 5 gates must be complete
+- Stage 5 does not authorize modeling execution
+- future modeling requires a separate explicitly approved execution stage
+- donor-level controls remain required
+- cell-level split remains forbidden
+- artifact loading remains prohibited until an explicit later gate
+- input materialization remains prohibited until an explicit later gate
+- label creation remains prohibited until an explicit later gate
+- split execution remains prohibited until an explicit later gate
+- aggregation execution remains prohibited until an explicit later gate
+- modeling execution remains prohibited until an explicit later gate
+- prediction generation remains prohibited until an explicit later gate
+- metric computation is future-only and not computed here
+- external validation remains prohibited until an explicit later gate
+- performance claims remain prohibited until an explicit later gate
 
 ## Required gates retained
 
 - explicit modeling approval remains required
+- a separate execution stage remains required
 - human review before modeling remains required
 - reproducibility review remains required
 - leakage review remains required
@@ -30,8 +59,7 @@ stage.
 - donor-level controls are required
 - cell-level split is forbidden
 - large real artifacts must not be committed
-- a separate execution gate remains required
-- no modeling execution is authorized by this closeout
+- protocol before execution remains required
 
 ## Safety locks retained
 
