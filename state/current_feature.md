@@ -2,21 +2,39 @@
 
 ## STAGE5-F002 - Modeling execution protocol scaffold
 
-Status: planned
-Branch: `TODO`
+Status: in_progress
+Branch: `feat/stage5-modeling-execution-protocol-scaffold`
 
 ## Current stage
 
 Stage 5 - Modeling stage approval and execution planning
 
+Stage 5-F002 defines protocol boundaries only.
+
 Stage 5 has started, but modeling is still not authorized.
 
-## Required next step
+Modeling is still not authorized.
 
-The next feature should define a metadata-only modeling execution protocol
-scaffold before any real execution can be considered.
+## Scope
 
-The protocol scaffold must preserve:
+This feature is metadata-only.
+
+It records the required protocol boundaries for future execution planning:
+
+- protocol record level must remain donor
+- split policy must remain donor-level only
+- cell-level split remains forbidden
+- artifact loading remains prohibited until an explicit later gate
+- input materialization remains prohibited until an explicit later gate
+- label creation remains prohibited until an explicit later gate
+- aggregation execution remains prohibited until an explicit later gate
+- modeling execution remains prohibited until an explicit later gate
+- prediction generation remains prohibited until an explicit later gate
+- metric computation is future-only and not computed here
+- external validation remains prohibited until an explicit later gate
+- performance claims remain prohibited until an explicit later gate
+
+## Required gates retained
 
 - explicit modeling approval remains required
 - human review before modeling remains required
@@ -27,6 +45,7 @@ The protocol scaffold must preserve:
 - donor-level controls are required
 - cell-level split is forbidden
 - large real artifacts must not be committed
+- a separate execution gate remains required
 
 ## Safety locks retained
 
@@ -50,6 +69,16 @@ No real metrics are computed.
 No training is performed.
 No external validation is performed.
 No performance claims are added.
+
+## Next planned feature
+
+## STAGE5-F003 - Donor-level execution contract approval
+
+Status: planned
+Branch: `TODO`
+
+The next feature should review the donor-level execution contract before any
+real input materialization, split execution, or modeling can be considered.
 
 ## Previous completed feature
 
