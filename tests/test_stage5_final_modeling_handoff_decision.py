@@ -12,40 +12,41 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage5_f003_records_donor_contract_history_without_execution_authorization():
+def test_stage5_f005_sets_current_final_handoff_without_modeling_authorization():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_donor_level_execution_contract_approval:")
+    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
     assert "status: stage5_in_progress" in state
     assert "current_phase: Stage 5" in state
     assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
     assert "current_feature: STAGE5-F005" in state
     assert "modeling_readiness: blocked_pending_separate_modeling_execution_stage" in state
+    assert "stage5_permission: final_handoff_decision_only" in state
 
-    assert "status: completed" in block
-    assert "branch: chore/stage5-f003-closeout" in block
-    assert "current_feature: STAGE5-F003" in block
-    assert "feature_name: Donor-level execution contract approval" in block
-    assert "previous_protocol_feature: STAGE5-F002" in block
-    assert "previous_protocol_status: completed" in block
-    assert "next_feature: STAGE5-F004" in block
-    assert "next_feature_name: Pre-execution audit gate" in block
-    assert "closeout_feature: STAGE5-F003-CLOSEOUT" in block
-    assert "closeout_status: completed" in block
-    assert "contract_approval_decision: pending_contract_review" in block
+    assert "status: in_progress" in block
+    assert "branch: feat/stage5-final-modeling-handoff-decision" in block
+    assert "current_feature: STAGE5-F005" in block
+    assert "feature_name: Final Stage 5 modeling handoff decision" in block
+    assert "handoff_decision: separate_modeling_execution_stage_required" in block
+    assert "modeling_authorization_status: stage5_does_not_authorize_modeling" in block
+    assert "future_modeling_policy: future_only_explicit_execution_stage" in block
+    assert "previous_audit_feature: STAGE5-F004" in block
+    assert "previous_audit_status: completed" in block
 
 
-def test_stage5_f003_records_donor_level_contract_policies():
+def test_stage5_f005_records_completed_stage5_chain_and_handoff_policies():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_donor_level_execution_contract_approval:")
+    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
-    assert "contract_record_level: donor" in block
-    assert "contract_split_level: donor" in block
-    assert "contract_label_level: donor" in block
-    assert "contract_prediction_level: donor" in block
+    assert "completed_stage5_features:" in block
+    assert "STAGE5-F001" in block
+    assert "STAGE5-F002" in block
+    assert "STAGE5-F003" in block
+    assert "STAGE5-F004" in block
+    assert "handoff_record_level: donor" in block
     assert "split_policy: donor_level_only" in block
     assert "leakage_policy: cell_level_split_forbidden" in block
-    assert "contract_scope_policy: contract_review_only_no_execution" in block
+    assert "handoff_scope_policy: handoff_only_no_execution" in block
     assert "artifact_loading_policy: prohibited_until_explicit_gate" in block
     assert "input_materialization_policy: prohibited_until_explicit_gate" in block
     assert "label_creation_policy: prohibited_until_explicit_gate" in block
@@ -55,11 +56,12 @@ def test_stage5_f003_records_donor_level_contract_policies():
     assert "metric_computation_policy: future_only_no_computation" in block
 
 
-def test_stage5_f003_requires_reviews_and_pre_execution_audit():
+def test_stage5_f005_requires_separate_execution_stage_and_reviews():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_donor_level_execution_contract_approval:")
+    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
     assert "requires_explicit_modeling_approval: true" in block
+    assert "requires_separate_execution_stage: true" in block
     assert "requires_human_review_before_modeling: true" in block
     assert "requires_reproducibility_review: true" in block
     assert "requires_leakage_review: true" in block
@@ -69,13 +71,11 @@ def test_stage5_f003_requires_reviews_and_pre_execution_audit():
     assert "forbids_cell_level_split: true" in block
     assert "requires_no_large_artifact_commit: true" in block
     assert "requires_protocol_before_execution: true" in block
-    assert "requires_separate_execution_gate: true" in block
-    assert "requires_pre_execution_audit: true" in block
 
 
-def test_stage5_f003_preserves_runtime_modeling_metric_and_claim_locks():
+def test_stage5_f005_preserves_runtime_modeling_metric_and_claim_locks():
     state = STATE_PATH.read_text()
-    block = _block_between(state, "stage5_donor_level_execution_contract_approval:")
+    block = _block_between(state, "stage5_final_modeling_handoff_decision:")
 
     assert "allow_real_artifact_loading: false" in block
     assert "allow_npy_payload_loading: false" in block
@@ -84,6 +84,13 @@ def test_stage5_f003_preserves_runtime_modeling_metric_and_claim_locks():
     assert "allow_label_array_creation: false" in block
     assert "allow_split_execution: false" in block
     assert "allow_real_aggregation_execution: false" in block
+    assert "allow_anndata_loading: false" in block
+    assert "allow_geneformer_execution: false" in block
+    assert "allow_tokenizer_execution: false" in block
+    assert "allow_embedding_extraction: false" in block
+    assert "allow_feature_extraction: false" in block
+    assert "allow_global_preprocessing: false" in block
+    assert "allow_scaler_outside_fold: false" in block
     assert "allow_model_fitting: false" in block
     assert "allow_prediction_generation: false" in block
     assert "allow_metric_computation: false" in block
@@ -96,16 +103,17 @@ def test_stage5_f003_preserves_runtime_modeling_metric_and_claim_locks():
     assert "performance_claims_added: false" in block
 
 
-def test_stage5_f003_current_feature_document_records_contract_scope():
+def test_stage5_f005_current_feature_document_records_final_handoff_scope():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
-    assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
+    assert "STAGE5-F005 - Final Stage 5 modeling handoff decision" in current_feature
     assert "Status: in_progress" in current_feature
     assert "Branch: `feat/stage5-final-modeling-handoff-decision`" in current_feature
+    assert "Stage 5-F005 records the final Stage 5 modeling handoff decision only." in current_feature
+    assert "separate modeling execution stage is required" in current_feature
+    assert "Stage 5 does not authorize modeling execution" in current_feature
     assert "STAGE5-F004 - Pre-execution audit gate" in current_feature
-    assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
     assert "Status: completed" in current_feature
-    assert "STAGE5-F001 - Modeling approval scaffold" in current_feature
     assert "No `.npy` embedding payload is loaded" in current_feature
     assert "No evaluation array is materialized" in current_feature
     assert "No models are fit" in current_feature

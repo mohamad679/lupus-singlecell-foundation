@@ -14,11 +14,11 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_final_stage5_modeling_handoff_decision
+  modeling_readiness: blocked_pending_separate_modeling_execution_stage
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
-  stage5_permission: final_stage5_modeling_handoff_decision_only
-  stage5_permission: final_stage5_modeling_handoff_decision_only
+  stage5_permission: final_handoff_decision_only
+  stage5_permission: final_handoff_decision_only
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
   pivot_status: not_activated
   dataset_download_allowed: false
@@ -1784,6 +1784,99 @@ stage5_pre_execution_audit_gate:
   requires_protocol_before_execution: true
   requires_separate_execution_gate: true
   requires_final_stage5_handoff_decision: true
+  allow_real_artifact_loading: false
+  allow_npy_payload_loading: false
+  allow_embedding_vector_parsing: false
+  allow_input_materialization: false
+  allow_label_array_creation: false
+  allow_split_execution: false
+  allow_real_aggregation_execution: false
+  allow_anndata_loading: false
+  allow_geneformer_execution: false
+  allow_tokenizer_execution: false
+  allow_embedding_extraction: false
+  allow_feature_extraction: false
+  allow_global_preprocessing: false
+  allow_scaler_outside_fold: false
+  allow_model_fitting: false
+  allow_prediction_generation: false
+  allow_metric_computation: false
+  allow_modeling: false
+  external_validation_allowed: false
+  performance_claims_allowed: false
+  performance_claims_added: false
+stage5_final_modeling_handoff_decision:
+  status: in_progress
+  branch: feat/stage5-final-modeling-handoff-decision
+  current_stage: Stage 5
+  stage_name: Stage 5 - Modeling stage approval and execution planning
+  current_feature: STAGE5-F005
+  feature_name: Final Stage 5 modeling handoff decision
+  scope: final_handoff_decision_only_no_execution
+  completed_stage5_features:
+  - STAGE5-F001
+  - STAGE5-F002
+  - STAGE5-F003
+  - STAGE5-F004
+  previous_audit_feature: STAGE5-F004
+  previous_audit_status: completed
+  handoff_status: in_progress
+  handoff_decision: separate_modeling_execution_stage_required
+  modeling_authorization_status: stage5_does_not_authorize_modeling
+  future_modeling_policy: future_only_explicit_execution_stage
+  modeling_authorization_granted: false
+  modeling_allowed: false
+  training_allowed: false
+  handoff_record_level: donor
+  split_policy: donor_level_only
+  leakage_policy: cell_level_split_forbidden
+  handoff_scope_policy: handoff_only_no_execution
+  artifact_loading_policy: prohibited_until_explicit_gate
+  input_materialization_policy: prohibited_until_explicit_gate
+  label_creation_policy: prohibited_until_explicit_gate
+  split_execution_policy: prohibited_until_explicit_gate
+  aggregation_execution_policy: prohibited_until_explicit_gate
+  modeling_execution_policy: prohibited_until_explicit_gate
+  prediction_generation_policy: prohibited_until_explicit_gate
+  metric_computation_policy: future_only_no_computation
+  external_validation_policy: prohibited_until_explicit_gate
+  performance_claim_policy: prohibited_until_explicit_gate
+  allowed_actions:
+  - record final Stage 5 modeling handoff decision
+  - document that separate modeling execution stage is required
+  - document that Stage 5 does not authorize modeling execution
+  - preserve runtime and modeling safety locks
+  prohibited_actions:
+  - commit real embedding artifacts
+  - load .npy embedding payloads
+  - parse embedding vectors
+  - materialize evaluation arrays
+  - create label arrays from real data
+  - execute real split assignment
+  - aggregate real embeddings
+  - load AnnData files
+  - execute Geneformer
+  - execute tokenizer
+  - extract embeddings
+  - extract baseline features
+  - fit scalers
+  - fit models
+  - generate predictions
+  - compute metrics
+  - train models
+  - perform external validation
+  - add performance claims
+  requires_explicit_modeling_approval: true
+  requires_separate_execution_stage: true
+  requires_human_review_before_modeling: true
+  requires_reproducibility_review: true
+  requires_leakage_review: true
+  requires_artifact_integrity_review: true
+  requires_scope_review: true
+  requires_donor_level_only: true
+  forbids_cell_level_split: true
+  requires_no_large_artifact_commit: true
+  requires_protocol_before_execution: true
   allow_real_artifact_loading: false
   allow_npy_payload_loading: false
   allow_embedding_vector_parsing: false
