@@ -1,0 +1,10 @@
+gate,status,evidence,decision
+nature_article_identified,pass,Nature Immunology article page found,continue
+supplementary_tables_link_identified,pass,Nature page lists Supplementary Tables XLSX for tables 1 to 4,manual_download_needed
+springer_xlsx_parsed,blocked,Tool environment could not fetch or parse static Springer XLSX,do_not_use_unparsed_table_for_mapping
+author_github_identified,pass,Nature article links to dnehar/SingleCells_SLE_paper,inspect_public_repo
+metadata_csv_files_listed,pass,GitHub repository lists Meta_cSLE and Meta_caSLE metadata CSV files,possible_secondary_metadata_source
+repository_sledai_search,no_hit,Direct repository search for SLEDAI returned no hits,do_not_assume_activity_field
+disease_activity_from_article,partial,Article abstract and figure captions mention degrees of disease activity and SLEDAI categories,requires_table_level_confirmation
+strict_endpoint_mapping,fail,No verified donor-level FLARE versus managed-SLE mapping was acquired,block_external_validation
+limited_transfer_possible,conditional,SLE versus healthy or biology replication may be possible with separate framing,allowed_only_if_clearly_not_primary_validation
