@@ -3,7 +3,7 @@ project:
   status: stage5_in_progress
   current_phase: Stage 5
   current_phase_name: Stage 5 - Modeling stage approval and execution planning
-  current_feature: STAGE5-F004
+  current_feature: STAGE5-F005
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,11 +14,11 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: blocked_pending_pre_execution_audit_gate
+  modeling_readiness: blocked_pending_final_stage5_modeling_handoff_decision
   training_permission: production_modeling_blocked_pending_pipeline
   phase4_permission: real_artifact_validation_only
-  stage5_permission: pre_execution_audit_gate_only
-  stage5_permission: pre_execution_audit_gate_only
+  stage5_permission: final_stage5_modeling_handoff_decision_only
+  stage5_permission: final_stage5_modeling_handoff_decision_only
   dataset_strategy_decision: reconcile_real_CELLxGENE_exploratory_run
   pivot_status: not_activated
   dataset_download_allowed: false
@@ -1710,12 +1710,14 @@ stage5_donor_level_execution_contract_approval:
   performance_claims_allowed: false
   performance_claims_added: false
 stage5_pre_execution_audit_gate:
-  status: in_progress
-  branch: feat/stage5-pre-execution-audit-gate
+  status: completed
+  branch: chore/stage5-f004-closeout
   current_stage: Stage 5
   stage_name: Stage 5 - Modeling stage approval and execution planning
   current_feature: STAGE5-F004
   feature_name: Pre-execution audit gate
+  closeout_feature: STAGE5-F004-CLOSEOUT
+  closeout_status: completed
   scope: pre_execution_audit_only_no_execution
   completed_stage5_features:
   - STAGE5-F001

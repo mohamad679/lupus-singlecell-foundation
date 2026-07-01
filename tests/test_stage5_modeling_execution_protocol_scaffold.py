@@ -19,8 +19,8 @@ def test_stage5_f002_records_protocol_scaffold_history_without_modeling_authoriz
     assert "status: stage5_in_progress" in state
     assert "current_phase: Stage 5" in state
     assert "current_phase_name: Stage 5 - Modeling stage approval and execution planning" in state
-    assert "current_feature: STAGE5-F004" in state
-    assert "modeling_readiness: blocked_pending_pre_execution_audit_gate" in state
+    assert "current_feature: STAGE5-F005" in state
+    assert "modeling_readiness: blocked_pending_final_stage5_modeling_handoff_decision" in state
 
     assert "status: completed" in block
     assert "branch: chore/stage5-f002-closeout" in block
@@ -102,8 +102,8 @@ def test_stage5_f002_current_feature_document_records_protocol_scope():
     current_feature = CURRENT_FEATURE_PATH.read_text()
 
     assert "STAGE5-F002 - Modeling execution protocol scaffold" in current_feature
-    assert "Status: in_progress" in current_feature
-    assert "Branch: `feat/stage5-pre-execution-audit-gate`" in current_feature
+    assert "Status: planned" in current_feature
+    assert "Branch: `TODO`" in current_feature
     assert "Stage 5 - Modeling stage approval and execution planning" in current_feature
     assert "STAGE5-F003 - Donor-level execution contract approval" in current_feature
     assert "STAGE5-F001 - Modeling approval scaffold" in current_feature
