@@ -1,38 +1,44 @@
 # Current Feature
 
-## STAGE4-F002-CLOSEOUT - Real donor-level aggregation run plan closeout
+## STAGE4-F003 - Real leakage-safe split manifest validation
 
-Status: completed
-Branch: `chore/stage4-f002-closeout`
+Status: in_progress
+Branch: `feat/stage4-real-leakage-safe-split-manifest-validation`
 
-## Completed feature
+## Objective
 
-STAGE4-F002 - Real donor-level aggregation run plan
+Define and validate a donor-level split manifest contract for the observed real
+donor-level embedding artifact without loading `.npy` payloads, parsing
+embedding vectors, executing real aggregation, fitting models, or computing
+metrics.
 
-## Result
+The split manifest must operate at donor/patient level only. Donor IDs must not
+leak across train, validation, and test assignments.
 
-Stage 4-F002 defined a guarded metadata-only run plan for the observed real
-donor-level embedding artifact.
+## Required split manifest rules
 
-The observed artifact from STAGE4-F001 remains:
+- The split level must be `donor`.
+- Each donor ID may appear only once.
+- A donor ID must not appear in multiple splits.
+- Required split names are `train`, `validation`, and `test`.
+- Allowed label groups are:
+  - `flare_like`
+  - `healthy_hc_like`
+  - `healthy_igtb_like`
+  - `managed_sle_numeric_like`
+  - `control_like`
+- Cell-level split columns are prohibited.
+- Prediction, probability, metric, and model-output columns are prohibited.
 
-- artifact format: `npy_directory`
-- artifact layout: `directory`
-- input record level: `donor`
-- output record level: `donor`
-- split level: `donor`
-- observed files: 261
-- total observed size: 360,839,808 bytes / 344.12 MB
-- all files same size: true
+## Allowed in this feature
 
-The selected F002 strategy is:
+- Define donor-level split manifest validation schema.
+- Validate unique donor IDs across splits.
+- Validate allowed split names.
+- Validate allowed label group names.
+- Summarize split and label counts without computing model metrics.
 
-`identity_donor_embedding_directory`
-
-This confirms that the artifact is treated as already donor-level. No cell-to-
-donor pooling is planned or executed in F002.
-
-## Safety rules preserved
+## Not allowed in this feature
 
 No real embedding artifact is committed.
 No `.npy` embedding payload is loaded.
@@ -51,9 +57,10 @@ No training is performed.
 No external validation is performed.
 No performance claims are added.
 
-## Next feature
+## Next expected feature
 
-STAGE4-F003 - Real leakage-safe split manifest validation
+STAGE4-F004 - Real evaluation input readiness validation
 
-The next feature should define and validate donor-level split manifest
-requirements before any evaluation input preparation.
+The next feature should validate whether donor-level embeddings, leakage-safe
+split manifests, and evaluation input metadata are ready to be connected without
+running models or computing performance.
