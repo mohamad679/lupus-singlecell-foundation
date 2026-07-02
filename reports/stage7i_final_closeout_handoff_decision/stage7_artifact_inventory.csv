@@ -1,0 +1,11 @@
+path,role
+reports/stage7_external_cohort_scouting/,candidate selection
+reports/stage7b_gse135779_metadata_audit/,metadata audit
+reports/stage7c_supplementary_table_endpoint_mapping/,table parse and endpoint mapping
+reports/stage7d_restricted_proxy_external_transfer_design/,proxy transfer design
+reports/stage7e_proxy_external_transfer_implementation_readiness/,readiness gate
+reports/stage7f_frozen_stage6_artifact_export_and_scoring_scaffold/,artifact export scaffold
+reports/stage7g_gse135779_external_data_embedding_scaffold/,external data scaffold
+reports/stage7h_restricted_proxy_external_scoring_gate/,scoring gate
+reports/stage7i_final_closeout_handoff_decision/,final closeout
+issue_57,open blocker for later implementation
