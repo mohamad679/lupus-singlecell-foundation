@@ -1,0 +1,10 @@
+stage7_unit,status,main_result,next_status
+stage7_external_cohort_scouting,complete,GSE135779 selected as best candidate,closed
+stage7b_gse135779_metadata_audit,complete,GEO metadata usable but insufficient for strict endpoint,closed
+stage7c_supplementary_table_endpoint_mapping,complete,ST1b parsed and SLEDAI proxy endpoint confirmed,closed
+stage7d_restricted_proxy_transfer_design,complete,Proxy transfer design approved with restrictions,closed
+stage7e_implementation_readiness,complete,Execution not ready because real frozen artifacts are missing,closed
+stage7f_frozen_artifact_export_scaffold,complete,Artifact export scaffold created but real artifacts pending,closed
+stage7g_external_data_embedding_scaffold,complete,External data and embedding scaffold created but real data pending,closed
+stage7h_scoring_execution_gate,complete,Scoring blocked because required real artifacts are missing,closed
+stage7i_final_closeout,complete,Stage 7 closed as design and readiness package,closed
