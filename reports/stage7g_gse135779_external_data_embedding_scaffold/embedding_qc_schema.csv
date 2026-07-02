@@ -1,0 +1,17 @@
+column,required,description
+sample_id,yes,External sample identifier
+group,yes,Original group label
+included_primary,yes,Primary proxy endpoint inclusion flag
+proxy_label,yes,Proxy class or exclusion label
+matrix_loaded,yes,Whether expression matrix loaded successfully
+gene_mapping_success,yes,Whether gene mapping completed
+n_input_cells,yes,Number of cells in source sample
+n_cells_used,yes,Number of cells used after cap or filtering
+n_input_genes,yes,Number of genes in source matrix
+n_mapped_genes,yes,Number of genes mapped to embedding vocabulary
+embedding_generated,yes,Whether embedding generation succeeded
+embedding_dim,yes,Embedding dimension if generated
+aggregation_policy,yes,Sample-level aggregation policy
+output_path,yes,Path to sample embedding output
+sha256,no,Hash of output embedding file
+failure_reason,yes_if_failed,Reason for failed import mapping or embedding
