@@ -1,0 +1,9 @@
+asset_family,required_item,source_status,local_status,required_for_stage7h,notes
+processed_expression_matrix,GSE135779 sample-level processed count matrices,public_source_identified,not_downloaded,yes,Use processed public matrices only; raw dbGaP data are not required for proxy transfer scaffold
+barcodes,matching barcode files for each processed matrix,public_source_identified,not_downloaded,yes,Required to connect matrix cells to sample-level processing
+genes,shared gene table or gene identifiers,public_source_identified,not_downloaded,yes,Required for Geneformer token mapping
+clinical_metadata,parsed Supplementary Table 1b,parsed_by_deep_research,not_committed_as_data,yes,Required for sample proxy labels and exclusions
+sample_manifest,GSE135779 proxy sample manifest,not_built,missing,yes,Must be derived from ST1b before scoring
+stage6_frozen_artifacts,Stage 7F frozen scoring bundle,scaffolded,missing,yes,Required before no-fit scoring
+external_embeddings,per-sample Geneformer embedding outputs,not_generated,missing,yes,Output of this scaffold before Stage 7H scoring
+embedding_qc,external embedding QC summary,not_generated,missing,yes,Must record sample counts feature dimensions and failures
