@@ -1,0 +1,14 @@
+gate,status,required_evidence,decision
+stage7c_proxy_endpoint_defined,pass,SLEDAI > 4 versus SLEDAI <= 4,continue
+stage7d_scoring_design_defined,pass,restricted proxy transfer design exists,continue
+stage7f_frozen_artifact_scaffold_exists,pass,artifact export contract exists,continue
+stage7g_embedding_scaffold_exists,pass,external data and embedding scaffold exists,continue
+frozen_pca_object,missing,pca20.joblib,block_execution
+frozen_classifier_object,missing,balanced_logreg.joblib,block_execution
+threshold_policy,missing,threshold_policy.json or threshold-disabled policy,block_thresholded_metrics
+model_artifact_manifest,missing,model_artifact_manifest.json,block_reproducibility
+external_sample_manifest,missing,GSE135779 manifest with labels and exclusions,block_execution
+external_embeddings,missing,per-sample external embeddings,block_execution
+embedding_qc_summary,missing,embedding QC summary,block_execution
+no_fit_scoring_procedure,missing,no-fit scoring script or equivalent procedure,block_execution
+execution_gate,fail,real artifacts required for scoring are missing,do_not_run_scoring
