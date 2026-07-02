@@ -1,0 +1,11 @@
+column,required,description,allowed_or_expected_values
+sample_id,yes,Sample identifier from parsed ST1b,nonempty string
+group,yes,Original cohort group,cSLE aSLE cHD aHD
+age,no,Age from clinical metadata,numeric or missing
+age_group,no,Child or adult grouping if available,child adult or missing
+sledai,yes_for_sle,Explicit numeric SLEDAI value,numeric or missing
+proxy_label,yes,Proxy endpoint label,high_activity_sle low_activity_sle excluded_missing_sledai excluded_control
+included_primary,yes,Whether sample is included in primary proxy endpoint,true false
+exclusion_reason,yes_if_excluded,Reason sample is excluded,missing_sledai control_sample expression_unavailable embedding_failed ambiguous_sample
+batch,no,Sequencing batch if available,string or missing
+notes,no,Manual notes for audit,string
