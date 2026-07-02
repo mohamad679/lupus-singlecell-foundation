@@ -1,0 +1,16 @@
+gate,status,required_artifact_or_evidence,decision
+stage7d_design_exists,pass,reports/stage7d_restricted_proxy_external_transfer_design/,continue
+stage7c_table1_parse_exists,pass,reports/stage7c_supplementary_table_endpoint_mapping/,continue
+approved_proxy_endpoint_exists,pass,SLEDAI > 4 versus SLEDAI <= 4,continue
+strict_endpoint_guardrail_exists,pass,claim guardrails prohibit FLARE-vs-managed validation claim,continue
+frozen_pca20_object,missing,serialized PCA transform fitted only on Stage 6 internal data,block_execution
+frozen_logreg_object,missing,serialized balanced logistic regression fitted only on Stage 6 internal data,block_execution
+frozen_threshold_manifest,missing,internal threshold selected before external labels are used,block_thresholded_metrics
+stage6_model_artifact_hashes,missing,hashes for model objects and preprocessing config,block_reproducibility
+stage6_preprocessing_manifest,partial,Stage 6 reports exist but executable preprocessing manifest is not confirmed,block_execution
+external_sample_manifest,missing,GSE135779 sample ID group SLEDAI proxy label exclusion reason,block_execution
+external_expression_import_plan,missing,processed count matrix import and gene mapping plan,block_execution
+external_embedding_generation_plan,missing,Geneformer tokenization embedding cell cap and aggregation plan,block_execution
+no_fit_scoring_script,missing,script that loads frozen objects and scores external samples without fitting,block_execution
+result_report_template,missing,proxy-only report template with caveat language,block_reporting
+execution_readiness,fail,required frozen artifacts and manifests are incomplete,do_not_run_external_scoring_yet
