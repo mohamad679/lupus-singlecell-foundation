@@ -1,0 +1,4 @@
+mapping_option,positive_class,negative_class,status,use_case,main_caveat
+paper_aligned_activity_proxy,SLE sample with SLEDAI > 4,SLE sample with SLEDAI <= 4,approved_with_restrictions,high_activity_vs_low_activity_sle_transfer_test,negative class is low activity not guaranteed managed disease
+conservative_quiescent_proxy,SLEDAI > 4,SLEDAI = 0 and KIDNEY = 0 and SERUM = 0 and MSK = 0,possible_but_smaller,cleaner_activity_contrast,much smaller sample size and still not explicit managed disease
+strict_stage6_endpoint,clinician adjudicated flare,clinician adjudicated managed or controlled SLE,blocked,headline_external_validation,required labels are absent from parsed ST1b
