@@ -1,10 +1,16 @@
 gate,status,evidence,decision
 nature_article_identified,pass,Nature Immunology article page found,continue
-supplementary_tables_link_identified,pass,Nature page lists Supplementary Tables XLSX for tables 1 to 4,manual_download_needed
-springer_xlsx_parsed,blocked,Tool environment could not fetch or parse static Springer XLSX,do_not_use_unparsed_table_for_mapping
-author_github_identified,pass,Nature article links to dnehar/SingleCells_SLE_paper,inspect_public_repo
-metadata_csv_files_listed,pass,GitHub repository lists Meta_cSLE and Meta_caSLE metadata CSV files,possible_secondary_metadata_source
-repository_sledai_search,no_hit,Direct repository search for SLEDAI returned no hits,do_not_assume_activity_field
-disease_activity_from_article,partial,Article abstract and figure captions mention degrees of disease activity and SLEDAI categories,requires_table_level_confirmation
-strict_endpoint_mapping,fail,No verified donor-level FLARE versus managed-SLE mapping was acquired,block_external_validation
-limited_transfer_possible,conditional,SLE versus healthy or biology replication may be possible with separate framing,allowed_only_if_clearly_not_primary_validation
+supplementary_tables_link_identified,pass,Nature page lists Supplementary Tables XLSX for tables 1 to 4,continue
+supplementary_workbook_parsed,pass,Deep Research retrieved and parsed the official Supplementary Tables workbook,continue
+st1a_summary_parsed,pass,Cohort-level summary sheet parsed,reference_only
+st1b_clinical_sheet_parsed,pass,Sample-level clinical sheet parsed; 58 rows by 58 columns,primary_metadata_source
+st1c_sequencing_sheet_parsed,pass,Sequencing QC sheet parsed,technical_qc_source
+sledai_total_present,pass,ST1b contains sample-level SLEDAI for 39 samples,enable_activity_proxy
+sledai_components_present,pass,ST1b contains weighted components including arthritis rash renal urine findings dsDNA low complement fever pleurisy vasculitis alopecia leukopenia,enable_activity_proxy
+medication_fields_present,pass,ST1b contains MMF OS MTX and Plaquenil at screening,confound_or_sensitivity_source
+renal_fields_present,pass,ST1b contains nephritis indicators nephrology class and KIDNEY domain,confound_or_sensitivity_source
+explicit_flare_label,fail,No explicit flare label found,block_strict_flare_validation
+explicit_managed_label,fail,No explicit managed stable remission inactive disease label found,block_strict_managed_validation
+paper_aligned_activity_proxy,pass_with_restrictions,SLEDAI > 4 versus SLEDAI <= 4 is defensible as high-activity versus low-activity SLE,allow_proxy_transfer_only
+strict_endpoint_mapping,fail,No verified donor-level FLARE versus managed-SLE mapping was acquired,block_strict_external_validation
+limited_transfer_possible,pass_with_restrictions,High-activity versus low-activity SLE proxy transfer test is now justified,proceed_if_framed_as_proxy
