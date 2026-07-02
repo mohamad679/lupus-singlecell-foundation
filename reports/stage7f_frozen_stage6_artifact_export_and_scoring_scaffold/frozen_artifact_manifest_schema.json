@@ -1,0 +1,37 @@
+{
+  "schema_name": "stage7f_frozen_stage6_model_artifact_manifest",
+  "schema_version": "1.0.0",
+  "required_files": [
+    "pca20.joblib",
+    "balanced_logreg.joblib",
+    "threshold_policy.json",
+    "preprocessing_manifest.json",
+    "model_artifact_manifest.json",
+    "environment_manifest.json"
+  ],
+  "required_manifest_fields": [
+    "stage",
+    "artifact_role",
+    "created_at_utc",
+    "input_artifact_kind",
+    "primary_task",
+    "positive_class",
+    "negative_class",
+    "excluded_classes",
+    "aggregation_policy",
+    "pca_components",
+    "classifier",
+    "class_weight_policy",
+    "threshold_policy",
+    "no_external_labels_used",
+    "sha256"
+  ],
+  "required_guardrails": {
+    "fit_scope": "stage6_internal_only",
+    "external_labels_used_for_training": false,
+    "external_labels_used_for_threshold_selection": false,
+    "external_pca_fit_allowed": false,
+    "strict_external_validation_claim_allowed": false
+  },
+  "intended_next_use": "stage7g_or_stage7h_restricted_proxy_external_transfer"
+}
