@@ -1,0 +1,10 @@
+rule_id,field,condition,label,allowed_in_primary,notes
+LP001,Groups,cSLE or aSLE,candidate_sle_sample,yes,Only SLE samples are eligible for primary proxy endpoint
+LP002,SLEDAI,numeric value > 4,positive_high_activity_sle,yes,Primary positive class
+LP003,SLEDAI,numeric value <= 4,negative_low_activity_sle,yes,Primary negative class but not managed disease
+LP004,SLEDAI,missing explicit numeric value,exclude_primary,no,Do not infer activity class from components unless a separate pre-registered rule is written
+LP005,Groups,cHD or aHD,healthy_control,no,Exclude from primary proxy endpoint; optional sanity check only
+LP006,Physician Notes or Symptoms,contains active-related text,no_label_inference,no,Free-text notes cannot define labels without a codebook
+LP007,medication fields,MMF OS MTX Plaquenil values,no_label_inference,no,Medication-at-screening fields are confound/sensitivity variables not class labels
+LP008,KIDNEY MSK SERUM,domain activity flags,no_primary_label_by_itself,no,Can support sensitivity or quiescent-proxy design but not primary label alone
+LP009,flare/managed/stable/remission fields,absent,strict_endpoint_blocked,no,Required strict Stage 6 endpoint labels are not present
