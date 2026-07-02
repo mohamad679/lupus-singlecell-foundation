@@ -1,0 +1,8 @@
+path,role,status
+reports/stage7f_frozen_stage6_artifact_export_and_scoring_scaffold/README.md,stage7f package overview,created
+reports/stage7f_frozen_stage6_artifact_export_and_scoring_scaffold/scaffold_file_inventory.csv,created file inventory,created
+reports/stage7f_frozen_stage6_artifact_export_and_scoring_scaffold/frozen_artifact_manifest_schema.json,expected model artifact manifest schema,created
+reports/stage7f_frozen_stage6_artifact_export_and_scoring_scaffold/stage7f_decision.md,final stage 7F decision,created
+src/lupusfm/evaluation/stage7f_export_frozen_stage6_model_artifacts.py,export frozen internal PCA and classifier artifacts,created
+src/lupusfm/evaluation/stage7f_build_gse135779_proxy_manifest.py,build proxy labels from parsed ST1b metadata,created
+src/lupusfm/evaluation/stage7f_no_fit_external_scoring_scaffold.py,score external embeddings with frozen artifacts only,created
