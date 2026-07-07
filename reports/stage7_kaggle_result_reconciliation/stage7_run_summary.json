@@ -1,0 +1,28 @@
+{
+  "clinical_claim_allowed": false,
+  "dataset_id": "GSE174188_CELLxGENE_Geneformer_patient_embeddings",
+  "embedding_dir": "/Users/mohsenshamsijazeb/Downloads/stage7_embeddings_extract/all_embeddings",
+  "external_validation_performed": false,
+  "group_counts": {
+    "Flare": 14,
+    "Healthy": 98,
+    "Managed": 149
+  },
+  "leakage_controls": [
+    "patient_level_only",
+    "leave_one_patient_out",
+    "scaler_fit_train_fold_only",
+    "model_fit_train_fold_only",
+    "no_cell_level_split"
+  ],
+  "metric_results": "/Users/mohsenshamsijazeb/Downloads/stage7_tables_trial/stage7_metric_results.csv",
+  "n_patients_total": 261,
+  "prediction_manifest": "/Users/mohsenshamsijazeb/Downloads/stage7_tables_trial/stage7_prediction_manifest.csv",
+  "scope": "kaggle_result_reconciliation_leakage_safe_internal_loocv",
+  "stage": "Stage 7",
+  "status": "completed",
+  "tasks": [
+    "flare_vs_healthy",
+    "flare_vs_managed"
+  ]
+}
