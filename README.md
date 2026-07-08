@@ -2,6 +2,13 @@
 
 Patient-level benchmarking of frozen single-cell foundation-model embeddings for active systemic lupus erythematosus (SLE) flare discrimination from peripheral blood single-cell RNA-seq.
 
+
+## Claim boundary
+
+**Claim boundary:** internal LOOCV only; no clinical claim; no external validation.
+
+The reported Stage 7 metrics are internal patient-level leave-one-patient-out cross-validation results only. No independent external validation was performed. No clinical claim, clinical diagnostic claim, or clinical deployment claim is made.
+
 ## Scientific objective
 
 This project investigates whether frozen single-cell foundation-model representations, especially Geneformer embeddings, can support patient-level discrimination of active SLE flare from managed SLE and healthy controls.
@@ -134,7 +141,7 @@ This repository supports research-stage internal benchmarking only.
 
 It does not currently support claims of:
 
-- clinical diagnostic performance
+- clinical claims
 - clinical utility
 - treatment recommendation
 - prospective flare prediction
@@ -150,7 +157,7 @@ Current reproducibility level:
 - saved metric table: complete
 - saved run summary: complete
 - automated tests: present
-- external validation: pending
+- external validation: not performed; remains future work
 - extended confounding analysis: pending
 - pathway/network interpretation: pending
 
@@ -160,6 +167,6 @@ The repository is currently at:
 
 - Stage 7 complete
 - documentation refinement in progress
-- next scientific step: robustness, confounding, and external validation controls
+- next scientific step: robustness and confounding controls; independent external validation remains future work
 
 The project remains a research-stage computational biology pipeline.

@@ -1,5 +1,12 @@
 # Model Card — Lupus Single-Cell Foundation Model
 
+
+## Claim boundary
+
+**Claim boundary:** internal LOOCV only; no clinical claim; no external validation.
+
+The reported Stage 7 metrics are internal patient-level leave-one-patient-out cross-validation results only. No independent external validation was performed. No clinical claim, clinical diagnostic claim, or clinical deployment claim is made.
+
 ## Model family
 
 Mean-pooled Geneformer patient embeddings with logistic regression.
@@ -133,7 +140,7 @@ Current limitations:
 - no longitudinal flare forecasting
 - batch/source confounding requires deeper audit
 - sex, ancestry, and cell-type composition controls require further expansion
-- no claim of clinical deployment readiness
+- no clinical deployment claim
 - no pathway-level or network-level mechanistic interpretation yet
 
 ## Claim boundary
@@ -144,7 +151,7 @@ The current repository supports the following claim:
 
 The repository does not support claims of:
 
-- diagnostic performance
+- clinical or diagnostic claims
 - clinical utility
 - external generalization
 - deployment readiness

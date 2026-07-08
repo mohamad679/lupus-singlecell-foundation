@@ -1,5 +1,8 @@
 # Project Status
 
+
+Current claim boundary: internal LOOCV only; no clinical claim; no external validation.
+
 ## Current repository status
 
 The repository is currently in a cleaned research-stage state after Stage 7 reconciliation.
