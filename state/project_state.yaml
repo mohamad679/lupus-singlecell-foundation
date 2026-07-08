@@ -466,8 +466,8 @@ artifacts:
   dataset_strategy_decision_test: tests/test_dataset_strategy_decision.py
 last_updated: '2026-06-24'
 repository_reconciliation:
-  status: in_progress
-  branch: chore/reconcile-project-state
+  status: completed
+  branch: main
   real_exploratory_work_completed: true
   production_pipeline_ready: false
   primary_exploratory_dataset:
@@ -476,18 +476,16 @@ repository_reconciliation:
     dataset_id: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
     census_version: '2025-11-08'
   exploratory_outputs:
-    phase1_notebook: notebooks/phase1_kaggle.ipynb
-    phase3_notebook: notebooks/phase3_kaggle.ipynb
+    legacy_notebooks_removed_from_repo: true
+    legacy_phase1_results_removed_from_repo: true
     embeddings: external_kaggle_dataset_lupus_embeddings
   publication_claim_status: exploratory_not_publication_ready
   next_required_work:
-  - reconcile_repository_documentation
-  - build_package_skeleton
-  - convert_phase1_notebook_to_tested_modules
-  - convert_phase2_embedding_extraction_to_tested_script
-  - convert_phase3_evaluation_to_leakage_safe_script
-  - add_baselines_and_cell_type_contribution
+  - audit_robustness_and_confounding_controls
+  - compare_geneformer_embeddings_against_simpler_baselines
+  - evaluate_cell_type_composition_and_metadata_only_baselines
   - audit_external_validation_candidates
+  - add_pathway_and_cell_type_level_interpretation
 stage1_package_and_labels:
   status: completed
   branch: main

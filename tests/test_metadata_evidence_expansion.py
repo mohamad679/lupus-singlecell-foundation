@@ -137,7 +137,6 @@ def test_project_state_and_backlog_do_not_start_modeling_or_phase4():
         and ".venv" not in path.parts
         and "__pycache__" not in path.parts
         and "data" not in path.parts
-        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 

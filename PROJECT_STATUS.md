@@ -1,271 +1,83 @@
-# Project Status — Lupus Single-Cell Foundation Model
+# Project Status
 
-## Current scientific objective
+## Current repository status
 
-The project investigates whether frozen single-cell foundation-model representations can support patient-level discrimination of active SLE flare from managed SLE using peripheral blood single-cell RNA-seq data.
+The repository is currently in a cleaned research-stage state after Stage 7 reconciliation.
 
-The current working framing is:
+Current completed state:
 
-> Frozen Geneformer embeddings encode patient-level transcriptional structure sufficient to discriminate active SLE flare from managed SLE in a large PBMC single-cell cohort.
+- Stage 7 leakage-safe reconciliation complete
+- patient-level Geneformer embedding evaluation implemented as a script
+- internal leave-one-patient-out cross-validation completed
+- metric table, prediction manifest, and run summary saved under `reports/stage7_kaggle_result_reconciliation/`
+- research-stage README updated
+- model card added
+- limitations document added
 
-This project must not be framed as future flare prediction unless longitudinal pre-flare samples are added. The current task is active flare discrimination.
+## Current authoritative implementation
 
----
+The current authoritative Stage 7 implementation is:
 
-## Primary dataset
+- `scripts/13_stage7_kaggle_result_reconciliation.py`
 
-Primary cohort:
+The current authoritative Stage 7 outputs are:
 
-- Dataset: GSE174188 / Perez et al. lupus PBMC single-cell RNA-seq cohort
-- Source used in exploratory work: CELLxGENE Census
-- CELLxGENE dataset_id: `218acb0f-9f2f-4f76-b90b-15a4b7c7f629`
-- Census version used in exploratory notebooks: `2025-11-08`
-- Approximate exploratory cohort size:
-  - 1,263,438 cells after initial loading/QC record
-  - 261 donors/patients
-  - 14 Flare
-  - 149 Managed SLE
-  - 98 Healthy
+- `reports/stage7_kaggle_result_reconciliation/stage7_run_summary.json`
+- `reports/stage7_kaggle_result_reconciliation/stage7_metric_results.csv`
+- `reports/stage7_kaggle_result_reconciliation/stage7_prediction_manifest.csv`
 
-Working label rule from `donor_id`:
+## Removed legacy exploratory artifacts
 
-- `FLARE*` -> Flare
-- `HC-*` or `IGTB*` -> Healthy
-- numeric donor IDs -> Managed SLE
+Legacy exploratory notebook and early Phase 1 output files have been removed from the tracked repository.
 
-This label rule is currently exploratory and must be formalized, tested, and documented before publication claims.
+Removed tracked content:
 
----
+- legacy exploratory Kaggle notebooks
+- early Phase 1 exploratory result files
 
-## Current repository mismatch
+These files represented exploratory Kaggle-era work and are no longer part of the clean repository interface.
 
-The repository currently contains historical scaffold and synthetic Phase 1 validation artifacts.
+## Current claim boundary
 
-Important mismatch:
+The repository supports the following conservative research-stage statement:
 
-- The checked-in Phase 1 report currently represents a synthetic validation fixture.
-- The real GSE174188/CELLxGENE exploratory analysis was performed in Kaggle notebooks.
-- The repository state files still contain old gate/blocker language that does not yet reflect the real exploratory Kaggle results.
+> Frozen Geneformer patient-level embeddings show strong internal leave-one-patient-out discrimination of active SLE flare status in an exploratory PBMC single-cell cohort.
 
-Therefore, the immediate priority is repository reconciliation before additional modeling.
+The repository does not support claims of:
 
----
+- clinical deployment
+- diagnostic readiness
+- treatment recommendation
+- prospective flare prediction
+- external validation
+- generalized clinical decision support
 
-## Completed exploratory work outside the clean pipeline
+## Validation status
 
-### Phase 1 — exploratory dataset loading and QC
+Current validation status:
 
-Exploratory Kaggle notebook:
+- internal patient-level validation: complete
+- leakage-controlled LOOCV: complete
+- external validation: not complete
+- clinical validation: not complete
+- prospective validation: not complete
 
-- `notebooks/phase1_kaggle.ipynb`
+## Next scientific work
 
-Known outputs from exploratory run:
+Recommended next work:
 
-- `patient_summary.csv`
-- `lupus_phase1_processed.h5ad` outside repo/Kaggle environment
+1. audit robustness and confounding controls
+2. compare Geneformer embeddings against simpler baselines
+3. evaluate cell-type composition and metadata-only baselines
+4. identify and test an independent external validation cohort
+5. add pathway-level and cell-type-level interpretation
 
-Known issue to fix in production pipeline:
+## Documentation
 
-- mitochondrial QC must use validated gene symbols or correct feature metadata
-- Census `var_names` / `feature_id` handling must be tested
+Current project-facing documentation:
 
----
+- `README.md`
+- `MODEL_CARD.md`
+- `docs/limitations.md`
 
-### Phase 2 — exploratory Geneformer embedding extraction
-
-Exploratory output:
-
-- 261 per-patient `.npy` embedding files
-- expected shape per patient: `(300, 1152)`
-- dtype: `float32`
-
-Geneformer details from exploratory run:
-
-- Model: `ctheodoris/Geneformer`
-- Architecture: BERT-style model
-- Hidden size: 1152
-- Vocab size must come from `model.config.vocab_size`
-- Observed config vocab size: 20275
-- Max sequence length used: 1024
-- Cells per patient: 300
-- Batch size: 16
-
-Critical production requirements:
-
-- create an embedding manifest
-- record sampled cell IDs
-- record random seed
-- record model/config/vocabulary hashes
-- test that token IDs are below model vocab size
-- test that all embeddings are finite and match patient metadata
-
----
-
-### Phase 3 — exploratory classification and validation
-
-Exploratory task:
-
-- Patient-level binary classification
-- Mean pooling over per-cell Geneformer embeddings
-- Logistic Regression classifier
-- Leave-one-out cross-validation
-
-Exploratory results:
-
-| Task | AUROC | Sensitivity |
-|---|---:|---:|
-| Flare vs Healthy | ~0.993 | 12/14 |
-| Flare vs Managed | ~0.996 | 14/14 |
-
-Exploratory controls:
-
-- permutation testing
-- female-only control
-- ancestry-stratified checks
-- raw/pseudobulk baseline comparison
-
-Known production fixes required:
-
-- StandardScaler must be inside each cross-validation fold
-- p-values must use a finite permutation correction, not be reported as 0.0000
-- raw/pseudobulk baseline must be reproducible from script
-- predictions and metrics must be saved as versioned artifacts
-- confidence intervals must be added
-- confounder controls must be formalized
-
----
-
-## Main scientific risk
-
-The main risk is not lack of signal. The main risk is overclaiming.
-
-Geneformer appears to perform strongly, but the raw/pseudobulk baseline is also very strong. Therefore, the paper cannot rely only on a small AUROC improvement.
-
-The final paper must answer:
-
-1. Does frozen Geneformer provide incremental value beyond raw/pseudobulk expression?
-2. Is the signal driven by within-cell-type transcriptional state, cell-type composition, or both?
-3. Is performance robust to sex, ancestry, cell-count, and composition confounding?
-4. Can the signal generalize under external or dataset-shift validation?
-
----
-
-## Current target paper framing
-
-Preferred framing:
-
-> A reproducible benchmark of frozen single-cell foundation-model embeddings for patient-level SLE activity discrimination.
-
-Avoid framing:
-
-> A clinical future flare prediction model.
-
-Avoid claiming:
-
-> Fully zero-shot flare prediction.
-
-Correct wording:
-
-> Zero-shot Geneformer feature extraction with supervised patient-level linear evaluation.
-
----
-
-## Immediate engineering plan
-
-Stage 0: COMPLETE
-
-- Repository state was reconciled with the real exploratory Kaggle work.
-- Historical synthetic/scaffold artifacts are retained only as provenance.
-
-Stage 1: COMPLETE
-
-- Tested package utilities define donor labels, metadata extraction,
-  mitochondrial annotation, cohort summaries, AnnData schema validation,
-  ingestion readiness, and the ingestion manifest contract.
-- Stage 1 completed with the closeout gate merged on `main`.
-
-Stage 2: COMPLETE — package-side embedding extraction infrastructure
-
-Completed:
-
-- `STAGE2-F001 - Reproducible Geneformer embedding extraction plan`
-- `STAGE2-F002 - Embedding config contract`
-- `STAGE2-F003 - Embedding provenance manifest`
-- `STAGE2-F004 - Dry-run extraction readiness`
-- `STAGE2-F005 - Actual Geneformer extraction runner`
-
-Current closeout branch:
-
-- `STAGE2-CLOSEOUT - Stage 2 closeout gate`
-- Branch: `chore/stage2-closeout`
-
-Stage 2 completed package-side infrastructure for future Geneformer embedding
-extraction. The package now has config, provenance, dry-run readiness, and a
-permission-gated dependency-injected runner interface.
-
-Stage 2 did not download data, load real AnnData files, execute real
-Geneformer/tokenizer logic, commit embedding artifacts, train models, perform
-external validation, or add performance claims.
-
-## Current Stage 1 package foundation
-
-Completed on `main`:
-
-- `src/lupusfm/data/labels.py`
-- `tests/test_lupusfm_labels.py`
-- `src/lupusfm/data/metadata.py`
-- `tests/test_lupusfm_metadata.py`
-- `src/lupusfm/qc/mitochondrial.py`
-- `tests/test_lupusfm_mitochondrial.py`
-- `src/lupusfm/data/cohort.py`
-- `tests/test_lupusfm_cohort.py`
-- `src/lupusfm/data/anndata_schema.py`
-- `tests/test_lupusfm_anndata_schema.py`
-- `src/lupusfm/data/ingestion_readiness.py`
-- `tests/test_lupusfm_ingestion_readiness.py`
-- `src/lupusfm/data/manifest.py`
-- `tests/test_lupusfm_manifest.py`
-
-Completed Stage 2 package foundation:
-
-- `src/lupusfm/embeddings/config.py`
-- `tests/test_lupusfm_embedding_config.py`
-- `src/lupusfm/embeddings/provenance.py`
-- `tests/test_lupusfm_embedding_provenance.py`
-- `src/lupusfm/embeddings/readiness.py`
-- `tests/test_lupusfm_embedding_readiness.py`
-- `src/lupusfm/embeddings/extraction.py`
-- `tests/test_lupusfm_geneformer_extraction_runner.py`
-
-Important safety decisions implemented:
-
-- donor metadata must come from explicit `adata.obs` columns
-- unknown donor-id patterns fail closed
-- mitochondrial annotation requires an explicit gene-symbol column
-- mitochondrial annotation refuses silent fallback to `adata.var_names`
-- cohort summaries count donors and cells only; they do not filter, embed, or train
-- AnnData schema validation rejects cell-level split assignments before modeling
-- ingestion-readiness reports collect validation failures instead of starting downstream work
-- manifest utilities keep downloads, embedding extraction, modeling, and training disabled
-- embedding config utilities keep downloads, AnnData loading, Geneformer execution,
-  tokenizer execution, embedding extraction, modeling, training, external
-  validation, and performance claims disabled
-- embedding provenance utilities keep extraction marked as not performed and
-  require pending or valid recorded sha256 status for runtime provenance records
-- embedding dry-run readiness collects failures across manifest, readiness,
-  config, provenance, and output-path consistency before any runtime work starts
-- the Geneformer extraction runner requires explicit permission and caller-
-  provided callbacks before runtime actions can be invoked
-- downloads, modeling, training, external validation, and performance claims
-  remain prohibited even for the extraction runner
-
-## Next stage recommendation
-
-Next stage:
-
-`STAGE3 - Patient-level embedding aggregation and leakage-safe evaluation design`
-
-Stage 3 should first define patient-level aggregation, split policy, baseline
-controls, and evaluation contracts. It should remain conservative: active SLE
-flare discrimination only, no future flare prediction claim, no cell-level
-splits, and no modeling until an explicit modeling gate is approved.
+No CV-facing, recruiter-facing, or application-specific files are part of the repository.

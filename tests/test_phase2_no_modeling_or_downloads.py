@@ -66,7 +66,6 @@ def test_no_model_files_are_created():
             or ".venv" in path.parts
             or "__pycache__" in path.parts
             or "data" in path.parts
-            or str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         ):
             continue
         lower_name = path.name.lower()

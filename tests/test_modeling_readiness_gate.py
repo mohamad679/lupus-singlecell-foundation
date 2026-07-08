@@ -118,7 +118,6 @@ def test_no_model_artifacts_exist():
         and ".venv" not in path.parts
         and "__pycache__" not in path.parts
         and "data" not in path.parts
-        and not str(path.relative_to(REPO_ROOT)).startswith("results/phase1/")
         and path.suffix.lower() in forbidden_suffixes
     ]
 
