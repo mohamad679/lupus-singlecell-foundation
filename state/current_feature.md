@@ -1,5 +1,75 @@
 # Current Feature
 
+## Stage 7 active
+
+Status: completed
+Branch: `main`
+Source branch: `feat/stage7-kaggle-result-reconciliation`
+Commit: `0085f86`
+Tag: `stage7-leakage-safe-reconciliation-0085f86`
+
+## Active stage
+
+Stage 7 Complete - Kaggle result reconciliation and leakage-safe internal LOOCV
+
+Stage 7 reconciles exploratory Kaggle Geneformer embedding results with repository-controlled outputs.
+
+Stage 7 is internal patient-level validation only.
+
+No independent external validation was performed.
+No clinical deployment or diagnostic claim is made.
+
+## Active feature
+
+## STAGE7-COMPLETE
+
+Status: completed
+
+Stage 7 produced a leakage-controlled internal validation run from patient-level Geneformer embedding files.
+
+Evaluation was performed at patient level only.
+
+Split policy: leave-one-patient-out cross-validation.
+
+Model family: mean-pooled Geneformer embeddings + logistic regression.
+
+Leakage controls:
+- no cell-level split
+- StandardScaler fit within each train fold only
+- LogisticRegression fit within each train fold only
+- prediction manifest written only after leakage-safe fold execution
+- external validation explicitly marked as not performed
+
+Outputs:
+- `reports/stage7_kaggle_result_reconciliation/README.md`
+- `reports/stage7_kaggle_result_reconciliation/stage7_run_summary.json`
+- `reports/stage7_kaggle_result_reconciliation/stage7_metric_results.csv`
+- `reports/stage7_kaggle_result_reconciliation/stage7_prediction_manifest.csv`
+
+Metric snapshot:
+- flare_vs_healthy: AUROC 0.9927, AUPRC 0.9634, sensitivity 12/14, specificity 97/98
+- flare_vs_managed: AUROC 0.9962, AUPRC 0.9529, sensitivity 14/14, specificity 147/149
+
+Claim boundary:
+- internal patient-level LOOCV only
+- no independent external validation
+- no clinical or diagnostic deployment claim
+- no generalized real-world performance claim
+
+Next required work:
+- confounding and robustness controls
+- independent external validation planning
+- public/resume-safe claim packaging
+
+---
+
+# Historical state records below
+
+The Stage 6 sections below are retained as historical provenance.
+They do not override the current Stage 7 complete status above.
+
+# Current Feature
+
 ## Stage 6 active
 
 Status: completed

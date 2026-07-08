@@ -12,15 +12,27 @@ def _block_between(text, start_marker, end_marker=None):
     return text[start:end]
 
 
-def test_stage6_final_closeout_marks_project_stage6_complete():
+def test_stage6_final_closeout_is_retained_after_stage7_completion():
     state = STATE_PATH.read_text()
 
-    assert "status: stage6_complete" in state
-    assert "current_phase: Stage 6" in state
-    assert "current_phase_name: Stage 6 Complete" in state
-    assert "current_feature: STAGE6-COMPLETE" in state
-    assert "modeling_readiness: stage6_complete_no_stage7_required" in state
-    assert "blocked: false" in state
+    project_header = _block_between(
+        state,
+        "project:",
+        "stage7_kaggle_result_reconciliation:",
+    )
+
+    assert "status: stage7_complete" in project_header
+    assert "current_phase: Stage 7" in project_header
+    assert "current_phase_name: Stage 7 Complete - Leakage-safe reconciliation" in project_header
+    assert "current_feature: STAGE7-COMPLETE" in project_header
+    assert "modeling_readiness: stage7_internal_reconciliation_complete_external_validation_pending" in project_header
+    assert "blocked: false" in project_header
+
+    stage6_block = _block_between(state, "stage6_final_result_report_closeout:")
+
+    assert "final_current_feature: STAGE6-COMPLETE" in stage6_block
+    assert "final_stage_status: completed" in stage6_block
+    assert "stage7_policy: no_stage7_required" in stage6_block
 
 
 def test_stage6_final_closeout_block_records_all_features_complete():

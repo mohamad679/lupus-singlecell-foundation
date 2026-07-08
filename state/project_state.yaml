@@ -1,9 +1,9 @@
 project:
   name: lupus-singlecell-foundation
-  status: stage6_complete
-  current_phase: Stage 6
-  current_phase_name: Stage 6 Complete
-  current_feature: STAGE6-COMPLETE
+  status: stage7_complete
+  current_phase: Stage 7
+  current_phase_name: Stage 7 Complete - Leakage-safe reconciliation
+  current_feature: STAGE7-COMPLETE
   blocked: false
   blocked_reason: null
   human_gate_2: approved_with_restrictions
@@ -14,8 +14,8 @@ project:
   modeling_allowed: false
   allow_modeling: false
   training_allowed: false
-  modeling_readiness: stage6_complete_no_stage7_required
-  training_permission: production_modeling_blocked_pending_pipeline
+  modeling_readiness: stage7_internal_reconciliation_complete_external_validation_pending
+  training_permission: production_modeling_blocked_internal_validation_only
   phase4_permission: real_artifact_validation_only
   stage5_permission: stage5_complete_no_modeling_authorization
   stage5_permission: stage5_complete_no_modeling_authorization
@@ -24,6 +24,34 @@ project:
   dataset_download_allowed: false
   allow_downloads: false
   dataset_accessions_verified: exploratory_CELLxGENE_dataset_id_recorded_pending_formal_test
+stage7_kaggle_result_reconciliation:
+  status: completed
+  commit: 0085f86
+  tag: stage7-leakage-safe-reconciliation-0085f86
+  source_branch: feat/stage7-kaggle-result-reconciliation
+  output_dir: reports/stage7_kaggle_result_reconciliation
+  dataset_id: GSE174188_CELLxGENE_Geneformer_patient_embeddings
+  evaluation_unit: patient
+  split_policy: leave_one_patient_out
+  model_family: mean_pooled_geneformer_logistic_regression
+  n_patients_total: 261
+  group_counts:
+    Managed: 149
+    Flare: 14
+    Healthy: 98
+  tasks:
+  - flare_vs_healthy
+  - flare_vs_managed
+  external_validation_performed: false
+  clinical_claim_allowed: false
+  claim_boundary: internal_patient_level_loocv_only
+  leakage_controls:
+  - patient_level_only
+  - leave_one_patient_out
+  - scaler_fit_train_fold_only
+  - model_fit_train_fold_only
+  - no_cell_level_split
+
 active_status_authority:
   current_authoritative_sections:
   - project
