@@ -88,3 +88,7 @@ No CV-facing, recruiter-facing, or application-specific files are part of the re
 ## Interpretation boundary
 
 Downstream logistic-regression coefficients, embedding-dimension weights, or SHAP values are not gene-level importance because the classifier operates on Geneformer-derived patient embeddings rather than raw gene features.
+
+## Gene masking boundary
+
+Gene masking is not valid on the downstream logistic-regression classifier. Gene or gene-program perturbation must occur upstream before Geneformer embedding extraction, followed by re-embedding and fixed-classifier re-scoring.

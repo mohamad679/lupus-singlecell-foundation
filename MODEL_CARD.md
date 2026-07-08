@@ -6,6 +6,14 @@ The downstream classifier operates on frozen Geneformer-derived patient embeddin
 
 Gene-level biological plausibility requires upstream Geneformer-level analysis, such as in silico gene or gene-program perturbation before embedding extraction, followed by re-embedding and fixed-classifier re-scoring. Any such analysis would provide mechanistic plausibility support only, not external validation or clinical validation.
 
+## Gene masking boundary
+
+Gene masking is not a valid operation on the downstream logistic-regression classifier because that classifier receives fixed Geneformer-derived patient embeddings, not raw gene tokens or expression features.
+
+Any gene masking, gene-program masking, or in silico perturbation must be performed upstream before Geneformer embedding extraction. The correct workflow is: perturb raw/tokenized gene input, recompute Geneformer embeddings, keep the downstream classifier fixed, and compare prediction-score shifts.
+
+Results from this workflow may support biological plausibility only. They must not be described as direct logistic-regression gene importance, external validation, or clinical validation.
+
 ## Claim boundary
 
 **Claim boundary:** internal LOOCV only; no clinical claim; no external validation.
