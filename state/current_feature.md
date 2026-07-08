@@ -47,8 +47,8 @@ Outputs:
 - `reports/stage7_kaggle_result_reconciliation/stage7_prediction_manifest.csv`
 
 Metric snapshot:
-- flare_vs_healthy: AUROC 0.9927, AUPRC 0.9634, sensitivity 12/14, specificity 97/98
-- flare_vs_managed: AUROC 0.9962, AUPRC 0.9529, sensitivity 14/14, specificity 147/149
+- flare_vs_healthy internal LOOCV only: AUROC 0.9927, AUPRC 0.9634, sensitivity 12/14, specificity 97/98
+- flare_vs_managed internal LOOCV only: AUROC 0.9962, AUPRC 0.9529, sensitivity 14/14, specificity 147/149
 
 Claim boundary:
 - internal patient-level LOOCV only

@@ -103,8 +103,8 @@ The Stage 7 evaluation records the following leakage controls:
 | Patients | 163 |
 | Active flare cases | 14 |
 | Managed SLE controls | 149 |
-| AUROC | 0.9962 |
-| AUPRC | 0.9529 |
+| AUROC (internal LOOCV only) | 0.9962 |
+| AUPRC (internal LOOCV only) | 0.9529 |
 | Sensitivity | 14/14 |
 | Specificity | 147/149 |
 
@@ -115,8 +115,8 @@ The Stage 7 evaluation records the following leakage controls:
 | Patients | 112 |
 | Active flare cases | 14 |
 | Healthy controls | 98 |
-| AUROC | 0.9927 |
-| AUPRC | 0.9634 |
+| AUROC (internal LOOCV only) | 0.9927 |
+| AUPRC (internal LOOCV only) | 0.9634 |
 | Sensitivity | 12/14 |
 | Specificity | 97/98 |
 
