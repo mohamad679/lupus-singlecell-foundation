@@ -28,7 +28,7 @@
     "ece"
   ],
   "required_outputs_later": [
-    "reports/tables/tree_baseline_results.csv",
-    "reports/tables/tree_feature_importance.csv"
+    "metadata/table_schemas/tree_baseline_results.csv",
+    "metadata/table_schemas/tree_feature_importance.csv"
   ]
 }

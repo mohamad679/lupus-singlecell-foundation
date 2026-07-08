@@ -8,9 +8,9 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "evaluation.yaml"
 MODULE_PATH = REPO_ROOT / "src" / "evaluation" / "evaluation_protocol.py"
-RESULT_PATH = REPO_ROOT / "reports" / "tables" / "baseline_evaluation_results.csv"
+RESULT_PATH = REPO_ROOT / "metadata" / "table_schemas" / "baseline_evaluation_results.csv"
 PREDICTION_PATH = (
-    REPO_ROOT / "reports" / "tables" / "baseline_prediction_manifest.csv"
+    REPO_ROOT / "metadata" / "table_schemas" / "baseline_prediction_manifest.csv"
 )
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

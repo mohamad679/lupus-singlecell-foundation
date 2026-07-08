@@ -27,8 +27,8 @@
     "feature_manifest"
   ],
   "required_outputs_later": [
-    "reports/tables/logistic_regression_results.csv",
-    "reports/tables/logistic_regression_coefficients.csv",
+    "metadata/table_schemas/logistic_regression_results.csv",
+    "metadata/table_schemas/logistic_regression_coefficients.csv",
     "reports/figures/logistic_regression_roc_curve.png"
   ]
 }

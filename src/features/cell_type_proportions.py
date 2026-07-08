@@ -137,8 +137,8 @@ def validate_cell_type_proportion_config(config: Mapping[str, Any]) -> None:
 
     outputs = config.get("required_outputs_later")
     if not isinstance(outputs, list) or set(outputs) != {
-        "reports/tables/cell_type_proportion_features.csv",
-        "reports/tables/cell_type_proportion_results.csv",
+        "metadata/table_schemas/cell_type_proportion_features.csv",
+        "metadata/table_schemas/cell_type_proportion_results.csv",
     }:
         raise CellTypeProportionScaffoldError(
             "required_outputs_later are invalid"

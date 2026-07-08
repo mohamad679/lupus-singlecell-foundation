@@ -8,7 +8,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DICTIONARY_PATH = REPO_ROOT / "metadata" / "label_dictionary.yaml"
 SCHEMA_PATH = REPO_ROOT / "metadata" / "label_availability_schema.yaml"
-AUDIT_TABLE_PATH = REPO_ROOT / "reports" / "tables" / "label_availability_audit.csv"
+AUDIT_TABLE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "label_availability_audit.csv"
 SCRIPT_PATH = REPO_ROOT / "scripts" / "05_label_availability_audit.py"
 
 

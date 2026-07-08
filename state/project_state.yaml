@@ -292,10 +292,10 @@ artifacts:
   cellxgene_candidate_table: reports/tables/cellxgene_candidate_datasets.csv
   dataset_eligibility_scores: reports/tables/dataset_eligibility_scores.csv
   manual_metadata_audit_summary: reports/tables/manual_metadata_audit_summary.csv
-  patient_metadata_audit_table: reports/tables/patient_metadata_audit.csv
-  label_availability_audit_table: reports/tables/label_availability_audit.csv
-  external_validation_candidates_table: reports/tables/external_validation_candidates.csv
-  rejected_dataset_log: reports/tables/rejected_dataset_log.csv
+  patient_metadata_audit_table: metadata/table_schemas/patient_metadata_audit.csv
+  label_availability_audit_table: metadata/table_schemas/label_availability_audit.csv
+  external_validation_candidates_table: metadata/table_schemas/external_validation_candidates.csv
+  rejected_dataset_log: metadata/table_schemas/rejected_dataset_log.csv
   dataset_feasibility_table: reports/tables/dataset_feasibility_table.csv
   final_dataset_feasibility_report: reports/final_dataset_feasibility_report.md
   scientific_judge_report: state/judge_reports/P1-F011_scientific_judge_report.md
@@ -312,12 +312,12 @@ artifacts:
   metadata_harmonization_schema: metadata/metadata_harmonization_schema.yaml
   source_field_mapping: metadata/source_field_mapping.yaml
   gene_identifier_policy: metadata/gene_identifier_policy.yaml
-  gene_mapping_report: reports/tables/gene_mapping_report.csv
+  gene_mapping_report: metadata/table_schemas/gene_mapping_report.csv
   qc_config: configs/qc.yaml
-  qc_summary_report: reports/tables/qc_summary.csv
-  qc_threshold_decisions: reports/tables/qc_threshold_decisions.csv
+  qc_summary_report: metadata/table_schemas/qc_summary.csv
+  qc_threshold_decisions: metadata/table_schemas/qc_threshold_decisions.csv
   split_config: configs/splitting.yaml
-  split_manifest: reports/tables/split_manifest.csv
+  split_manifest: metadata/table_schemas/split_manifest.csv
   cohort_manifest_schema: metadata/cohort_manifest_schema.yaml
   cohort_manifest: metadata/cohort_manifest.csv
   dataset_access_plan: metadata/dataset_access_plan.yaml
@@ -333,27 +333,27 @@ artifacts:
   baseline_modeling_scaffold_script: scripts/10_baseline_modeling_scaffold.py
   pseudobulk_config: configs/pseudobulk.yaml
   pseudobulk_feature_schema: metadata/pseudobulk_feature_schema.yaml
-  pseudobulk_feature_manifest: reports/tables/pseudobulk_feature_manifest.csv
+  pseudobulk_feature_manifest: metadata/table_schemas/pseudobulk_feature_manifest.csv
   pseudobulk_design_utility: src/features/pseudobulk_design.py
   logistic_regression_config: configs/logistic_regression_baseline.yaml
-  logistic_regression_results: reports/tables/logistic_regression_results.csv
-  logistic_regression_coefficients: reports/tables/logistic_regression_coefficients.csv
+  logistic_regression_results: metadata/table_schemas/logistic_regression_results.csv
+  logistic_regression_coefficients: metadata/table_schemas/logistic_regression_coefficients.csv
   logistic_regression_scaffold: src/models/logistic_regression_baseline.py
   tree_baseline_config: configs/tree_baseline.yaml
-  tree_baseline_results: reports/tables/tree_baseline_results.csv
-  tree_feature_importance: reports/tables/tree_feature_importance.csv
+  tree_baseline_results: metadata/table_schemas/tree_baseline_results.csv
+  tree_feature_importance: metadata/table_schemas/tree_feature_importance.csv
   tree_baseline_scaffold: src/models/tree_baselines.py
   cell_type_proportion_config: configs/cell_type_proportion_baseline.yaml
-  cell_type_proportion_features: reports/tables/cell_type_proportion_features.csv
-  cell_type_proportion_results: reports/tables/cell_type_proportion_results.csv
+  cell_type_proportion_features: metadata/table_schemas/cell_type_proportion_features.csv
+  cell_type_proportion_results: metadata/table_schemas/cell_type_proportion_results.csv
   cell_type_proportion_scaffold: src/features/cell_type_proportions.py
   evaluation_config: configs/evaluation.yaml
-  baseline_evaluation_results: reports/tables/baseline_evaluation_results.csv
-  baseline_prediction_manifest: reports/tables/baseline_prediction_manifest.csv
+  baseline_evaluation_results: metadata/table_schemas/baseline_evaluation_results.csv
+  baseline_prediction_manifest: metadata/table_schemas/baseline_prediction_manifest.csv
   evaluation_protocol: src/evaluation/evaluation_protocol.py
   calibration_config: configs/calibration.yaml
-  calibration_results: reports/tables/calibration_results.csv
-  reliability_diagram_manifest: reports/tables/reliability_diagram_manifest.csv
+  calibration_results: metadata/table_schemas/calibration_results.csv
+  reliability_diagram_manifest: metadata/table_schemas/reliability_diagram_manifest.csv
   calibration_protocol: src/evaluation/calibration_protocol.py
   baseline_scientific_judge_report: state/judge_reports/P3-F008_baseline_scientific_judge_report.md
   baseline_scientific_judge_review: reports/tables/baseline_scientific_judge_review.csv

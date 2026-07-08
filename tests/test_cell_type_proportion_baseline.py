@@ -9,10 +9,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "cell_type_proportion_baseline.yaml"
 MODULE_PATH = REPO_ROOT / "src" / "features" / "cell_type_proportions.py"
 FEATURE_PATH = (
-    REPO_ROOT / "reports" / "tables" / "cell_type_proportion_features.csv"
+    REPO_ROOT / "metadata" / "table_schemas" / "cell_type_proportion_features.csv"
 )
 RESULT_PATH = (
-    REPO_ROOT / "reports" / "tables" / "cell_type_proportion_results.csv"
+    REPO_ROOT / "metadata" / "table_schemas" / "cell_type_proportion_results.csv"
 )
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

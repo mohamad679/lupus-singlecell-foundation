@@ -127,8 +127,8 @@ def validate_tree_baseline_config(config: Mapping[str, Any]) -> None:
 
     outputs = config.get("required_outputs_later")
     if not isinstance(outputs, list) or set(outputs) != {
-        "reports/tables/tree_baseline_results.csv",
-        "reports/tables/tree_feature_importance.csv",
+        "metadata/table_schemas/tree_baseline_results.csv",
+        "metadata/table_schemas/tree_feature_importance.csv",
     }:
         raise TreeBaselineScaffoldError("required_outputs_later are invalid")
 

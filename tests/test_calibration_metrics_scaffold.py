@@ -8,9 +8,9 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "calibration.yaml"
 MODULE_PATH = REPO_ROOT / "src" / "evaluation" / "calibration_protocol.py"
-RESULT_PATH = REPO_ROOT / "reports" / "tables" / "calibration_results.csv"
+RESULT_PATH = REPO_ROOT / "metadata" / "table_schemas" / "calibration_results.csv"
 RELIABILITY_PATH = (
-    REPO_ROOT / "reports" / "tables" / "reliability_diagram_manifest.csv"
+    REPO_ROOT / "metadata" / "table_schemas" / "reliability_diagram_manifest.csv"
 )
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

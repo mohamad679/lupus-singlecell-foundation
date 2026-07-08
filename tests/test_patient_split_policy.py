@@ -7,7 +7,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "splitting.yaml"
-MANIFEST_PATH = REPO_ROOT / "reports" / "tables" / "split_manifest.csv"
+MANIFEST_PATH = REPO_ROOT / "metadata" / "table_schemas" / "split_manifest.csv"
 MODULE_PATH = REPO_ROOT / "src" / "data" / "split_policy.py"
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

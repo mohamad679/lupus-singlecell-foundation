@@ -8,8 +8,8 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "tree_baseline.yaml"
 MODULE_PATH = REPO_ROOT / "src" / "models" / "tree_baselines.py"
-RESULTS_PATH = REPO_ROOT / "reports" / "tables" / "tree_baseline_results.csv"
-IMPORTANCE_PATH = REPO_ROOT / "reports" / "tables" / "tree_feature_importance.csv"
+RESULTS_PATH = REPO_ROOT / "metadata" / "table_schemas" / "tree_baseline_results.csv"
+IMPORTANCE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "tree_feature_importance.csv"
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 
 RESULTS_HEADERS = [

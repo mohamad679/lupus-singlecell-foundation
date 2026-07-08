@@ -7,7 +7,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = REPO_ROOT / "metadata" / "gene_identifier_policy.yaml"
-REPORT_PATH = REPO_ROOT / "reports" / "tables" / "gene_mapping_report.csv"
+REPORT_PATH = REPO_ROOT / "metadata" / "table_schemas" / "gene_mapping_report.csv"
 MODULE_PATH = REPO_ROOT / "src" / "data" / "gene_identifier_policy.py"
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

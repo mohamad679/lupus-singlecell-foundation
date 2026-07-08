@@ -19,12 +19,12 @@ CELLXGENE_CANDIDATES_PATH = (
     REPO_ROOT / "reports" / "tables" / "cellxgene_candidate_datasets.csv"
 )
 ELIGIBILITY_SCORES_PATH = REPO_ROOT / "reports" / "tables" / "dataset_eligibility_scores.csv"
-LABEL_AUDIT_PATH = REPO_ROOT / "reports" / "tables" / "label_availability_audit.csv"
-PATIENT_AUDIT_PATH = REPO_ROOT / "reports" / "tables" / "patient_metadata_audit.csv"
+LABEL_AUDIT_PATH = REPO_ROOT / "metadata" / "table_schemas" / "label_availability_audit.csv"
+PATIENT_AUDIT_PATH = REPO_ROOT / "metadata" / "table_schemas" / "patient_metadata_audit.csv"
 EXTERNAL_VALIDATION_PATH = (
-    REPO_ROOT / "reports" / "tables" / "external_validation_candidates.csv"
+    REPO_ROOT / "metadata" / "table_schemas" / "external_validation_candidates.csv"
 )
-REJECTED_DATASET_LOG_PATH = REPO_ROOT / "reports" / "tables" / "rejected_dataset_log.csv"
+REJECTED_DATASET_LOG_PATH = REPO_ROOT / "metadata" / "table_schemas" / "rejected_dataset_log.csv"
 REPORT_PATH = REPO_ROOT / "reports" / "final_dataset_feasibility_report.md"
 
 REJECTED_LOG_HEADERS = [

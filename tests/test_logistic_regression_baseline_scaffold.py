@@ -8,9 +8,9 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "logistic_regression_baseline.yaml"
 MODULE_PATH = REPO_ROOT / "src" / "models" / "logistic_regression_baseline.py"
-RESULTS_PATH = REPO_ROOT / "reports" / "tables" / "logistic_regression_results.csv"
+RESULTS_PATH = REPO_ROOT / "metadata" / "table_schemas" / "logistic_regression_results.csv"
 COEFFICIENTS_PATH = (
-    REPO_ROOT / "reports" / "tables" / "logistic_regression_coefficients.csv"
+    REPO_ROOT / "metadata" / "table_schemas" / "logistic_regression_coefficients.csv"
 )
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

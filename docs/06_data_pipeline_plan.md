@@ -282,7 +282,7 @@ Duplicate gene symbols or identifiers must be reported before any aggregation. S
 
 ### Missing Gene Handling
 
-Missing, unmapped, or unsupported gene identifiers must be reported in `reports/tables/gene_mapping_report.csv` or a future derived report. Silent gene dropping is forbidden. Missing identifiers may block cross-cohort integration, pathway analysis, or foundation model vocabulary alignment.
+Missing, unmapped, or unsupported gene identifiers must be reported in `metadata/table_schemas/gene_mapping_report.csv` or a future derived report. Silent gene dropping is forbidden. Missing identifiers may block cross-cohort integration, pathway analysis, or foundation model vocabulary alignment.
 
 ### Mitochondrial/Ribosomal Gene Handling
 
@@ -461,8 +461,8 @@ No QC threshold may be applied without an explicit threshold source, rationale, 
 
 Required future QC outputs are:
 
-- `reports/tables/qc_summary.csv`
-- `reports/tables/qc_threshold_decisions.csv`
+- `metadata/table_schemas/qc_summary.csv`
+- `metadata/table_schemas/qc_threshold_decisions.csv`
 
 QC reports must preserve dataset, sample, patient, batch, disease label, metric, threshold, rationale, approval, notes, and audit status.
 

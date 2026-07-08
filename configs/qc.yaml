@@ -35,5 +35,5 @@ patient_level_metrics:
   - batch_distribution
 
 required_outputs:
-  - reports/tables/qc_summary.csv
-  - reports/tables/qc_threshold_decisions.csv
+  - metadata/table_schemas/qc_summary.csv
+  - metadata/table_schemas/qc_threshold_decisions.csv

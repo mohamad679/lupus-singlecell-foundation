@@ -26,7 +26,7 @@
     "centered_log_ratio_later"
   ],
   "required_outputs_later": [
-    "reports/tables/cell_type_proportion_features.csv",
-    "reports/tables/cell_type_proportion_results.csv"
+    "metadata/table_schemas/cell_type_proportion_features.csv",
+    "metadata/table_schemas/cell_type_proportion_results.csv"
   ]
 }

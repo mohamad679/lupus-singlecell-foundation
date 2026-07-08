@@ -7,7 +7,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CRITERIA_PATH = REPO_ROOT / "metadata" / "external_validation_criteria.yaml"
-TABLE_PATH = REPO_ROOT / "reports" / "tables" / "external_validation_candidates.csv"
+TABLE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "external_validation_candidates.csv"
 SCRIPT_PATH = REPO_ROOT / "scripts" / "06_external_validation_audit.py"
 
 

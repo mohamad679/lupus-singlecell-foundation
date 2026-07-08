@@ -7,7 +7,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = REPO_ROOT / "metadata" / "patient_metadata_schema.yaml"
-AUDIT_TABLE_PATH = REPO_ROOT / "reports" / "tables" / "patient_metadata_audit.csv"
+AUDIT_TABLE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "patient_metadata_audit.csv"
 SCRIPT_PATH = REPO_ROOT / "scripts" / "04_patient_metadata_audit.py"
 
 

@@ -9,7 +9,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "pseudobulk.yaml"
 SCHEMA_PATH = REPO_ROOT / "metadata" / "pseudobulk_feature_schema.yaml"
-MANIFEST_PATH = REPO_ROOT / "reports" / "tables" / "pseudobulk_feature_manifest.csv"
+MANIFEST_PATH = REPO_ROOT / "metadata" / "table_schemas" / "pseudobulk_feature_manifest.csv"
 MODULE_PATH = REPO_ROOT / "src" / "features" / "pseudobulk_design.py"
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 

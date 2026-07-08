@@ -50,8 +50,8 @@ REQUIRED_PATIENT_LEVEL_METRICS = [
     "batch_distribution",
 ]
 REQUIRED_OUTPUTS = [
-    "reports/tables/qc_summary.csv",
-    "reports/tables/qc_threshold_decisions.csv",
+    "metadata/table_schemas/qc_summary.csv",
+    "metadata/table_schemas/qc_threshold_decisions.csv",
 ]
 QC_SUMMARY_HEADERS = [
     "dataset_id",

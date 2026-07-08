@@ -270,7 +270,7 @@ explicitly in future feature manifests.
 After an explicit future extraction feature, expected artifacts may include:
 
 - a patient/donor-by-feature pseudobulk matrix
-- `reports/tables/pseudobulk_feature_manifest.csv`
+- `metadata/table_schemas/pseudobulk_feature_manifest.csv`
 - aggregation and cell-count summaries
 - normalization and gene-filtering decisions
 - missing-stratum and dropped-feature reports

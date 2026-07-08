@@ -804,7 +804,7 @@ A candidate can appear in the report only when it has been manually added to a s
 
 ### Rejection Process
 
-Rejected datasets must be recorded in `reports/tables/rejected_dataset_log.csv` with dataset ID, source, rejection reason, scientific risk, notes, and audit status. Rejection reasons must distinguish hard invalidity, missing metadata, task incompatibility, and unresolved provenance.
+Rejected datasets must be recorded in `metadata/table_schemas/rejected_dataset_log.csv` with dataset ID, source, rejection reason, scientific risk, notes, and audit status. Rejection reasons must distinguish hard invalidity, missing metadata, task incompatibility, and unresolved provenance.
 
 ### Evidence Requirements
 

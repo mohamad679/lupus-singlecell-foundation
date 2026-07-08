@@ -112,7 +112,7 @@ def test_no_model_artifacts_exist():
 
 
 def test_no_metric_or_feature_values_populated_in_result_tables():
-    table_dir = REPO_ROOT / "reports" / "tables"
+    table_dir = REPO_ROOT / "metadata" / "table_schemas"
     for filename in RESULT_TABLES:
         with (table_dir / filename).open(newline="") as handle:
             rows = list(csv.reader(handle))

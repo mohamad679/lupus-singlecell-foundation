@@ -13,7 +13,7 @@ from typing import Dict, List, Sequence
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CRITERIA_PATH = REPO_ROOT / "metadata" / "external_validation_criteria.yaml"
-CANDIDATE_TABLE_PATH = REPO_ROOT / "reports" / "tables" / "external_validation_candidates.csv"
+CANDIDATE_TABLE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "external_validation_candidates.csv"
 
 CRITERIA_GROUPS = [
     "cohort_independence",

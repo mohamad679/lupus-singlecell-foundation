@@ -75,7 +75,7 @@ clinical attributes.
 
 Required evidence:
 
-- populated `reports/tables/split_manifest.csv`
+- populated `metadata/table_schemas/split_manifest.csv`
 - aggregation unit limited to patient, donor, or cohort
 - all samples and cells from one patient assigned to one compatible split
 - explicit train, validation, test, holdout, or external-validation role

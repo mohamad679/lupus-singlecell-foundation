@@ -5,8 +5,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = REPO_ROOT / "configs" / "qc.yaml"
-SUMMARY_PATH = REPO_ROOT / "reports" / "tables" / "qc_summary.csv"
-THRESHOLDS_PATH = REPO_ROOT / "reports" / "tables" / "qc_threshold_decisions.csv"
+SUMMARY_PATH = REPO_ROOT / "metadata" / "table_schemas" / "qc_summary.csv"
+THRESHOLDS_PATH = REPO_ROOT / "metadata" / "table_schemas" / "qc_threshold_decisions.csv"
 MODULE_PATH = REPO_ROOT / "src" / "qc" / "qc_policy.py"
 STATE_PATH = REPO_ROOT / "state" / "project_state.yaml"
 
@@ -38,8 +38,8 @@ def test_required_qc_outputs_are_listed():
     module = load_module()
     config = module.load_qc_config(CONFIG_PATH)
 
-    assert "reports/tables/qc_summary.csv" in config["required_outputs"]
-    assert "reports/tables/qc_threshold_decisions.csv" in config["required_outputs"]
+    assert "metadata/table_schemas/qc_summary.csv" in config["required_outputs"]
+    assert "metadata/table_schemas/qc_threshold_decisions.csv" in config["required_outputs"]
 
 
 def test_qc_summary_csv_exists_with_required_headers_only():

@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-REJECTED_LOG_PATH = REPO_ROOT / "reports" / "tables" / "rejected_dataset_log.csv"
+REJECTED_LOG_PATH = REPO_ROOT / "metadata" / "table_schemas" / "rejected_dataset_log.csv"
 SCRIPT_PATH = REPO_ROOT / "scripts" / "07_generate_dataset_feasibility_report.py"
 
 

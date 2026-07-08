@@ -14,7 +14,7 @@ from typing import Dict, List, Sequence
 REPO_ROOT = Path(__file__).resolve().parents[1]
 LABEL_DICTIONARY_PATH = REPO_ROOT / "metadata" / "label_dictionary.yaml"
 LABEL_SCHEMA_PATH = REPO_ROOT / "metadata" / "label_availability_schema.yaml"
-AUDIT_TABLE_PATH = REPO_ROOT / "reports" / "tables" / "label_availability_audit.csv"
+AUDIT_TABLE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "label_availability_audit.csv"
 
 ALLOWED_LABEL_TYPES = [
     "diagnosis",

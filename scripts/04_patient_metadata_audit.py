@@ -13,7 +13,7 @@ from typing import Dict, List, Sequence
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = REPO_ROOT / "metadata" / "patient_metadata_schema.yaml"
-AUDIT_TABLE_PATH = REPO_ROOT / "reports" / "tables" / "patient_metadata_audit.csv"
+AUDIT_TABLE_PATH = REPO_ROOT / "metadata" / "table_schemas" / "patient_metadata_audit.csv"
 
 REQUIRED_FIELDS = [
     "patient_id",
