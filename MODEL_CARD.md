@@ -1,5 +1,10 @@
 # Model Card — Lupus Single-Cell Foundation Model
 
+## Embedding interpretation boundary
+
+The downstream classifier operates on frozen Geneformer-derived patient embeddings, not raw gene-level features. Therefore, logistic-regression coefficients, embedding-dimension weights, or SHAP values computed on the downstream classifier must not be interpreted as gene-level importance or as identification of lupus-associated genes.
+
+Gene-level biological plausibility requires upstream Geneformer-level analysis, such as in silico gene or gene-program perturbation before embedding extraction, followed by re-embedding and fixed-classifier re-scoring. Any such analysis would provide mechanistic plausibility support only, not external validation or clinical validation.
 
 ## Claim boundary
 

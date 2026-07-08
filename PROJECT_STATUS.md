@@ -84,3 +84,7 @@ Current project-facing documentation:
 - `docs/limitations.md`
 
 No CV-facing, recruiter-facing, or application-specific files are part of the repository.
+
+## Interpretation boundary
+
+Downstream logistic-regression coefficients, embedding-dimension weights, or SHAP values are not gene-level importance because the classifier operates on Geneformer-derived patient embeddings rather than raw gene features.
