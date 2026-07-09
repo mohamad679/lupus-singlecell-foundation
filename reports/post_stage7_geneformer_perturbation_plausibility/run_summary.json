@@ -1,0 +1,30 @@
+{
+  "blocker": "No safe upstream Geneformer perturbation API is implemented in this repository. Real Geneformer-level perturbation must run in a controlled cloud/GPU environment that perturbs raw or tokenized gene input before embedding extraction, recomputes embeddings, and then applies the fixed downstream classifier without refitting.",
+  "causal_claim": false,
+  "claim_boundary": "Geneformer-level perturbation plausibility analysis is hypothesis-generating only. It does not constitute external validation, clinical validation, causal validation, or evidence of clinical diagnostic utility.",
+  "clinical_diagnostic_claim": false,
+  "clinical_validation_performed": false,
+  "downstream_classifier_fixed": true,
+  "external_validation_performed": false,
+  "gene_level_claim": false,
+  "mode": "plan_only",
+  "output_paths": {
+    "perturbation_plan": "reports/post_stage7_geneformer_perturbation_plausibility/perturbation_plan.csv",
+    "perturbation_score_shift_schema": "reports/post_stage7_geneformer_perturbation_plausibility/perturbation_score_shift_schema.csv",
+    "readme": "reports/post_stage7_geneformer_perturbation_plausibility/README.md",
+    "run_summary": "reports/post_stage7_geneformer_perturbation_plausibility/run_summary.json"
+  },
+  "perturbation_api_available": false,
+  "perturbation_plan_rows": 4,
+  "real_embeddings_recomputed": false,
+  "real_geneformer_perturbation_run": false,
+  "requires_gpu_or_cloud": true,
+  "scope": "stage7_geneformer_level_perturbation_plausibility_scaffold",
+  "score_shift_rows": 0,
+  "status": "plan_only_blocked_pending_cloud_geneformer_perturbation_api",
+  "synthetic_output": false,
+  "tasks": [
+    "flare_vs_managed",
+    "flare_vs_healthy"
+  ]
+}
