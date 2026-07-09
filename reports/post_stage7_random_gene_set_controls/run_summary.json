@@ -1,0 +1,33 @@
+{
+  "blocker": "TODO: define the Geneformer token gene universe and any token-availability filters before sampling real size-matched random gene-set controls. No safe upstream Geneformer perturbation API is implemented in this repository. Real Geneformer-level perturbation must run in a controlled cloud/GPU environment that perturbs raw or tokenized gene input before embedding extraction, recomputes embeddings, and then applies the fixed downstream classifier without refitting.",
+  "causal_claim": false,
+  "claim_boundary": "Random gene-set controls for Geneformer-level perturbation are hypothesis-generating controls only. They do not constitute causal validation, external validation, clinical validation, or evidence of clinical diagnostic utility.",
+  "clinical_diagnostic_claim": false,
+  "clinical_validation_performed": false,
+  "control_plan_rows": 3,
+  "downstream_classifier_fixed": true,
+  "external_validation_performed": false,
+  "gene_universe_defined": false,
+  "mode": "plan_only",
+  "output_paths": {
+    "random_gene_set_control_plan": "reports/post_stage7_random_gene_set_controls/random_gene_set_control_plan.csv",
+    "random_gene_set_control_schema": "reports/post_stage7_random_gene_set_controls/random_gene_set_control_schema.csv",
+    "random_gene_set_control_summary_schema": "reports/post_stage7_random_gene_set_controls/random_gene_set_control_summary_schema.csv",
+    "readme": "reports/post_stage7_random_gene_set_controls/README.md",
+    "run_summary": "reports/post_stage7_random_gene_set_controls/run_summary.json"
+  },
+  "random_control_schema_rows": 0,
+  "random_controls_are_real": false,
+  "real_embeddings_recomputed": false,
+  "real_geneformer_perturbation_run": false,
+  "requires_geneformer_rerun": true,
+  "requires_gpu_or_cloud": true,
+  "scope": "stage7_random_gene_set_controls_scaffold",
+  "status": "plan_only_blocked_pending_gene_universe_and_upstream_api",
+  "summary_schema_rows": 0,
+  "synthetic_output": false,
+  "tasks": [
+    "flare_vs_managed",
+    "flare_vs_healthy"
+  ]
+}
