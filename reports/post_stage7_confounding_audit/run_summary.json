@@ -1,15 +1,22 @@
 {
-  "status": "blocked_insufficient_label_classes",
-  "real_audit_metrics_generated": false,
-  "n_obs_rows": 450,
-  "n_patients": 10,
-  "label_counts": {
-    "managed": 10
+  "status": "real_result",
+  "real_audit_metrics_generated": true,
+  "metadata_csv": "/kaggle/working/gse174188_cellxgene_obs_metadata.csv",
+  "n_cells_used": 1262189,
+  "n_patients_used": 260,
+  "patient_counts": {
+    "managed": 148,
+    "healthy": 98,
+    "flare": 14
   },
-  "donor_column": "donor_id",
-  "cell_type_column": "cell_type",
-  "source_or_batch_column": null,
-  "blocker": "Current h5ad contains insufficient label classes for real confounding audit.",
-  "clinical_validation_performed": false,
-  "external_validation_performed": false
+  "categorical_features_audited": [
+    "sex",
+    "tissue",
+    "assay",
+    "suspension_type",
+    "development_stage",
+    "disease"
+  ],
+  "cell_type_composition_audited": true,
+  "claim_boundary": "internal descriptive confounding audit only; no clinical claim; no external validation claim; no diagnostic claim; no deployment claim"
 }

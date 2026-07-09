@@ -1,0 +1,34 @@
+stage7_group,cell_type,cell_count,group_total_cells,cell_fraction_within_group
+flare,B cell,6821,57843,0.11792265269781996
+flare,"CD4-positive, alpha-beta T cell",13786,57843,0.23833480282834568
+flare,"CD8-positive, alpha-beta T cell",14187,57843,0.24526736165136662
+flare,classical monocyte,15538,57843,0.26862368825959926
+flare,conventional dendritic cell,426,57843,0.0073647632384212436
+flare,lymphocyte,762,57843,0.013173590581401379
+flare,natural killer cell,4300,57843,0.07433915944885293
+flare,non-classical monocyte,1754,57843,0.03032346178448559
+flare,plasmablast,123,57843,0.002126445723769514
+flare,plasmacytoid dendritic cell,131,57843,0.0022647511366976126
+flare,progenitor cell,15,57843,0.00025932264924018465
+healthy,B cell,59485,484931,0.12266693612080894
+healthy,"CD4-positive, alpha-beta T cell",184728,484931,0.3809366693405866
+healthy,"CD8-positive, alpha-beta T cell",88569,484931,0.18264247903309955
+healthy,classical monocyte,85963,484931,0.17726851861398837
+healthy,conventional dendritic cell,7474,484931,0.015412501984818458
+healthy,lymphocyte,1853,484931,0.003821162185960477
+healthy,natural killer cell,38018,484931,0.07839878250720206
+healthy,non-classical monocyte,15056,484931,0.031047716066821877
+healthy,plasmablast,489,484931,0.0010083908844763481
+healthy,plasmacytoid dendritic cell,2959,484931,0.006101899033058311
+healthy,progenitor cell,337,484931,0.0006949442291789966
+managed,B cell,85014,719415,0.11817101394883343
+managed,"CD4-positive, alpha-beta T cell",181539,719415,0.2523425283042472
+managed,"CD8-positive, alpha-beta T cell",145959,719415,0.202885677946665
+managed,classical monocyte,205684,719415,0.2859045196444333
+managed,conventional dendritic cell,10281,719415,0.014290777923729696
+managed,lymphocyte,5645,719415,0.007846653183489363
+managed,natural killer cell,49950,719415,0.06943141302308126
+managed,non-classical monocyte,31955,719415,0.044418034097148375
+managed,plasmablast,798,719415,0.0011092345864348117
+managed,plasmacytoid dendritic cell,2137,719415,0.002970469061668161
+managed,progenitor cell,453,719415,0.0006296782802693856

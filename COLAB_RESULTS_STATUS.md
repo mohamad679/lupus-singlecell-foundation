@@ -25,9 +25,11 @@ Boundary: internal-only metadata control. No clinical claim. No external validat
 
 ### Confounding audit
 
-Status: still_blocked_pending_real_run
+Status: real_result
 
-Reason: previous h5ad was insufficient. Full metadata is now available, so this can be run next.
+Full CELLxGENE obs metadata was used for an internal descriptive confounding audit.
+
+Boundary: internal-only descriptive audit. No clinical claim. No external validation claim. No diagnostic claim. No deployment claim.
 
 ### Geneformer perturbation
 
