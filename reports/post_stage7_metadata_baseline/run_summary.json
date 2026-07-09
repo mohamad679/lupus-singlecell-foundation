@@ -1,23 +1,50 @@
 {
-  "status": "blocked_insufficient_metadata_h5ad",
-  "real_metadata_metrics_generated": false,
-  "n_obs_rows": 450,
-  "n_patients": 10,
-  "label_counts": {
-    "managed": 10
+  "status": "real_result",
+  "real_metadata_metrics_generated": true,
+  "metadata_csv": "/kaggle/working/gse174188_cellxgene_obs_metadata.csv",
+  "n_cells_used": 1262189,
+  "n_patients_used": 260,
+  "patient_counts": {
+    "managed": 148,
+    "healthy": 98,
+    "flare": 14
   },
-  "n_features_used": 6,
-  "features_used": [
-    "n_cells",
-    "celltype_prop__B_cell",
-    "celltype_prop__CD4_T_cell",
-    "celltype_prop__CD8_T_cell",
-    "celltype_prop__Classical_monocyte",
-    "celltype_prop__NK_cell"
+  "categorical_metadata_used": [
+    "sex",
+    "tissue",
+    "assay",
+    "suspension_type",
+    "development_stage"
   ],
-  "donor_column": "donor_id",
-  "cell_type_column": "cell_type",
-  "age_column": null,
-  "sex_column": null,
-  "blocker": "Current h5ad does not contain enough real patient metadata/classes for metadata-only LOOCV."
+  "celltype_composition_used": true,
+  "excluded_columns": [
+    "disease"
+  ],
+  "claim_boundary": "internal metadata-only LOOCV control only; no clinical claim; no external validation claim; no diagnostic claim; no deployment claim",
+  "tasks": [
+    {
+      "task": "flare_vs_managed",
+      "status": "real_result",
+      "result_type": "metadata_only_internal_LOOCV_control",
+      "n_patients": 162,
+      "n_positive": 14,
+      "n_negative": 148,
+      "auroc_internal_loocv_only": 0.6554054054054054,
+      "auprc_internal_loocv_only": 0.14284917331707922,
+      "accuracy_at_0_5": 0.7592592592592593,
+      "balanced_accuracy_at_0_5": 0.5448841698841699
+    },
+    {
+      "task": "flare_vs_healthy",
+      "status": "real_result",
+      "result_type": "metadata_only_internal_LOOCV_control",
+      "n_patients": 112,
+      "n_positive": 14,
+      "n_negative": 98,
+      "auroc_internal_loocv_only": 0.9409620991253644,
+      "auprc_internal_loocv_only": 0.8361111111111111,
+      "accuracy_at_0_5": 0.9285714285714286,
+      "balanced_accuracy_at_0_5": 0.8673469387755102
+    }
+  ]
 }

@@ -1,19 +1,42 @@
-# Stage 7 Colab control-analysis results
+# Colab Results Status
 
-## Completed real result
-- post_stage7_permutation_test: completed
-- n_permutations: 100
-- empirical p-value: 0.009900990099009901 for both tasks
+## Post-Stage 7 Controls
 
-## Blocked results
-- post_stage7_metadata_baseline: blocked_insufficient_metadata_h5ad
-- post_stage7_confounding_audit: blocked_insufficient_label_classes
+### Label permutation control
 
-## Blocker
-The available h5ad is not the real 1.2M-cell metadata artifact.
-It contains only:
-- 450 obs rows
-- 10 patients
-- all labels = managed
+Status: real_result
 
-Therefore metadata-only baseline and confounding audit cannot be real until the real full metadata h5ad is provided.
+100 permutations were completed and committed previously in `reports/post_stage7_permutation_test/`.
+
+### Metadata-only baseline
+
+Status: real_result
+
+Full CELLxGENE obs metadata was fetched for dataset `218acb0f-9f2f-4f76-b90b-15a4b7c7f629`.
+
+Observed metadata-only internal LOOCV control results:
+
+| task             | status      | result_type                          |   n_patients |   n_positive |   n_negative |   auroc_internal_loocv_only |   auprc_internal_loocv_only |   accuracy_at_0_5 |   balanced_accuracy_at_0_5 |
+|:-----------------|:------------|:-------------------------------------|-------------:|-------------:|-------------:|----------------------------:|----------------------------:|------------------:|---------------------------:|
+| flare_vs_managed | real_result | metadata_only_internal_LOOCV_control |          162 |           14 |          148 |                    0.655405 |                    0.142849 |          0.759259 |                   0.544884 |
+| flare_vs_healthy | real_result | metadata_only_internal_LOOCV_control |          112 |           14 |           98 |                    0.940962 |                    0.836111 |          0.928571 |                   0.867347 |
+
+Boundary: internal-only metadata control. No clinical claim. No external validation claim. No diagnostic claim. No deployment claim.
+
+### Confounding audit
+
+Status: still_blocked_pending_real_run
+
+Reason: previous h5ad was insufficient. Full metadata is now available, so this can be run next.
+
+### Geneformer perturbation
+
+Status: scaffold_only
+
+Reason: real perturbation requires upstream Geneformer-level perturbation before embedding extraction.
+
+### Random gene-set controls
+
+Status: scaffold_only
+
+Reason: real random gene-set controls require real perturbation score-shift outputs first.
