@@ -1,0 +1,1 @@
+task,case_group,control_group,source_field,source_column,category,n_patients,n_cases,n_controls,case_class_proportion,control_class_proportion,abs_class_proportion_diff,present_in_only_one_class,warning_flag

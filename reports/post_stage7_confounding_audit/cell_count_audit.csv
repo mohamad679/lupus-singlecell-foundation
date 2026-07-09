@@ -1,0 +1,1 @@
+task,case_group,control_group,n_patients,n_cases,n_controls,mean_n_cells_case,mean_n_cells_control,median_n_cells_case,median_n_cells_control,mean_log1p_n_cells_case,mean_log1p_n_cells_control,log1p_n_cells_smd,warning_flag

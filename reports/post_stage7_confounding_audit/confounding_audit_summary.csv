@@ -1,0 +1,1 @@
+task,case_group,control_group,n_patients,n_cases,n_controls,cell_count_warning_flag,top_cell_type_imbalances,source_batch_warning_fields,source_batch_categories_flagged,warning_flag,notes
