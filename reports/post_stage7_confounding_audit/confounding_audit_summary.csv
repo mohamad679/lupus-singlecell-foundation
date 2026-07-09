@@ -1,2 +1,2 @@
-audit,status,real_audit_metrics_generated,n_obs_rows,n_patients,label_counts,claim_boundary
-stage7_confounding_audit,blocked_insufficient_label_classes,False,450,10,"{""managed"": 10}",Internal confounding audit only; not external or clinical validation.
+status,real_audit_metrics_generated,n_cells_used,n_patients_used,managed_patients,healthy_patients,flare_patients,categorical_features_audited,cell_type_composition_audited,claim_boundary
+real_result,True,1262189,260,148,98,14,sex|tissue|assay|suspension_type|development_stage|disease,True,internal descriptive confounding audit only; no clinical claim; no external validation claim; no diagnostic claim; no deployment claim
