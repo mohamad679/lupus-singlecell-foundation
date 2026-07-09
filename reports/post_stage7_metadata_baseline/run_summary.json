@@ -1,32 +1,23 @@
 {
-  "age_available": true,
-  "artifact_found": true,
-  "artifact_type": "h5ad",
-  "blocker": "Local .h5ad metadata artifact exists, but `anndata` is not installed. Install `anndata` to extract patient-level metadata features.",
-  "cell_count_available": true,
-  "cell_type_available": true,
-  "claim_boundary": "Metadata-only baseline testing is an internal confounding-control analysis only. It does not constitute external validation, clinical validation, or evidence of clinical diagnostic utility.",
-  "clinical_diagnostic_claim": false,
-  "clinical_validation_performed": false,
-  "external_validation_performed": false,
-  "field_probe": [
-    "age",
-    "cell_type",
-    "disease_group",
-    "donor_id",
-    "patient_id",
-    "sex"
+  "status": "blocked_insufficient_metadata_h5ad",
+  "real_metadata_metrics_generated": false,
+  "n_obs_rows": 450,
+  "n_patients": 10,
+  "label_counts": {
+    "managed": 10
+  },
+  "n_features_used": 6,
+  "features_used": [
+    "n_cells",
+    "celltype_prop__B_cell",
+    "celltype_prop__CD4_T_cell",
+    "celltype_prop__CD8_T_cell",
+    "celltype_prop__Classical_monocyte",
+    "celltype_prop__NK_cell"
   ],
-  "geneformer_embeddings_used": false,
-  "geneformer_run": false,
-  "label_available": true,
-  "metadata_artifact": "data/processed/lupus_qc_processed.h5ad",
-  "metadata_baseline_metrics": "reports/post_stage7_metadata_baseline/metadata_baseline_metrics.csv",
-  "metadata_baseline_predictions": "reports/post_stage7_metadata_baseline/metadata_baseline_predictions.csv",
-  "metadata_feature_manifest": "reports/post_stage7_metadata_baseline/metadata_feature_manifest.csv",
-  "patient_id_available": true,
-  "report": "reports/post_stage7_metadata_baseline/README.md",
-  "scope": "internal_metadata_only_control",
-  "sex_available": true,
-  "status": "blocked_metadata_extraction"
+  "donor_column": "donor_id",
+  "cell_type_column": "cell_type",
+  "age_column": null,
+  "sex_column": null,
+  "blocker": "Current h5ad does not contain enough real patient metadata/classes for metadata-only LOOCV."
 }

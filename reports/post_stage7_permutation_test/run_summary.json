@@ -1,0 +1,56 @@
+{
+  "claim_boundary": "Permutation testing is an internal negative-control analysis only. It does not constitute external validation, clinical validation, or evidence of clinical diagnostic utility.",
+  "clinical_diagnostic_claim": false,
+  "clinical_validation_performed": false,
+  "dataset_id": "GSE174188_CELLxGENE_Geneformer_patient_embeddings",
+  "embedding_dir": "<external-local-artifact:all_embeddings>",
+  "embeddings_reextracted": false,
+  "evaluation_unit": "patient",
+  "external_validation_performed": false,
+  "geneformer_run": false,
+  "label_shuffle_unit": "patient",
+  "model_family": "mean_pooled_geneformer_logistic_regression",
+  "model_fit_scope": "train_fold_only",
+  "n_permutations": 100,
+  "patient_identity_preserved": true,
+  "permutation_results": "reports/post_stage7_permutation_test/permutation_results.csv",
+  "permutation_summary": "reports/post_stage7_permutation_test/permutation_summary.csv",
+  "report": "reports/post_stage7_permutation_test/README.md",
+  "scaler_fit_scope": "train_fold_only",
+  "scope": "internal_patient_label_permutation_negative_control",
+  "seed": 42,
+  "split_policy": "leave_one_patient_out",
+  "status": "completed",
+  "summary": [
+    {
+      "claim_boundary": "Permutation testing is an internal negative-control analysis only. It does not constitute external validation, clinical validation, or evidence of clinical diagnostic utility.",
+      "empirical_p_value": 0.009900990099009901,
+      "n_permutations": 100,
+      "n_valid_permutations": 100,
+      "observed_auroc_internal_loocv": 0.9961649089165868,
+      "permutation_max_auroc": 0.7703739213806328,
+      "permutation_mean_auroc": 0.4831351869606904,
+      "permutation_min_auroc": 0.22722914669223393,
+      "permutation_std_auroc": 0.12154962226444507,
+      "seed": 42,
+      "task": "flare_vs_managed"
+    },
+    {
+      "claim_boundary": "Permutation testing is an internal negative-control analysis only. It does not constitute external validation, clinical validation, or evidence of clinical diagnostic utility.",
+      "empirical_p_value": 0.009900990099009901,
+      "n_permutations": 100,
+      "n_valid_permutations": 100,
+      "observed_auroc_internal_loocv": 0.9927113702623906,
+      "permutation_max_auroc": 0.6902332361516036,
+      "permutation_mean_auroc": 0.4725655976676385,
+      "permutation_min_auroc": 0.1865889212827988,
+      "permutation_std_auroc": 0.1161208238014023,
+      "seed": 42,
+      "task": "flare_vs_healthy"
+    }
+  ],
+  "tasks": [
+    "flare_vs_managed",
+    "flare_vs_healthy"
+  ]
+}

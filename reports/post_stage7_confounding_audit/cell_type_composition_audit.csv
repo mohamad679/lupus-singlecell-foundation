@@ -1,1 +1,2 @@
-task,case_group,control_group,cell_type_feature,mean_prop_case,mean_prop_control,abs_mean_prop_diff,warning_flag
+status,reason,cell_type_column,n_patients,label_counts
+blocked_insufficient_label_classes,Current h5ad has insufficient label classes for cell-type composition confounding audit.,cell_type,10,"{""managed"": 10}"

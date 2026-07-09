@@ -1,1 +1,2 @@
-task,case_group,control_group,n_patients,n_cases,n_controls,mean_n_cells_case,mean_n_cells_control,median_n_cells_case,median_n_cells_control,mean_log1p_n_cells_case,mean_log1p_n_cells_control,log1p_n_cells_smd,warning_flag
+status,reason,n_patients,label_counts
+blocked_insufficient_label_classes,Current h5ad has insufficient label classes for cell-count confounding audit.,10,"{""managed"": 10}"

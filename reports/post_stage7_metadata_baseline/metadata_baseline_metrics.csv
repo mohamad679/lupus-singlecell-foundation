@@ -1,1 +1,3 @@
-run_id,dataset_id,model_family,task,split_policy,evaluation_unit,n_patients,n_cases,n_controls,auroc,auprc,balanced_accuracy,accuracy,status,audit_status,notes
+task,status,n_patients,class_counts,n_features_used,metadata_only_auroc_internal_loocv,metadata_only_auprc_internal_loocv,claim_boundary
+flare_vs_managed,blocked_insufficient_classes_or_features,10,"{""0"": 10}",6,,,Internal metadata-only control only; not external or clinical validation.
+flare_vs_healthy,blocked_insufficient_classes_or_features,0,{},6,,,Internal metadata-only control only; not external or clinical validation.

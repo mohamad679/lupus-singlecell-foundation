@@ -1,1 +1,2 @@
-task,case_group,control_group,source_field,source_column,category,n_patients,n_cases,n_controls,case_class_proportion,control_class_proportion,abs_class_proportion_diff,present_in_only_one_class,warning_flag
+status,reason,source_or_batch_column,n_patients,label_counts
+blocked_insufficient_label_classes,Current h5ad has insufficient label classes for source/batch confounding audit.,,10,"{""managed"": 10}"
