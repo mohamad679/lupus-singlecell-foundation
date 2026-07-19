@@ -295,3 +295,23 @@ run. Performed before any dev-cohort loading, so this updates Sections 2, 3, 6, 
 check against the source publication; (2) the GSE135779 58-vs-56 sample count
 discrepancy is unresolved. L2 (donor-grouped dev-cohort run) does not begin until
 these are resolved or explicitly accepted as-is.
+
+**2026-07-19 — L2 dev-cohort metadata: age-ambiguous donor exclusion.** Real
+donor-level metadata for the dev cohort (Perez 2022, CELLxGENE dataset
+`218acb0f-9f2f-4f76-b90b-15a4b7c7f629`) was pulled via `cellxgene_census` obs-only
+queries (no expression data). Confirmed 261 donors, 162 SLE / 99 healthy — matches
+Section 2 exactly. Two donors, `1130` and `1772`, each have two distinct
+`development_stage` values across their cells (27/29-year-old-stage and
+20/21-year-old-stage respectively) instead of one consistent value — likely a
+birthday-crossing artifact in the source annotation, not independently confirmed
+against the source publication.
+
+Human decision (2026-07-19): do not resolve this by taking the minimum or any
+other imputed value. Both donors are flagged `age_flag=age_ambiguous` and
+**excluded from the metadata-only arm** (Section 3, arm 3). The metadata-only arm's
+effective dev-cohort n is therefore **259**, not 261. Both donors remain in the
+full 261-donor set for the Geneformer and pseudobulk arms (Section 3, arms 1-2),
+which do not depend on the age field. This exclusion is recorded here as a named,
+dated deviation rather than a silent adjustment, per this document's amendment
+policy. Source: `scripts/14_l2_census_pipeline.py`,
+`results/l2_dev_donor_metadata.csv`.

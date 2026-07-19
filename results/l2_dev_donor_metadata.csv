@@ -1,0 +1,262 @@
+donor_id,disease,sle_label,sex,self_reported_ethnicity,age,age_flag,metadata_arm_eligible,development_stage_raw,n_cells
+1004,systemic lupus erythematosus,1,female,European American,39,ok,True,39-year-old stage,2988
+1014,systemic lupus erythematosus,1,female,European American,40,ok,True,40-year-old stage,5319
+1015,systemic lupus erythematosus,1,female,European American,54,ok,True,54-year-old stage,3007
+1019,systemic lupus erythematosus,1,female,European American,64,ok,True,64-year-old stage,4100
+1022,systemic lupus erythematosus,1,female,Asian,56,ok,True,56-year-old stage,3563
+1031,systemic lupus erythematosus,1,female,Asian,32,ok,True,32-year-old stage,3223
+1039,systemic lupus erythematosus,1,female,European American,42,ok,True,42-year-old stage,2116
+1045,systemic lupus erythematosus,1,female,Asian,31,ok,True,31-year-old stage,3410
+1046,systemic lupus erythematosus,1,female,Asian,58,ok,True,58-year-old stage,5220
+1051,systemic lupus erythematosus,1,male,Asian,45,ok,True,45-year-old stage,2964
+1054,systemic lupus erythematosus,1,female,Asian,21,ok,True,21-year-old stage,3893
+1056,systemic lupus erythematosus,1,female,Asian,29,ok,True,29-year-old stage,4263
+1063,systemic lupus erythematosus,1,female,European American,70,ok,True,70-year-old stage,3910
+1068,systemic lupus erythematosus,1,female,European American,45,ok,True,45-year-old stage,4742
+1078,systemic lupus erythematosus,1,female,European American,51,ok,True,51-year-old stage,8449
+1087,systemic lupus erythematosus,1,female,Asian,66,ok,True,66-year-old stage,5566
+1101,systemic lupus erythematosus,1,female,Asian,61,ok,True,61-year-old stage,7149
+1110,systemic lupus erythematosus,1,female,European American,71,ok,True,71-year-old stage,7113
+1119,systemic lupus erythematosus,1,female,Asian,33,ok,True,33-year-old stage,3134
+1121,systemic lupus erythematosus,1,female,Asian,28,ok,True,28-year-old stage,5030
+1122,systemic lupus erythematosus,1,female,Asian,31,ok,True,31-year-old stage,5900
+1127,systemic lupus erythematosus,1,female,European American,53,ok,True,53-year-old stage,3661
+1130,systemic lupus erythematosus,1,female,European American,,age_ambiguous,False,27-year-old stage;29-year-old stage,10253
+1132,systemic lupus erythematosus,1,female,European American,45,ok,True,45-year-old stage,7111
+1165,systemic lupus erythematosus,1,male,Asian,29,ok,True,29-year-old stage,3537
+1193,systemic lupus erythematosus,1,female,Asian,33,ok,True,33-year-old stage,3730
+1195,systemic lupus erythematosus,1,male,Asian,69,ok,True,69-year-old stage,3128
+1196,systemic lupus erythematosus,1,male,European American,29,ok,True,29-year-old stage,3454
+1197,systemic lupus erythematosus,1,female,Asian,42,ok,True,42-year-old stage,3907
+1203,systemic lupus erythematosus,1,female,European American,39,ok,True,39-year-old stage,5039
+1216,systemic lupus erythematosus,1,female,European American,48,ok,True,48-year-old stage,3940
+1219,systemic lupus erythematosus,1,female,European American,50,ok,True,50-year-old stage,4021
+1221,systemic lupus erythematosus,1,male,European American,43,ok,True,43-year-old stage,4188
+1222,systemic lupus erythematosus,1,female,Asian,55,ok,True,55-year-old stage,5880
+1225,systemic lupus erythematosus,1,female,European American,49,ok,True,49-year-old stage,4458
+1226,systemic lupus erythematosus,1,female,Asian,37,ok,True,37-year-old stage,4377
+1234,systemic lupus erythematosus,1,female,European American,37,ok,True,37-year-old stage,3864
+1240,systemic lupus erythematosus,1,female,Asian,23,ok,True,23-year-old stage,3313
+1243,systemic lupus erythematosus,1,female,European American,37,ok,True,37-year-old stage,8181
+1248,systemic lupus erythematosus,1,male,Asian,28,ok,True,28-year-old stage,3607
+1249,systemic lupus erythematosus,1,female,European American,31,ok,True,31-year-old stage,4563
+1250,systemic lupus erythematosus,1,female,European American,30,ok,True,30-year-old stage,3889
+1251,systemic lupus erythematosus,1,female,Asian,32,ok,True,32-year-old stage,3778
+1256,systemic lupus erythematosus,1,female,European American,29,ok,True,29-year-old stage,5488
+1259,systemic lupus erythematosus,1,female,Asian,41,ok,True,41-year-old stage,9052
+1262,systemic lupus erythematosus,1,female,Asian,27,ok,True,27-year-old stage,7470
+1270,systemic lupus erythematosus,1,female,European American,51,ok,True,51-year-old stage,5756
+1279,systemic lupus erythematosus,1,female,Asian,31,ok,True,31-year-old stage,7467
+1281,systemic lupus erythematosus,1,female,European American,32,ok,True,32-year-old stage,7672
+1285,systemic lupus erythematosus,1,female,European American,39,ok,True,39-year-old stage,2671
+1294,systemic lupus erythematosus,1,male,Asian,33,ok,True,33-year-old stage,5117
+1297,systemic lupus erythematosus,1,female,European American,57,ok,True,57-year-old stage,2905
+1315,systemic lupus erythematosus,1,female,European American,54,ok,True,54-year-old stage,1998
+1320,systemic lupus erythematosus,1,female,Asian,29,ok,True,29-year-old stage,4243
+1324,systemic lupus erythematosus,1,female,Asian,57,ok,True,57-year-old stage,4116
+1325,systemic lupus erythematosus,1,female,Asian,43,ok,True,43-year-old stage,7402
+1326,systemic lupus erythematosus,1,female,Asian,51,ok,True,51-year-old stage,9898
+1329,systemic lupus erythematosus,1,female,Asian,47,ok,True,47-year-old stage,3439
+1333,systemic lupus erythematosus,1,female,Asian,64,ok,True,64-year-old stage,3907
+1334,systemic lupus erythematosus,1,female,Asian,52,ok,True,52-year-old stage,9236
+1337,systemic lupus erythematosus,1,female,European American,60,ok,True,60-year-old stage,3050
+1338,systemic lupus erythematosus,1,female,European American,42,ok,True,42-year-old stage,3532
+1340,systemic lupus erythematosus,1,female,European American,49,ok,True,49-year-old stage,3583
+1341,systemic lupus erythematosus,1,female,Asian,41,ok,True,41-year-old stage,4022
+1366,systemic lupus erythematosus,1,female,Asian,55,ok,True,55-year-old stage,3994
+1368,systemic lupus erythematosus,1,male,European American,45,ok,True,45-year-old stage,2996
+1404,systemic lupus erythematosus,1,female,Asian,20,ok,True,20-year-old stage,4202
+1414,systemic lupus erythematosus,1,male,European American,41,ok,True,41-year-old stage,3870
+1417,systemic lupus erythematosus,1,female,Asian,45,ok,True,45-year-old stage,3323
+1418,systemic lupus erythematosus,1,female,Asian,39,ok,True,39-year-old stage,3623
+1419,systemic lupus erythematosus,1,female,Asian,37,ok,True,37-year-old stage,8689
+1420,systemic lupus erythematosus,1,female,Asian,31,ok,True,31-year-old stage,9971
+1445,systemic lupus erythematosus,1,female,Asian,62,ok,True,62-year-old stage,2149
+1452,systemic lupus erythematosus,1,female,Asian,59,ok,True,59-year-old stage,4505
+1472,systemic lupus erythematosus,1,female,Asian,45,ok,True,45-year-old stage,3433
+1479,systemic lupus erythematosus,1,female,Asian,28,ok,True,28-year-old stage,4093
+1480,systemic lupus erythematosus,1,female,Asian,57,ok,True,57-year-old stage,4357
+1492,systemic lupus erythematosus,1,female,Asian,36,ok,True,36-year-old stage,3638
+1493,systemic lupus erythematosus,1,female,European American,34,ok,True,34-year-old stage,2740
+1496,systemic lupus erythematosus,1,female,European American,59,ok,True,59-year-old stage,6849
+1510,systemic lupus erythematosus,1,female,European American,35,ok,True,35-year-old stage,8162
+1514,systemic lupus erythematosus,1,female,European American,38,ok,True,38-year-old stage,7788
+1522,systemic lupus erythematosus,1,male,Asian,56,ok,True,56-year-old stage,4812
+1535,systemic lupus erythematosus,1,female,Asian,46,ok,True,46-year-old stage,2789
+1543,systemic lupus erythematosus,1,female,European American,29,ok,True,29-year-old stage,2967
+1545,systemic lupus erythematosus,1,female,European American,38,ok,True,38-year-old stage,8677
+1558,systemic lupus erythematosus,1,male,European American,83,ok,True,83-year-old stage,4011
+1567,systemic lupus erythematosus,1,female,Asian,59,ok,True,59-year-old stage,3078
+1569,systemic lupus erythematosus,1,female,European American,38,ok,True,38-year-old stage,2971
+1582,systemic lupus erythematosus,1,female,Asian,51,ok,True,51-year-old stage,2429
+1584,systemic lupus erythematosus,1,female,Asian,62,ok,True,62-year-old stage,3477
+1586,systemic lupus erythematosus,1,female,Asian,27,ok,True,27-year-old stage,3115
+1588,systemic lupus erythematosus,1,male,European American,35,ok,True,35-year-old stage,4476
+1596,systemic lupus erythematosus,1,female,European American,66,ok,True,66-year-old stage,7777
+1597,systemic lupus erythematosus,1,female,Asian,36,ok,True,36-year-old stage,3683
+1602,systemic lupus erythematosus,1,female,European American,64,ok,True,64-year-old stage,4222
+1614,systemic lupus erythematosus,1,female,Asian,39,ok,True,39-year-old stage,8125
+1615,systemic lupus erythematosus,1,male,European American,41,ok,True,41-year-old stage,4702
+1621,systemic lupus erythematosus,1,male,European American,58,ok,True,58-year-old stage,4894
+1623,systemic lupus erythematosus,1,female,Asian,69,ok,True,69-year-old stage,3757
+1633,systemic lupus erythematosus,1,female,Asian,74,ok,True,74-year-old stage,3197
+1641,systemic lupus erythematosus,1,female,Asian,27,ok,True,27-year-old stage,4606
+1660,systemic lupus erythematosus,1,female,Asian,21,ok,True,21-year-old stage,5877
+1667,systemic lupus erythematosus,1,female,Asian,53,ok,True,53-year-old stage,8348
+1672,systemic lupus erythematosus,1,female,Asian,47,ok,True,47-year-old stage,3447
+1680,systemic lupus erythematosus,1,female,Asian,46,ok,True,46-year-old stage,5051
+1682,systemic lupus erythematosus,1,female,Asian,25,ok,True,25-year-old stage,8091
+1716,systemic lupus erythematosus,1,female,European American,68,ok,True,68-year-old stage,6387
+1721,systemic lupus erythematosus,1,female,Asian,40,ok,True,40-year-old stage,5196
+1726,systemic lupus erythematosus,1,female,European American,65,ok,True,65-year-old stage,3903
+1730,systemic lupus erythematosus,1,female,European American,36,ok,True,36-year-old stage,8275
+1731,systemic lupus erythematosus,1,female,European American,45,ok,True,45-year-old stage,2633
+1737,systemic lupus erythematosus,1,female,Asian,36,ok,True,36-year-old stage,4121
+1741,systemic lupus erythematosus,1,female,Asian,27,ok,True,27-year-old stage,4179
+1743,systemic lupus erythematosus,1,female,Asian,48,ok,True,48-year-old stage,7445
+1754,systemic lupus erythematosus,1,female,Asian,45,ok,True,45-year-old stage,8158
+1760,systemic lupus erythematosus,1,female,European American,30,ok,True,30-year-old stage,3817
+1763,systemic lupus erythematosus,1,female,Asian,34,ok,True,34-year-old stage,9494
+1767,systemic lupus erythematosus,1,female,Asian,29,ok,True,29-year-old stage,3885
+1768,systemic lupus erythematosus,1,female,Asian,27,ok,True,27-year-old stage,7604
+1771,systemic lupus erythematosus,1,female,Asian,49,ok,True,49-year-old stage,8006
+1772,systemic lupus erythematosus,1,female,Asian,,age_ambiguous,False,20-year-old stage;21-year-old stage,10235
+1775,systemic lupus erythematosus,1,female,European American,37,ok,True,37-year-old stage,3707
+1785,systemic lupus erythematosus,1,female,European American,56,ok,True,56-year-old stage,3683
+1791,systemic lupus erythematosus,1,female,Asian,66,ok,True,66-year-old stage,6936
+1799,systemic lupus erythematosus,1,female,European American,68,ok,True,68-year-old stage,3231
+1804,systemic lupus erythematosus,1,female,Asian,54,ok,True,54-year-old stage,6255
+1811,systemic lupus erythematosus,1,female,European American,56,ok,True,56-year-old stage,5681
+1815,systemic lupus erythematosus,1,female,European American,60,ok,True,60-year-old stage,3786
+1827,systemic lupus erythematosus,1,female,European American,35,ok,True,35-year-old stage,3177
+1829,systemic lupus erythematosus,1,female,European American,51,ok,True,51-year-old stage,3423
+1848,systemic lupus erythematosus,1,female,European American,63,ok,True,63-year-old stage,3518
+1857,systemic lupus erythematosus,1,female,European American,46,ok,True,46-year-old stage,4765
+1881,systemic lupus erythematosus,1,female,Asian,58,ok,True,58-year-old stage,2965
+1886,systemic lupus erythematosus,1,female,Asian,23,ok,True,23-year-old stage,3131
+1888,systemic lupus erythematosus,1,female,Asian,33,ok,True,33-year-old stage,4789
+1891,systemic lupus erythematosus,1,female,European American,58,ok,True,58-year-old stage,4339
+1892,systemic lupus erythematosus,1,female,European American,55,ok,True,55-year-old stage,3457
+1909,systemic lupus erythematosus,1,female,European American,60,ok,True,60-year-old stage,4082
+1928,systemic lupus erythematosus,1,female,European American,63,ok,True,63-year-old stage,2582
+1941,systemic lupus erythematosus,1,female,European American,32,ok,True,32-year-old stage,4274
+1947,systemic lupus erythematosus,1,female,European American,55,ok,True,55-year-old stage,5513
+1958,systemic lupus erythematosus,1,female,European American,38,ok,True,38-year-old stage,3120
+1961,systemic lupus erythematosus,1,female,European American,43,ok,True,43-year-old stage,3724
+2061,systemic lupus erythematosus,1,female,Asian,71,ok,True,71-year-old stage,4038
+2082,systemic lupus erythematosus,1,female,European American,55,ok,True,55-year-old stage,4128
+2132,systemic lupus erythematosus,1,male,European American,35,ok,True,35-year-old stage,4666
+2135,systemic lupus erythematosus,1,female,European American,58,ok,True,58-year-old stage,7184
+FLARE001,systemic lupus erythematosus,1,female,European American,22,ok,True,22-year-old stage,5361
+FLARE004,systemic lupus erythematosus,1,female,Asian,26,ok,True,26-year-old stage,5098
+FLARE005,systemic lupus erythematosus,1,female,European American,26,ok,True,26-year-old stage,2766
+FLARE006,systemic lupus erythematosus,1,female,European American,34,ok,True,34-year-old stage,3311
+FLARE007,systemic lupus erythematosus,1,female,Asian,40,ok,True,40-year-old stage,2796
+FLARE009,systemic lupus erythematosus,1,female,Hispanic or Latin,24,ok,True,24-year-old stage,4739
+FLARE010,systemic lupus erythematosus,1,female,Asian,37,ok,True,37-year-old stage,2252
+FLARE011,systemic lupus erythematosus,1,female,Asian,31,ok,True,31-year-old stage,3362
+FLARE013,systemic lupus erythematosus,1,female,African American,27,ok,True,27-year-old stage,8328
+FLARE014,systemic lupus erythematosus,1,female,African American,39,ok,True,39-year-old stage,3701
+FLARE015,systemic lupus erythematosus,1,female,Asian,24,ok,True,24-year-old stage,3147
+FLARE016,systemic lupus erythematosus,1,female,Asian,23,ok,True,23-year-old stage,8187
+FLARE017,systemic lupus erythematosus,1,female,African American,30,ok,True,30-year-old stage,1189
+FLARE020,systemic lupus erythematosus,1,female,European American,35,ok,True,35-year-old stage,3606
+HC-002,normal,0,male,European American,27,ok,True,27-year-old stage,4016
+HC-006,normal,0,female,European American,53,ok,True,53-year-old stage,5598
+HC-008,normal,0,female,European American,48,ok,True,48-year-old stage,1899
+HC-009,normal,0,female,European American,27,ok,True,27-year-old stage,9955
+HC-011,normal,0,female,Asian,61,ok,True,61-year-old stage,2791
+HC-014,normal,0,female,Asian,65,ok,True,65-year-old stage,6093
+HC-015,normal,0,female,Asian,59,ok,True,59-year-old stage,2103
+HC-019,normal,0,female,Asian,61,ok,True,61-year-old stage,2649
+HC-020,normal,0,female,European American,35,ok,True,35-year-old stage,3887
+HC-022,normal,0,female,Asian,74,ok,True,74-year-old stage,4506
+HC-500,normal,0,female,Asian,48,ok,True,48-year-old stage,3338
+HC-501,normal,0,female,Asian,26,ok,True,26-year-old stage,2749
+HC-502,normal,0,female,European American,64,ok,True,64-year-old stage,7651
+HC-503,normal,0,female,Hispanic or Latin,35,ok,True,35-year-old stage,2947
+HC-504,normal,0,female,European American,35,ok,True,35-year-old stage,7085
+HC-506,normal,0,female,European American,33,ok,True,33-year-old stage,6862
+HC-508,normal,0,female,European American,60,ok,True,60-year-old stage,1810
+HC-512,normal,0,female,European American,74,ok,True,74-year-old stage,1990
+HC-516,normal,0,female,European American,24,ok,True,24-year-old stage,3794
+HC-519,normal,0,female,Asian,21,ok,True,21-year-old stage,5066
+HC-520,normal,0,female,Asian,22,ok,True,22-year-old stage,3204
+HC-524,normal,0,female,European American,73,ok,True,73-year-old stage,5205
+HC-526,normal,0,female,European American,58,ok,True,58-year-old stage,4855
+HC-531,normal,0,female,European American,54,ok,True,54-year-old stage,4297
+HC-532,normal,0,female,Asian,51,ok,True,51-year-old stage,2439
+HC-533,normal,0,female,European American,64,ok,True,64-year-old stage,2841
+HC-536,normal,0,female,European American,71,ok,True,71-year-old stage,3759
+HC-538,normal,0,female,Asian,32,ok,True,32-year-old stage,4979
+HC-540,normal,0,female,European American,68,ok,True,68-year-old stage,2865
+HC-541,normal,0,female,European American,24,ok,True,24-year-old stage,4462
+HC-543,normal,0,female,European American,44,ok,True,44-year-old stage,2962
+HC-545,normal,0,female,Asian,64,ok,True,64-year-old stage,2443
+HC-546,normal,0,female,Asian,28,ok,True,28-year-old stage,4102
+HC-551,normal,0,female,Asian,30,ok,True,30-year-old stage,2478
+HC-552,normal,0,female,European American,35,ok,True,35-year-old stage,3725
+HC-554,normal,0,female,European American,49,ok,True,49-year-old stage,4275
+HC-556,normal,0,female,Asian,24,ok,True,24-year-old stage,1933
+HC-558,normal,0,female,Asian,25,ok,True,25-year-old stage,3269
+HC-563,normal,0,female,Asian,27,ok,True,27-year-old stage,4721
+HC-566,normal,0,female,Asian,49,ok,True,49-year-old stage,456
+HC-567,normal,0,female,Asian,33,ok,True,33-year-old stage,4978
+HC-571,normal,0,female,Asian,52,ok,True,52-year-old stage,2561
+HC-572,normal,0,female,European American,48,ok,True,48-year-old stage,5248
+HC-573,normal,0,female,Asian,31,ok,True,31-year-old stage,5812
+HC-574,normal,0,female,Asian,53,ok,True,53-year-old stage,2636
+HC-578,normal,0,female,European American,33,ok,True,33-year-old stage,4304
+HC-580,normal,0,female,Asian,34,ok,True,34-year-old stage,3232
+HC-585,normal,0,female,European American,24,ok,True,24-year-old stage,5330
+ICC_control,normal,0,female,European American,26,ok,True,26-year-old stage,1487
+IGTB1290,normal,0,female,European American,27,ok,True,27-year-old stage,6207
+IGTB1372,normal,0,female,European American,25,ok,True,25-year-old stage,9910
+IGTB141,normal,0,female,European American,34,ok,True,34-year-old stage,5391
+IGTB143,normal,0,female,European American,33,ok,True,33-year-old stage,9308
+IGTB1506,normal,0,female,European American,30,ok,True,30-year-old stage,8333
+IGTB1539,normal,0,female,European American,34,ok,True,34-year-old stage,3729
+IGTB1540,normal,0,female,Asian,31,ok,True,31-year-old stage,10382
+IGTB1542,normal,0,female,European American,28,ok,True,28-year-old stage,3184
+IGTB1575,normal,0,female,European American,32,ok,True,32-year-old stage,5162
+IGTB1650,normal,0,female,European American,37,ok,True,37-year-old stage,10292
+IGTB1731,normal,0,female,European American,75,ok,True,75-year-old stage,3850
+IGTB1762,normal,0,female,European American,28,ok,True,28-year-old stage,4878
+IGTB1768,normal,0,female,European American,29,ok,True,29-year-old stage,4142
+IGTB1789,normal,0,female,European American,31,ok,True,31-year-old stage,4497
+IGTB1793,normal,0,female,European American,25,ok,True,25-year-old stage,4152
+IGTB1814,normal,0,female,European American,32,ok,True,32-year-old stage,3938
+IGTB1815,normal,0,female,European American,26,ok,True,26-year-old stage,4075
+IGTB1819,normal,0,male,European American,41,ok,True,41-year-old stage,3915
+IGTB1826,normal,0,female,European American,30,ok,True,30-year-old stage,3677
+IGTB1827,normal,0,female,European American,33,ok,True,33-year-old stage,3527
+IGTB1828,normal,0,female,European American,25,ok,True,25-year-old stage,3273
+IGTB1840,normal,0,female,European American,26,ok,True,26-year-old stage,3839
+IGTB1844,normal,0,female,European American,26,ok,True,26-year-old stage,5122
+IGTB1871,normal,0,female,European American,27,ok,True,27-year-old stage,3869
+IGTB1895,normal,0,female,European American,27,ok,True,27-year-old stage,4061
+IGTB1901,normal,0,female,European American,23,ok,True,23-year-old stage,3327
+IGTB1906,normal,0,female,European American,30,ok,True,30-year-old stage,3510
+IGTB1908,normal,0,female,European American,32,ok,True,32-year-old stage,3736
+IGTB1913,normal,0,female,European American,24,ok,True,24-year-old stage,4557
+IGTB1916,normal,0,female,European American,23,ok,True,23-year-old stage,3442
+IGTB1921,normal,0,female,European American,25,ok,True,25-year-old stage,8510
+IGTB195,normal,0,female,European American,34,ok,True,34-year-old stage,12768
+IGTB1952,normal,0,female,European American,26,ok,True,26-year-old stage,3384
+IGTB1966,normal,0,female,European American,29,ok,True,29-year-old stage,5131
+IGTB1974,normal,0,female,European American,23,ok,True,23-year-old stage,3510
+IGTB1982,normal,0,female,European American,28,ok,True,28-year-old stage,3232
+IGTB1987,normal,0,female,European American,23,ok,True,23-year-old stage,3813
+IGTB1996,normal,0,female,European American,27,ok,True,27-year-old stage,3449
+IGTB2007,normal,0,female,European American,27,ok,True,27-year-old stage,3818
+IGTB2065,normal,0,female,European American,27,ok,True,27-year-old stage,3638
+IGTB256,normal,0,female,European American,28,ok,True,28-year-old stage,7959
+IGTB469,normal,0,female,European American,37,ok,True,37-year-old stage,13543
+IGTB498,normal,0,female,European American,33,ok,True,33-year-old stage,8892
+IGTB508,normal,0,female,European American,33,ok,True,33-year-old stage,11178
+IGTB514,normal,0,female,European American,34,ok,True,34-year-old stage,12491
+IGTB645,normal,0,female,European American,31,ok,True,31-year-old stage,7844
+IGTB670,normal,0,female,European American,33,ok,True,33-year-old stage,7663
+IGTB826,normal,0,female,European American,34,ok,True,34-year-old stage,8868
+IGTB884,normal,0,female,European American,34,ok,True,34-year-old stage,5973
+IGTB986,normal,0,female,European American,34,ok,True,34-year-old stage,7822
