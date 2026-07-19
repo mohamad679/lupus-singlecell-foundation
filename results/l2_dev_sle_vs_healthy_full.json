@@ -1,0 +1,70 @@
+{
+  "pseudobulk": {
+    "arm": "pseudobulk",
+    "n_donors": 261,
+    "n_features": 61497,
+    "auroc": 0.9838508542212245,
+    "ci_lower_95": 0.970314297608219,
+    "ci_upper_95": 0.9937863242966656,
+    "bootstrap_n": 5000,
+    "bootstrap_degenerate_skipped": 0,
+    "permutation_n": 1000,
+    "permutation_p_value_two_sided": 0.000999000999000999,
+    "permutation_null_mean_auroc": 0.48746034418256634,
+    "permutation_null_std_auroc": 0.0515631520004288,
+    "leaky_vs_honest_status": "not_applicable_no_cell_level_data",
+    "leaky_vs_honest_sanity_check": "PASS: permutation null mean AUROC collapses near 0.5",
+    "cv_scheme": "StratifiedKFold(n_splits=5), not GroupKFold: each donor is already exactly one row (pre-aggregated), so groups and samples coincide; GroupKFold would be a no-op here.",
+    "hyperparameter_c_grid": [
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "selected_c_per_outer_fold_real_fit": [
+      0.01,
+      0.1,
+      0.1,
+      0.01,
+      0.01
+    ],
+    "permutation_used_fixed_c": 0.01,
+    "random_state": 20260719
+  },
+  "metadata_only_age": {
+    "arm": "metadata_only_age",
+    "n_donors": 259,
+    "n_features": 1,
+    "auroc": 0.6452967171717172,
+    "ci_lower_95": 0.5741009258323843,
+    "ci_upper_95": 0.7183698056605529,
+    "bootstrap_n": 5000,
+    "bootstrap_degenerate_skipped": 0,
+    "permutation_n": 1000,
+    "permutation_p_value_two_sided": 0.000999000999000999,
+    "permutation_null_mean_auroc": 0.48652039141414144,
+    "permutation_null_std_auroc": 0.0402202247853042,
+    "leaky_vs_honest_status": "not_applicable_no_cell_level_data",
+    "leaky_vs_honest_sanity_check": "PASS: permutation null mean AUROC collapses near 0.5",
+    "cv_scheme": "StratifiedKFold(n_splits=5), not GroupKFold: each donor is already exactly one row (pre-aggregated), so groups and samples coincide; GroupKFold would be a no-op here.",
+    "hyperparameter_c_grid": [
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "selected_c_per_outer_fold_real_fit": [
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.001
+    ],
+    "permutation_used_fixed_c": null,
+    "random_state": 20260719
+  }
+}
