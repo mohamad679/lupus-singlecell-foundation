@@ -1,0 +1,79 @@
+{
+  "freeze_version": 1,
+  "timestamp_utc": "2026-07-20T22:05:06.136258+00:00",
+  "commit_sha": "44d6f567670829527a6efa39c2d968c20e8d5515",
+  "frozen_files_sha256": {
+    "PREREG.md": "a56ac90e2fb02b07d72fef5271e6908d02dd232e664f2dab223899c9ee698534",
+    "scripts/14_l2_census_pipeline.py": "52c86c7b9e58f7006885bb0958d48fa1130e20d0140d729662063802b3cfe6d5",
+    "scripts/15_l2_dev_cv_pseudobulk_metadata.py": "65904e80924aa424a5e3ad172c83e2e27897bf770626d71fae290b8ff31ccf00",
+    "kaggle_kernels/l2_pseudobulk/l2_pseudobulk.py": "a22b3f966ddaa9b7a896895456132bb9e287e8f6c14d03524256f52cb8b7af7c",
+    "kaggle_kernels/l2_pseudobulk/kernel-metadata.json": "07450182dfe782db0b02a59bccd1321adf5e5a4df96489af9b6978d61bbc197d",
+    "kaggle_kernels/l2_geneformer_full/l2_geneformer_full.py": "3a5c2ac9d78f683b447306d33a55f948905c38d33eb22da601203bc539fa8655",
+    "kaggle_kernels/l2_geneformer_full/kernel-metadata.json": "e6bd8026659f429f1b3a76f96f2e26b741c5eb2bff7ebc3cd184833fda747ea8",
+    "scripts/17_gene_space_intersection.py": "cedabfd2ecf30dd627c45b94dac6ee17ced743bf9df8bc06501d07497f96de74",
+    "results/gse135779_genes_reference.tsv": "8778dd78085086be6dcafa8334f95f7cf76b25526e8ef2b63186db5127a1492c"
+  },
+  "hyperparameter_selection_rule": "Each arm's nested CV (scripts/15_l2_dev_cv_pseudobulk_metadata.py, fit_logreg_oof) selects a regularization strength C independently in each of 5 outer StratifiedKFold folds, via inner 5-fold grid search over C_GRID=[0.001, 0.01, 0.1, 1.0, 10.0, 100.0]. The frozen C for a sealed-cohort prediction (C_frozen) is the median of those 5 per-fold selections -- not the value from a single fold, not a re-selection on the full dev set. This rule, not just its resulting values, is what is frozen: re-running scripts/15 on the same committed dev-cohort inputs must reproduce the same C_per_outer_fold list and therefore the same C_frozen via this same median rule.",
+  "hyperparameters": {
+    "geneformer": {
+      "C_per_outer_fold": [
+        1.0,
+        1.0,
+        10.0,
+        10.0,
+        1.0
+      ],
+      "C_frozen": 1.0,
+      "model_family": "StandardScaler + LogisticRegression(l1_ratio=0, solver=lbfgs)",
+      "auroc_dev_cv": 0.9675770046140416,
+      "ci_95_dev_cv": [
+        0.9445508622958424,
+        0.9864816699205652
+      ],
+      "permutation_p_dev_cv": 0.0009990009990009
+    },
+    "pseudobulk": {
+      "C_per_outer_fold": [
+        0.01,
+        0.1,
+        0.1,
+        0.01,
+        0.01
+      ],
+      "C_frozen": 0.01,
+      "model_family": "StandardScaler + LogisticRegression(l1_ratio=0, solver=lbfgs)",
+      "auroc_dev_cv": 0.9838508542212244,
+      "ci_95_dev_cv": [
+        0.970314297608219,
+        0.9937863242966656
+      ],
+      "permutation_p_dev_cv": 0.0009990009990009
+    },
+    "metadata_only_age": {
+      "C_per_outer_fold": [
+        0.001,
+        0.001,
+        0.001,
+        0.001,
+        0.001
+      ],
+      "C_frozen": 0.001,
+      "model_family": "StandardScaler + LogisticRegression(l1_ratio=0, solver=lbfgs)",
+      "auroc_dev_cv": 0.6452967171717172,
+      "ci_95_dev_cv": [
+        0.5741009258323843,
+        0.7183698056605529
+      ],
+      "permutation_p_dev_cv": 0.0009990009990009
+    }
+  },
+  "gene_space_intersection": {
+    "dev_gene_count": 61497,
+    "sealed_gene_count": 32738,
+    "overlap_count": 30165,
+    "identifier_system": "Ensembl gene ID (both cohorts, no symbol mapping needed)",
+    "source": "scripts/17_gene_space_intersection.py, self-tested against results/l2_dev_pseudobulk_counts.parquet and results/gse135779_genes_reference.tsv"
+  },
+  "deferred_to_future_work": "PREREG.md Section 5.1 (cohort-signature probe) and the cell-type-level harmonization steps of Section 8, per the 2026-07-21 PREREG.md amendment: GSE135779's public deposit has no cell-type annotation, and no Scanpy-ingest label-transfer code exists in this repository (src/data/metadata_harmonization.py is an unimplemented fake-data contract stub). Co-primary comparisons A and B proceed on the mean-pooled arms only, which do not require cell-type labels.",
+  "reason": "Dev-cohort (Perez 2022) honest CV complete and committed for all three PREREG arms: Geneformer AUROC 0.9676 (95% CI [0.9446, 0.9865], permutation p=0.001), pseudobulk AUROC 0.9839 (95% CI [0.9703, 0.9938], permutation p=0.001), metadata-only-age AUROC 0.6453 (95% CI [0.5741, 0.7184], permutation p=0.001). Feature extraction code, model family, and hyperparameters are locked at these values before any GSE135779 (sealed cohort) access, per PREREG.md's freeze/one-look discipline. No hyperparameter, feature-extraction, or model-family change is permitted after this point without a dated PREREG.md amendment."
+}

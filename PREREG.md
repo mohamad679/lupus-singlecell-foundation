@@ -315,3 +315,56 @@ which do not depend on the age field. This exclusion is recorded here as a named
 dated deviation rather than a silent adjustment, per this document's amendment
 policy. Source: `scripts/14_l2_census_pipeline.py`,
 `results/l2_dev_donor_metadata.csv`.
+
+**2026-07-21 — Sealed-cohort pre-flight: cell-type / cohort-signature-probe
+deferral.** Phase 2 pre-flight on GSE135779's public metadata (no expression or
+cell-level data loaded) found two things, verified directly rather than assumed:
+
+1. **No cell-type annotation exists in GSE135779's public deposit.** Checked the
+   full series file listing and every sample's supplementary files (only
+   `barcodes.tsv.gz` + `matrix.mtx.gz` per sample, plus one series-level
+   `GSE135779_genes.tsv.gz`) and the family SOFT metadata record — no
+   clusters/cell-type/annotation file of any kind is present.
+2. **The Scanpy-ingest label-transfer harmonization code cited in Section 8 does
+   not exist in this repository.** `src/data/metadata_harmonization.py` is a
+   fake-data contract stub ("does not load datasets, preprocess matrices, create
+   AnnData objects, query remote services, or perform modeling") — the same
+   scaffold-not-implementation pattern already found and worked around elsewhere
+   in this pipeline (see the L2 commits fixing `src/lupusfm/embeddings/
+   aggregation.py` and related fake-data modules). No real ingest/label-transfer
+   implementation exists anywhere in the repo as of this date.
+
+Human decision (2026-07-21): **defer** rather than write the harmonization code
+under time pressure to open the seal. Consequence:
+
+- Section 5.1 (the pre-specified cohort-signature probe) and the Section 8
+  cell-type-level harmonization steps that depend on matched cell-type labels
+  across cohorts are **deferred to future work** and are explicitly out of scope
+  for the current sealed-cohort opening.
+- The two **co-primary confirmatory comparisons, A and B (Section 5)**, proceed
+  on the **mean-pooled arms only** (Geneformer mean-pooled-over-all-cells,
+  pseudobulk summed-over-all-cells) — neither of which structurally requires
+  cell-type labels to compute, since both aggregate over the entirety of a
+  donor's cells regardless of type. This is not a workaround improvised to route
+  around the missing code; it is running the parts of the pre-registered plan
+  that do not depend on the missing code, while explicitly not running the parts
+  that do.
+- This deferral does not touch or weaken the confirmatory family's Holm
+  correction (Section 6), the permutation test (Section 4), or either
+  comparison's decision rule (Section 5) — those apply identically to A and B
+  with or without the cohort-signature probe, which was always a secondary,
+  non-Holm-corrected interpretive check (Section 5.1 already states this).
+
+**Gene-space intersection (Section 8), by contrast, is resolved and real, not
+deferred**: both cohorts verified to use Ensembl gene IDs (no symbol-mapping
+required); real intersection computed via `scripts/17_gene_space_intersection.py`
+against the committed dev pseudobulk artifact and GSE135779's public series-level
+gene reference file (`results/gse135779_genes_reference.tsv`): **30,165 genes**
+in common (49.05% of dev's 61,497 genes, 92.14% of GSE135779's 32,738 genes).
+This is a real, tested, committed result, not an assumption.
+
+**Sample count**: reconfirmed 56 (33 cSLE + 11 cHD pediatric + 7 aSLE + 5 aHD
+adult) deposited with public per-sample GEO records, consistent with the
+2026-07-19 amendment above. The adult stratum is not pooled blindly or held
+fully separate — all 56 donors enter the primary sealed evaluation, reported
+both overall and stratified by age group, per that amendment's locked decision.
