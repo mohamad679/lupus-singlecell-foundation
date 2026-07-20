@@ -99,6 +99,18 @@ def fetch_donor_metadata() -> list[dict]:
     finally:
         census.close()
 
+    # Root-cause fix: donor_id is a pandas Categorical whose dtype carries
+    # the full census-wide category list (confirmed elsewhere in this
+    # pipeline: 11,633 categories at the dtype level, only 261 actually
+    # observed for this dataset). remove_unused_categories() drops the
+    # spurious zero-count categories from OTHER census datasets at the
+    # column level, before donor_id is used for anything downstream.
+    obs_df["donor_id"] = obs_df["donor_id"].cat.remove_unused_categories()
+    assert len(obs_df["donor_id"].cat.categories) == obs_df["donor_id"].nunique(), (
+        "donor_id still has unused categories after remove_unused_categories(); "
+        "the Categorical-artifact bug is not actually fixed."
+    )
+
     for col in ("disease", "sex", "self_reported_ethnicity"):
         n_multi = int(obs_df.groupby("donor_id")[col].nunique().gt(1).sum())
         if n_multi:

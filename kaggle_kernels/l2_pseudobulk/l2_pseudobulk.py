@@ -66,6 +66,21 @@ try:
         gene_names = [joinid_to_feature_id[j] for j in var_joinids]
 
         obs_table = query.obs(column_names=["soma_joinid", "donor_id"]).concat().to_pandas()
+        # Root-cause fix: donor_id is a pandas Categorical whose dtype
+        # carries the full census-wide category list (confirmed: 11,633
+        # categories at the dtype level, only 261 actually observed for
+        # this dataset -- this is exactly the bug that produced the
+        # "real_cell_counts_per_donor: 11633 donors" contamination in this
+        # kernel's first run, cleaned post-hoc in the downloaded JSON but
+        # never fixed here at the source until now). remove_unused_categories()
+        # drops the spurious zero-count categories before donor_id is used
+        # for anything downstream, including the value_counts() call below.
+        if hasattr(obs_table["donor_id"], "cat"):
+            obs_table["donor_id"] = obs_table["donor_id"].cat.remove_unused_categories()
+            assert len(obs_table["donor_id"].cat.categories) == obs_table["donor_id"].nunique(), (
+                "donor_id still has unused categories after remove_unused_categories(); "
+                "the Categorical-artifact bug is not actually fixed."
+            )
         donor_ids_sorted = sorted(obs_table["donor_id"].unique().tolist())
         donor_row_of_id = {d: i for i, d in enumerate(donor_ids_sorted)}
         obs_joinids = obs_table["soma_joinid"].to_numpy()
