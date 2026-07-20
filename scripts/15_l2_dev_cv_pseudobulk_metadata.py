@@ -1,9 +1,12 @@
-"""L2 dev-cohort CV: pseudobulk arm + metadata-only (age) arm.
+"""L2 dev-cohort CV: all three arms (Geneformer, pseudobulk, metadata-only age).
 
 SLE vs. healthy control, patient/donor-level, per PREREG.md Section 1/3/4.
-Real code, real math, local, CPU-only. Does not touch GSE135779, Geneformer,
-or any stageN_*.py module. Loads only the already-committed, already-verified
-artifacts: results/l2_dev_pseudobulk_counts.parquet and
+Real code, real math, local, CPU-only. Does not touch GSE135779 or any
+stageN_*.py module; does not run Geneformer inference here (that already
+happened on Kaggle -- this script only loads the resulting embeddings and
+runs CV on them). Loads only the already-committed, already-verified
+artifacts: results/l2_dev_geneformer_embeddings.parquet,
+results/l2_dev_pseudobulk_counts.parquet, and
 results/l2_dev_donor_metadata.csv.
 
 Structural note on "donor-grouped" CV (explicit, per instruction): both input
@@ -40,9 +43,9 @@ permutation null instead reuses the outer StratifiedKFold architecture with
 C fixed at the value selected by nested CV on the real (unpermuted) labels.
 This is a standard, documented simplification for permutation testing under
 expensive hyperparameter search (see e.g. Ojala & Garriga 2010) and is
-reported explicitly here, not hidden. The metadata (age-only) arm has a
-single feature, so full nested CV per permutation is cheap and IS run in
-full without this simplification.
+reported explicitly here, not hidden. The metadata (age-only, 1 feature) and
+Geneformer (256 features) arms are both cheap enough that full nested CV
+per permutation IS run in full, no simplification needed.
 """
 
 from __future__ import annotations
@@ -75,7 +78,8 @@ class L2ModelingError(RuntimeError):
     pass
 
 
-def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
+def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    gf = pd.read_parquet(RESULTS_DIR / "l2_dev_geneformer_embeddings.parquet")
     pb = pd.read_parquet(RESULTS_DIR / "l2_dev_pseudobulk_counts.parquet")
     meta = pd.read_csv(RESULTS_DIR / "l2_dev_donor_metadata.csv", dtype={"donor_id": str})
     meta = meta.set_index("donor_id")
@@ -85,8 +89,14 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
             "pseudobulk and metadata donor sets do not match: "
             f"symmetric diff = {set(pb.index).symmetric_difference(meta.index)}"
         )
+    if set(gf.index) != set(meta.index):
+        raise L2ModelingError(
+            "geneformer and metadata donor sets do not match: "
+            f"symmetric diff = {set(gf.index).symmetric_difference(meta.index)}"
+        )
     meta = meta.loc[pb.index]  # align order
-    return pb, meta
+    gf = gf.loc[pb.index]
+    return gf, pb, meta
 
 
 def fit_logreg_oof(
@@ -260,13 +270,22 @@ def run_arm(
 
 
 def main() -> None:
-    pb, meta = load_data()
+    gf, pb, meta = load_data()
 
     print("=== label alignment check ===")
-    print(f"pseudobulk donors: {len(pb)}, metadata donors: {len(meta)}")
+    print(f"geneformer donors: {len(gf)}, pseudobulk donors: {len(pb)}, metadata donors: {len(meta)}")
     print(f"overall SLE/healthy: {meta['sle_label'].sum()}/{(meta['sle_label'] == 0).sum()}")
     assert meta["sle_label"].sum() == 162 and (meta["sle_label"] == 0).sum() == 99, \
         "label counts do not match PREREG (162 SLE / 99 healthy)"
+
+    # --- Arm 1: Geneformer (mean-pooled embeddings, 256 dims) ---
+    y_gf = meta["sle_label"].to_numpy()
+    X_gf = gf.to_numpy()
+    arm1 = run_arm(
+        "geneformer", X_gf, y_gf,
+        tune_c_for_real_fit=True,
+        tune_c_for_permutations=True,  # cheap (256 features), no simplification needed
+    )
 
     # --- Arm 2: pseudobulk ---
     y_pb = meta["sle_label"].to_numpy()
@@ -289,14 +308,17 @@ def main() -> None:
         tune_c_for_permutations=True,  # cheap (1 feature), no simplification needed
     )
 
-    out_df = pd.DataFrame([arm2, arm3])
+    out_df = pd.DataFrame([arm1, arm2, arm3])
     out_path = RESULTS_DIR / "l2_dev_sle_vs_healthy.csv"
     out_df.to_csv(out_path, index=False)
     print()
     print(f"wrote {out_path}")
 
     with open(RESULTS_DIR / "l2_dev_sle_vs_healthy_full.json", "w") as f:
-        json.dump({"pseudobulk": arm2, "metadata_only_age": arm3}, f, indent=2, default=str)
+        json.dump(
+            {"geneformer": arm1, "pseudobulk": arm2, "metadata_only_age": arm3},
+            f, indent=2, default=str,
+        )
 
 
 if __name__ == "__main__":
