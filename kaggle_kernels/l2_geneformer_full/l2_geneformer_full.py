@@ -81,14 +81,22 @@ try:
         column_names=["donor_id"],
     )
     census.close()
-    # donor_id is a pandas Categorical whose dtype carries the full
-    # census-wide category list, so a naive value_counts() includes
-    # thousands of spurious zero-count donors from OTHER census datasets
-    # (confirmed real bug in the first run of this script: 11,633 entries
-    # instead of 261, all ~11,372 extras at exactly zero count). Filter to
-    # observed (count > 0) donors only.
-    raw_counts = obs_df["donor_id"].value_counts().to_dict()
-    donor_cell_counts_full = {d: c for d, c in raw_counts.items() if c > 0}
+    # Root-cause fix (not just a downstream filter): donor_id is a pandas
+    # Categorical whose dtype carries the full census-wide category list
+    # (confirmed: 11,633 categories at the dtype level, only 261 actually
+    # observed in this dataset -- same bug class as the pseudobulk run's
+    # earlier finding). remove_unused_categories() drops the ~11,372
+    # zero-count categories from OTHER census datasets at the column level,
+    # before donor_id is used for anything -- so every downstream use
+    # (value_counts, batch assignment, the IN-list built for streaming
+    # queries) operates on a clean 261-category column instead of relying on
+    # a value>0 filter applied after the fact.
+    obs_df["donor_id"] = obs_df["donor_id"].cat.remove_unused_categories()
+    assert len(obs_df["donor_id"].cat.categories) == obs_df["donor_id"].nunique(), (
+        "donor_id still has unused categories after remove_unused_categories(); "
+        "the Categorical-artifact bug is not actually fixed."
+    )
+    donor_cell_counts_full = obs_df["donor_id"].value_counts().to_dict()
     all_donors = sorted(donor_cell_counts_full.keys())
     total_cells_expected = int(obs_df.shape[0])
     log(f"donors: {len(all_donors)}, total cells: {total_cells_expected}")
@@ -135,10 +143,15 @@ try:
         census.close()
 
         n_cells_batch = adata.n_obs
+        # Same root-cause fix as above: adata.obs["donor_id"] inherits the
+        # full census-wide Categorical dtype from the source query, so it
+        # needs the same remove_unused_categories() treatment before
+        # value_counts(), not just a >0 filter on the result.
+        if hasattr(adata.obs["donor_id"], "cat"):
+            adata.obs["donor_id"] = adata.obs["donor_id"].cat.remove_unused_categories()
         counts_this_batch = adata.obs["donor_id"].value_counts().to_dict()
         for d, c in counts_this_batch.items():
-            if c > 0:  # defensive: same Categorical-artifact guard as above
-                donor_cell_counts_observed[d] = donor_cell_counts_observed.get(d, 0) + int(c)
+            donor_cell_counts_observed[d] = donor_cell_counts_observed.get(d, 0) + int(c)
 
         adata.var["ensembl_id"] = adata.var["feature_id"].values
         adata.obs["n_counts"] = np.asarray(adata.X.sum(axis=1)).ravel()
