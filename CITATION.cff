@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+title: "Lupus Single-Cell Foundation Model"
+type: software
+version: 0.1.0
+date-released: 2026-07-21
+url: "https://github.com/mohamad679/lupus-singlecell-foundation"
+repository-code: "https://github.com/mohamad679/lupus-singlecell-foundation"
+authors:
+  - given-names: "Mohammad javad"
+    family-names: "Asgari"
+    email: "m.asgari77@gmail.com"
+abstract: >
+  Patient-level benchmarking of frozen single-cell foundation-model
+  (Geneformer) embeddings against raw pseudobulk counts and a
+  metadata-only baseline for systemic lupus erythematosus (SLE) vs.
+  healthy-control discrimination from peripheral blood single-cell
+  RNA-seq, with a single, pre-registered, sealed-cohort external
+  validation (dev: Perez et al. 2022; sealed: GSE135779, Nehar-Belaid
+  et al. 2020). See PREREG.md, FREEZE.json, and README.md for the full
+  preregistration, freeze manifest, and result claim boundary.
