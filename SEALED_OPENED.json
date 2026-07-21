@@ -1,0 +1,7 @@
+{
+  "opened_at_utc": "2026-07-21T06:50:41.257496+00:00",
+  "freeze_commit_sha": "44d6f567670829527a6efa39c2d968c20e8d5515",
+  "freeze_timestamp_utc": "2026-07-20T22:05:06.136258+00:00",
+  "results_path": "/Users/mohsenshamsijazeb/Downloads/lupus-singlecell-foundation/results/l2_sealed_results.json",
+  "note": "The sealed cohort (GSE135779) was opened exactly once against this freeze, per PREREG's one-look discipline. No further GSE135779 access is permitted under this freeze, regardless of what the result showed."
+}
