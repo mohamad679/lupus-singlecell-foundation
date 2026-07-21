@@ -91,8 +91,17 @@ def load_sealed_results() -> dict:
         return json.load(f)
 
 
-def save_fig(fig, name: str) -> None:
+def add_footnote(fig, text: str) -> None:
+    """Caption-ready source/provenance footnote, bottom-left of the figure,
+    outside the axes so it never collides with plot content."""
+    fig.text(0.01, -0.02, text, ha="left", va="top", fontsize=7.5, color=TEXT_SECONDARY,
+              transform=fig.transFigure, wrap=True)
+
+
+def save_fig(fig, name: str, footnote: str | None = None) -> None:
     FIGURES_DIR.mkdir(exist_ok=True)
+    if footnote:
+        add_footnote(fig, footnote)
     fig.savefig(FIGURES_DIR / f"{name}.png", dpi=DPI, bbox_inches="tight")
     fig.savefig(FIGURES_DIR / f"{name}.pdf", bbox_inches="tight")
     plt.close(fig)
@@ -137,7 +146,10 @@ def fig_dev_vs_sealed(dev: dict, sealed: dict) -> None:
                   "Error bars: 95% patient-bootstrap CI", fontsize=11)
     ax.legend(loc="lower left", frameon=False, fontsize=9)
     ax.spines[["top", "right"]].set_visible(False)
-    save_fig(fig, "dev_vs_sealed_auroc")
+    save_fig(fig, "dev_vs_sealed_auroc",
+             footnote="Source: results/l2_dev_sle_vs_healthy.csv (dev), results/l2_sealed_results.json (sealed). "
+                       "PREREG.md/FREEZE.json binding. Sealed cohort opened once (GSE135779, n=56); "
+                       "dev is internal cross-validation, not an independent test.")
 
 
 # --- Figure 2: age-stratified sealed AUROC ---------------------------------
@@ -175,7 +187,10 @@ def fig_age_stratified(sealed: dict) -> None:
                   fontsize=11)
     ax.legend(loc="lower left", frameon=False, fontsize=9)
     ax.spines[["top", "right"]].set_visible(False)
-    save_fig(fig, "age_stratified_sealed")
+    save_fig(fig, "age_stratified_sealed",
+             footnote="Source: results/l2_sealed_results.json, 'stratified' fields per arm. "
+                       "Age-group stratification pre-declared in PREREG.md Section 7 (amendment 2026-07-19). "
+                       "Adult stratum n=12 (7 SLE/5 healthy) -- interpret CIs with that small n in mind.")
 
 
 # --- Figure 4: co-primary forest plot --------------------------------------
@@ -185,9 +200,19 @@ def fig_forest_plot(sealed: dict) -> None:
         ("A: Geneformer − Metadata", sealed["co_primary_comparisons"]["A_geneformer_vs_metadata"]),
         ("B: Geneformer − Pseudobulk", sealed["co_primary_comparisons"]["B_geneformer_vs_pseudobulk"]),
     ]
-    fig, ax = plt.subplots(figsize=(7.5, 3.2))
+    fig, ax = plt.subplots(figsize=(8.2, 3.6))
     y_pos = [1, 0]
     colors = [BLUE, AQUA]
+
+    # Fixed-position status badge: x in AXES fraction (blended transform), y
+    # in data coords. This decouples the "REJECTED" label's horizontal
+    # position from each comparison's own CI extent, so it can never
+    # collide with a whisker regardless of how wide or narrow that
+    # comparison's CI happens to be -- the bug in the prior version placed
+    # it relative to the CI's lower bound (data coords), which put it right
+    # next to the whisker tip for comparison A's narrow-on-that-side CI.
+    badge_transform = ax.get_yaxis_transform()
+
     for (label, c), y, color in zip(comps, y_pos, colors):
         diff = c["observed_auroc_diff"]
         lo, hi = c["bootstrap_ci95_diff"]
@@ -195,23 +220,28 @@ def fig_forest_plot(sealed: dict) -> None:
                     ecolor=color, elinewidth=2, capsize=5, markersize=9, zorder=3)
         ax.annotate(
             f"diff={diff:+.4f}, CI=[{lo:+.4f}, {hi:+.4f}], p={c['permutation_p_two_sided_pre_holm']:.5f} (pre-Holm)",
-            (hi, y), xytext=(8, 0), textcoords="offset points", va="center", fontsize=8.5, color=TEXT_SECONDARY,
+            (hi, y), xytext=(10, 0), textcoords="offset points", va="center", fontsize=8.5, color=TEXT_SECONDARY,
         )
-        ax.annotate("REJECTED", (lo, y), xytext=(-8, 0), textcoords="offset points",
-                     va="center", ha="right", fontsize=9, color=CRITICAL_RED, fontweight="bold")
+        ax.text(0.015, y, "REJECTED", transform=badge_transform, va="center", ha="left",
+                fontsize=9, color=CRITICAL_RED, fontweight="bold",
+                bbox=dict(boxstyle="round,pad=0.25", facecolor="#fcfcfb", edgecolor=CRITICAL_RED, linewidth=0.8))
 
     ax.axvline(0, color=TEXT_SECONDARY, linewidth=1.2, linestyle="-", zorder=1)
     ax.set_yticks(y_pos)
     ax.set_yticklabels([c[0] for c in comps])
     ax.set_xlabel("AUROC difference (Geneformer − comparator), sealed cohort")
-    ax.set_xlim(-0.45, 0.75)
+    ax.set_xlim(-0.45, 0.85)
     ax.set_ylim(-0.7, 1.7)
     ax.set_title("Co-primary comparisons: paired patient-bootstrap CI on AUROC difference\n"
                   "Decision rule: CI must exclude 0 (entirely positive) AND be Holm-significant. Both REJECTED.",
                   fontsize=10.5)
     ax.spines[["top", "right", "left"]].set_visible(False)
     ax.tick_params(left=False)
-    save_fig(fig, "coprimary_forest_plot")
+    save_fig(fig, "coprimary_forest_plot",
+             footnote="Source: results/l2_sealed_results.json, 'co_primary_comparisons'. Decision rule and "
+                       "Holm step-down per PREREG.md Sections 5-6, alpha=0.05. REJECTED = null not rejected "
+                       "(CI includes 0 and/or not Holm-significant) -- not evidence of a negative effect, "
+                       "only failure to reach the pre-specified confirmatory bar.")
 
 
 # --- Figure 3: sealed ROC curves, all three arms ---------------------------
@@ -241,7 +271,11 @@ def fig_roc_curves(regenerated: dict, sealed: dict) -> None:
                   fontsize=9.5)
     ax.legend(loc="lower right", frameon=False, fontsize=9)
     ax.spines[["top", "right"]].set_visible(False)
-    save_fig(fig, "roc_curves_sealed")
+    save_fig(fig, "roc_curves_sealed",
+             footnote="Source: results/l2_sealed_predictions_regenerated.json, produced by "
+                       "scripts/22_regenerate_sealed_predictions.py (deterministic re-derivation from "
+                       "already-committed feature artifacts; not a new sealed-cohort access). Every "
+                       "regenerated AUROC verified to match results/l2_sealed_results.json exactly.")
 
 
 # --- Figure 5: permutation null distribution example ------------------------
@@ -266,7 +300,10 @@ def fig_permutation_null(regenerated: dict, sealed: dict, arm: str = "geneformer
                   fontsize=10.5)
     ax.legend(loc="upper left", frameon=False, fontsize=9)
     ax.spines[["top", "right"]].set_visible(False)
-    save_fig(fig, "permutation_null_example")
+    save_fig(fig, "permutation_null_example",
+             footnote="Source: results/l2_sealed_predictions_regenerated.json (permutation_null array, "
+                       "seed=20260721, matches results/l2_sealed_results.json's summary stats exactly). "
+                       "Null: sealed labels shuffled against fixed, frozen-model predictions -- no refitting.")
 
 
 def main() -> None:
