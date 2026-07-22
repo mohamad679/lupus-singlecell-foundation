@@ -218,13 +218,108 @@ prediction was computed" section; `FREEZE.json`'s
 
 ---
 
+## 7. Cohort-signature probe run post-hoc (PREREG Section 5.1, item 2 revisited)
+
+**What PREREG said:** Section 5.1 pre-specifies a cohort-signature probe (classifying
+dev-vs-sealed donor origin per feature arm) as a secondary, pre-declared confirmatory
+analysis, explicitly not part of the Holm-corrected co-primary family.
+
+**What was done:** Item 2 above records that this probe was deferred, not run, at the
+time of the sealed-cohort opening. After the sealed opening and the primary
+co-primary comparisons were complete, the probe was run post-hoc
+(`scripts/25_cohort_signature_probe.py`) directly from already-committed dev and
+sealed feature matrices (`results/l2_dev_geneformer_embeddings.parquet`,
+`results/l2_dev_pseudobulk_counts_restricted.parquet`, the equivalent sealed
+artifacts, and dev/sealed age metadata) — no new sealed data access, no sealed
+disease-label scoring. It trains a fresh classifier per feature arm on the binary
+label "which cohort did this donor come from" (not the SLE-vs-healthy label). Result:
+`results/l2_cohort_signature_probe.json` — cohort-signature AUROC 0.9996 (Geneformer),
+1.0000 (pseudobulk), 0.8719 (age alone).
+
+**Why:** Closes the gap left by item 2: the pre-registered confounding diagnostic
+was still owed once the primary result was safely committed, and running it requires
+no further access to raw sealed data — only the already-derived, already-committed
+feature matrices.
+
+**Could it affect results:** No — it does not touch, refit, or rescore the frozen
+disease-discrimination models, `FREEZE.json`, or `SEALED_OPENED.json`, and it is
+explicitly not part of the Holm-corrected co-primary family (PREREG Section 5.1). It
+is reported as an interpretability bound: the near-total cohort separability it finds
+means disease signal cannot be cleanly disentangled from cohort/batch/platform signal
+in this sealed cohort, which qualifies how the primary AUROC/comparison results
+should be read, but does not change any of their computed values.
+
+**Source:** `scripts/25_cohort_signature_probe.py`, `results/l2_cohort_signature_probe.json`.
+
+---
+
+## 8. Independent paired-difference-CI recomputation (Part A)
+
+**What PREREG said:** No specific mechanism was pre-specified for an independent
+recomputation of the co-primary comparisons' paired difference CIs; PREREG Section 5
+specifies the paired bootstrap CI / permutation-test / Holm-correction procedure
+itself, to be computed once as part of sealed scoring.
+
+**What was done:** As an additional integrity check (not a re-scoring), the paired
+difference CIs, permutation p-values, and Holm decision for both co-primary
+comparisons were independently recomputed (`scripts/26_coprimary_difference_ci.py`)
+directly from `results/l2_sealed_predictions_regenerated.json` — itself a
+deterministic, verified re-derivation of already-committed per-donor sealed
+predictions, not a new sealed-cohort access. The script performs a hard bit-for-bit
+AUROC cross-check against the originally committed `results/l2_sealed_results.json`
+before proceeding, and aborts on any mismatch. Output:
+`results/l2_coprimary_difference_ci.json` — comparison A (Geneformer vs.
+metadata-only) diff +0.2375, 95% CI [-0.0431, 0.5179], permutation p=0.087 pre-Holm,
+REJECTED; comparison B (Geneformer vs. pseudobulk) diff -0.0828, 95% CI [-0.2061,
+0.0242], permutation p=0.184 pre-Holm, REJECTED. Full agreement confirmed with the
+originally committed decision for both comparisons.
+
+**Why:** Independent recomputation from already-committed per-donor predictions is a
+standard integrity check that a reported statistical decision is reproducible, and
+requires no further sealed-cohort access.
+
+**Could it affect results:** No — it is a verification, not a new computation on raw
+sealed data; the script hard-aborts if its recomputed AUROCs do not match the already
+committed `results/l2_sealed_results.json` bit-for-bit, and it did not abort.
+
+**Source:** `scripts/26_coprimary_difference_ci.py`, `results/l2_coprimary_difference_ci.json`.
+
+---
+
+## 9. Repeated-CV robustness check (dev-only)
+
+**What PREREG said:** Section 4 specifies a single nested-CV protocol for
+dev-cohort model selection and honest AUROC estimation; no repeated-CV robustness
+check was pre-specified.
+
+**What was done:** As an additional, dev-only robustness check (not a re-selection
+of hyperparameters and not a sealed-cohort access of any kind), the dev-cohort
+nested CV was repeated multiple times with different random splits
+(`scripts/23_repeated_dev_cv.py`) → `results/l2_dev_repeated_cv.csv`. It does not
+touch, overwrite, or supersede the originally committed dev-CV result
+(`results/l2_dev_sle_vs_healthy.csv`), and it does not touch the sealed cohort or
+any frozen hyperparameter.
+
+**Why:** Added as post-hoc hardening to check that the originally committed
+dev-cohort AUROC estimates were not an artifact of one particular random CV split.
+
+**Could it affect results:** No — dev-only, additive, and does not modify or replace
+any previously committed dev or sealed result.
+
+**Source:** `scripts/23_repeated_dev_cv.py`, `results/l2_dev_repeated_cv.csv`.
+
+---
+
 ## Summary table
 
 | # | Deviation | Affects committed dev CV numbers? | Affects sealed-cohort numbers? |
 |---|---|---|---|
 | 1 | Gene-space restriction convention (raw-count-first) | No | Yes — pseudobulk sealed AUROC is downstream of this choice |
-| 2 | Cell-type / cohort-signature-probe deferral | No | No effect on primary/co-primary results; the pre-registered confounding probe was not run |
+| 2 | Cell-type / cohort-signature-probe deferral | No | No effect on primary/co-primary results; the pre-registered confounding probe was not run at that time |
 | 3 | Freeze-guard not wired into scripts 19/20 at run time | No | No evidence of effect (freeze was valid throughout); process gap only |
 | 4 | 56 vs. 58 GSE135779 samples | No | Yes — all sealed statistics are computed on real n=56 |
 | 5 | Age-ambiguous donor exclusion (n=259) | Yes — metadata-arm dev AUROC is on n=259, not 261 | Yes — the frozen metadata-arm model was fit on n=259 |
 | 6 | Final-coefficient refit at frozen C | No — dev CV numbers predate and are independent of this step | Yes — required for every sealed prediction to exist |
+| 7 | Cohort-signature probe run post-hoc | No | No — interpretability bound only, no frozen model touched |
+| 8 | Independent paired-difference-CI recomputation | No | No — verification only, full agreement confirmed |
+| 9 | Repeated-CV robustness check (dev-only) | No — additive, does not replace original dev-CV result | No |

@@ -4,6 +4,7 @@ title: "Lupus Single-Cell Foundation Model"
 type: software
 version: 0.1.0
 date-released: 2026-07-21
+license: MIT
 url: "https://github.com/mohamad679/lupus-singlecell-foundation"
 repository-code: "https://github.com/mohamad679/lupus-singlecell-foundation"
 authors:
