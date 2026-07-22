@@ -1,0 +1,73 @@
+{
+  "purpose": "PREREG.md Section 5.1 cohort-signature probe: quantifies how separable dev-vs-sealed cohort identity is in each feature space. This is a LIMITATION QUANTIFIER, not a positive finding: a high AUROC here means disease signal and cohort/batch/platform signal are confounded in that feature space, which bounds how much the corresponding sealed-cohort SLE-vs-healthy AUROC (results/l2_sealed_results.json) can be attributed to disease biology specifically. A high cohort-signature AUROC does NOT rescue, validate, or add credibility to the sealed disease-discrimination result -- if anything, it is a caution against over-interpreting it.",
+  "expected_result": "Near-perfect separability was anticipated, not a surprise: results/l2_cohort_confounders.csv already quantified near-total age separation (dev 100% adult 20-83 vs. sealed pediatric-primary, mean age 41.3 vs 20.9) and platform/sequencing-generation differences between the two cohorts (PREREG.md Section 7).",
+  "not_holm_corrected": "This probe is confirmatory but explicitly NOT part of the co-primary family (PREREG.md Section 5.1) -- it is not Holm-corrected alongside comparisons A and B, and it makes no GO/REJECTED claim of its own.",
+  "arms": {
+    "geneformer": {
+      "arm": "geneformer",
+      "n_dev": 261,
+      "n_sealed": 56,
+      "n_features": 256,
+      "cohort_signature_auroc": 0.9995894909688013,
+      "ci95": [
+        0.998450738839326,
+        1.0
+      ],
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided": 0.000999000999000999,
+      "permutation_null_mean": 0.501167556102901,
+      "permutation_null_std": 0.05113358959232424,
+      "selected_c_per_outer_fold": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        10.0
+      ]
+    },
+    "pseudobulk": {
+      "arm": "pseudobulk",
+      "n_dev": 261,
+      "n_sealed": 56,
+      "n_features": 30165,
+      "cohort_signature_auroc": 1.0,
+      "ci95": [
+        0.9999999999999999,
+        1.0
+      ],
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided": 0.000999000999000999,
+      "permutation_null_mean": 0.49684209085933223,
+      "permutation_null_std": 0.058448755481833356,
+      "selected_c_per_outer_fold": [
+        0.001,
+        0.001,
+        0.001,
+        0.001,
+        0.001
+      ]
+    },
+    "metadata_only_age": {
+      "arm": "metadata_only_age",
+      "n_dev": 259,
+      "n_sealed": 56,
+      "n_features": 1,
+      "cohort_signature_auroc": 0.8719318808604524,
+      "ci95": [
+        0.8020828662037708,
+        0.9320912629096009
+      ],
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided": 0.000999000999000999,
+      "permutation_null_mean": 0.4852179398786542,
+      "permutation_null_std": 0.03840538577317758,
+      "selected_c_per_outer_fold": [
+        0.001,
+        0.001,
+        0.001,
+        0.001,
+        0.001
+      ]
+    }
+  }
+}
