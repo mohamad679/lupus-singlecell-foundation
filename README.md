@@ -10,6 +10,8 @@ Patient-level benchmarking of frozen single-cell foundation-model (Geneformer) e
 
 No clinical claim, clinical diagnostic claim, or clinical deployment claim is made for either result.
 
+**Full write-up:** `MANUSCRIPT.md` — complete draft (abstract, introduction, methods, results, discussion, limitations, future work), every number sourced from a committed artifact.
+
 ## Scientific objective
 
 This project tests whether frozen single-cell foundation-model embeddings provide patient-level discriminative value for SLE-vs-healthy diagnosis beyond a metadata-only baseline and raw pseudobulk counts, under honest cross-validation and a genuine external (sealed) cohort — motivated by the concern that internal cross-validation systematically overstates single-cell foundation-model performance. The primary result above is consistent with that concern: the dev-cohort internal-CV AUROCs (Geneformer 0.9676, pseudobulk 0.9839) dropped substantially on the sealed cohort, and Geneformer did not outperform either baseline externally.
@@ -65,6 +67,8 @@ Each stage's real, run code — not a scaffold — lives in the numbered `script
 7. **Sealed-cohort opening (exactly once).** `scripts/18_sealed_cohort_open.py` (guard entry point) → real download + `scripts/19_sealed_pseudobulk.py` (gene-restricted pseudobulk) + `kaggle_kernels/l2_dev_pseudobulk_restricted/` (dev pseudobulk re-derived on the same restricted gene space) + `kaggle_kernels/l2_geneformer_sealed/` (sealed Geneformer embeddings) + `scripts/20_sealed_cohort_scoring.py` (final frozen-hyperparameter fit on dev, score sealed, co-primary comparisons, Holm correction) → `results/l2_sealed_results.json`, `SEALED_OPENED.json`.
 8. **Figures.** `scripts/21_generate_figures.py` → `figures/*.png`/`*.pdf`. Needs `scripts/22_regenerate_sealed_predictions.py` first (deterministic re-derivation of per-donor sealed probabilities and permutation-null arrays from already-committed feature artifacts — not a new sealed access; verified to reproduce `l2_sealed_results.json` exactly) → `results/l2_sealed_predictions_regenerated.json`.
 9. **Post-hoc hardening (dev-only / metadata-only, additive).** `scripts/23_repeated_dev_cv.py` → `results/l2_dev_repeated_cv.csv` (repeated nested CV, dev-only robustness check). `scripts/24_cohort_confounders.py` → `results/l2_cohort_confounders.csv` + `figures/cohort_confounders_age.png` (dev-vs-sealed confounder comparison, metadata only).
+10. **Cohort-signature probe (PREREG Section 5.1, limitation quantifier).** `scripts/25_cohort_signature_probe.py` → `results/l2_cohort_signature_probe.json` + `figures/cohort_signature_probe.png` — trains fresh on cohort-membership labels only, from already-committed feature matrices; touches no frozen model, no sealed disease score, no raw sealed data.
+11. **Independent co-primary difference recomputation.** `scripts/26_coprimary_difference_ci.py` → `results/l2_coprimary_difference_ci.json` — recomputes the paired bootstrap CIs and Holm decision from `results/l2_sealed_predictions_regenerated.json` only, with a hard bit-for-bit AUROC cross-check against `results/l2_sealed_results.json` before proceeding; confirmed full agreement.
 
 ## Regenerating figures and tables
 
@@ -76,6 +80,8 @@ python scripts/22_regenerate_sealed_predictions.py   # verifies against results/
 python scripts/21_generate_figures.py                # all 5 figures, 300 DPI PNG+PDF
 python scripts/24_cohort_confounders.py               # confounder table + age figure
 python scripts/23_repeated_dev_cv.py                  # ~20-25 min locally; dev-only, does not touch results/l2_dev_sle_vs_healthy.csv
+python scripts/25_cohort_signature_probe.py           # ~10-15 min locally; fresh fit on cohort-membership labels only
+python scripts/26_coprimary_difference_ci.py          # aborts if recomputed AUROC doesn't match results/l2_sealed_results.json bit-for-bit
 python scripts/17_gene_space_intersection.py --self-test   # unit + integration test, no output written
 python scripts/freeze_guard.py                        # confirms FREEZE.json still matches the live repo
 ```
@@ -85,7 +91,8 @@ Steps 1-3 and 7 of the pipeline above (census streaming, pseudobulk/Geneformer e
 ## Repository structure
 
 - `scripts/00`-`13` — Phase 1 QC scaffold and the earlier, secondary Stage 7 flare-discrimination reconciliation (`scripts/13_stage7_kaggle_result_reconciliation.py`; outputs under `reports/stage7_kaggle_result_reconciliation/`).
-- `scripts/14`-`24` — the primary L2/Phase 3 pipeline (this README's main subject).
+- `scripts/14`-`26` — the primary L2/Phase 3 pipeline (this README's main subject).
+- `MANUSCRIPT.md` — the full write-up; every number in it is sourced from a file under `results/` or `FREEZE.json`.
 - `kaggle_kernels/` — source for every Kaggle-executed step (kernel script + `kernel-metadata.json` per subdirectory). Kernel *output* (logs, scratch data) is never committed; only the source and the final feature/result artifacts it produces.
 - `results/` — every committed real artifact: dev/sealed metadata, pseudobulk/Geneformer features, CV results, sealed results, confounders.
 - `figures/` — all committed figures, PNG+PDF, 300 DPI.
