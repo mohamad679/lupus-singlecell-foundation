@@ -286,7 +286,7 @@ committed `results/l2_sealed_results.json` bit-for-bit, and it did not abort.
 
 ---
 
-## 9. Repeated-CV robustness check (dev-only)
+## 9. Repeated-CV robustness check (dev-only); frozen-hyperparameter reproducibility
 
 **What PREREG said:** Section 4 specifies a single nested-CV protocol for
 dev-cohort model selection and honest AUROC estimation; no repeated-CV robustness
@@ -306,7 +306,110 @@ dev-cohort AUROC estimates were not an artifact of one particular random CV spli
 **Could it affect results:** No — dev-only, additive, and does not modify or replace
 any previously committed dev or sealed result.
 
+**Additional finding (frozen-hyperparameter reproducibility):** The same
+`results/l2_dev_repeated_cv.csv` data used for the AUROC-stability check
+above also allows checking whether each arm's *frozen* regularization
+strength (`C`, fixed at the median of the five outer-fold selections in
+`FREEZE.json`) would be re-selected under a fresh random seed. Applying
+the identical median-of-outer-folds rule to each of the ten repeated
+runs: the Geneformer frozen value (C=1.0) is reproduced in 6 of 10
+repeats (the other four select C=10.0); the metadata-age frozen value
+(C=0.001) is reproduced in 10 of 10 repeats; the pseudobulk frozen value
+(C=0.01) is reproduced in 0 of 10 repeats, with the median instead
+landing on C=0.1 (6 of 10) or C=1.0 (4 of 10). `FREEZE.json`'s
+reproducibility guarantee ("re-running scripts/15 on the same committed
+dev-cohort inputs must reproduce the same C_per_outer_fold list and
+therefore the same C_frozen") therefore holds only at the committed
+random seed (20260719), not under reseeding — most sharply for the
+pseudobulk arm, whose frozen hyperparameter a fresh run of the same
+protocol would essentially never select.
+
+**Could it affect results (hyperparameter-reproducibility addendum):**
+This does not change any committed AUROC, since no hyperparameter was
+altered after the freeze — the frozen values were retained exactly as
+specified, and revising them post-freeze would itself have violated the
+one-look protocol. It does mean the pseudobulk arm's sealed-cohort
+performance rests on a regularization strength that this study's own
+model-selection procedure would not typically reproduce, which is
+reported here as a property of the frozen model rather than corrected.
+
 **Source:** `scripts/23_repeated_dev_cv.py`, `results/l2_dev_repeated_cv.csv`.
+
+---
+
+## 10. Restricted-gene-space development-cohort cross-validation
+(pseudobulk gene-space-mismatch sensitivity check)
+
+**What PREREG said:** No section of `PREREG.md` specifies this analysis.
+It is a post-hoc sensitivity check, run for the same reason and under the
+same constraints as items 7-9: it uses development-cohort data only and
+was conceived after the sealed cohort had already been opened.
+
+**What was done:** `results/l2_dev_pseudobulk_counts_restricted.parquet`
+(261 donors x 30,165 genes — the same gene intersection used for
+sealed-cohort pseudobulk scoring, see item 1) had been derived via
+`kaggle_kernels/l2_dev_pseudobulk_restricted/` but had never been run
+through the development-cohort nested-CV protocol; only the originally
+committed full-61,497-gene development pseudobulk result
+(`results/l2_dev_sle_vs_healthy_full.json`, AUROC 0.9838508542212245) had
+been computed. The identical nested-CV procedure used throughout this
+study (`StratifiedKFold`, 5 outer / 5 inner folds, `C` grid
+`[0.001, 0.01, 0.1, 1.0, 10.0, 100.0]`, `random_state=20260719`, 5000-
+resample donor bootstrap) was run on the restricted-gene-space input.
+The full-gene-space run was independently reproduced in the same
+session as a sanity check and matched the originally committed value to
+within 1e-9. Result, committed at full precision in
+`results/l2_dev_pseudobulk_restricted_cv.json`:
+
+- Restricted-space (30,165 genes) development AUROC: 0.9850978925053,
+  95% CI [0.9728765509679488, 0.9942118741336429], n=261.
+- Compare to full-space (61,497 genes) development AUROC: 0.9838508542212245,
+  95% CI [0.9703142976082190, 0.9937863242966656], n=261.
+- A paired donor-bootstrap 95% CI on the difference (restricted minus
+  full, same 261 donors, same resampling scheme used for the co-primary
+  comparisons) is [-0.000392, +0.003207] and includes zero: the effect of
+  gene-space restriction alone on development-cohort performance is not
+  statistically distinguishable from zero.
+- The permutation p-value for the restricted-space arm has not yet been
+  computed (compute-cost-prohibitive on the hardware used for this
+  verification; requires the same Kaggle infrastructure used for the
+  other expensive steps in this pipeline) and none is reported for it.
+
+**Why:** The sealed-cohort pseudobulk AUROC (0.8984, 30,165-gene
+restricted space) had only ever been compared against the *full*-space
+development AUROC (0.9839), which confounds two things that changed at
+once between the development and sealed measurements: the cohort itself,
+and a 51% reduction in gene-feature count. This check isolates the
+gene-space effect using development data only, so the cohort-shift-only
+("like-for-like") gap could be computed as restricted-vs-restricted
+instead of full-vs-restricted.
+
+**Related finding (F22 — frozen-hyperparameter / gene-space mismatch):**
+This run's inner-loop hyperparameter selection chose C in
+`[0.1, 0.1, 0.1, 0.01, 0.1]` across the five outer folds (median 0.1) —
+different from the C=0.01 frozen in `FREEZE.json`, which was selected on
+the full 61,497-gene space (item 1) rather than the 30,165-gene space
+sealed scoring actually uses. Had the freeze itself been computed on the
+restricted space, the frozen pseudobulk C would have been 0.1, not 0.01.
+The frozen value was retained rather than revised, since altering it
+after the freeze would defeat the one-look protocol; this mismatch is
+recorded rather than corrected, and is separate from (and additional to)
+the seed-dependence finding above in item 9.
+
+**Could it affect results:** No committed development or sealed AUROC is
+changed by this check. It does change how the pseudobulk "optimism gap"
+should be reported: the like-for-like value (restricted-vs-restricted,
+0.9851 to 0.8984, a drop of 0.0867) replaces the previously used
+confounded value (full-vs-restricted, 0.9839 to 0.8984, a drop of
+0.0854) as the correct comparison. The corrected gap is marginally
+larger than the confounded one, so this check strengthens rather than
+undermines the manuscript's central claim that the pseudobulk arm lost
+external discrimination.
+
+**Source:** `results/l2_dev_pseudobulk_counts_restricted.parquet` (input,
+pre-existing), `results/l2_dev_pseudobulk_restricted_cv.json` (this
+check's committed result), `results/l2_dev_sle_vs_healthy_full.json`
+(full-space comparator, pre-existing).
 
 ---
 
@@ -322,4 +425,5 @@ any previously committed dev or sealed result.
 | 6 | Final-coefficient refit at frozen C | No — dev CV numbers predate and are independent of this step | Yes — required for every sealed prediction to exist |
 | 7 | Cohort-signature probe run post-hoc | No | No — interpretability bound only, no frozen model touched |
 | 8 | Independent paired-difference-CI recomputation | No | No — verification only, full agreement confirmed |
-| 9 | Repeated-CV robustness check (dev-only) | No — additive, does not replace original dev-CV result | No |
+| 9 | Repeated-CV robustness check (dev-only); frozen-hyperparameter reproducibility (Geneformer 6/10, age 10/10, pseudobulk 0/10) | No — additive, does not replace original dev-CV result | No — but qualifies interpretation of the frozen pseudobulk C |
+| 10 | Restricted-gene-space development CV (pseudobulk gene-space-mismatch check); reveals F22 hyperparameter/gene-space mismatch | No — dev-only, additive, does not replace original dev-CV result | Yes — corrects the pseudobulk optimism-gap comparison from confounded (-0.085) to like-for-like (-0.087); does not change the sealed AUROC itself |
