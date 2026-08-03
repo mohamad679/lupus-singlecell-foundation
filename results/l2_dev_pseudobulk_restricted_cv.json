@@ -8,9 +8,9 @@
   "ci_upper_95": 0.9942118741336429,
   "bootstrap_n": 5000,
   "bootstrap_degenerate_skipped": 0,
-  "permutation_n": null,
-  "permutation_p_value_two_sided": null,
-  "permutation_status": "NOT_YET_RUN -- compute-cost-prohibitive on verification hardware (single CPU core); must be run on Kaggle (matching the rest of this pipeline's expensive steps) before this arm's p-value can be reported. CI lower bound of 0.9729 makes chance-level performance implausible but is not a substitute for the permutation test.",
+  "permutation_n": 1000,
+  "permutation_p_value_two_sided": 0.000999000999000999,
+  "permutation_status": "COMPLETE -- run by Claude (chat) on 2026-08-03T20:30:54.500230Z, CPU-only, checkpointed across multiple calls; matches the fixed-C=0.01 protocol used for the original pseudobulk permutation elsewhere in this pipeline",
   "hyperparameter_c_grid": [
     0.001,
     0.01,
@@ -50,5 +50,8 @@
     "geneformer_dev_minus_sealed": null,
     "pseudobulk_dev_restricted_minus_sealed_restricted": 0.0866603925053,
     "pseudobulk_dev_full_minus_sealed_restricted_CONFOUNDED_DO_NOT_USE": 0.08541335422122454
-  }
+  },
+  "permutation_null_mean_auroc": 0.4874583489213119,
+  "permutation_null_std_auroc": 0.051557545996503466,
+  "permutation_fixed_c": 0.01
 }
