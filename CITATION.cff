@@ -8,12 +8,12 @@ license: MIT
 url: "https://github.com/mohamad679/lupus-singlecell-foundation"
 repository-code: "https://github.com/mohamad679/lupus-singlecell-foundation"
 authors:
-  - given-names: "Mohammad javad"
+  - given-names: "Mohammad Javad"
     family-names: "Asgari"
     email: "m.asgari77@gmail.com"
 abstract: >
   Patient-level benchmarking of frozen single-cell foundation-model
-  (Geneformer) embeddings against raw pseudobulk counts and a
+  (Geneformer) embeddings against pseudobulk expression features and a
   metadata-only baseline for systemic lupus erythematosus (SLE) vs.
   healthy-control discrimination from peripheral blood single-cell
   RNA-seq, with a single, pre-registered, sealed-cohort external
