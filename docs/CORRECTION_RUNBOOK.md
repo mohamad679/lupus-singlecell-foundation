@@ -1,5 +1,39 @@
 # Corrected V1 reanalysis runbook
 
+## Kaggle GPU notebooks (current execution path)
+
+Four self-contained notebooks are in the parent `lupuspaper` folder. Run each
+in a separate Kaggle GPU session with Internet enabled, in this order:
+
+1. `CBC_Kaggle_1_Development_Shared.ipynb`
+2. `CBC_Kaggle_2_External_Shared.ipynb`
+3. `CBC_Kaggle_3_Development_Native.ipynb`
+4. `CBC_Kaggle_4_External_Native.ipynb`
+
+Each notebook contains five numbered code cells: stage checksum-verified code
+and the shared-gene list; install/verify the pinned Geneformer source and GPU;
+run an eight-cell synthetic V1 technical fixture; run exactly one cohort/mode;
+verify and package results. Run them in order or use Kaggle's Save & Run All.
+Stop and share the error if the fixture or a cohort cell fails. The synthetic
+fixture checks tokenizer/extractor compatibility; each full cohort run then
+checks its real-cell IDs, donors, counts, token sequences, and finite outputs.
+
+The cohort scripts keep large raw matrices and temporary embeddings under
+`/kaggle/temp/lupus-correction`. Final donor parquet, JSON summary, a small
+fixture summary, a share ZIP, and per-batch checkpoints are written under
+`/kaggle/working`. Kaggle preserves that working directory with saved notebook
+outputs, while scratch files are temporary. Each completed batch gets a
+checksum-verified checkpoint. If a run is interrupted within a session,
+rerunning its cohort cell reuses those batches. To resume from a previously
+saved Kaggle version, attach its output as notebook input and set `RESUME_INPUT`
+in Cell 4 to its `correction_checkpoints/<cohort>_<mode>` directory. The
+checkpoint loader rejects changes to the script, data mode, source revision,
+model files, donor set, cell counts, or parquet checksum.
+
+After Cell 5, download `lupus_correction_<cohort>_<mode>_share.zip` and provide
+all four ZIP files for local scoring and manuscript revision. The notebooks
+are rebuilt with `python scripts/33_build_kaggle_notebooks.py --output-dir ..`.
+
 ## VS Code with a Google Colab GPU
 
 The prepared notebook is
@@ -30,10 +64,10 @@ The notebook can be rebuilt after a script change with
    as `/kaggle/input/lupus-correction/gene_space_intersection.txt`, or set
    `GENE_INTERSECTION_PATH` to its location. Its required SHA-256 is
    `482f113c433ac76eb19940442e4f3b1a24ae73d387c4ec75ecb19b8116eea29b`.
-3. Run a small, real-cell fixture through the V1 tokenizer and extractor on
-   GPU. Confirm the run summary reports V1, `emb_mode=cell`, nonempty token
+3. Run the eight-cell synthetic V1 fixture on GPU, then check the first real
+   cohort batch before proceeding. Confirm V1, `emb_mode=cell`, nonempty token
    sequences, exact donor/cell retention, finite embeddings, and checkpoint
-   hashes. Do not start the complete run if this fails.
+   hashes. Stop if either validation fails.
 4. Run `kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py` and
    `kaggle_kernels/l2_geneformer_v1_corrected_external/run.py` with
    `GENE_INPUT_MODE=shared`. Save both parquet files and JSON summaries. Repeat

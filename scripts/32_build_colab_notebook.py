@@ -123,6 +123,8 @@ print("Archived {cohort} {mode} outputs.")
                  "followed by `scripts/27_correction_analysis.py`. Do not revise the manuscript "
                  "from partial runs.\n"),
     ]
+    for index, cell in enumerate(cells):
+        cell["id"] = f"colab-{index:02d}"
     return {"cells": cells,
             "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}},
             "nbformat": 4, "nbformat_minor": 5}

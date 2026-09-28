@@ -20,6 +20,7 @@ Writes:
 
 import json
 import hashlib
+import gc
 import os
 import shutil
 import subprocess
@@ -31,6 +32,13 @@ MODEL_SUBDIR = "Geneformer-V1-10M"
 GENEFORMER_REVISION = "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5"
 GENE_INPUT_MODE = os.environ.get("GENE_INPUT_MODE", "shared")
 BATCH_SIZE = int(os.environ.get("GENEFORMER_FORWARD_BATCH_SIZE", "32"))
+SCRATCH = os.environ.get("GENEFORMER_SCRATCH_DIR", "/kaggle/temp")
+CHECKPOINT_ROOT = os.environ.get(
+    "GENEFORMER_CHECKPOINT_DIR",
+    f"/kaggle/working/correction_checkpoints/external_{GENE_INPUT_MODE}",
+)
+RESUME_ROOT = os.environ.get("GENEFORMER_RESUME_DIR", CHECKPOINT_ROOT)
+RAW_DIR = f"{SCRATCH}/gse135779_raw"
 INTERSECTION_PATH = os.environ.get("GENE_INTERSECTION_PATH", "/kaggle/input/lupus-correction/gene_space_intersection.txt")
 INTERSECTION_SHA256 = "482f113c433ac76eb19940442e4f3b1a24ae73d387c4ec75ecb19b8116eea29b"
 assert GENE_INPUT_MODE in {"shared", "native"}
@@ -105,6 +113,56 @@ def file_sha256(path):
     return digest.hexdigest()
 
 
+def load_batch_checkpoint(batch_idx, donors, expected_counts, config):
+    stem = f"batch_{batch_idx:02d}"
+    metadata_path = os.path.join(RESUME_ROOT, stem + ".json")
+    parquet_path = os.path.join(RESUME_ROOT, stem + ".parquet")
+    if not (os.path.isfile(metadata_path) and os.path.isfile(parquet_path)):
+        return None
+    with open(metadata_path) as stream:
+        metadata = json.load(stream)
+    if metadata.get("config") != config or metadata.get("donors") != sorted(donors):
+        raise ValueError(f"incompatible batch checkpoint: {metadata_path}")
+    if metadata.get("cell_counts") != expected_counts:
+        raise ValueError(f"cell counts changed since checkpoint: {metadata_path}")
+    if file_sha256(parquet_path) != metadata.get("parquet_sha256"):
+        raise ValueError(f"corrupted batch checkpoint: {parquet_path}")
+    frame = pd.read_parquet(parquet_path)
+    if frame.index.name != "donor_id" or sorted(frame.index.tolist()) != sorted(donors):
+        raise ValueError(f"donor IDs changed in checkpoint: {parquet_path}")
+    if not all(str(column).startswith("gf_dim_") for column in frame.columns):
+        raise ValueError(f"invalid checkpoint embedding columns: {parquet_path}")
+    if frame.shape[1] == 0 or not np.isfinite(frame.to_numpy(dtype=float)).all():
+        raise ValueError(f"invalid checkpoint embeddings: {parquet_path}")
+    if os.path.abspath(RESUME_ROOT) != os.path.abspath(CHECKPOINT_ROOT):
+        os.makedirs(CHECKPOINT_ROOT, exist_ok=True)
+        shutil.copy2(parquet_path, os.path.join(CHECKPOINT_ROOT, stem + ".parquet"))
+        shutil.copy2(metadata_path, os.path.join(CHECKPOINT_ROOT, stem + ".json"))
+    return frame, metadata
+
+
+def save_batch_checkpoint(batch_idx, donors, expected_counts, grouped, config, audit):
+    os.makedirs(CHECKPOINT_ROOT, exist_ok=True)
+    stem = f"batch_{batch_idx:02d}"
+    parquet_path = os.path.join(CHECKPOINT_ROOT, stem + ".parquet")
+    metadata_path = os.path.join(CHECKPOINT_ROOT, stem + ".json")
+    frame = grouped.sort_index().copy()
+    frame.index.name = "donor_id"
+    frame.columns = [f"gf_dim_{i}" for i in range(frame.shape[1])]
+    tmp_parquet = parquet_path + ".tmp"
+    frame.to_parquet(tmp_parquet, compression="zstd")
+    os.replace(tmp_parquet, parquet_path)
+    metadata = {"config": config, "donors": sorted(donors),
+                "cell_counts": expected_counts, "batch_audit": audit,
+                "embedding_dim": frame.shape[1],
+                "parquet_sha256": file_sha256(parquet_path)}
+    tmp_metadata = metadata_path + ".tmp"
+    with open(tmp_metadata, "w") as stream:
+        json.dump(metadata, stream, indent=2, sort_keys=True)
+    os.replace(tmp_metadata, metadata_path)
+    return metadata
+
+
 def validate_tokenizer(tk):
     expected = {"ENSG00000000003": 2, "ENSG00000000005": 3,
                 "ENSG00000141510": 8088, "ENSG00000139618": 7809}
@@ -146,20 +204,26 @@ try:
     t_run_start = time.time()
 
     log("downloading GSE135779 public deposit (genes reference + raw counts archive)")
-    os.makedirs("/kaggle/working/gse135779_raw", exist_ok=True)
-    run(f"curl -s '{GENES_URL}' -o /kaggle/working/gse135779_raw/genes.tsv.gz")
-    run(f"gunzip -f /kaggle/working/gse135779_raw/genes.tsv.gz")
-    run(f"curl -s '{RAW_TAR_URL}' -o /kaggle/working/gse135779_raw/GSE135779_RAW.tar")
-    os.makedirs("/kaggle/working/gse135779_raw/extracted", exist_ok=True)
-    run(f"tar -xf /kaggle/working/gse135779_raw/GSE135779_RAW.tar "
-        f"-C /kaggle/working/gse135779_raw/extracted")
+    os.makedirs(RAW_DIR, exist_ok=True)
+    extracted_dir = f"{RAW_DIR}/extracted"
+    already_extracted = (os.path.isfile(f"{RAW_DIR}/genes.tsv") and
+                         os.path.isdir(extracted_dir) and
+                         len(os.listdir(extracted_dir)) == 112)
+    if not already_extracted:
+        run(f"curl -fLsS --retry 3 --retry-delay 5 '{GENES_URL}' -o '{RAW_DIR}/genes.tsv.gz'")
+        run(f"gunzip -f '{RAW_DIR}/genes.tsv.gz'")
+        run(f"curl -fLsS --retry 3 --retry-delay 5 '{RAW_TAR_URL}' -o '{RAW_DIR}/GSE135779_RAW.tar'")
+        os.makedirs(extracted_dir, exist_ok=True)
+        run(f"tar -xf '{RAW_DIR}/GSE135779_RAW.tar' -C '{extracted_dir}'")
+    else:
+        log("reusing extracted GSE135779 source files in Kaggle scratch space")
 
-    n_extracted = len(os.listdir("/kaggle/working/gse135779_raw/extracted"))
+    n_extracted = len(os.listdir(extracted_dir))
     log(f"extracted {n_extracted} files (expected 112 = 56 samples x 2 files)")
     assert n_extracted == 112, f"expected 112 files, got {n_extracted}"
 
     gene_ids = []
-    with open("/kaggle/working/gse135779_raw/genes.tsv") as f:
+    with open(f"{RAW_DIR}/genes.tsv") as f:
         for line in f:
             gene_ids.append(line.rstrip("\n").split("\t")[0])
     n_genes_ref = len(gene_ids)
@@ -177,7 +241,6 @@ try:
     assert len(all_gsm_ids) == 56, f"expected 56 samples, got {len(all_gsm_ids)}"
 
     def find_files(gsm_id):
-        extracted_dir = "/kaggle/working/gse135779_raw/extracted"
         matrix = [f for f in os.listdir(extracted_dir) if f.startswith(gsm_id) and f.endswith("matrix.mtx.gz")]
         assert len(matrix) == 1, f"{gsm_id}: expected 1 matrix file, found {matrix}"
         return os.path.join(extracted_dir, matrix[0])
@@ -218,11 +281,39 @@ try:
     model_path = f"{model_dir}/{MODEL_SUBDIR}"
     checkpoint_hashes = model_hashes(model_path)
 
-    WORK = "/kaggle/working/gf_sealed_batches"
+    WORK = f"{SCRATCH}/gf_sealed_batches_{GENE_INPUT_MODE}"
     os.makedirs(WORK, exist_ok=True)
+    checkpoint_config = {
+        "cohort": "external", "geo_accession": "GSE135779",
+        "gene_input_mode": GENE_INPUT_MODE,
+        "intersection_sha256": INTERSECTION_SHA256 if input_genes is not None else None,
+        "geneformer_revision": GENEFORMER_REVISION,
+        "extraction_script_sha256": file_sha256(__file__),
+        "checkpoint_sha256_by_file": checkpoint_hashes,
+        "model_version": "V1", "emb_mode": "cell", "emb_layer": -1,
+        "aggregation": "mean_pool_per_donor",
+    }
     cumulative_cells = 0
+    resumed_cells = 0
 
     for batch_idx, batch_gsms in enumerate(batches):
+        expected_counts = {g: int(sample_ncells[g]) for g in batch_gsms}
+        prior = load_batch_checkpoint(batch_idx, batch_gsms, expected_counts,
+                                      checkpoint_config)
+        if prior is not None:
+            frame, metadata = prior
+            for donor_id, row in frame.iterrows():
+                donor_embeddings[donor_id] = row.to_numpy(dtype=np.float64)
+                donor_cell_counts_observed[donor_id] = expected_counts[donor_id]
+            batch_cells = sum(expected_counts.values())
+            cumulative_cells += batch_cells
+            resumed_cells += batch_cells
+            SUMMARY["batches"].append({"batch_idx": batch_idx, "resumed": True,
+                                       "n_samples": len(batch_gsms), "n_cells": batch_cells,
+                                       "checkpoint_sha256": metadata["parquet_sha256"],
+                                       **metadata["batch_audit"]})
+            log(f"batch {batch_idx}: restored {batch_cells} cells from verified checkpoint")
+            continue
         t_batch_start = time.time()
         batch_dir = f"{WORK}/batch_{batch_idx}"
         os.makedirs(f"{batch_dir}/input", exist_ok=True)
@@ -239,6 +330,8 @@ try:
             mat = mat.T.tocsr()[:, gene_index]  # cells x selected genes
             mats.append(mat)
             n_cells_this = mat.shape[0]
+            if n_cells_this != expected_counts[gsm_id]:
+                raise ValueError(f"{gsm_id}: matrix cell count differs from header")
             cell_donor_ids.extend([gsm_id] * n_cells_this)
             cell_ids.extend([f"{gsm_id}_{i}" for i in range(n_cells_this)])
             donor_cell_counts_observed[gsm_id] = donor_cell_counts_observed.get(gsm_id, 0) + n_cells_this
@@ -295,12 +388,14 @@ try:
         grouped = embs.groupby("donor_id")[emb_cols].mean()
         for donor_id, row in grouped.iterrows():
             donor_embeddings[donor_id] = row.to_numpy(dtype=np.float64)
+        checkpoint = save_batch_checkpoint(batch_idx, batch_gsms, expected_counts,
+                                           grouped, checkpoint_config, batch_audit)
 
         batch_seconds = time.time() - t_batch_start
         cumulative_cells += n_cells_batch
         cumulative_seconds = time.time() - t_run_start
         batch_rate = n_cells_batch / batch_seconds
-        running_rate = cumulative_cells / cumulative_seconds
+        running_rate = (cumulative_cells - resumed_cells) / cumulative_seconds
         DEV_RATE = 76.34650884018772
         log(f"batch {batch_idx} done: {len(batch_gsms)} samples, {n_cells_batch} cells, "
             f"{batch_seconds:.1f}s, batch_rate={batch_rate:.2f} cells/sec "
@@ -313,13 +408,16 @@ try:
             "batch_idx": batch_idx, "n_samples": len(batch_gsms), "n_cells": int(n_cells_batch),
             "batch_seconds": batch_seconds, "batch_cells_per_sec": batch_rate,
             "cumulative_cells": cumulative_cells, "running_cells_per_sec": running_rate,
+            "checkpoint_sha256": checkpoint["parquet_sha256"], "resumed": False,
             **batch_audit,
         })
 
         shutil.rmtree(batch_dir, ignore_errors=True)
+        del embs, grouped, tk, embex
+        gc.collect()
 
     total_seconds = time.time() - t_run_start
-    overall_rate = cumulative_cells / total_seconds
+    overall_rate = (cumulative_cells - resumed_cells) / total_seconds
     log(f"ALL BATCHES DONE: {len(donor_embeddings)} samples, {cumulative_cells} cells, "
         f"{total_seconds:.1f}s, overall_rate={overall_rate:.2f} cells/sec")
 
@@ -338,6 +436,8 @@ try:
         "n_samples_embedded": len(donor_embeddings),
         "total_cells_expected": total_cells_expected,
         "total_cells_processed": cumulative_cells,
+        "cells_restored_from_checkpoints": resumed_cells,
+        "new_cells_processed": cumulative_cells - resumed_cells,
         "total_seconds": total_seconds,
         "overall_cells_per_sec": overall_rate,
         "missing_samples": sorted(missing),
