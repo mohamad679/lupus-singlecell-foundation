@@ -40,9 +40,11 @@ CENSUS_VERSION = "2025-11-08"
 MODEL_SUBDIR = "Geneformer-V1-10M"
 GENEFORMER_REVISION = "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5"
 GENE_INPUT_MODE = os.environ.get("GENE_INPUT_MODE", "shared")
+BATCH_SIZE = int(os.environ.get("GENEFORMER_FORWARD_BATCH_SIZE", "32"))
 INTERSECTION_PATH = os.environ.get("GENE_INTERSECTION_PATH", "/kaggle/input/lupus-correction/gene_space_intersection.txt")
 INTERSECTION_SHA256 = "482f113c433ac76eb19940442e4f3b1a24ae73d387c4ec75ecb19b8116eea29b"
 assert GENE_INPUT_MODE in {"shared", "native"}
+assert BATCH_SIZE > 0
 CALIBRATION_CELLS_PER_SEC = 135.16979626730776
 N_BATCHES_TARGET = 8
 
@@ -273,7 +275,7 @@ try:
             max_ncells=None,
             emb_layer=-1,
             emb_label=["cell_id", "donor_id"],
-            forward_batch_size=32,
+            forward_batch_size=BATCH_SIZE,
             nproc=2,
         )
         embs = embex.extract_embs(
@@ -366,6 +368,7 @@ try:
         "emb_mode": "cell",
         "model_version": "V1",
         "emb_layer": -1,
+        "forward_batch_size": BATCH_SIZE,
         "aggregation": "mean_pool_per_donor",
     })
 

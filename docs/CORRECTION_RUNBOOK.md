@@ -1,5 +1,27 @@
 # Corrected V1 reanalysis runbook
 
+## VS Code with a Google Colab GPU
+
+The prepared notebook is
+`../CBC_Correction_Colab_GPU.ipynb` (relative to this repository). Open it in
+VS Code, select the **Colab** kernel, sign in, and choose a GPU runtime. Run
+the numbered code cells in order. The first cell stages exact copies of the
+correction scripts and shared-gene list with checksum checks; the next installs
+Geneformer, and the third mounts Google Drive for persistent outputs. The
+fourth cell runs an eight-cell synthetic V1 tokenizer and extractor fixture.
+Continue to the cohort cells only if `fixture_summary.json` reports
+`"status": "pass"`. This fixture checks technical compatibility; it cannot
+verify Census/GEO access or cohort-specific preprocessing.
+
+The notebook saves four parquet files and four JSON summaries to
+`MyDrive/lupus-correction-2026-09`. Keep the runtime connected until each
+cohort cell prints its archive confirmation. Download these eight files into
+the local correction results folder, then use the scoring commands below.
+The notebook can be rebuilt after a script change with
+`python scripts/32_build_colab_notebook.py --output ../CBC_Correction_Colab_GPU.ipynb`.
+
+## Extraction and scoring gates
+
 1. Start from the historical commit and keep all old artifacts immutable.
    Use the correction branch and a new output directory. The scripts under
    `kaggle_kernels/l2_geneformer_v1_corrected_*` are **new**; the original
