@@ -65,6 +65,12 @@ Geneformer recipe or as the final corrected comparison.
   V1 dictionaries from the pinned Hugging Face revision, rejects pointer
   content, validates each nonempty pickle, and records SHA-256 hashes. The
   fixture has not yet passed on Kaggle.
+- The Kaggle dictionary repair reported `V1_DICTIONARIES_OK` with 25,424
+  median entries (SHA-256 `b3b589bb5ec75040d05fc44dd6bf0184cf87f3c362cf158d196a6ed3b7fe5f39`),
+  25,426 token entries (`ab9dc40973fa5224d77b793e2fd114cacf3d08423ed9c4c49caf0ba9c7f218f1`),
+  and 25,424 mapping entries (`eac0fb0b3007267871b6305ac0003ceba19d4f28d85686cb9067ecf142787869`).
+  These hashes are user-reported Kaggle output from the pinned-revision repair
+  cell; the technical embedding fixture is still pending.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are
