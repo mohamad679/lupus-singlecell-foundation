@@ -13,8 +13,9 @@ from pathlib import Path
 
 RUNNER = Path("/kaggle/working/lupus_correction_code/corrected_run.py")
 CHECKPOINT = Path("/kaggle/working/correction_checkpoints/dev_shared")
-OLD_SHA = "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0"
-NEW_SHA = "12f7cc03d4ff41dd30645e5b518f2957042ce457b66f53a33ab12e0214eec504"
+OLD_SHA_WITH_AWS_INSTALL = "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0"
+OLD_SHA_FIRST_NOTEBOOK = "be18c4d09531f211b5729fbd1380d76165f12ab02fd243af3e861688d4be509c"
+NEW_SHA = "90966854faa6e5e6d7902462cd429cc3f504a145053a5eea8a790420f122aed2"
 
 
 def sha256(path):
@@ -32,10 +33,24 @@ def replace_once(source, old, new):
 
 
 def patch_source(source):
+    old_hash = hashlib.sha256(source.encode()).hexdigest()
+    if old_hash == OLD_SHA_FIRST_NOTEBOOK:
+        source = replace_once(
+            source,
+            '    run(f"{sys.executable} -m pip install -q \'transformers>=4.35,<4.50\'")\n',
+            '    run(f"{sys.executable} -m pip install -q \'transformers>=4.35,<4.50\'")\n'
+            '    run(f"{sys.executable} -m pip install -q --force-reinstall "\n'
+            '        "boto3==1.40.46 botocore==1.40.46 s3transfer==0.14.0")\n',
+        )
+    elif old_hash != OLD_SHA_WITH_AWS_INSTALL:
+        raise ValueError("Staged runner differs from the two supported versions")
     source = replace_once(
         source, "N_BATCHES_TARGET = 8\n",
         "N_BATCHES_TARGET = 8\n"
-        f'LEGACY_MULTIPROCESS_SCRIPT_SHA256 = "{OLD_SHA}"\n',
+        'LEGACY_MULTIPROCESS_SCRIPT_SHA256S = {\n'
+        f'    "{OLD_SHA_WITH_AWS_INSTALL}",\n'
+        f'    "{OLD_SHA_FIRST_NOTEBOOK}",\n'
+        '}\n',
     )
     source = replace_once(
         source, "def load_batch_checkpoint(batch_idx, donors, expected_counts, config):\n",
@@ -44,7 +59,7 @@ def patch_source(source):
         return True
     if not isinstance(saved, dict):
         return False
-    if saved.get("extraction_script_sha256") != LEGACY_MULTIPROCESS_SCRIPT_SHA256:
+    if saved.get("extraction_script_sha256") not in LEGACY_MULTIPROCESS_SCRIPT_SHA256S:
         return False
     normalized = dict(saved)
     normalized["extraction_script_sha256"] = current["extraction_script_sha256"]
@@ -86,12 +101,13 @@ def load_batch_checkpoint(batch_idx, donors, expected_counts, config):
 
 
 def main():
-    if sha256(RUNNER) != OLD_SHA:
-        raise ValueError("Staged runner differs from the expected pre-patch version")
+    original_hash = sha256(RUNNER)
+    if original_hash not in {OLD_SHA_FIRST_NOTEBOOK, OLD_SHA_WITH_AWS_INSTALL}:
+        raise ValueError("Staged runner differs from the two supported versions")
     metadata_path = CHECKPOINT / "batch_00.json"
     parquet_path = CHECKPOINT / "batch_00.parquet"
     metadata = json.loads(metadata_path.read_text())
-    if metadata["config"]["extraction_script_sha256"] != OLD_SHA:
+    if metadata["config"]["extraction_script_sha256"] != original_hash:
         raise ValueError("Batch-0 checkpoint was made by a different runner")
     if metadata["config"]["gene_input_mode"] != "shared":
         raise ValueError("Batch-0 checkpoint is not the shared-gene job")

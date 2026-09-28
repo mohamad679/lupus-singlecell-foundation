@@ -54,7 +54,10 @@ assert GENE_INPUT_MODE in {"shared", "native"}
 assert BATCH_SIZE > 0
 CALIBRATION_CELLS_PER_SEC = 135.16979626730776
 N_BATCHES_TARGET = 8
-LEGACY_MULTIPROCESS_SCRIPT_SHA256 = "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0"
+LEGACY_MULTIPROCESS_SCRIPT_SHA256S = {
+    "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0",
+    "be18c4d09531f211b5729fbd1380d76165f12ab02fd243af3e861688d4be509c",
+}
 
 
 def log(msg):
@@ -124,7 +127,7 @@ def checkpoint_config_compatible(saved, current):
         return True
     if not isinstance(saved, dict):
         return False
-    if saved.get("extraction_script_sha256") != LEGACY_MULTIPROCESS_SCRIPT_SHA256:
+    if saved.get("extraction_script_sha256") not in LEGACY_MULTIPROCESS_SCRIPT_SHA256S:
         return False
     normalized = dict(saved)
     normalized["extraction_script_sha256"] = current["extraction_script_sha256"]

@@ -110,19 +110,21 @@ def test_single_process_extraction_and_legacy_checkpoint_gate():
     tree = ast.parse(dev_path.read_text())
     legacy_assignment = next(node for node in tree.body if isinstance(node, ast.Assign)
                              and any(isinstance(target, ast.Name)
-                                     and target.id == "LEGACY_MULTIPROCESS_SCRIPT_SHA256"
+                                     and target.id == "LEGACY_MULTIPROCESS_SCRIPT_SHA256S"
                                      for target in node.targets))
     checker = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
                    and node.name == "checkpoint_config_compatible")
     scope = {}
     exec(compile(ast.Module(body=[legacy_assignment, checker], type_ignores=[]),
                  str(dev_path), "exec"), scope)
-    old = {"extraction_script_sha256": scope["LEGACY_MULTIPROCESS_SCRIPT_SHA256"],
+    old = {"extraction_script_sha256": "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0",
            "checkpoint_sha256_by_file": {"model.bin": "model-hash"},
            "gene_input_mode": "shared"}
     new = {**old, "extraction_script_sha256": "new-script-hash"}
     compatible = scope["checkpoint_config_compatible"]
     assert compatible(new, new)
     assert compatible(old, new)
+    assert compatible({**old, "extraction_script_sha256":
+                       "be18c4d09531f211b5729fbd1380d76165f12ab02fd243af3e861688d4be509c"}, new)
     assert not compatible({**old, "checkpoint_sha256_by_file": {"model.bin": "changed"}}, new)
     assert not compatible({**old, "extraction_script_sha256": "unknown"}, new)

@@ -90,6 +90,13 @@ Geneformer recipe or as the final corrected comparison.
   the original batch-0 checkpoint only if the prior script hash and all other
   config, donor, cell-count, and parquet integrity checks pass. The original
   checkpoint metadata is preserved. The restart and full run remain pending.
+- The first in-session resume patch correctly refused an unrecognized staged
+  runner hash and changed nothing. The first Kaggle notebook release had a
+  second known runner SHA-256 (`be18c4d09531f211b5729fbd1380d76165f12ab02fd243af3e861688d4be509c`);
+  its only difference from the later hash was an install block skipped by
+  Cell 4. The revised patch accepts exactly these two historical hashes,
+  checks the checkpoint's source hash against the staged source, and produces
+  one exact versioned single-process runner.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are
