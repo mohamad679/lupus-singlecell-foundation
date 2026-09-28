@@ -52,9 +52,19 @@ Geneformer recipe or as the final corrected comparison.
 - The first Kaggle synthetic V1 fixture attempt stopped before tokenization:
   Geneformer import reached `boto3`, which expected an API absent from the
   installed `botocore`. No cohort extraction ran. The Kaggle setup now pins a
-  mutually compatible `boto3`/`botocore`/`s3transfer` set and checks the
-  Geneformer import before the fixture. The corrected setup still requires
-  a successful Kaggle fixture run.
+  mutually compatible `boto3`/`botocore`/`s3transfer` set. A later import in
+  the already-running notebook kernel failed with NumPy's `_center` error,
+  while a fresh process successfully imported NumPy 2.5.3, SciPy 1.16.3,
+  Geneformer, boto3 1.40.46, and botocore 1.40.46. The notebook setup now
+  tests imports in a fresh process, matching the fixture and cohort execution.
+  The corrected setup still requires a successful Kaggle fixture run.
+- The next fixture attempt reached `TranscriptomeTokenizer` but stopped when
+  the V1 gene median pickle was a Git LFS pointer (`invalid load key, 'v'`).
+  This arose because the code checkout deliberately skipped LFS smudge to
+  avoid downloading all model weights. The Kaggle setup now fetches the three
+  V1 dictionaries from the pinned Hugging Face revision, rejects pointer
+  content, validates each nonempty pickle, and records SHA-256 hashes. The
+  fixture has not yet passed on Kaggle.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are

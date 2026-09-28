@@ -85,9 +85,32 @@ subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages],
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--force-reinstall",
                 "boto3==1.40.46", "botocore==1.40.46", "s3transfer==0.14.0"],
                check=True)
-import boto3, botocore, s3transfer
-print("AWS dependency versions:", boto3.__version__, botocore.__version__,
-      s3transfer.__version__)
+# The source checkout skips Git LFS to avoid fetching every model checkpoint.
+# Fetch the three V1 dictionaries explicitly from the same pinned revision.
+dictionary_code = """import hashlib, importlib.util, pickle, shutil
+from pathlib import Path
+from huggingface_hub import hf_hub_download
+revision = '{REVISION}'
+package_dir = Path(importlib.util.find_spec('geneformer').origin).parent
+for name in ('gene_median_dictionary_gc30M.pkl',
+             'token_dictionary_gc30M.pkl',
+             'ensembl_mapping_dict_gc30M.pkl'):
+    relative = 'geneformer/gene_dictionaries_30m/' + name
+    source = Path(hf_hub_download(repo_id='ctheodoris/Geneformer',
+                                  revision=revision, filename=relative))
+    with source.open('rb') as stream:
+        if stream.read(40).startswith(b'version https://git-lfs.github.com'):
+            raise RuntimeError('Downloaded a Git LFS pointer: ' + relative)
+        stream.seek(0)
+        value = pickle.load(stream)
+    if not isinstance(value, dict) or not value:
+        raise RuntimeError('Invalid V1 dictionary: ' + relative)
+    target = package_dir / 'gene_dictionaries_30m' / name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source, target)
+    print('V1 dictionary:', name, len(value), hashlib.sha256(target.read_bytes()).hexdigest())
+"""
+subprocess.run([sys.executable, "-c", dictionary_code], check=True)
 revisions = []
 for name in importlib.metadata.packages_distributions().get("geneformer", []):
     direct_url = importlib.metadata.distribution(name).read_text("direct_url.json")
@@ -95,12 +118,19 @@ for name in importlib.metadata.packages_distributions().get("geneformer", []):
         revisions.append(json.loads(direct_url).get("vcs_info", {{}}).get("commit_id"))
 if "{REVISION}" not in revisions:
     raise RuntimeError("Installed Geneformer source is not the pinned revision")
-import torch
+# Pip can replace NumPy's files while this notebook kernel still has its old
+# compiled module loaded. Check the installed stack in a fresh process, just
+# as the fixture and cohort jobs will run it.
+check_code = """import numpy, scipy, anndata, boto3, botocore, s3transfer, torch
+from geneformer import EmbExtractor, TranscriptomeTokenizer
+print("IMPORT_OK", numpy.__version__, scipy.__version__, boto3.__version__,
+      botocore.__version__, s3transfer.__version__)
 if not torch.cuda.is_available():
     raise RuntimeError("Select a Kaggle GPU accelerator before running this notebook")
-from geneformer import EmbExtractor, TranscriptomeTokenizer
+"""
+subprocess.run([sys.executable, "-c", check_code], check=True)
 subprocess.run(["nvidia-smi"], check=True)
-print("Pinned Geneformer import and GPU verified")
+print("Pinned Geneformer import and GPU verified in a fresh Python process")
 '''
     fixture = '''import json, shutil, subprocess, sys, time
 from collections import deque
