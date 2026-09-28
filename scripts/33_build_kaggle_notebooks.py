@@ -77,13 +77,15 @@ packages = [
     "git+https://huggingface.co/ctheodoris/Geneformer.git@{REVISION}",
     "transformers>=4.35,<4.50", "huggingface_hub", "anndata",
     "scipy", "datasets", "cellxgene_census", "pyarrow",
+    "aiobotocore==2.26.0",
 ]
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages],
                check=True, env=install_env)
-# Kaggle's base image can carry a boto3/botocore mismatch. Accelerate imports
-# boto3 through its optional SageMaker code when Geneformer is imported.
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--force-reinstall",
-                "boto3==1.40.46", "botocore==1.40.46", "s3transfer==0.14.0"],
+# Geneformer imports boto3, while Census/s3fs imports aiobotocore. These exact
+# versions satisfy both import paths; avoid replacing unrelated dependencies.
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--no-deps",
+                "--force-reinstall", "boto3==1.41.5", "botocore==1.41.5",
+                "s3transfer==0.15.0"],
                check=True)
 # The source checkout skips Git LFS to avoid fetching every model checkpoint.
 # Fetch the three V1 dictionaries explicitly from the same pinned revision.
@@ -122,9 +124,10 @@ if "{REVISION}" not in revisions:
 # compiled module loaded. Check the installed stack in a fresh process, just
 # as the fixture and cohort jobs will run it.
 check_code = """import numpy, scipy, anndata, boto3, botocore, s3transfer, torch
+import aiobotocore.session, s3fs, cellxgene_census
 from geneformer import EmbExtractor, TranscriptomeTokenizer
 print("IMPORT_OK", numpy.__version__, scipy.__version__, boto3.__version__,
-      botocore.__version__, s3transfer.__version__)
+      botocore.__version__, s3transfer.__version__, aiobotocore.__version__)
 if not torch.cuda.is_available():
     raise RuntimeError("Select a Kaggle GPU accelerator before running this notebook")
 """

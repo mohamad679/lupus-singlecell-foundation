@@ -71,6 +71,14 @@ Geneformer recipe or as the final corrected comparison.
   and 25,424 mapping entries (`eac0fb0b3007267871b6305ac0003ceba19d4f28d85686cb9067ecf142787869`).
   These hashes are user-reported Kaggle output from the pinned-revision repair
   cell; the technical embedding fixture is still pending.
+- The user then attempted Kaggle Cell 4. Before cohort access, importing
+  `cellxgene_census` through `s3fs`/`aiobotocore` failed because the earlier
+  `botocore==1.40.46` repair lacks `EC` in `botocore.compat`. No cohort cells
+  were processed by that attempt. The revised setup pins `aiobotocore==2.26.0`
+  with `boto3==1.41.5`, `botocore==1.41.5`, and `s3transfer==0.15.0`, and
+  checks the complete Census/Geneformer import path in a fresh process.
+  Local isolated import checks passed for the AWS quartet; Kaggle validation
+  and the fixture summary are awaited.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are
