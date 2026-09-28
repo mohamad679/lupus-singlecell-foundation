@@ -54,6 +54,7 @@ assert GENE_INPUT_MODE in {"shared", "native"}
 assert BATCH_SIZE > 0
 CALIBRATION_CELLS_PER_SEC = 135.16979626730776
 N_BATCHES_TARGET = 8
+LEGACY_MULTIPROCESS_SCRIPT_SHA256 = "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0"
 
 
 def log(msg):
@@ -118,6 +119,18 @@ def file_sha256(path):
     return digest.hexdigest()
 
 
+def checkpoint_config_compatible(saved, current):
+    if saved == current:
+        return True
+    if not isinstance(saved, dict):
+        return False
+    if saved.get("extraction_script_sha256") != LEGACY_MULTIPROCESS_SCRIPT_SHA256:
+        return False
+    normalized = dict(saved)
+    normalized["extraction_script_sha256"] = current["extraction_script_sha256"]
+    return normalized == current
+
+
 def load_batch_checkpoint(batch_idx, donors, expected_counts, config):
     stem = f"batch_{batch_idx:02d}"
     metadata_path = os.path.join(RESUME_ROOT, stem + ".json")
@@ -126,7 +139,7 @@ def load_batch_checkpoint(batch_idx, donors, expected_counts, config):
         return None
     with open(metadata_path) as stream:
         metadata = json.load(stream)
-    if metadata.get("config") != config or metadata.get("donors") != sorted(donors):
+    if not checkpoint_config_compatible(metadata.get("config"), config) or metadata.get("donors") != sorted(donors):
         raise ValueError(f"incompatible batch checkpoint: {metadata_path}")
     if metadata.get("cell_counts") != expected_counts:
         raise ValueError(f"cell counts changed since checkpoint: {metadata_path}")
@@ -139,6 +152,8 @@ def load_batch_checkpoint(batch_idx, donors, expected_counts, config):
         raise ValueError(f"invalid checkpoint embedding columns: {parquet_path}")
     if frame.shape[1] == 0 or not np.isfinite(frame.to_numpy(dtype=float)).all():
         raise ValueError(f"invalid checkpoint embeddings: {parquet_path}")
+    if metadata["config"] != config:
+        log(f"reused validated batch {batch_idx} from earlier two-process extraction")
     if os.path.abspath(RESUME_ROOT) != os.path.abspath(CHECKPOINT_ROOT):
         os.makedirs(CHECKPOINT_ROOT, exist_ok=True)
         shutil.copy2(parquet_path, os.path.join(CHECKPOINT_ROOT, stem + ".parquet"))
@@ -292,6 +307,10 @@ try:
             continue
         t_batch_start = time.time()
         batch_dir = f"{WORK}/batch_{batch_idx}"
+        # A failed tokenization can leave an incomplete output directory.
+        # Only complete, hash-checked checkpoints are eligible for reuse.
+        if os.path.isdir(batch_dir):
+            shutil.rmtree(batch_dir)
         os.makedirs(f"{batch_dir}/input", exist_ok=True)
         os.makedirs(f"{batch_dir}/tokenized", exist_ok=True)
         os.makedirs(f"{batch_dir}/emb", exist_ok=True)
@@ -338,7 +357,7 @@ try:
 
         tk = TranscriptomeTokenizer(
             custom_attr_name_dict={"cell_id": "cell_id", "donor_id": "donor_id"},
-            nproc=2,
+            nproc=1,
             model_input_size=2048,
             model_version="V1",
         )
@@ -366,7 +385,7 @@ try:
             emb_layer=-1,
             emb_label=["cell_id", "donor_id"],
             forward_batch_size=BATCH_SIZE,
-            nproc=2,
+            nproc=1,
         )
         embs = embex.extract_embs(
             model_directory=model_path,

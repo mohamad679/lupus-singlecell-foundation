@@ -93,3 +93,36 @@ def test_corrected_kernel_rejects_invalid_v1_tokens_and_lost_cells(kernel):
     scope["load_from_disk"] = lambda _: _TinyTokenizedDataset([[2, 9000], [3]])
     with pytest.raises(ValueError, match="outside V1 vocabulary"):
         scope["validate_batch"]("unused", embeddings, {"donor-a": 1, "donor-b": 1}, 9000)
+
+
+def test_single_process_extraction_and_legacy_checkpoint_gate():
+    dev_path = ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py"
+    external_path = ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_external/run.py"
+    for path in (dev_path, external_path):
+        tree = ast.parse(path.read_text())
+        constructors = [node for node in ast.walk(tree) if isinstance(node, ast.Call)
+                        and isinstance(node.func, ast.Name)
+                        and node.func.id in {"TranscriptomeTokenizer", "EmbExtractor"}]
+        assert len(constructors) == 2
+        assert all(next(kw.value.value for kw in call.keywords if kw.arg == "nproc") == 1
+                   for call in constructors)
+
+    tree = ast.parse(dev_path.read_text())
+    legacy_assignment = next(node for node in tree.body if isinstance(node, ast.Assign)
+                             and any(isinstance(target, ast.Name)
+                                     and target.id == "LEGACY_MULTIPROCESS_SCRIPT_SHA256"
+                                     for target in node.targets))
+    checker = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
+                   and node.name == "checkpoint_config_compatible")
+    scope = {}
+    exec(compile(ast.Module(body=[legacy_assignment, checker], type_ignores=[]),
+                 str(dev_path), "exec"), scope)
+    old = {"extraction_script_sha256": scope["LEGACY_MULTIPROCESS_SCRIPT_SHA256"],
+           "checkpoint_sha256_by_file": {"model.bin": "model-hash"},
+           "gene_input_mode": "shared"}
+    new = {**old, "extraction_script_sha256": "new-script-hash"}
+    compatible = scope["checkpoint_config_compatible"]
+    assert compatible(new, new)
+    assert compatible(old, new)
+    assert not compatible({**old, "checkpoint_sha256_by_file": {"model.bin": "changed"}}, new)
+    assert not compatible({**old, "extraction_script_sha256": "unknown"}, new)

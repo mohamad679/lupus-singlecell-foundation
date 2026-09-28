@@ -79,6 +79,17 @@ Geneformer recipe or as the final corrected comparison.
   checks the complete Census/Geneformer import path in a fresh process.
   Local isolated import checks passed for the AWS quartet; Kaggle validation
   and the fixture summary are awaited.
+- A subsequent development/shared run reached the real data. Batch 0 finished
+  for 33 donors and 158,835 cells in 1,767.3 seconds (89.87 cells/s); the
+  runner writes a hash-checked batch checkpoint before its completion log.
+  Batch 1 stopped while Geneformer called `datasets.map` with two processes:
+  Numba reported a TBB fork from a non-main thread and a map subprocess died.
+  This is a runtime multiprocessing failure, not a completed cohort result.
+  The revised development and external runners use one process for tokenizer
+  and extractor mapping, clear scratch for an uncheckpointed retry, and allow
+  the original batch-0 checkpoint only if the prior script hash and all other
+  config, donor, cell-count, and parquet integrity checks pass. The original
+  checkpoint metadata is preserved. The restart and full run remain pending.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are

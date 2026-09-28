@@ -318,6 +318,10 @@ try:
             continue
         t_batch_start = time.time()
         batch_dir = f"{WORK}/batch_{batch_idx}"
+        # A failed tokenization can leave an incomplete output directory.
+        # Only complete, hash-checked checkpoints are eligible for reuse.
+        if os.path.isdir(batch_dir):
+            shutil.rmtree(batch_dir)
         os.makedirs(f"{batch_dir}/input", exist_ok=True)
         os.makedirs(f"{batch_dir}/tokenized", exist_ok=True)
         os.makedirs(f"{batch_dir}/emb", exist_ok=True)
@@ -354,7 +358,7 @@ try:
 
         tk = TranscriptomeTokenizer(
             custom_attr_name_dict={"cell_id": "cell_id", "donor_id": "donor_id"},
-            nproc=2,
+            nproc=1,
             model_input_size=2048,
             model_version="V1",
         )
@@ -374,7 +378,7 @@ try:
             emb_layer=-1,
             emb_label=["cell_id", "donor_id"],
             forward_batch_size=BATCH_SIZE,
-            nproc=2,
+            nproc=1,
         )
         embs = embex.extract_embs(
             model_directory=model_path,
