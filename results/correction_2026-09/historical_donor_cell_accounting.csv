@@ -1,0 +1,7 @@
+cohort,source_age_group,outcome,n_donors,n_cells_source,n_cells_tokenized,n_cells_embedded
+development,all,healthy,99,486418,pending corrected extraction,pending corrected extraction
+development,all,SLE,162,777258,pending corrected extraction,pending corrected extraction
+external,Adult,healthy,5,41618,pending corrected extraction,pending corrected extraction
+external,Adult,SLE,7,37608,pending corrected extraction,pending corrected extraction
+external,Children,healthy,11,85807,pending corrected extraction,pending corrected extraction
+external,Children,SLE,33,198050,pending corrected extraction,pending corrected extraction

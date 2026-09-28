@@ -1,0 +1,11 @@
+{
+  "interpretation": "post-hoc descriptive feature-availability diagnostic, not a causal batch-effect estimate",
+  "shared_genes": 30165,
+  "development_zero_genes": 4015,
+  "development_zero_but_external_expressed_genes": 490,
+  "external_donors_with_any_such_gene": 56,
+  "development_donors": 261,
+  "development_cells": 1263676,
+  "external_donors": 56,
+  "external_cells": 363083
+}
