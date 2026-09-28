@@ -90,6 +90,7 @@ def main():
                 "will use explicit V1 tokenization, cell embeddings from the penultimate layer, and "
                 "donor mean pooling; model-native input will be a sensitivity analysis."
             ),
+            "Not separately tallied in this study": "363,083 cells in the released external donor metadata, before corrected tokenization",
             "Results. In five-fold nested cross-validation": (
                 "Results (historical release; corrected results pending). The released development and "
                 "external Geneformer AUROCs were 0.9676 and 0.8156, respectively; pseudobulk external "
@@ -117,6 +118,13 @@ def main():
                 "procedure (p = 0.000999); this p-value does not test the restriction effect."
             ),
             "Table 3. Co-primary comparisons": "Table 3. Historical co-primary comparisons from released scores; corrected V1 results pending.",
+            "Permutation p (pre-Holm)": "Historical label-permutation p (pre-Holm; not a valid equal-AUROC test)",
+            "Age-stratified external AUROCs are reported": (
+                "Historical age-stratified external AUROCs are shown in Supplementary Table S2 and Figure 2; "
+                "all Geneformer values and corresponding graphics await corrected extraction. The source-defined "
+                "Children group has 44 donors, including some aged 18 or 19; the adult group has 12 "
+                "donors (7 SLE, 5 healthy), so its AUROC is highly uncertain."
+            ),
             "Neither comparison met the prespecified criterion": (
                 "In the historical release, neither comparison met the preregistered rule. The "
                 "label-shuffle p-values in Table 3 cannot be interpreted as valid tests of equal "

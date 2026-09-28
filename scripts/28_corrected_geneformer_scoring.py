@@ -2,8 +2,8 @@
 
 This reanalysis never calls the historical freeze guard or overwrites the
 original release. It uses the originally recorded nested CV C-selection
-rule on the corrected development representation and copies unchanged
-baseline predictions by exact donor key from the historical release.
+rule on the corrected development representation and copies the regenerated
+historical baseline predictions after exact donor-key alignment.
 """
 
 from __future__ import annotations
@@ -133,7 +133,7 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
         "external_summary": str(external_summary_path),
         "prediction_path": str(prediction_path),
         "fit_path": str(fit_path),
-        "historical_baselines_reused": ["pseudobulk", "metadata_only_age"],
+        "regenerated_historical_baselines_reused": ["pseudobulk", "metadata_only_age"],
     }
     with (output_dir / f"corrected_v1_{mode}_fit_report.json").open("w") as file:
         json.dump(report, file, indent=2)
