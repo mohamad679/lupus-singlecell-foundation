@@ -54,13 +54,22 @@ for name, encoded in payload.items():
     (base / name).write_bytes(data)
 print("Staged correction scripts and shared genes:", sorted(payload))
 '''
-    install = '''import subprocess, sys
+    install = '''import importlib.metadata, json, os, subprocess, sys
 packages = [
     "git+https://huggingface.co/ctheodoris/Geneformer.git@04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5",
     "transformers>=4.35,<4.50", "huggingface_hub", "anndata", "scipy",
     "datasets", "cellxgene_census", "pyarrow",
 ]
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages], check=True)
+install_env = os.environ.copy()
+install_env["GIT_LFS_SKIP_SMUDGE"] = "1"  # fetch V1 weights once via snapshot_download
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages], check=True, env=install_env)
+revisions = []
+for distribution_name in importlib.metadata.packages_distributions().get("geneformer", []):
+    direct_url = importlib.metadata.distribution(distribution_name).read_text("direct_url.json")
+    if direct_url:
+        revisions.append(json.loads(direct_url).get("vcs_info", {}).get("commit_id"))
+if "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5" not in revisions:
+    raise RuntimeError("Installed Geneformer source revision is not the pinned V1 source")
 subprocess.run(["nvidia-smi"], check=True)
 '''
     mount = '''from google.colab import drive
@@ -87,6 +96,7 @@ env = os.environ.copy()
 env["GENE_INPUT_MODE"] = "{mode}"
 env["GENE_INTERSECTION_PATH"] = "/content/lupus-correction/gene_space_intersection.txt"
 env["GENEFORMER_FORWARD_BATCH_SIZE"] = "8"  # safe initial Colab GPU budget
+env["GENEFORMER_SKIP_INSTALL"] = "1"  # pinned source installed by cell 2
 subprocess.run([sys.executable, "/content/lupus-correction/{script}"], check=True, env=env)
 for suffix in ("embeddings.parquet", "run_summary.json"):
     name = "{prefix}_geneformer_v1_{mode}_" + suffix

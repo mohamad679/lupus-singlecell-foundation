@@ -58,11 +58,12 @@ def run(cmd):
     subprocess.run(cmd, shell=True, check=True)
 
 
-log("installing dependencies")
-run(f"{sys.executable} -m pip install -q cellxgene_census")
-run(f"{sys.executable} -m pip install -q git+https://huggingface.co/ctheodoris/Geneformer.git@{GENEFORMER_REVISION}")
-run(f"{sys.executable} -m pip install -q huggingface_hub anndata")
-run(f"{sys.executable} -m pip install -q 'transformers>=4.35,<4.50'")
+if os.environ.get("GENEFORMER_SKIP_INSTALL") != "1":
+    log("installing dependencies")
+    run(f"{sys.executable} -m pip install -q cellxgene_census")
+    run(f"{sys.executable} -m pip install -q git+https://huggingface.co/ctheodoris/Geneformer.git@{GENEFORMER_REVISION}")
+    run(f"{sys.executable} -m pip install -q huggingface_hub anndata")
+    run(f"{sys.executable} -m pip install -q 'transformers>=4.35,<4.50'")
 
 import cellxgene_census  # noqa: E402
 import tiledbsoma as soma  # noqa: E402
