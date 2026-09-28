@@ -17,6 +17,9 @@ verify and package results. Run them in order or use Kaggle's Save & Run All.
 Stop and share the error if the fixture or a cohort cell fails. The synthetic
 fixture checks tokenizer/extractor compatibility; each full cohort run then
 checks its real-cell IDs, donors, counts, token sequences, and finite outputs.
+The first Kaggle attempt exposed a `boto3`/`botocore` import mismatch before
+tokenization. The rebuilt notebooks pin compatible AWS package versions in
+Cell 2 and import Geneformer there, so this failure is caught before Cell 3.
 
 The cohort scripts keep large raw matrices and temporary embeddings under
 `/kaggle/temp/lupus-correction`. Final donor parquet, JSON summary, a small

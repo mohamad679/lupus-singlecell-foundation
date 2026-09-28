@@ -80,6 +80,14 @@ packages = [
 ]
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages],
                check=True, env=install_env)
+# Kaggle's base image can carry a boto3/botocore mismatch. Accelerate imports
+# boto3 through its optional SageMaker code when Geneformer is imported.
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--force-reinstall",
+                "boto3==1.40.46", "botocore==1.40.46", "s3transfer==0.14.0"],
+               check=True)
+import boto3, botocore, s3transfer
+print("AWS dependency versions:", boto3.__version__, botocore.__version__,
+      s3transfer.__version__)
 revisions = []
 for name in importlib.metadata.packages_distributions().get("geneformer", []):
     direct_url = importlib.metadata.distribution(name).read_text("direct_url.json")
@@ -90,18 +98,31 @@ if "{REVISION}" not in revisions:
 import torch
 if not torch.cuda.is_available():
     raise RuntimeError("Select a Kaggle GPU accelerator before running this notebook")
+from geneformer import EmbExtractor, TranscriptomeTokenizer
 subprocess.run(["nvidia-smi"], check=True)
-print("Pinned Geneformer source and GPU verified")
+print("Pinned Geneformer import and GPU verified")
 '''
-    fixture = '''import json, subprocess, sys
+    fixture = '''import json, shutil, subprocess, sys, time
+from collections import deque
 from pathlib import Path
-fixture_dir = Path("/kaggle/working/v1_fixture")
-subprocess.run([sys.executable,
-                "/kaggle/working/lupus_correction_code/v1_fixture.py",
-                "--output-dir", str(fixture_dir)], check=True)
+fixture_dir = Path("/kaggle/temp/lupus-correction") / f"v1_fixture_{time.time_ns()}"
+command = [sys.executable, "/kaggle/working/lupus_correction_code/v1_fixture.py",
+           "--output-dir", str(fixture_dir)]
+process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                           text=True, bufsize=1)
+tail = deque(maxlen=250)
+for line in process.stdout:
+    print(line, end="")
+    tail.append(line)
+if process.wait() != 0:
+    raise RuntimeError("V1 fixture failed. Full process output tail:\\n" +
+                       "".join(tail)[-20000:])
 fixture_summary = json.loads((fixture_dir / "fixture_summary.json").read_text())
 if fixture_summary.get("status") != "pass":
     raise RuntimeError("V1 technical fixture failed")
+fixture_output = Path("/kaggle/working/v1_fixture")
+fixture_output.mkdir(parents=True, exist_ok=True)
+shutil.copy2(fixture_dir / "fixture_summary.json", fixture_output / "fixture_summary.json")
 print("V1 technical fixture passed; start the cohort cell next")
 '''
     run = f'''import os, subprocess, sys

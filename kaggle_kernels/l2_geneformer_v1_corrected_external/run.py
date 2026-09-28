@@ -67,6 +67,8 @@ if os.environ.get("GENEFORMER_SKIP_INSTALL") != "1":
     run(f"{sys.executable} -m pip install -q git+https://huggingface.co/ctheodoris/Geneformer.git@{GENEFORMER_REVISION}")
     run(f"{sys.executable} -m pip install -q huggingface_hub anndata scipy")
     run(f"{sys.executable} -m pip install -q 'transformers>=4.35,<4.50'")
+    run(f"{sys.executable} -m pip install -q --force-reinstall "
+        "boto3==1.40.46 botocore==1.40.46 s3transfer==0.14.0")
 
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402

@@ -63,6 +63,9 @@ packages = [
 install_env = os.environ.copy()
 install_env["GIT_LFS_SKIP_SMUDGE"] = "1"  # fetch V1 weights once via snapshot_download
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages], check=True, env=install_env)
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--force-reinstall",
+                "boto3==1.40.46", "botocore==1.40.46", "s3transfer==0.14.0"],
+               check=True)
 revisions = []
 for distribution_name in importlib.metadata.packages_distributions().get("geneformer", []):
     direct_url = importlib.metadata.distribution(distribution_name).read_text("direct_url.json")

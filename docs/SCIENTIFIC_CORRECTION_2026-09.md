@@ -49,6 +49,12 @@ Geneformer recipe or as the final corrected comparison.
 - Raw Census/GEO inputs and GPU embeddings are absent from this checkout.
   Consequently, no corrected Geneformer AUROC, co-primary decision, figure,
   or submission-ready manuscript can yet be claimed.
+- The first Kaggle synthetic V1 fixture attempt stopped before tokenization:
+  Geneformer import reached `boto3`, which expected an API absent from the
+  installed `botocore`. No cohort extraction ran. The Kaggle setup now pins a
+  mutually compatible `boto3`/`botocore`/`s3transfer` set and checks the
+  Geneformer import before the fixture. The corrected setup still requires
+  a successful Kaggle fixture run.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are
@@ -68,9 +74,9 @@ is the penultimate layer in the pinned upstream implementation.
 
 1. Recover historical Kaggle logs if available; record what can and cannot
    be established about the original environment.
-2. Stage `results/gene_space_intersection.txt` as the Kaggle input at
-   `GENE_INTERSECTION_PATH`; verify its SHA-256. Run a small real-cell V1
-   extraction fixture and inspect checkpoint, token, cell, and donor checks.
+2. Stage the checksum-verified embedded shared-gene file. Run the synthetic
+   V1 tokenizer/extractor fixture and inspect the first real-cell batch's
+   checkpoint, token, cell, and donor checks.
 3. Run corrected development and external extraction in both `shared` and
    `native` modes; save parquet files and summaries under a versioned release.
 4. Use `scripts/28_corrected_geneformer_scoring.py`, then
