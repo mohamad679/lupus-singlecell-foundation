@@ -21,10 +21,12 @@ SHARED_GENE_SHA256 = "482f113c433ac76eb19940442e4f3b1a24ae73d387c4ec75ecb19b8116
 COHORTS = {
     "dev": {"prefix": "l2_dev", "n": 261, "cells": 1263676,
             "index": "donor_id", "n_field": "n_donors_embedded",
+            "batch_n_field": "n_donors",
             "counts_field": "donor_cell_counts_expected", "missing": "missing_donors",
             "extra": "extra_donors"},
     "external": {"prefix": "l2_sealed", "n": 56, "cells": 363083,
                  "index": "gsm_id", "n_field": "n_samples_embedded",
+                 "batch_n_field": "n_samples",
                  "counts_field": "sample_cell_counts_expected", "missing": "missing_samples",
                  "extra": "extra_samples"},
 }
@@ -106,7 +108,7 @@ def validate_archive(path: Path, job: str) -> tuple[dict, dict[str, bytes]]:
     batches = summary.get("batches")
     require(isinstance(batches, list) and len(batches) > 0 and
             [batch.get("batch_idx") for batch in batches] == list(range(len(batches))) and
-            sum(batch.get("n_donors", 0) for batch in batches) == expected["n"] and
+            sum(batch.get(expected["batch_n_field"], 0) for batch in batches) == expected["n"] and
             sum(batch.get("n_cells", 0) for batch in batches) == expected["cells"] and
             all(batch.get("tokenized") == batch.get("embedded") == batch.get("n_cells")
                 for batch in batches), "batch tokenization or embedding counts differ")

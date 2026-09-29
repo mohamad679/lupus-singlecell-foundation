@@ -122,6 +122,43 @@ Geneformer recipe or as the final corrected comparison.
   validation report are preserved under the local `correction_artifacts/dev_shared`
   directory. This verifies a development feature artifact; it does not yet
   establish corrected classifier performance or external validity.
+- The corrected external/shared ZIP was received and validated locally.
+  ZIP SHA-256 is `92b2ab36e0424a752ce84429fb9cd8eafc5ae9df1933e264da136f63e7b3098a`;
+  its manifest hashes match all three members. The updated eight-cell fixture
+  passed. The run reports success for 56 external samples and 363,083 cells
+  in six batches, with no checkpoint restores. The external parquet SHA-256 is
+  `a8109abdb16eb3864d752665b0433634b938b8086d9bd3fc3d6c7dd8644d7eff`.
+  Independent local checks found 56 unique sample keys, 256 finite numeric
+  dimensions, no zero-variance dimensions or duplicate vectors, and exact
+  sample and cell accounting. The ZIP, extracted members, and validation report
+  are preserved under local `correction_artifacts/external_shared`. This is a
+  corrected reanalysis of the previously examined external cohort.
+- The shared-mode corrected development fit and external predictions were
+  generated with `scripts/28_corrected_geneformer_scoring.py` from the two
+  validated embedding tables, then analyzed with
+  `scripts/27_correction_analysis.py`. The validated shared-mode feature
+  files, fitted model, predictions, and analysis are versioned under
+  `results/correction_2026-09`; original ZIPs are preserved locally under
+  `correction_artifacts`. Development out-of-fold AUROC is
+  0.97456; external AUROCs are 0.734375 (Geneformer), 0.8984375 (pseudobulk),
+  and 0.578125 (age-only). The Geneformer-minus-age paired AUROC difference
+  is 0.15625 (paired donor-bootstrap 95% CI −0.08588 to 0.40404; paired DeLong
+  Holm-adjusted p=0.20456). Geneformer-minus-pseudobulk is −0.16406 (95% CI
+  −0.29163 to −0.03841; Holm-adjusted p=0.01753). Neither comparison meets the
+  preregistered superiority rule. The external Geneformer Brier score is
+  0.47125, compared with 0.21284 for a constant probability equal to the
+  development prevalence. The prediction JSON SHA-256 is
+  `16320bad34cc08b01d35654ab2ccdc6bb4ee30aa61663060fed8e7a10ab3dbce`;
+  the paired-analysis JSON SHA-256 is
+  `79dd864f99b5cf247a8f8e5a124d02b35d1d114d03443cdcc3de624614df8878`.
+  The calibration diagnostic uses analytic score and information derivatives
+  with Newton-CG after finite-difference BFGS gave inconsistent convergence
+  status across repeated analyses of identical predictions. The local scoring
+  package versions are pinned in `requirements_correction_scoring.txt`; an
+  offline rerun with that file reproduced the prediction JSON SHA-256 exactly.
+  This is a corrected reanalysis on the already examined external cohort;
+  model-native input sensitivity and result-dependent manuscript revision
+  remain pending.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are

@@ -12,7 +12,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from correction_stats import holm_adjust, paired_delong  # noqa: E402
+from correction_stats import calibration_fit, holm_adjust, paired_delong  # noqa: E402
 
 
 def _analysis_module():
@@ -53,6 +53,16 @@ def test_swapped_donors_with_equal_labels_are_rejected():
     predictions["pseudobulk"]["donor_ids"][:2] = reversed(predictions["pseudobulk"]["donor_ids"][:2])
     with pytest.raises(ValueError, match="donor IDs"):
         _analysis_module().analyze(predictions, input_provenance="test")
+
+
+def test_corrected_shared_calibration_is_stable_for_saturated_probabilities():
+    path = ROOT / "results/correction_2026-09/corrected_v1_shared_predictions.json"
+    with path.open() as file:
+        predictions = json.load(file)
+    for arm, row in predictions.items():
+        first = calibration_fit(row["y"], row["proba"])
+        assert first["status"] == "estimated", arm
+        assert first == calibration_fit(row["y"], row["proba"])
 
 
 class _TinyTokenizedDataset:

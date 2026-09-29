@@ -129,10 +129,12 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
         "final_c_median": c_final,
         "development_oof_auroc": float(roc_auc_score(y_dev, oof)),
         "external_geneformer_auroc": float(roc_auc_score(y_external, probability)),
-        "development_summary": str(dev_summary_path),
-        "external_summary": str(external_summary_path),
-        "prediction_path": str(prediction_path),
-        "fit_path": str(fit_path),
+        "development_summary": dev_summary_path.name,
+        "external_summary": external_summary_path.name,
+        "development_embedding_sha256": file_sha256(dev_path),
+        "external_embedding_sha256": file_sha256(external_path),
+        "prediction_path": prediction_path.name,
+        "fit_path": fit_path.name,
         "regenerated_historical_baselines_reused": ["pseudobulk", "metadata_only_age"],
     }
     with (output_dir / f"corrected_v1_{mode}_fit_report.json").open("w") as file:

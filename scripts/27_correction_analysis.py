@@ -8,6 +8,7 @@ historical when run on the released regenerated predictions.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -54,10 +55,17 @@ def analyze(predictions, *, input_provenance):
         comparisons[name]["superiority_rule_met"] = (
             comparisons[name]["positive_ci_condition"] and value <= 0.05
         )
+    historical = input_provenance in {
+        str(DEFAULT_INPUT), str(DEFAULT_INPUT.relative_to(ROOT)),
+    }
     return {
         "input_provenance": input_provenance,
-        "status": "historical scores only" if input_provenance == str(DEFAULT_INPUT) else "corrected score analysis",
-        "warning": "These statistics do not validate Geneformer tokenization or replace a corrected embedding rerun.",
+        "status": "historical scores only" if historical else "corrected score analysis",
+        "warning": (
+            "These statistics do not validate Geneformer tokenization or replace a corrected embedding rerun."
+            if historical else
+            "This corrected reanalysis uses the previously examined external cohort."
+        ),
         "n_donors": len(base_ids), "n_case": sum(base_y), "n_control": len(base_y) - sum(base_y),
         "metrics": metrics, "comparisons": comparisons,
     }
@@ -72,7 +80,11 @@ def main():
         raise ValueError("output must not overwrite input predictions")
     with args.predictions.open() as file:
         predictions = json.load(file)
-    result = analyze(predictions, input_provenance=str(args.predictions.resolve()))
+    source = args.predictions.resolve()
+    provenance = (str(source.relative_to(ROOT)) if source.is_relative_to(ROOT)
+                  else str(source))
+    result = analyze(predictions, input_provenance=provenance)
+    result["input_sha256"] = hashlib.sha256(args.predictions.read_bytes()).hexdigest()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w") as file:
         json.dump(result, file, indent=2, allow_nan=False)

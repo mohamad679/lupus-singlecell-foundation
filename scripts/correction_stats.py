@@ -11,6 +11,7 @@ import math
 import numpy as np
 from scipy.stats import norm
 from scipy.optimize import minimize
+from scipy.special import expit
 from sklearn.metrics import average_precision_score, brier_score_loss, roc_auc_score
 
 
@@ -130,18 +131,25 @@ def calibration_fit(y, probability):
     logit = np.log(clipped / (1 - clipped))
     design = np.column_stack([np.ones(len(y)), logit])
 
+    def score(beta):
+        return design.T @ (expit(design @ beta) - y)
+
     def objective(beta):
         eta = design @ beta
         return float(np.logaddexp(0, eta).sum() - y @ eta)
 
-    fit = minimize(objective, np.array([0.0, 1.0]), method="BFGS")
-    if not fit.success:
-        return {"status": "undefined", "reason": str(fit.message)}
-    fitted = 1 / (1 + np.exp(-np.clip(design @ fit.x, -700, 700)))
-    information = design.T @ ((fitted * (1 - fitted))[:, None] * design)
-    if np.linalg.cond(information) > 1e12:
+    def information(beta):
+        fitted = expit(design @ beta)
+        return design.T @ ((fitted * (1 - fitted))[:, None] * design)
+
+    fit = minimize(objective, np.array([0.0, 1.0]), jac=score,
+                   hess=information, method="Newton-CG")
+    if not np.isfinite(fit.x).all() or np.linalg.norm(score(fit.x)) > 1e-6:
+        return {"status": "undefined", "reason": "calibration score equations did not converge"}
+    fisher_information = information(fit.x)
+    if np.linalg.cond(fisher_information) > 1e12:
         return {"status": "undefined", "reason": "singular information matrix"}
-    standard_errors = np.sqrt(np.diag(np.linalg.inv(information)))
+    standard_errors = np.sqrt(np.diag(np.linalg.inv(fisher_information)))
     return {
         "status": "estimated", "intercept": float(fit.x[0]),
         "slope": float(fit.x[1]),

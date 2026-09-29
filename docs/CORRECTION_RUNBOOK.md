@@ -5,9 +5,10 @@
 Four self-contained notebooks are in the parent `lupuspaper` folder. Run each
 in a separate Kaggle GPU session with Internet enabled, in this order:
 
-For the current development/shared run, use the uniquely named
-`Lupus_Kaggle_Development_Shared_Complete.ipynb` copy so Kaggle does not
-reuse an older notebook upload. It is identical to the first notebook below.
+The development/shared and external/shared ZIPs have passed local validation.
+Use the uniquely named `Lupus_Kaggle_Development_Native_Complete.ipynb` copy
+for the next run so Kaggle does not reuse an older notebook upload. It is
+identical to the third notebook below.
 
 1. `CBC_Kaggle_1_Development_Shared.ipynb`
 2. `CBC_Kaggle_2_External_Shared.ipynb`
@@ -45,7 +46,7 @@ listed prior correction-script hashes when every other field matches, allowing
 a completed batch to survive a multiprocessing-only code repair.
 
 After Cell 5, download `lupus_correction_<cohort>_<mode>_share.zip` and provide
-all four ZIP files for local scoring and manuscript revision. The notebooks
+the remaining native-mode ZIP files for the sensitivity analysis. The notebooks
 are rebuilt with `python scripts/33_build_kaggle_notebooks.py --output-dir ..`.
 
 ## VS Code with a Google Colab GPU
@@ -90,13 +91,15 @@ The notebook can be rebuilt after a script change with
 5. Download the four outputs for each mode. For shared mode, run:
 
    ```bash
-   python scripts/28_corrected_geneformer_scoring.py \
+   uv run --no-project --with-requirements requirements_correction_scoring.txt \
+     python scripts/28_corrected_geneformer_scoring.py \
      --dev-embeddings PATH_TO_DEV_PARQUET \
      --external-embeddings PATH_TO_EXTERNAL_PARQUET \
      --dev-summary PATH_TO_DEV_SUMMARY \
      --external-summary PATH_TO_EXTERNAL_SUMMARY \
      --mode shared
-   python scripts/27_correction_analysis.py \
+   uv run --no-project --with-requirements requirements_correction_scoring.txt \
+     python scripts/27_correction_analysis.py \
      --predictions results/correction_2026-09/corrected_v1_shared_predictions.json \
      --output results/correction_2026-09/corrected_v1_shared_analysis.json
    ```
@@ -109,6 +112,6 @@ The notebook can be rebuilt after a script change with
    only. Keep the released historical result table and explain the
    post-hoc correction and already examined external cohort.
 
-The Kaggle jobs have not been executed in this checkout. The pinned source
-revision is documented, but full runtime dependency compatibility and raw-
-data-to-embedding behavior require the small fixture before a full run.
+The development/shared and external/shared jobs were run on Kaggle and their
+ZIPs passed local fixture, provenance, cohort accounting, and embedding-table
+checks. Native-mode jobs remain pending.
