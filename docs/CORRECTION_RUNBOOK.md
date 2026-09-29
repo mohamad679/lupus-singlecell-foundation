@@ -5,10 +5,11 @@
 Four self-contained notebooks are in the parent `lupuspaper` folder. Run each
 in a separate Kaggle GPU session with Internet enabled, in this order:
 
-The development/shared and external/shared ZIPs have passed local validation.
-Use the uniquely named `Lupus_Kaggle_Development_Native_Complete.ipynb` copy
-for the next run so Kaggle does not reuse an older notebook upload. It is
-identical to the third notebook below.
+The development/shared, external/shared, and development/native ZIPs have
+passed local validation. Use the uniquely named
+`Lupus_Kaggle_External_Native_Complete.ipynb` copy for the final extraction
+run so Kaggle does not reuse an older notebook upload. It is identical to the
+fourth notebook below.
 
 1. `CBC_Kaggle_1_Development_Shared.ipynb`
 2. `CBC_Kaggle_2_External_Shared.ipynb`
@@ -45,9 +46,10 @@ files, donor set, cell counts, or parquet checksum. It accepts only explicitly
 listed prior correction-script hashes when every other field matches, allowing
 a completed batch to survive a multiprocessing-only code repair.
 
-After Cell 5, download `lupus_correction_<cohort>_<mode>_share.zip` and provide
-the remaining native-mode ZIP files for the sensitivity analysis. The notebooks
-are rebuilt with `python scripts/33_build_kaggle_notebooks.py --output-dir ..`.
+After Cell 5, download `lupus_correction_external_native_share.zip` for the
+native-input sensitivity analysis. Rebuild the notebooks with
+`python scripts/33_build_kaggle_notebooks.py --output-dir ..` if their source
+changes.
 
 ## VS Code with a Google Colab GPU
 
@@ -112,6 +114,6 @@ The notebook can be rebuilt after a script change with
    only. Keep the released historical result table and explain the
    post-hoc correction and already examined external cohort.
 
-The development/shared and external/shared jobs were run on Kaggle and their
-ZIPs passed local fixture, provenance, cohort accounting, and embedding-table
-checks. Native-mode jobs remain pending.
+The development/shared, external/shared, and development/native jobs were run
+on Kaggle and their ZIPs passed local fixture, provenance, cohort accounting,
+and embedding-table checks. The external/native job remains pending.

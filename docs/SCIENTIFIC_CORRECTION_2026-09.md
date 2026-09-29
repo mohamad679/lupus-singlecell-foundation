@@ -159,6 +159,22 @@ Geneformer recipe or as the final corrected comparison.
   This is a corrected reanalysis on the already examined external cohort;
   model-native input sensitivity and result-dependent manuscript revision
   remain pending.
+- The development/model-native ZIP was received and validated on 30 September.
+  ZIP SHA-256 is `527848fdee08a179f27cc20f65088bdaf72b38719aa3f7371be3e2bd0a4e3926`;
+  the donor parquet SHA-256 is
+  `8a8338626f688694cc2772b5e75fb802c0c24c5f853b7e1f3e98fba0b3d71b52`.
+  Its fixture and manifest passed, and all 261 donor keys and 1,263,676
+  cells were accounted for in eight batches without checkpoint restores.
+  The model revision, checkpoint-file hashes, V1 tokenizer settings, and
+  extraction protocol match the shared-mode development run; the native
+  summary correctly has no shared-gene intersection hash. The original ZIP,
+  extracted members, and validation report are preserved locally under
+  `correction_artifacts/dev_native`; the feature table and summary are
+  versioned under `results/correction_2026-09/native_features`.
+  The native and shared development donor vectors are numerically close
+  (largest absolute coordinate difference 1.42×10⁻⁶ after donor alignment).
+  The external/native result is needed before interpreting this sensitivity
+  analysis.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are
