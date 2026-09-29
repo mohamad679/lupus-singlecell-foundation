@@ -109,6 +109,19 @@ Geneformer recipe or as the final corrected comparison.
   mapping, and repeats tokenization after GPU embedding to exercise the
   previous second-batch failure path. Cell 4 requires this updated fixture summary.
   The complete cohort rerun remains pending.
+- The corrected development/shared ZIP was received and validated locally.
+  ZIP SHA-256 is `6aebb0034581e1c06ddb29012512c8f47834c2b932960d2518a423cc6e598955`;
+  its manifest hashes match all three members. The fixture reports eight cells,
+  256 dimensions, main-process tokenization, and successful replay after GPU
+  embedding. The run reports success for 261 donors and 1,263,676 cells in
+  eight batches, including 158,835 cells restored from a checked checkpoint.
+  The donor parquet SHA-256 is `2f61648dacc90a3380b8f21d053e1a92b6e6a6ccd00e77eafb76ae85fdfb9594`.
+  Independent local parquet checks found 261 unique donor keys, 256 numeric
+  finite dimensions, no zero-variance dimensions, no duplicate vectors, and
+  exact donor and cell accounting. The original ZIP, extracted members, and
+  validation report are preserved under the local `correction_artifacts/dev_shared`
+  directory. This verifies a development feature artifact; it does not yet
+  establish corrected classifier performance or external validity.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are
