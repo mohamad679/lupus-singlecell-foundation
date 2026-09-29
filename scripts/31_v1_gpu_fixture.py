@@ -9,12 +9,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 
 import anndata as ad
 import numpy as np
 import pandas as pd
-from datasets import load_from_disk
+from datasets import Dataset, load_from_disk
 from geneformer import EmbExtractor, TranscriptomeTokenizer
 from huggingface_hub import snapshot_download
 from scipy.sparse import csr_matrix
@@ -25,6 +26,11 @@ TOKENS = [2, 3, 8088, 7809]
 
 
 def run(output_dir):
+    probe = Dataset.from_dict({"cell": [0]}).map(
+        lambda _: {"pid": os.getpid()}, num_proc=None,
+    )
+    if list(probe["pid"]) != [os.getpid()]:
+        raise ValueError("Datasets mapping did not stay in the main process")
     input_dir = output_dir / "input"
     token_dir = output_dir / "tokenized"
     embedding_dir = output_dir / "embedded"
@@ -40,7 +46,7 @@ def run(output_dir):
 
     tokenizer = TranscriptomeTokenizer(
         custom_attr_name_dict={"cell_id": "cell_id", "donor_id": "donor_id"},
-        nproc=1, model_version="V1", model_input_size=2048,
+        nproc=None, model_version="V1", model_input_size=2048,
     )
     if tokenizer.model_version != "V1" or tokenizer.special_token:
         raise ValueError("V1 tokenizer settings invalid")
@@ -76,9 +82,25 @@ def run(output_dir):
     values = embeddings.drop(columns=["cell_id", "donor_id"]).to_numpy(dtype=float)
     if values.shape[1] < 1 or not np.isfinite(values).all():
         raise ValueError("fixture embedding values invalid")
+    # Repeat tokenization after GPU extraction. The previous Kaggle failure
+    # appeared on the second batch when a mapping worker forked after TBB init.
+    replay_tokenizer = TranscriptomeTokenizer(
+        custom_attr_name_dict={"cell_id": "cell_id", "donor_id": "donor_id"},
+        nproc=None, model_version="V1", model_input_size=2048,
+    )
+    replay_tokenizer.tokenize_data(
+        str(input_dir), str(token_dir), "fixture_replay", file_format="h5ad",
+    )
+    replay = load_from_disk(str(token_dir / "fixture_replay.dataset"))
+    if (replay["cell_id"] != tokenized["cell_id"] or
+            replay["donor_id"] != tokenized["donor_id"] or
+            replay["input_ids"] != tokenized["input_ids"]):
+        raise ValueError("fixture replay after embedding changed tokens or cell mapping")
     summary = {"status": "pass", "geneformer_revision": REVISION,
                "n_cells": len(cell_ids), "embedding_dim": values.shape[1],
                "min_sequence_length": min(lengths), "max_sequence_length": max(lengths),
+               "tokenizer_num_proc": None,
+               "replay_after_embedding_passed": True,
                "scope": "technical synthetic-cell preflight only"}
     with (output_dir / "fixture_summary.json").open("w") as file:
         json.dump(summary, file, indent=2)

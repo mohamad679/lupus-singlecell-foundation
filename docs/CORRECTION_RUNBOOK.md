@@ -5,6 +5,10 @@
 Four self-contained notebooks are in the parent `lupuspaper` folder. Run each
 in a separate Kaggle GPU session with Internet enabled, in this order:
 
+For the current development/shared run, use the uniquely named
+`Lupus_Kaggle_Development_Shared_Complete.ipynb` copy so Kaggle does not
+reuse an older notebook upload. It is identical to the first notebook below.
+
 1. `CBC_Kaggle_1_Development_Shared.ipynb`
 2. `CBC_Kaggle_2_External_Shared.ipynb`
 3. `CBC_Kaggle_3_Development_Native.ipynb`
@@ -17,6 +21,11 @@ verify and package results. Run them in order or use Kaggle's Save & Run All.
 Stop and share the error if the fixture or a cohort cell fails. The synthetic
 fixture checks tokenizer/extractor compatibility; each full cohort run then
 checks its real-cell IDs, donors, counts, token sequences, and finite outputs.
+The fixture now asserts that Datasets mapping stays in the main process and
+repeats tokenization after GPU embedding. In the pinned Geneformer tokenizer,
+`nproc=1` still causes a one-worker `Dataset.map`; the corrected runners use
+`nproc=None` for tokenization to prevent the TBB fork failure seen on the
+second development batch. Cell 4 requires the updated fixture summary.
 The first Kaggle attempt exposed a `boto3`/`botocore` import mismatch before
 tokenization. The rebuilt notebooks pin compatible AWS package versions in
 Cell 2 and import Geneformer there, so this failure is caught before Cell 3.
@@ -30,8 +39,10 @@ checksum-verified checkpoint. If a run is interrupted within a session,
 rerunning its cohort cell reuses those batches. To resume from a previously
 saved Kaggle version, attach its output as notebook input and set `RESUME_INPUT`
 in Cell 4 to its `correction_checkpoints/<cohort>_<mode>` directory. The
-checkpoint loader rejects changes to the script, data mode, source revision,
-model files, donor set, cell counts, or parquet checksum.
+checkpoint loader rejects changes to the data mode, source revision, model
+files, donor set, cell counts, or parquet checksum. It accepts only explicitly
+listed prior correction-script hashes when every other field matches, allowing
+a completed batch to survive a multiprocessing-only code repair.
 
 After Cell 5, download `lupus_correction_<cohort>_<mode>_share.zip` and provide
 all four ZIP files for local scoring and manuscript revision. The notebooks

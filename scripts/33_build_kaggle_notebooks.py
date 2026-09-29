@@ -151,15 +151,22 @@ if process.wait() != 0:
     raise RuntimeError("V1 fixture failed. Full process output tail:\\n" +
                        "".join(tail)[-20000:])
 fixture_summary = json.loads((fixture_dir / "fixture_summary.json").read_text())
-if fixture_summary.get("status") != "pass":
+if (fixture_summary.get("status") != "pass" or
+        fixture_summary.get("replay_after_embedding_passed") is not True):
     raise RuntimeError("V1 technical fixture failed")
 fixture_output = Path("/kaggle/working/v1_fixture")
 fixture_output.mkdir(parents=True, exist_ok=True)
 shutil.copy2(fixture_dir / "fixture_summary.json", fixture_output / "fixture_summary.json")
 print("V1 technical fixture passed; start the cohort cell next")
 '''
-    run = f'''import os, subprocess, sys
+    run = f'''import json, os, subprocess, sys
 from pathlib import Path
+# Require the updated fixture, including a tokenization replay after GPU use.
+fixture_summary_file = Path("/kaggle/working/v1_fixture/fixture_summary.json")
+fixture_summary = json.loads(fixture_summary_file.read_text())
+if (fixture_summary.get("status") != "pass" or
+        fixture_summary.get("replay_after_embedding_passed") is not True):
+    raise RuntimeError("Run the updated Cell 3 fixture before extraction")
 # To resume after an interrupted saved version, attach that version as Kaggle
 # Input and set this to its correction_checkpoints/{job} directory.
 RESUME_INPUT = ""

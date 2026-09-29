@@ -97,6 +97,18 @@ Geneformer recipe or as the final corrected comparison.
   Cell 4. The revised patch accepts exactly these two historical hashes,
   checks the checkpoint's source hash against the staged source, and produces
   one exact versioned single-process runner.
+- A fresh Kaggle development/shared run again completed batch 0 (33 donors,
+  158,835 cells; 1,660.6 seconds) and stopped at batch 1 with the same TBB
+  fork warning. The staged runner had `TranscriptomeTokenizer(nproc=1)`:
+  the installed Datasets implementation still forked one worker for
+  `Dataset.map(num_proc=1)`. We verified against the pinned Geneformer source
+  that tokenizer `nproc` is passed directly to `Dataset.map`, and checked with
+  Datasets that `num_proc=None` keeps mapping in the parent process while
+  `num_proc=1` uses a child. Both cohort runners now pass `nproc=None` for
+  tokenization. The eight-cell fixture does the same, asserts main-process
+  mapping, and repeats tokenization after GPU embedding to exercise the
+  previous second-batch failure path. Cell 4 requires this updated fixture summary.
+  The complete cohort rerun remains pending.
 - A local historical accounting run found 261 development donors and
   1,263,676 cells, plus 56 external donors and 363,083 cells. Among 30,165
   shared genes, 4,015 are zero throughout development; 490 of these are

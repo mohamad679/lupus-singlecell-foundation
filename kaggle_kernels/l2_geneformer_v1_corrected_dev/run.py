@@ -57,6 +57,8 @@ N_BATCHES_TARGET = 8
 LEGACY_MULTIPROCESS_SCRIPT_SHA256S = {
     "591e91e36b95c808084407361570a50f472709ef526b2919ac328b37b2a79be0",
     "be18c4d09531f211b5729fbd1380d76165f12ab02fd243af3e861688d4be509c",
+    "12f7cc03d4ff41dd30645e5b518f2957042ce457b66f53a33ab12e0214eec504",
+    "90966854faa6e5e6d7902462cd429cc3f504a145053a5eea8a790420f122aed2",
 }
 
 
@@ -156,7 +158,7 @@ def load_batch_checkpoint(batch_idx, donors, expected_counts, config):
     if frame.shape[1] == 0 or not np.isfinite(frame.to_numpy(dtype=float)).all():
         raise ValueError(f"invalid checkpoint embeddings: {parquet_path}")
     if metadata["config"] != config:
-        log(f"reused validated batch {batch_idx} from earlier two-process extraction")
+        log(f"reused validated batch {batch_idx} from earlier extraction script")
     if os.path.abspath(RESUME_ROOT) != os.path.abspath(CHECKPOINT_ROOT):
         os.makedirs(CHECKPOINT_ROOT, exist_ok=True)
         shutil.copy2(parquet_path, os.path.join(CHECKPOINT_ROOT, stem + ".parquet"))
@@ -360,7 +362,7 @@ try:
 
         tk = TranscriptomeTokenizer(
             custom_attr_name_dict={"cell_id": "cell_id", "donor_id": "donor_id"},
-            nproc=1,
+            nproc=None,
             model_input_size=2048,
             model_version="V1",
         )
@@ -488,6 +490,8 @@ try:
         "emb_mode": "cell",
         "model_version": "V1",
         "emb_layer": -1,
+        "tokenizer_num_proc": None,
+        "extractor_nproc": 1,
         "forward_batch_size": BATCH_SIZE,
         "aggregation": "mean_pool_per_donor",
     })

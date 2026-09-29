@@ -95,7 +95,7 @@ def test_corrected_kernel_rejects_invalid_v1_tokens_and_lost_cells(kernel):
         scope["validate_batch"]("unused", embeddings, {"donor-a": 1, "donor-b": 1}, 9000)
 
 
-def test_single_process_extraction_and_legacy_checkpoint_gate():
+def test_main_process_tokenization_and_legacy_checkpoint_gate():
     dev_path = ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py"
     external_path = ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_external/run.py"
     for path in (dev_path, external_path):
@@ -104,8 +104,12 @@ def test_single_process_extraction_and_legacy_checkpoint_gate():
                         and isinstance(node.func, ast.Name)
                         and node.func.id in {"TranscriptomeTokenizer", "EmbExtractor"}]
         assert len(constructors) == 2
-        assert all(next(kw.value.value for kw in call.keywords if kw.arg == "nproc") == 1
-                   for call in constructors)
+        nproc_by_constructor = {
+            call.func.id: next(kw.value.value for kw in call.keywords if kw.arg == "nproc")
+            for call in constructors
+        }
+        assert nproc_by_constructor == {"TranscriptomeTokenizer": None,
+                                        "EmbExtractor": 1}
 
     tree = ast.parse(dev_path.read_text())
     legacy_assignment = next(node for node in tree.body if isinstance(node, ast.Assign)
@@ -126,5 +130,7 @@ def test_single_process_extraction_and_legacy_checkpoint_gate():
     assert compatible(old, new)
     assert compatible({**old, "extraction_script_sha256":
                        "be18c4d09531f211b5729fbd1380d76165f12ab02fd243af3e861688d4be509c"}, new)
+    assert compatible({**old, "extraction_script_sha256":
+                       "90966854faa6e5e6d7902462cd429cc3f504a145053a5eea8a790420f122aed2"}, new)
     assert not compatible({**old, "checkpoint_sha256_by_file": {"model.bin": "changed"}}, new)
     assert not compatible({**old, "extraction_script_sha256": "unknown"}, new)

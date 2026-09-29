@@ -358,7 +358,7 @@ try:
 
         tk = TranscriptomeTokenizer(
             custom_attr_name_dict={"cell_id": "cell_id", "donor_id": "donor_id"},
-            nproc=1,
+            nproc=None,
             model_input_size=2048,
             model_version="V1",
         )
@@ -461,6 +461,8 @@ try:
         "emb_mode": "cell",
         "model_version": "V1",
         "emb_layer": -1,
+        "tokenizer_num_proc": None,
+        "extractor_nproc": 1,
         "forward_batch_size": BATCH_SIZE,
         "aggregation": "mean_pool_per_donor",
     })
