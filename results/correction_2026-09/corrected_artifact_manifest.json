@@ -147,10 +147,15 @@
     },
     {
       "path": "figures/correction_2026-09/Figure_4_Corrected.tiff",
-      "bytes": 151916,
-      "sha256": "bafac182d80eccae31e4c5a42d765eccaf005c6d648dd6dab29a280c33a40126"
+      "bytes": 177822,
+      "sha256": "cf3dce27415660efc6e67f11186055c381f7111dee4ab076f194ef4f7a67e45d"
     }
   ],
+  "repository_report": {
+    "path": "docs/correction_2026-09_implementation_report.md",
+    "bytes": 16520,
+    "sha256": "182d5ac5917c18acfdafa8ae82bc670d1d282fb8b14aa38c3f9623c2b2a2c862"
+  },
   "paper_documents": [
     {
       "path": "corrected_submission_2026-09/CBC_Cover_Letter_Corrected_2026-09.docx",

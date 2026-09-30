@@ -59,6 +59,7 @@ def main():
         "historical_release_commit": "6158a840",
         "repository_results": [record(p, ROOT) for p in result_files],
         "repository_figures": [record(p, ROOT) for p in figures],
+        "repository_report": record(ROOT / "docs/correction_2026-09_implementation_report.md", ROOT),
         "paper_documents": [record(p, PAPER) for p in documents],
         "original_kaggle_zips_outside_git": [record(p, PAPER) for p in zips],
     }

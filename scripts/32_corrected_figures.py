@@ -8,6 +8,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 
@@ -112,6 +113,16 @@ def figure4(probe, historical):
         ax.errorbar(v, 2-i, xerr=[[max(0, v-lo)], [max(0, hi-v)]], fmt="o",
                     color=COLORS[arm], capsize=3, lw=1.5, markersize=7)
     ax.axvline(.5, color="#abb2b9", ls="--", lw=.8)
+    legend_handles = [
+        Line2D([0], [0], marker="o", color="#355c9a", linestyle="none",
+               markersize=7, label="Point: AUROC"),
+        Line2D([0], [0], marker="|", color="#56805b", linestyle="-",
+               markersize=10, lw=1.5, label="Whisker: 95% donor-bootstrap CI"),
+        Line2D([0], [0], color="#abb2b9", linestyle="--", lw=.8,
+               label="Dashed line: chance (0.5)"),
+    ]
+    ax.legend(handles=legend_handles, loc="upper left", bbox_to_anchor=(.01, .98),
+              frameon=False, fontsize=8)
     ax.set(xlim=(.47, 1.025), ylim=(-.55, 2.55), yticks=[0, 1, 2],
            yticklabels=["Age", "Pseudobulk", "Corrected Geneformer V1"],
            xlabel="Cohort-membership AUROC (95% donor-bootstrap CI)")
