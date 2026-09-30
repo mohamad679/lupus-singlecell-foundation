@@ -3,7 +3,7 @@
 **Report date:** 30 September 2026  
 **Repository:** [mohamad679/lupus-singlecell-foundation](https://github.com/mohamad679/lupus-singlecell-foundation)  
 **Correction branch:** `scientific-correction-2026`  
-**Review vehicle:** [draft pull request #58](https://github.com/mohamad679/lupus-singlecell-foundation/pull/58)  
+**Review vehicle:** [open pull request #58](https://github.com/mohamad679/lupus-singlecell-foundation/pull/58)  
 **Historical release preserved at:** `6158a8409064ae8c7a608126cc2d7a7e65b02506`
 
 This report describes work performed under the five-phase correction plan, from the initial review through the corrected paper package. It distinguishes completed work from remaining scientific and submission tasks. The external GSE135779 cohort had already been examined, so all new analyses on it are **corrected reanalyses**, not independent confirmation.
@@ -74,9 +74,9 @@ The [author correction audit](https://github.com/mohamad679/lupus-singlecell-fou
 
 ## 7. What is complete, and what remains
 
-The agreed **focused two-cohort correction** is implemented: all four corrected feature runs were validated; predictions, paired inference, source-age sensitivity, essential descriptive analyses, five documents, and four figures with vector masters were generated; and reproducibility records were saved. Draft PR #58 is the review vehicle for the correction branch. It remains **draft and unmerged**; the repository's `main` branch has not been changed by this correction. The v3 package is the current revised set for author review. Readable manuscript and supplement PDF drafts are also on the correction branch.
+The agreed **focused two-cohort correction** is implemented: all four corrected feature runs were validated; predictions, paired inference, source-age sensitivity, essential descriptive analyses, five documents, and four figures with vector masters were generated; and reproducibility records were saved. PR #58 is the review vehicle for the correction branch. It is **open and unmerged**; the repository's `main` branch has not been changed by this correction. Its two CPU checks passed at commit `99323e3`. The v3 package is the current revised set for author review. Readable manuscript and supplement PDF drafts are also on the correction branch.
 
-The paper is not a new confirmatory validation. The following are unresolved or outside the agreed scope: a fresh untouched external cohort; broader encoder comparison; cell-type-resolved validation; independent assessment of model-pretraining overlap; the official item-by-item reporting checklist and independent bias adjudication; harmonization of clinical outcome ascertainment and sparse external sex/ancestry metadata; and clinical utility. The public 56-versus-58 sample discrepancy and unverified study-supplement age entry remain documented. These limits should stay in the submitted paper. Final journal formatting, author verification of declarations, author sign-off, and merger of the draft PR remain.
+The paper is not a new confirmatory validation. The following are unresolved or outside the agreed scope: a fresh untouched external cohort; broader encoder comparison; cell-type-resolved validation; independent assessment of model-pretraining overlap; the official item-by-item reporting checklist and independent bias adjudication; harmonization of clinical outcome ascertainment and sparse external sex/ancestry metadata; and clinical utility. The public 56-versus-58 sample discrepancy and unverified study-supplement age entry remain documented. These limits should stay in the submitted paper. Final journal formatting, author verification of declarations, author sign-off, and merger of the open PR remain.
 
 ## 8. File map and verification pointers
 
