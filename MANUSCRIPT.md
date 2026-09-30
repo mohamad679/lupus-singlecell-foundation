@@ -1,3 +1,5 @@
+> **Historical release draft, superseded for Geneformer and co-primary inference (30 September 2026).** The original text below is retained for traceability. It contains an invalid V1 representation and label-permutation comparisons that do not test equal correlated AUROCs. Read the [scientific correction ledger](docs/correction_2026-09_audit.md) and corrected Word manuscript in the paper workspace for the current analysis. This corrected reanalysis used an already examined external cohort.
+
 # Internal cross-validation overstates single-cell foundation-model performance in systemic lupus erythematosus: a pre-registered, sealed-cohort external validation
 
 **Status:** draft, Q2 target. All numbers below are pulled from committed artifacts (`results/`, `FREEZE.json`) and cross-checked against source files while writing; any value not traceable to a committed artifact is marked `[TODO: verify]`.

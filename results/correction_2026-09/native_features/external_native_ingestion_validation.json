@@ -1,0 +1,24 @@
+{
+  "status": "validated",
+  "job": "external_native",
+  "source_zip_sha256": "8b06545922fe04a58a6ec656f33eb2db49391a90e34322426ce6e18a0741a654",
+  "member_sha256": {
+    "l2_sealed_geneformer_v1_native_run_summary.json": "95ecef8a2a44d54cc20fdd36e47638a4f5df926cfdd7cfa82e47a26925b07a7f",
+    "fixture_summary.json": "97269d78f45185d751a6f6397b35f6ee9fc96fc52e6eee78fb826fdd68e79479",
+    "l2_sealed_geneformer_v1_native_embeddings.parquet": "5ee63cf1ccadec6b7585a827d5f34cfaa4e673e692dba6efd239795b7ef569dc"
+  },
+  "manifest_sha256": "14175314c637d1835bd051cd4cacc07959fa3286253b5fe28e684cc857d73f6b",
+  "n_donors_or_samples": 56,
+  "n_cells": 363083,
+  "embedding_shape": [
+    56,
+    256
+  ],
+  "embedding_index": "gsm_id",
+  "embedding_norm_min": 0.7543488844173893,
+  "embedding_norm_max": 0.9409244437488157,
+  "batches": 6,
+  "cells_restored_from_checkpoints": 0,
+  "model_revision": "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5",
+  "shared_gene_sha256": null
+}

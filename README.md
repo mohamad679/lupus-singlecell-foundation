@@ -1,20 +1,40 @@
 # Lupus Single-Cell Foundation Model
 
+**Scientific correction, 30 September 2026:** The original Geneformer V1
+extraction and co-primary label-permutation inference required correction. The
+historical release is preserved at commit `6158a840`; its Geneformer estimates
+below are historical, not the current scientific result. Validated corrected
+shared-gene and model-native outputs, paired DeLong/Holm analyses, donor-level
+predictions, figures, and the result ledger are in
+[`results/correction_2026-09/`](results/correction_2026-09/) and
+[`docs/correction_2026-09_audit.md`](docs/correction_2026-09_audit.md).
+The corrected shared-gene external AUROCs are Geneformer **0.7344**,
+pseudobulk **0.8984**, and age **0.5781**. Neither prespecified
+Geneformer-superiority criterion was met. The external cohort had already been
+examined, so this is a corrected reanalysis rather than a new untouched
+confirmatory validation.
+Readable [corrected manuscript and supplement drafts](manuscript_drafts/correction_2026-09/)
+are on this branch, alongside [the dated reporting audit](docs/REPORTING_AND_BIAS_REVIEW.md).
+The primary age comparator retains GEO's age 50 for aHD3; an exploratory
+review-reported age-43 sensitivity changes age AUROC to 0.5797 and leaves the
+superiority decision unchanged. The study supplement workbook was unavailable
+for independent verification of the review-reported value.
+
 Patient-level benchmarking of frozen single-cell foundation-model (Geneformer) embeddings against raw pseudobulk counts and a metadata-only baseline for systemic lupus erythematosus (SLE) vs. healthy-control discrimination from peripheral blood single-cell RNA-seq, with a single, pre-registered, sealed-cohort external validation.
 
-## Claim boundary
+## Historical release claim boundary
 
-**Primary result (external validation exists and is reported):** all three arms were fit on a dev cohort (Perez et al. 2022) and scored once, without retuning, on an independent sealed cohort (GSE135779). Sealed AUROC: Geneformer 0.8156, pseudobulk 0.8984, metadata-only-age 0.5781. **Both pre-registered co-primary comparisons were REJECTED**: Geneformer embeddings did not demonstrate added value over the metadata-only baseline (diff=+0.2375, 95% CI [-0.0431, 0.5179], permutation p=0.087 pre-Holm, not Holm-significant) or over raw pseudobulk (diff=-0.0828 — Geneformer performed *worse*, 95% CI [-0.2061, 0.0242], permutation p=0.184 pre-Holm, not Holm-significant). Internal cross-validation overstated all three arms' external performance (Geneformer 0.9676→0.8156, pseudobulk 0.9839→0.8984, metadata-age 0.6453→0.5781). A pre-declared cohort-signature probe (`results/l2_cohort_signature_probe.json`) found the dev and sealed cohorts are separable at AUROC 0.9996-1.0000 in the Geneformer/pseudobulk feature spaces (0.8719 for age alone) — reported as a bound on interpretability, not a validation: disease signal cannot be cleanly disentangled from cohort/batch/platform signal at this confound level. This result is reported as computed, not softened. See `results/l2_sealed_results.json`, `results/l2_coprimary_difference_ci.json`, `results/l2_cohort_signature_probe.json`, and `figures/`.
+**Original released result (historical; superseded for Geneformer):** the released Geneformer AUROC 0.8156 and original co-primary label-permutation p-values are retained for traceability. The Geneformer V1 representation and equal-AUROC interpretation were corrected in the versioned analysis above. The released pseudobulk AUROC 0.8984 and age AUROC 0.5781 remain comparator point estimates after verified donor alignment. See `results/l2_sealed_results.json`, `results/l2_coprimary_difference_ci.json`, and the correction ledger for the distinction between original and corrected artifacts.
 
 **Secondary result (internal-only, unchanged from before external validation existed):** an earlier, internal-only leave-one-patient-out analysis of active-flare discrimination (flare vs. managed SLE, flare vs. healthy) achieved AUROC 0.996/0.993 on a 14-case flare class. This analysis has **no external validation**, uses a different task (flare activity, not SLE-vs-healthy diagnosis) and a tiny positive class, and is retained only as a secondary, internal-only result per `PREREG.md` Section 9. It should not be read as validating or contradicting the primary result above — they answer different questions.
 
 No clinical claim, clinical diagnostic claim, or clinical deployment claim is made for either result.
 
-**Full write-up:** `MANUSCRIPT.md` — complete draft (abstract, introduction, methods, results, discussion, limitations, future work), every number sourced from a committed artifact.
+**Current corrected write-up:** [manuscript and supplement PDF drafts](manuscript_drafts/correction_2026-09/), plus five editable Word documents in the paper workspace, generated from `scripts/33_build_corrected_documents.py`. `MANUSCRIPT.md` remains the historical release draft. The PDFs and Word files require final author review before submission.
 
 ## Scientific objective
 
-This project tests whether frozen single-cell foundation-model embeddings provide patient-level discriminative value for SLE-vs-healthy diagnosis beyond a metadata-only baseline and raw pseudobulk counts, under honest cross-validation and a genuine external (sealed) cohort — motivated by the concern that internal cross-validation systematically overstates single-cell foundation-model performance. The primary result above is consistent with that concern: the dev-cohort internal-CV AUROCs (Geneformer 0.9676, pseudobulk 0.9839) dropped substantially on the sealed cohort, and Geneformer did not outperform either baseline externally.
+This project evaluates transport of donor-level SLE-versus-healthy discrimination from an adult development cohort to one independently collected external cohort. The corrected analysis tests the preregistered Geneformer-superiority rule using validated V1 embeddings and paired inference. It does not estimate a general bias of internal cross-validation, clinical diagnostic performance, or the relative value of other foundation models.
 
 ## Governance documents (binding)
 

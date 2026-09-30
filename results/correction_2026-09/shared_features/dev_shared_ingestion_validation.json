@@ -1,0 +1,24 @@
+{
+  "status": "validated",
+  "job": "dev_shared",
+  "source_zip_sha256": "6aebb0034581e1c06ddb29012512c8f47834c2b932960d2518a423cc6e598955",
+  "member_sha256": {
+    "l2_dev_geneformer_v1_shared_run_summary.json": "a73f1d96f53353c9fc2b1233f3713f384335826c017d65580028e3079ac7f3a8",
+    "l2_dev_geneformer_v1_shared_embeddings.parquet": "2f61648dacc90a3380b8f21d053e1a92b6e6a6ccd00e77eafb76ae85fdfb9594",
+    "fixture_summary.json": "97269d78f45185d751a6f6397b35f6ee9fc96fc52e6eee78fb826fdd68e79479"
+  },
+  "manifest_sha256": "881dfef440265a969a9ed9bb05297e7c7d1745270f8030208fd2d3c6ee30936d",
+  "n_donors_or_samples": 261,
+  "n_cells": 1263676,
+  "embedding_shape": [
+    261,
+    256
+  ],
+  "embedding_index": "donor_id",
+  "embedding_norm_min": 0.6854281835192477,
+  "embedding_norm_max": 0.9135977399318806,
+  "batches": 8,
+  "cells_restored_from_checkpoints": 158835,
+  "model_revision": "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5",
+  "shared_gene_sha256": "482f113c433ac76eb19940442e4f3b1a24ae73d387c4ec75ecb19b8116eea29b"
+}

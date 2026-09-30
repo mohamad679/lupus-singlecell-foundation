@@ -1,0 +1,268 @@
+{
+  "method": "5000 percentile bootstrap resamples of donors with fixed predictions; descriptive CIs",
+  "external_age_groups": "source metadata categories Children and Adult; Children includes some ages 18-19",
+  "modes": {
+    "shared": {
+      "external": {
+        "geneformer": {
+          "overall": {
+            "auroc": 0.734375,
+            "ci95": [
+              0.6017049462813263,
+              0.8596511074065254
+            ],
+            "n": 56,
+            "n_case": 40,
+            "n_control": 16,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Children": {
+            "auroc": 0.7052341597796143,
+            "ci95": [
+              0.545235615079365,
+              0.853299013299013
+            ],
+            "n": 44,
+            "n_case": 33,
+            "n_control": 11,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Adult": {
+            "auroc": 0.8857142857142857,
+            "ci95": [
+              0.625,
+              1.0
+            ],
+            "n": 12,
+            "n_case": 7,
+            "n_control": 5,
+            "valid_draws": 4990,
+            "degenerate_draws": 10
+          }
+        },
+        "pseudobulk": {
+          "overall": {
+            "auroc": 0.8984375,
+            "ci95": [
+              0.8079622923137961,
+              0.9676767676767677
+            ],
+            "n": 56,
+            "n_case": 40,
+            "n_control": 16,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Children": {
+            "auroc": 0.8925619834710744,
+            "ci95": [
+              0.78125,
+              0.9746031746031746
+            ],
+            "n": 44,
+            "n_case": 33,
+            "n_control": 11,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Adult": {
+            "auroc": 0.9142857142857143,
+            "ci95": [
+              0.6944444444444444,
+              1.0
+            ],
+            "n": 12,
+            "n_case": 7,
+            "n_control": 5,
+            "valid_draws": 4990,
+            "degenerate_draws": 10
+          }
+        },
+        "metadata_only_age": {
+          "overall": {
+            "auroc": 0.578125,
+            "ci95": [
+              0.3613795802411874,
+              0.781476801658163
+            ],
+            "n": 56,
+            "n_case": 40,
+            "n_control": 16,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Children": {
+            "auroc": 0.7658402203856749,
+            "ci95": [
+              0.5533743106617648,
+              0.9409735576923076
+            ],
+            "n": 44,
+            "n_case": 33,
+            "n_control": 11,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Adult": {
+            "auroc": 0.4285714285714285,
+            "ci95": [
+              0.08333333333333334,
+              0.7857142857142857
+            ],
+            "n": 12,
+            "n_case": 7,
+            "n_control": 5,
+            "valid_draws": 4990,
+            "degenerate_draws": 10
+          }
+        }
+      },
+      "development_geneformer": {
+        "auroc": 0.9745604190048635,
+        "ci95": [
+          0.9548122264730602,
+          0.9900786427169788
+        ],
+        "n": 261,
+        "n_case": 162,
+        "n_control": 99,
+        "valid_draws": 5000,
+        "degenerate_draws": 0
+      },
+      "external_predictions_sha256": "636beb338fde0cf13e883811bdc72ba5d60a663f3b6569c14a04d25fee74854a"
+    },
+    "native": {
+      "external": {
+        "geneformer": {
+          "overall": {
+            "auroc": 0.7484375,
+            "ci95": [
+              0.6122382546768708,
+              0.8698830409356724
+            ],
+            "n": 56,
+            "n_case": 40,
+            "n_control": 16,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Children": {
+            "auroc": 0.7300275482093666,
+            "ci95": [
+              0.5705882352941176,
+              0.875
+            ],
+            "n": 44,
+            "n_case": 33,
+            "n_control": 11,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Adult": {
+            "auroc": 0.8571428571428571,
+            "ci95": [
+              0.5714285714285714,
+              1.0
+            ],
+            "n": 12,
+            "n_case": 7,
+            "n_control": 5,
+            "valid_draws": 4990,
+            "degenerate_draws": 10
+          }
+        },
+        "pseudobulk": {
+          "overall": {
+            "auroc": 0.8984375,
+            "ci95": [
+              0.8079622923137961,
+              0.9676767676767677
+            ],
+            "n": 56,
+            "n_case": 40,
+            "n_control": 16,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Children": {
+            "auroc": 0.8925619834710744,
+            "ci95": [
+              0.78125,
+              0.9746031746031746
+            ],
+            "n": 44,
+            "n_case": 33,
+            "n_control": 11,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Adult": {
+            "auroc": 0.9142857142857143,
+            "ci95": [
+              0.6944444444444444,
+              1.0
+            ],
+            "n": 12,
+            "n_case": 7,
+            "n_control": 5,
+            "valid_draws": 4990,
+            "degenerate_draws": 10
+          }
+        },
+        "metadata_only_age": {
+          "overall": {
+            "auroc": 0.578125,
+            "ci95": [
+              0.3613795802411874,
+              0.781476801658163
+            ],
+            "n": 56,
+            "n_case": 40,
+            "n_control": 16,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Children": {
+            "auroc": 0.7658402203856749,
+            "ci95": [
+              0.5533743106617648,
+              0.9409735576923076
+            ],
+            "n": 44,
+            "n_case": 33,
+            "n_control": 11,
+            "valid_draws": 5000,
+            "degenerate_draws": 0
+          },
+          "Adult": {
+            "auroc": 0.4285714285714285,
+            "ci95": [
+              0.08333333333333334,
+              0.7857142857142857
+            ],
+            "n": 12,
+            "n_case": 7,
+            "n_control": 5,
+            "valid_draws": 4990,
+            "degenerate_draws": 10
+          }
+        }
+      },
+      "development_geneformer": {
+        "auroc": 0.9754333458037162,
+        "ci95": [
+          0.9572883923197933,
+          0.9897963620230702
+        ],
+        "n": 261,
+        "n_case": 162,
+        "n_control": 99,
+        "valid_draws": 5000,
+        "degenerate_draws": 0
+      },
+      "external_predictions_sha256": "3935180cea10647cc2172e9f472eb74a34d743487542439041e68e3118eaa90f"
+    }
+  }
+}

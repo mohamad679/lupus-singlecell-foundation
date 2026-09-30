@@ -1,0 +1,26 @@
+{
+  "analysis": "corrected reanalysis on previously examined external cohort",
+  "gene_input_mode": "native",
+  "development_selected_c_per_outer_fold": [
+    1.0,
+    10.0,
+    100.0,
+    100.0,
+    1.0
+  ],
+  "final_c_median": 10.0,
+  "development_oof_auroc": 0.9754333458037162,
+  "external_geneformer_auroc": 0.7484375,
+  "development_summary": "l2_dev_geneformer_v1_native_run_summary.json",
+  "external_summary": "l2_sealed_geneformer_v1_native_run_summary.json",
+  "development_embedding_sha256": "8a8338626f688694cc2772b5e75fb802c0c24c5f853b7e1f3e98fba0b3d71b52",
+  "external_embedding_sha256": "5ee63cf1ccadec6b7585a827d5f34cfaa4e673e692dba6efd239795b7ef569dc",
+  "prediction_path": "corrected_v1_native_predictions.json",
+  "development_oof_prediction_path": "corrected_v1_native_development_oof_predictions.json",
+  "development_oof_prediction_sha256": "0781b8d80e5f973ccb163f2d1e7a612ef94a6495e36a50615c7d1e16d62cadf7",
+  "fit_path": "corrected_v1_native_fit.joblib",
+  "regenerated_historical_baselines_reused": [
+    "pseudobulk",
+    "metadata_only_age"
+  ]
+}
