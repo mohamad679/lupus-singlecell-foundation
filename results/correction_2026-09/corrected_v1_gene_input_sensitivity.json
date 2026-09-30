@@ -1,0 +1,70 @@
+{
+  "analysis": "exploratory model-native input sensitivity on previously examined external cohort",
+  "n_samples": 56,
+  "n_case": 40,
+  "n_control": 16,
+  "shared_geneformer": {
+    "auroc": 0.734375,
+    "average_precision": 0.898650062705656,
+    "brier_score": 0.471253360149055,
+    "external_prevalence": 0.7142857142857143,
+    "development_prevalence": 0.6206896551724138,
+    "development_prevalence_constant_brier": 0.21284185493460167,
+    "calibration": {
+      "status": "estimated",
+      "intercept": 2.374150279896342,
+      "slope": 0.18450474106913686,
+      "intercept_ci95_wald": [
+        0.878872231915667,
+        3.8694283278770167
+      ],
+      "slope_ci95_wald": [
+        0.0399510967562183,
+        0.32905838538205545
+      ],
+      "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+    }
+  },
+  "native_geneformer": {
+    "auroc": 0.7484375,
+    "average_precision": 0.9006924241775816,
+    "brier_score": 0.48196766128270857,
+    "external_prevalence": 0.7142857142857143,
+    "development_prevalence": 0.6206896551724138,
+    "development_prevalence_constant_brier": 0.21284185493460167,
+    "calibration": {
+      "status": "estimated",
+      "intercept": 2.692617062931576,
+      "slope": 0.21164459857045015,
+      "intercept_ci95_wald": [
+        0.9515696968413374,
+        4.433664429021815
+      ],
+      "slope_ci95_wald": [
+        0.048304735417615235,
+        0.37498446172328503
+      ],
+      "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+    }
+  },
+  "native_minus_shared": {
+    "auroc_a": 0.7484375,
+    "auroc_b": 0.734375,
+    "difference": 0.014062499999999978,
+    "standard_error": 0.0190382490761261,
+    "p_two_sided": 0.46012283029708434,
+    "n_case": 40,
+    "n_control": 16,
+    "delong_method": "paired DeLong, asymptotic two-sided",
+    "ci95": [
+      -0.023809523809523836,
+      0.0597439544807965
+    ],
+    "valid_draws": 5000,
+    "degenerate_draws": 0,
+    "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions"
+  },
+  "interpretation_limit": "Exploratory paired comparison of two corrected representations on the same previously examined external samples; no new confirmatory cohort.",
+  "shared_predictions_sha256": "16320bad34cc08b01d35654ab2ccdc6bb4ee30aa61663060fed8e7a10ab3dbce",
+  "native_predictions_sha256": "39408d3921c944b3e9757625cd16479d3dc7d32ee9e7e4abc3e6d019832bfd19"
+}

@@ -101,8 +101,8 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
         model = LogisticRegression(C=c_final, l1_ratio=0, max_iter=2000, solver="lbfgs")
         model.fit(scaler.transform(X_dev), y_dev)
     probability = model.predict_proba(scaler.transform(X_external))[:, 1]
-    if not np.isfinite(probability).all():
-        raise ValueError("nonfinite external probabilities")
+    if not np.isfinite(oof).all() or not np.isfinite(probability).all():
+        raise ValueError("nonfinite development or external probabilities")
 
     with (RESULTS / "l2_sealed_predictions_regenerated.json").open() as file:
         historical = json.load(file)
@@ -118,9 +118,15 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
     }
     output_dir.mkdir(parents=True, exist_ok=True)
     prediction_path = output_dir / f"corrected_v1_{mode}_predictions.json"
+    oof_path = output_dir / f"corrected_v1_{mode}_development_oof_predictions.json"
     fit_path = output_dir / f"corrected_v1_{mode}_fit.joblib"
     with prediction_path.open("w") as file:
         json.dump(predictions, file, indent=2, allow_nan=False)
+    with oof_path.open("w") as file:
+        json.dump({"donor_ids": dev_meta.index.tolist(), "y": y_dev.tolist(),
+                   "proba": oof.tolist(), "gene_input_mode": mode,
+                   "method": "five-fold nested cross-validation; pooled outer-fold predictions"},
+                  file, indent=2, allow_nan=False)
     joblib.dump({"scaler": scaler, "model": model, "columns": list(dev.columns)}, fit_path)
     report = {
         "analysis": "corrected reanalysis on previously examined external cohort",
@@ -134,6 +140,8 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
         "development_embedding_sha256": file_sha256(dev_path),
         "external_embedding_sha256": file_sha256(external_path),
         "prediction_path": prediction_path.name,
+        "development_oof_prediction_path": oof_path.name,
+        "development_oof_prediction_sha256": file_sha256(oof_path),
         "fit_path": fit_path.name,
         "regenerated_historical_baselines_reused": ["pseudobulk", "metadata_only_age"],
     }

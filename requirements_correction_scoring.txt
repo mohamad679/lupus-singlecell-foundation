@@ -1,4 +1,4 @@
-# Python 3.11.15; local corrected shared-mode scoring environment, 2026-09-29.
+# Python 3.11.15; local corrected shared/native scoring environment, 2026-09-30.
 # Use: uv run --no-project --with-requirements requirements_correction_scoring.txt python SCRIPT.py
 cloudpickle==3.1.2
 joblib==1.6.0

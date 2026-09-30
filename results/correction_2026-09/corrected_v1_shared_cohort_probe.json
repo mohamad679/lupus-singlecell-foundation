@@ -1,0 +1,22 @@
+{
+  "status": "post-hoc diagnostic; no SLE label prediction",
+  "arm": "corrected V1 shared-gene Geneformer",
+  "n_development": 261,
+  "n_external": 56,
+  "n_features": 256,
+  "cohort_membership_auroc": 0.9999315818281335,
+  "ci95": [
+    0.9995894909688012,
+    1.0
+  ],
+  "selected_c_per_outer_fold": [
+    0.01,
+    0.01,
+    0.1,
+    0.01,
+    1.0
+  ],
+  "bootstrap_degenerate_draws": 0,
+  "method": "same nested 5x5 donor CV settings as released cohort-signature probe; fixed-prediction bootstrap",
+  "interpretation": "Separability of cohort origin does not identify a causal source of SLE discrimination."
+}

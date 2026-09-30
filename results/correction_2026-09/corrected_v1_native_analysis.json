@@ -1,5 +1,5 @@
 {
-  "input_provenance": "results/correction_2026-09/corrected_v1_shared_predictions.json",
+  "input_provenance": "results/correction_2026-09/corrected_v1_native_predictions.json",
   "status": "corrected score analysis",
   "warning": "This corrected reanalysis uses the previously examined external cohort.",
   "n_donors": 56,
@@ -7,23 +7,23 @@
   "n_control": 16,
   "metrics": {
     "geneformer": {
-      "auroc": 0.734375,
-      "average_precision": 0.898650062705656,
-      "brier_score": 0.471253360149055,
+      "auroc": 0.7484375,
+      "average_precision": 0.9006924241775816,
+      "brier_score": 0.48196766128270857,
       "external_prevalence": 0.7142857142857143,
       "development_prevalence": 0.6206896551724138,
       "development_prevalence_constant_brier": 0.21284185493460167,
       "calibration": {
         "status": "estimated",
-        "intercept": 2.374150225842944,
-        "slope": 0.18450473621294194,
+        "intercept": 2.6926170629315753,
+        "slope": 0.2116445985704501,
         "intercept_ci95_wald": [
-          0.8788722100964614,
-          3.8694282415894268
+          0.9515696968413356,
+          4.433664429021815
         ],
         "slope_ci95_wald": [
-          0.039951094618239064,
-          0.3290583778076448
+          0.0483047354176151,
+          0.3749844617232851
         ],
         "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
       }
@@ -37,15 +37,15 @@
       "development_prevalence_constant_brier": 0.21284185493460167,
       "calibration": {
         "status": "estimated",
-        "intercept": 1.0147944050964772,
-        "slope": 0.5452808746237908,
+        "intercept": 1.014794405096477,
+        "slope": 0.5452808746237907,
         "intercept_ci95_wald": [
-          0.1813302861198295,
-          1.8482585240731249
+          0.18133028611982938,
+          1.8482585240731246
         ],
         "slope_ci95_wald": [
-          0.2470468921722675,
-          0.8435148570753142
+          0.24704689217226744,
+          0.8435148570753139
         ],
         "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
       }
@@ -75,47 +75,47 @@
   },
   "comparisons": {
     "geneformer_vs_age": {
-      "auroc_a": 0.734375,
+      "auroc_a": 0.7484375,
       "auroc_b": 0.578125,
-      "difference": 0.15625,
-      "standard_error": 0.12316095075821178,
-      "p_two_sided": 0.20456053466865953,
+      "difference": 0.17031249999999998,
+      "standard_error": 0.12106930843079206,
+      "p_two_sided": 0.15950582046978812,
       "n_case": 40,
       "n_control": 16,
       "delong_method": "paired DeLong, asymptotic two-sided",
       "ci95": [
-        -0.0858754017772736,
-        0.4040410199556541
+        -0.0683010521281683,
+        0.40901553803339513
       ],
       "valid_draws": 5000,
       "degenerate_draws": 0,
       "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions",
-      "holm_adjusted_p": 0.20456053466865953,
+      "holm_adjusted_p": 0.15950582046978812,
       "holm_significant_0_05": false,
       "positive_ci_condition": false,
       "superiority_rule_met": false
     },
     "geneformer_vs_pseudobulk": {
-      "auroc_a": 0.734375,
+      "auroc_a": 0.7484375,
       "auroc_b": 0.8984375,
-      "difference": -0.1640625,
-      "standard_error": 0.06259187958052607,
-      "p_two_sided": 0.008763453699644026,
+      "difference": -0.15000000000000002,
+      "standard_error": 0.05746549968325477,
+      "p_two_sided": 0.009047294841084205,
       "n_case": 40,
       "n_control": 16,
       "delong_method": "paired DeLong, asymptotic two-sided",
       "ci95": [
-        -0.29163013711885877,
-        -0.038406253143095245
+        -0.26829377372485724,
+        -0.03361465031356673
       ],
       "valid_draws": 5000,
       "degenerate_draws": 0,
       "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions",
-      "holm_adjusted_p": 0.017526907399288052,
+      "holm_adjusted_p": 0.01809458968216841,
       "holm_significant_0_05": true,
       "positive_ci_condition": false,
       "superiority_rule_met": false
     }
   },
-  "input_sha256": "16320bad34cc08b01d35654ab2ccdc6bb4ee30aa61663060fed8e7a10ab3dbce"
+  "input_sha256": "39408d3921c944b3e9757625cd16479d3dc7d32ee9e7e4abc3e6d019832bfd19"
 }

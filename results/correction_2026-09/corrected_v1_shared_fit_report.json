@@ -16,6 +16,8 @@
   "development_embedding_sha256": "2f61648dacc90a3380b8f21d053e1a92b6e6a6ccd00e77eafb76ae85fdfb9594",
   "external_embedding_sha256": "a8109abdb16eb3864d752665b0433634b938b8086d9bd3fc3d6c7dd8644d7eff",
   "prediction_path": "corrected_v1_shared_predictions.json",
+  "development_oof_prediction_path": "corrected_v1_shared_development_oof_predictions.json",
+  "development_oof_prediction_sha256": "1c333788ed886a7946c0b6c9353e4da14df352cbafc6013065487e57cbbf3079",
   "fit_path": "corrected_v1_shared_fit.joblib",
   "regenerated_historical_baselines_reused": [
     "pseudobulk",

@@ -1,0 +1,203 @@
+{
+  "date": "2026-09-30",
+  "status": "corrected reanalysis on previously examined external cohort",
+  "historical_release_commit": "6158a840",
+  "repository_results": [
+    {
+      "path": "results/correction_2026-09/corrected_v1_shared_predictions.json",
+      "bytes": 9636,
+      "sha256": "16320bad34cc08b01d35654ab2ccdc6bb4ee30aa61663060fed8e7a10ab3dbce"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_native_predictions.json",
+      "bytes": 9633,
+      "sha256": "39408d3921c944b3e9757625cd16479d3dc7d32ee9e7e4abc3e6d019832bfd19"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_shared_development_oof_predictions.json",
+      "bytes": 11883,
+      "sha256": "1c333788ed886a7946c0b6c9353e4da14df352cbafc6013065487e57cbbf3079"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_native_development_oof_predictions.json",
+      "bytes": 11829,
+      "sha256": "0781b8d80e5f973ccb163f2d1e7a612ef94a6495e36a50615c7d1e16d62cadf7"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_shared_analysis.json",
+      "bytes": 4032,
+      "sha256": "f4cef5d1e55643a008d748133224194e8644fb24a0026e6d022f5e61df42f919"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_native_analysis.json",
+      "bytes": 4057,
+      "sha256": "df94f4e8eece7da2a80814af5be0b6a201d158d7e21e7904c8480a82a3a0a927"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_gene_input_sensitivity.json",
+      "bytes": 2453,
+      "sha256": "dff3aa8e73d0d64f480671f14e07fcb87db33b14ee0d67b81fb771527283a200"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_descriptive.json",
+      "bytes": 6997,
+      "sha256": "4257eb9767ddbe70b5405c97923a212ad2de822b2283a68e27b3ffcf881ec9b2"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_shared_cohort_probe.json",
+      "bytes": 616,
+      "sha256": "5eec445e09a44cde00f28eba209e37b5588c1819534321422ebf45eac7cbd1a6"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_shared_fit_report.json",
+      "bytes": 1072,
+      "sha256": "cdd6c3ca30f2eaf444f93d593c0adccfc43e41c663d54f496343ac90bfb5cf36"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_native_fit_report.json",
+      "bytes": 1074,
+      "sha256": "4dacf2f2519415a2064d21e80ff562cd651e45b32a4d0457f7787d144fac19f4"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_shared_fit.joblib",
+      "bytes": 12665,
+      "sha256": "384f50ad61113ba68b1de1d675e83000861008aba6fd6f1c10a697a44daa63a9"
+    },
+    {
+      "path": "results/correction_2026-09/corrected_v1_native_fit.joblib",
+      "bytes": 12665,
+      "sha256": "5fd95cfe94938afcffbe244abf7c9583280e4d2812f60a05b6d34aaa5d692a00"
+    },
+    {
+      "path": "results/correction_2026-09/shared_features/l2_dev_geneformer_v1_shared_embeddings.parquet",
+      "bytes": 507871,
+      "sha256": "2f61648dacc90a3380b8f21d053e1a92b6e6a6ccd00e77eafb76ae85fdfb9594"
+    },
+    {
+      "path": "results/correction_2026-09/shared_features/l2_sealed_geneformer_v1_shared_embeddings.parquet",
+      "bytes": 240999,
+      "sha256": "a8109abdb16eb3864d752665b0433634b938b8086d9bd3fc3d6c7dd8644d7eff"
+    },
+    {
+      "path": "results/correction_2026-09/shared_features/l2_dev_geneformer_v1_shared_run_summary.json",
+      "bytes": 36534,
+      "sha256": "a73f1d96f53353c9fc2b1233f3713f384335826c017d65580028e3079ac7f3a8"
+    },
+    {
+      "path": "results/correction_2026-09/shared_features/l2_sealed_geneformer_v1_shared_run_summary.json",
+      "bytes": 31536,
+      "sha256": "e90a812ec17202396956971622ad81ca4a190e568dd17161991288e51cd24b41"
+    },
+    {
+      "path": "results/correction_2026-09/shared_features/dev_shared_ingestion_validation.json",
+      "bytes": 1029,
+      "sha256": "9b7f553959b98486cb12dce8ef2319ad847ce85cdc8349a2877283ddfaccc5ab"
+    },
+    {
+      "path": "results/correction_2026-09/shared_features/external_shared_ingestion_validation.json",
+      "bytes": 1030,
+      "sha256": "4e342425b531f6bf4a1ec6f5a7aa8e57c84edced23bdd3fe130488f0d70241b0"
+    },
+    {
+      "path": "results/correction_2026-09/native_features/l2_dev_geneformer_v1_native_embeddings.parquet",
+      "bytes": 508064,
+      "sha256": "8a8338626f688694cc2772b5e75fb802c0c24c5f853b7e1f3e98fba0b3d71b52"
+    },
+    {
+      "path": "results/correction_2026-09/native_features/l2_sealed_geneformer_v1_native_embeddings.parquet",
+      "bytes": 241215,
+      "sha256": "5ee63cf1ccadec6b7585a827d5f34cfaa4e673e692dba6efd239795b7ef569dc"
+    },
+    {
+      "path": "results/correction_2026-09/native_features/l2_dev_geneformer_v1_native_run_summary.json",
+      "bytes": 36689,
+      "sha256": "2f822f415f096a93318746deba508d2aaaa6307b55f680b17b201baf10ae5ae5"
+    },
+    {
+      "path": "results/correction_2026-09/native_features/l2_sealed_geneformer_v1_native_run_summary.json",
+      "bytes": 31477,
+      "sha256": "95ecef8a2a44d54cc20fdd36e47638a4f5df926cfdd7cfa82e47a26925b07a7f"
+    },
+    {
+      "path": "results/correction_2026-09/native_features/dev_native_ingestion_validation.json",
+      "bytes": 962,
+      "sha256": "3dddcc8a321298b01cc759d2da48505e430ea9abfc323f23d75c29e88449039b"
+    },
+    {
+      "path": "results/correction_2026-09/native_features/external_native_ingestion_validation.json",
+      "bytes": 968,
+      "sha256": "19a9b70725845acdc55ac2249ff02b87ca31ed9bf7e41b0868e92c7b2f52b144"
+    }
+  ],
+  "repository_figures": [
+    {
+      "path": "figures/correction_2026-09/Figure_1_Corrected.tiff",
+      "bytes": 216658,
+      "sha256": "bd78e494aae5004088d58ef594c8555ad2063a5d80df7584bc006bd1def818f3"
+    },
+    {
+      "path": "figures/correction_2026-09/Figure_2_Corrected.tiff",
+      "bytes": 195476,
+      "sha256": "2c5fdbf515d5288f70b5ebbad818655c1787846a1d2c5a31f946f9e385991730"
+    },
+    {
+      "path": "figures/correction_2026-09/Figure_3_Corrected.tiff",
+      "bytes": 165634,
+      "sha256": "7334424eec755b89ec543face24e4e261dba434e1b68893df644459de84ef94a"
+    },
+    {
+      "path": "figures/correction_2026-09/Figure_4_Corrected.tiff",
+      "bytes": 151916,
+      "sha256": "bafac182d80eccae31e4c5a42d765eccaf005c6d648dd6dab29a280c33a40126"
+    }
+  ],
+  "paper_documents": [
+    {
+      "path": "corrected_submission_2026-09/CBC_Cover_Letter_Corrected_2026-09.docx",
+      "bytes": 37711,
+      "sha256": "3a04216379bf006877530e9531d59c41c0e17af2e2b2549519093e89c94a1e4f"
+    },
+    {
+      "path": "corrected_submission_2026-09/CBC_Highlights_Corrected_2026-09.docx",
+      "bytes": 36827,
+      "sha256": "9a8504b44f215308906e4c7c143d90a753a8de6e33611d05c77c0ec5c4e3567b"
+    },
+    {
+      "path": "corrected_submission_2026-09/CBC_Manuscript_Research_Paper_Corrected_2026-09.docx",
+      "bytes": 27785,
+      "sha256": "7d539cd5f0bf395bf215a3d196af4a6100bb2fa1866653032cc0ff2fd2cb6b75"
+    },
+    {
+      "path": "corrected_submission_2026-09/CBC_Supplementary_Material_Corrected_2026-09.docx",
+      "bytes": 13098,
+      "sha256": "ac7b3b2c3a86028bb412c9eaae33db09e3a9e9a64515091ae33f28bbf00670a9"
+    },
+    {
+      "path": "corrected_submission_2026-09/CBC_Title_Page_Corrected_2026-09.docx",
+      "bytes": 37218,
+      "sha256": "77fc7592c88ef491f0638412bfdd80ed7d5ecd671a9221049d866db5c8a61134"
+    }
+  ],
+  "original_kaggle_zips_outside_git": [
+    {
+      "path": "correction_artifacts/dev_shared/lupus_correction_dev_shared_share.zip",
+      "bytes": 316004,
+      "sha256": "6aebb0034581e1c06ddb29012512c8f47834c2b932960d2518a423cc6e598955"
+    },
+    {
+      "path": "correction_artifacts/external_shared/lupus_correction_external_shared_share.zip",
+      "bytes": 102245,
+      "sha256": "92b2ab36e0424a752ce84429fb9cd8eafc5ae9df1933e264da136f63e7b3098a"
+    },
+    {
+      "path": "correction_artifacts/dev_native/lupus_correction_dev_native_share.zip",
+      "bytes": 315637,
+      "sha256": "527848fdee08a179f27cc20f65088bdaf72b38719aa3f7371be3e2bd0a4e3926"
+    },
+    {
+      "path": "correction_artifacts/external_native/lupus_correction_external_native_share.zip",
+      "bytes": 102521,
+      "sha256": "8b06545922fe04a58a6ec656f33eb2db49391a90e34322426ce6e18a0741a654"
+    }
+  ]
+}

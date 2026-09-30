@@ -144,3 +144,38 @@ def test_main_process_tokenization_and_legacy_checkpoint_gate():
                        "90966854faa6e5e6d7902462cd429cc3f504a145053a5eea8a790420f122aed2"}, new)
     assert not compatible({**old, "checkpoint_sha256_by_file": {"model.bin": "changed"}}, new)
     assert not compatible({**old, "extraction_script_sha256": "unknown"}, new)
+
+
+def test_corrected_shared_and_native_results_preserve_paired_donors():
+    corr = ROOT / "results/correction_2026-09"
+    shared = json.loads((corr / "corrected_v1_shared_predictions.json").read_text())
+    native = json.loads((corr / "corrected_v1_native_predictions.json").read_text())
+    for arm in ("geneformer", "pseudobulk", "metadata_only_age"):
+        assert shared[arm]["donor_ids"] == native[arm]["donor_ids"]
+        assert shared[arm]["y"] == native[arm]["y"]
+        assert len(set(shared[arm]["donor_ids"])) == 56
+    assert shared["pseudobulk"]["proba"] == native["pseudobulk"]["proba"]
+    assert shared["metadata_only_age"]["proba"] == native["metadata_only_age"]["proba"]
+    y = shared["geneformer"]["y"]
+    result = paired_delong(y, native["geneformer"]["proba"],
+                           shared["geneformer"]["proba"])
+    reported = json.loads((corr / "corrected_v1_gene_input_sensitivity.json").read_text())
+    assert result["difference"] == pytest.approx(reported["native_minus_shared"]["difference"])
+    assert result["p_two_sided"] == pytest.approx(reported["native_minus_shared"]["p_two_sided"])
+
+
+def test_corrected_co_primary_is_recomputed_from_current_predictions():
+    corr = ROOT / "results/correction_2026-09"
+    predictions = json.loads((corr / "corrected_v1_shared_predictions.json").read_text())
+    reported = json.loads((corr / "corrected_v1_shared_analysis.json").read_text())
+    y = predictions["geneformer"]["y"]
+    gf = predictions["geneformer"]["proba"]
+    tests = {
+        "geneformer_vs_age": paired_delong(y, gf, predictions["metadata_only_age"]["proba"]),
+        "geneformer_vs_pseudobulk": paired_delong(y, gf, predictions["pseudobulk"]["proba"]),
+    }
+    adjusted = holm_adjust({key: value["p_two_sided"] for key, value in tests.items()})
+    for key, result in tests.items():
+        assert result["difference"] == pytest.approx(reported["comparisons"][key]["difference"])
+        assert adjusted[key] == pytest.approx(reported["comparisons"][key]["holm_adjusted_p"])
+        assert reported["comparisons"][key]["superiority_rule_met"] is False
