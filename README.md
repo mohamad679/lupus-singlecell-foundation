@@ -13,6 +13,12 @@ pseudobulk **0.8984**, and age **0.5781**. Neither prespecified
 Geneformer-superiority criterion was met. The external cohort had already been
 examined, so this is a corrected reanalysis rather than a new untouched
 confirmatory validation.
+Readable [corrected manuscript and supplement drafts](manuscript_drafts/correction_2026-09/)
+are on this branch, alongside [the dated reporting audit](docs/REPORTING_AND_BIAS_REVIEW.md).
+The primary age comparator retains GEO's age 50 for aHD3; an exploratory
+review-reported age-43 sensitivity changes age AUROC to 0.5797 and leaves the
+superiority decision unchanged. The study supplement workbook was unavailable
+for independent verification of the review-reported value.
 
 Patient-level benchmarking of frozen single-cell foundation-model (Geneformer) embeddings against raw pseudobulk counts and a metadata-only baseline for systemic lupus erythematosus (SLE) vs. healthy-control discrimination from peripheral blood single-cell RNA-seq, with a single, pre-registered, sealed-cohort external validation.
 
@@ -24,7 +30,7 @@ Patient-level benchmarking of frozen single-cell foundation-model (Geneformer) e
 
 No clinical claim, clinical diagnostic claim, or clinical deployment claim is made for either result.
 
-**Current corrected write-up:** five revised Word documents in the paper workspace, generated from `scripts/33_build_corrected_documents.py`. `MANUSCRIPT.md` remains the historical release draft.
+**Current corrected write-up:** [manuscript and supplement PDF drafts](manuscript_drafts/correction_2026-09/), plus five editable Word documents in the paper workspace, generated from `scripts/33_build_corrected_documents.py`. `MANUSCRIPT.md` remains the historical release draft. The PDFs and Word files require final author review before submission.
 
 ## Scientific objective
 

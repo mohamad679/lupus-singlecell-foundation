@@ -1,0 +1,21 @@
+# Direct extraction dependencies observed in all four successful Kaggle V1 runs.
+# Python 3.12 and Kaggle CUDA base supplied torch==2.10.0+cu128.
+# This file pins the principal direct packages, not every transitive package;
+# each run summary archives its complete `pip freeze` for the actual run.
+geneformer @ git+https://huggingface.co/ctheodoris/Geneformer.git@04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5
+transformers==4.49.0
+huggingface_hub==0.36.2
+anndata==0.13.4
+numpy==2.5.3
+pandas==2.3.3
+scipy==1.16.3
+numba==0.67.0
+datasets==5.0.0
+cellxgene-census==1.18.0
+pyarrow==24.0.0
+s3fs==2025.3.0
+tiledbsoma==2.3.0
+aiobotocore==2.26.0
+boto3==1.41.5
+botocore==1.41.5
+s3transfer==0.15.0

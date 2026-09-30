@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import json
 from pathlib import Path
@@ -20,9 +21,9 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
 
-def main():
-    d = pd.read_parquet(CORR / "shared_features/l2_dev_geneformer_v1_shared_embeddings.parquet")
-    e = pd.read_parquet(CORR / "shared_features/l2_sealed_geneformer_v1_shared_embeddings.parquet")
+def run(feature_root: Path, output_dir: Path):
+    d = pd.read_parquet(feature_root / "shared_features/l2_dev_geneformer_v1_shared_embeddings.parquet")
+    e = pd.read_parquet(feature_root / "shared_features/l2_sealed_geneformer_v1_shared_embeddings.parquet")
     if list(d.columns) != list(e.columns) or len(d) != 261 or len(e) != 56:
         raise ValueError("corrected embedding feature or donor mismatch")
     X = np.vstack([d.to_numpy(), e.to_numpy()])
@@ -38,9 +39,18 @@ def main():
               "selected_c_per_outer_fold": cs, "bootstrap_degenerate_draws": skipped,
               "method": "same nested 5x5 donor CV settings as released cohort-signature probe; fixed-prediction bootstrap",
               "interpretation": "Separability of cohort origin does not identify a causal source of SLE discrimination."}
-    path = CORR / "corrected_v1_shared_cohort_probe.json"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    path = output_dir / "corrected_v1_shared_cohort_probe.json"
     path.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print(path)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--feature-root", type=Path, default=CORR)
+    parser.add_argument("--output-dir", type=Path, default=CORR)
+    args = parser.parse_args()
+    run(args.feature_root, args.output_dir)
 
 
 if __name__ == "__main__":

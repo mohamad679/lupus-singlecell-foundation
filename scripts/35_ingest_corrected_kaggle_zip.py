@@ -14,10 +14,9 @@ import json
 import math
 import zipfile
 from pathlib import Path
+from correction_protocol import REVISION, SHARED_GENE_SHA256, validate_setup_provenance, validate_summary
 
 
-REVISION = "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5"
-SHARED_GENE_SHA256 = "482f113c433ac76eb19940442e4f3b1a24ae73d387c4ec75ecb19b8116eea29b"
 COHORTS = {
     "dev": {"prefix": "l2_dev", "n": 261, "cells": 1263676,
             "index": "donor_id", "n_field": "n_donors_embedded",
@@ -52,21 +51,23 @@ def validate_archive(path: Path, job: str) -> tuple[dict, dict[str, bytes]]:
     embedding_name = f"{stem}_embeddings.parquet"
     summary_name = f"{stem}_run_summary.json"
     manifest_name = f"{job}_share_manifest.json"
-    names = {embedding_name, summary_name, "fixture_summary.json", manifest_name}
+    legacy_names = {embedding_name, summary_name, "fixture_summary.json", manifest_name}
+    setup_name = "setup_provenance.json"
 
     with zipfile.ZipFile(path) as archive:
         entries = archive.namelist()
-        require(len(entries) == len(names) and set(entries) == names,
+        require(len(entries) == len(set(entries)) and
+                set(entries) in (legacy_names, legacy_names | {setup_name}),
                 "unexpected, missing, or duplicate ZIP members")
         require(all("/" not in name and "\\" not in name for name in entries),
                 "ZIP member path is not a basename")
         require(archive.testzip() is None, "ZIP CRC check failed")
-        payload = {name: archive.read(name) for name in names}
+        payload = {name: archive.read(name) for name in entries}
 
     manifest = json.loads(payload[manifest_name])
     require(manifest.get("job") == job and manifest.get("geneformer_revision") == REVISION,
             "manifest job or model revision differs")
-    actual_hashes = {name: sha256(payload[name]) for name in names if name != manifest_name}
+    actual_hashes = {name: sha256(data) for name, data in payload.items() if name != manifest_name}
     require(manifest.get("files_sha256") == actual_hashes, "manifest member hashes differ")
 
     fixture = json.loads(payload["fixture_summary.json"])
@@ -78,23 +79,9 @@ def validate_archive(path: Path, job: str) -> tuple[dict, dict[str, bytes]]:
             "updated eight-cell fixture did not pass")
 
     summary = json.loads(payload[summary_name])
-    require(summary.get("status") == "success" and summary.get("gene_input_mode") == mode,
-            "run status or gene mode differs")
-    require(summary.get("geneformer_revision") == REVISION and
-            summary.get("model_version") == "V1" and
-            summary.get("model_input_size") == 2048 and
-            summary.get("emb_mode") == "cell" and
-            summary.get("emb_layer") == -1 and
-            summary.get("aggregation") == "mean_pool_per_donor" and
-            summary.get("tokenizer_num_proc") is None,
-            "Geneformer protocol differs")
-    require(summary.get("intersection_sha256") ==
-            (SHARED_GENE_SHA256 if mode == "shared" else None),
-            "shared-gene protocol differs")
-    require(summary.get(expected["n_field"]) == expected["n"] and
-            summary.get("total_cells_expected") == expected["cells"] and
-            summary.get("total_cells_processed") == expected["cells"],
-            "cohort donor or cell counts differ")
+    validate_summary(summary, mode, cohort)
+    if setup_name in payload:
+        validate_setup_provenance(json.loads(payload[setup_name]), summary)
     require(not summary.get(expected["missing"]) and not summary.get(expected["extra"]) and
             not summary.get("cell_count_mismatches"), "run summary reports missing or mismatched cells")
     require(summary.get("embedding_sha256") == actual_hashes[embedding_name],
@@ -143,6 +130,8 @@ def validate_archive(path: Path, job: str) -> tuple[dict, dict[str, bytes]]:
         "cells_restored_from_checkpoints": summary.get("cells_restored_from_checkpoints"),
         "model_revision": REVISION,
         "shared_gene_sha256": summary.get("intersection_sha256"),
+        "setup_provenance": ("validated_machine_record" if setup_name in payload
+                             else "not_archived_in_2026_09_share_zip"),
     }
     require(all(math.isfinite(report[key]) for key in
                 ("embedding_norm_min", "embedding_norm_max")), "invalid report statistic")

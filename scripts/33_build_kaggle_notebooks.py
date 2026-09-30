@@ -75,8 +75,11 @@ install_env = os.environ.copy()
 install_env["GIT_LFS_SKIP_SMUDGE"] = "1"
 packages = [
     "git+https://huggingface.co/ctheodoris/Geneformer.git@{REVISION}",
-    "transformers>=4.35,<4.50", "huggingface_hub", "anndata",
-    "scipy", "datasets", "cellxgene_census", "pyarrow",
+    "transformers==4.49.0", "huggingface_hub==0.36.2",
+    "anndata==0.13.4", "scipy==1.16.3", "numpy==2.5.3",
+    "pandas==2.3.3", "datasets==5.0.0", "cellxgene_census==1.18.0",
+    "pyarrow==24.0.0", "s3fs==2025.3.0", "tiledbsoma==2.3.0",
+    "numba==0.67.0",
     "aiobotocore==2.26.0",
 ]
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", *packages],
@@ -89,11 +92,12 @@ subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--no-deps",
                check=True)
 # The source checkout skips Git LFS to avoid fetching every model checkpoint.
 # Fetch the three V1 dictionaries explicitly from the same pinned revision.
-dictionary_code = """import hashlib, importlib.util, pickle, shutil
+dictionary_code = """import hashlib, importlib.util, json, pickle, shutil
 from pathlib import Path
 from huggingface_hub import hf_hub_download
 revision = '{REVISION}'
 package_dir = Path(importlib.util.find_spec('geneformer').origin).parent
+observed = {{}}
 for name in ('gene_median_dictionary_gc30M.pkl',
              'token_dictionary_gc30M.pkl',
              'ensembl_mapping_dict_gc30M.pkl'):
@@ -110,7 +114,16 @@ for name in ('gene_median_dictionary_gc30M.pkl',
     target = package_dir / 'gene_dictionaries_30m' / name
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, target)
-    print('V1 dictionary:', name, len(value), hashlib.sha256(target.read_bytes()).hexdigest())
+    observed[name] = hashlib.sha256(target.read_bytes()).hexdigest()
+    print('V1 dictionary:', name, len(value), observed[name])
+base = Path('/kaggle/working/lupus_correction_code')
+staged = {{name: hashlib.sha256((base / name).read_bytes()).hexdigest()
+          for name in ('corrected_run.py', 'v1_fixture.py', 'gene_space_intersection.txt')}}
+(base / 'setup_provenance.json').write_text(json.dumps({{
+    'geneformer_revision': revision,
+    'dictionary_sha256_by_file': observed,
+    'staged_source_sha256_by_file': staged,
+}}, indent=2) + '\\n')
 """
 subprocess.run([sys.executable, "-c", dictionary_code], check=True)
 revisions = []
@@ -186,14 +199,16 @@ subprocess.run([sys.executable,
                check=True, env=env)
 print("Extraction finished: {job}")
 '''
-    package = f'''import hashlib, json, zipfile
+    package = f'''import hashlib, json, sys, zipfile
 from pathlib import Path
 from IPython.display import FileLink, display
 output = Path("/kaggle/working")
 embedding = output / "{prefix}_geneformer_v1_{mode}_embeddings.parquet"
 summary_file = output / "{prefix}_geneformer_v1_{mode}_run_summary.json"
 fixture_file = output / "v1_fixture/fixture_summary.json"
+setup_file = output / "lupus_correction_code/setup_provenance.json"
 summary = json.loads(summary_file.read_text())
+setup = json.loads(setup_file.read_text())
 if summary.get("status") != "success":
     raise RuntimeError("Extraction did not finish successfully")
 if summary.get("gene_input_mode") != "{mode}" or summary.get("model_version") != "V1":
@@ -205,7 +220,24 @@ if summary.get("{('n_donors_embedded' if cohort == 'dev' else 'n_samples_embedde
 digest = hashlib.sha256(embedding.read_bytes()).hexdigest()
 if digest != summary.get("embedding_sha256"):
     raise ValueError("Embedding parquet checksum differs from run summary")
-files = [embedding, summary_file, fixture_file]
+setup['checkpoint_sha256_by_file'] = summary['checkpoint_sha256_by_file']
+setup['runtime_python'] = sys.version
+setup['runtime_pip_freeze_sha256'] = hashlib.sha256(
+    '\\n'.join(summary['runtime_pip_freeze']).encode()).hexdigest()
+checkpoint_dir = output / "correction_checkpoints/{job}"
+batch_meta = {{}}
+for batch in summary['batches']:
+    path = checkpoint_dir / f"batch_{{batch['batch_idx']:02d}}.json"
+    if not path.is_file():
+        raise FileNotFoundError('batch checkpoint metadata missing: ' + str(path))
+    metadata = json.loads(path.read_text())
+    if metadata.get('parquet_sha256') != batch['checkpoint_sha256']:
+        raise ValueError('batch checkpoint hash mismatch: ' + str(path))
+    batch_meta[path.name] = {{'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                             'metadata': metadata}}
+setup['batch_checkpoint_metadata_by_file'] = batch_meta
+setup_file.write_text(json.dumps(setup, indent=2) + '\\n')
+files = [embedding, summary_file, fixture_file, setup_file]
 manifest = {{"job": "{job}", "geneformer_revision": "{REVISION}",
             "files_sha256": {{path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                              for path in files}}}}

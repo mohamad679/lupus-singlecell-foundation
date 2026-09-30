@@ -103,7 +103,7 @@ def holm_adjust(p_values):
     return adjusted
 
 
-def probability_metrics(y, probability, *, development_prevalence):
+def probability_metrics(y, probability, *, development_prevalence, decision_score=None):
     y, (p,) = _validated(y, probability)
     if not np.logical_and(p >= 0, p <= 1).all():
         raise ValueError("probabilities must lie in [0, 1]")
@@ -116,19 +116,28 @@ def probability_metrics(y, probability, *, development_prevalence):
         "development_prevalence_constant_brier": float(
             brier_score_loss(y, np.full(len(y), development_prevalence))
         ),
-        "calibration": calibration_fit(y, p),
+        "calibration": calibration_fit(y, p, decision_score=decision_score),
     }
 
 
-def calibration_fit(y, probability):
+def calibration_fit(y, probability, *, decision_score=None):
     """Logistic recalibration slope/intercept with Wald uncertainty.
 
     Fits a diagnostic curve to the evaluation labels. The fitted parameters
     are never used to change the evaluated probabilities.
     """
     y, (p,) = _validated(y, probability)
-    clipped = np.clip(p, 1e-6, 1 - 1e-6)
-    logit = np.log(clipped / (1 - clipped))
+    if decision_score is None:
+        clipped = np.clip(p, 1e-6, 1 - 1e-6)
+        logit = np.log(clipped / (1 - clipped))
+        convention = "logit of probabilities clipped to [1e-6, 1-1e-6]"
+        clipped_count = int(np.count_nonzero(clipped != p))
+    else:
+        _, (logit,) = _validated(y, decision_score)
+        if not np.allclose(expit(logit), p, rtol=0, atol=1e-12):
+            raise ValueError("decision scores do not reproduce probabilities")
+        convention = "original fitted-model decision_function logits"
+        clipped_count = 0
     design = np.column_stack([np.ones(len(y)), logit])
 
     def score(beta):
@@ -158,4 +167,6 @@ def calibration_fit(y, probability):
         "slope_ci95_wald": [float(fit.x[1] - 1.96 * standard_errors[1]),
                             float(fit.x[1] + 1.96 * standard_errors[1])],
         "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": convention,
+        "n_probabilities_clipped": clipped_count,
     }

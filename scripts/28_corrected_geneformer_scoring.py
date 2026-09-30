@@ -22,6 +22,7 @@ from sklearn.exceptions import ConvergenceWarning
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.preprocessing import StandardScaler
+from correction_protocol import validate_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
@@ -31,13 +32,7 @@ DEFAULT_OUTPUT = RESULTS / "correction_2026-09"
 def read_summary(path, mode):
     with path.open() as file:
         summary = json.load(file)
-    if (summary.get("status") != "success" or summary.get("model_version") != "V1"
-            or summary.get("emb_mode") != "cell" or summary.get("gene_input_mode") != mode):
-        raise ValueError(f"invalid corrected extraction summary: {path}")
-    if not summary.get("checkpoint_sha256_by_file"):
-        raise ValueError(f"checkpoint hashes absent: {path}")
-    if not summary.get("embedding_sha256"):
-        raise ValueError(f"embedding hash absent: {path}")
+    validate_summary(summary, mode)
     return summary
 
 
@@ -100,8 +95,11 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
         scaler = StandardScaler().fit(X_dev)
         model = LogisticRegression(C=c_final, l1_ratio=0, max_iter=2000, solver="lbfgs")
         model.fit(scaler.transform(X_dev), y_dev)
-    probability = model.predict_proba(scaler.transform(X_external))[:, 1]
-    if not np.isfinite(oof).all() or not np.isfinite(probability).all():
+    external_scaled = scaler.transform(X_external)
+    probability = model.predict_proba(external_scaled)[:, 1]
+    decision_score = model.decision_function(external_scaled)
+    if (not np.isfinite(oof).all() or not np.isfinite(probability).all() or
+            not np.isfinite(decision_score).all()):
         raise ValueError("nonfinite development or external probabilities")
 
     with (RESULTS / "l2_sealed_predictions_regenerated.json").open() as file:
@@ -112,7 +110,8 @@ def score(dev_path, external_path, dev_summary_path, external_summary_path, outp
             raise ValueError(f"historical {arm} predictions are misaligned")
     predictions = {
         "geneformer": {"donor_ids": donor_ids, "y": y_external.tolist(),
-                       "proba": probability.tolist()},
+                       "proba": probability.tolist(),
+                       "decision_score": decision_score.tolist()},
         "pseudobulk": {key: historical["pseudobulk"][key] for key in ("donor_ids", "y", "proba")},
         "metadata_only_age": {key: historical["metadata_only_age"][key] for key in ("donor_ids", "y", "proba")},
     }

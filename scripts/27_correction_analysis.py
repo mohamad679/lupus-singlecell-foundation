@@ -35,7 +35,8 @@ def analyze(predictions, *, input_provenance):
     prevalence = 162 / 261
     metrics = {
         arm: probability_metrics(base_y, predictions[arm]["proba"],
-                                 development_prevalence=prevalence)
+                                 development_prevalence=prevalence,
+                                 decision_score=predictions[arm].get("decision_score"))
         for arm in ARMS
     }
     comparisons = {}

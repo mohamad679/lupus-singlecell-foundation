@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -34,6 +35,7 @@ def setup():
 def save(fig, stem):
     fig.savefig(OUTPUT / f"{stem}.tiff", dpi=300, bbox_inches="tight", pil_kwargs={"compression": "tiff_lzw"})
     fig.savefig(OUTPUT / f"{stem}.png", dpi=180, bbox_inches="tight")
+    fig.savefig(OUTPUT / f"{stem}.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -131,6 +133,12 @@ def figure4(probe, historical):
 
 
 def main():
+    global RESULTS, OUTPUT
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--results-dir", type=Path, default=RESULTS)
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT)
+    args = parser.parse_args()
+    RESULTS, OUTPUT = args.results_dir, args.output_dir
     setup()
     descriptive = read("corrected_v1_descriptive.json")
     figure1(descriptive)

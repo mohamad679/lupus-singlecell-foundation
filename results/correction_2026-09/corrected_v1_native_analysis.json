@@ -15,17 +15,19 @@
       "development_prevalence_constant_brier": 0.21284185493460167,
       "calibration": {
         "status": "estimated",
-        "intercept": 2.6926170629315753,
-        "slope": 0.2116445985704501,
+        "intercept": 2.339047869675852,
+        "slope": 0.16953450284679517,
         "intercept_ci95_wald": [
-          0.9515696968413356,
-          4.433664429021815
+          0.8763903546330363,
+          3.8017053847186677
         ],
         "slope_ci95_wald": [
-          0.0483047354176151,
-          0.3749844617232851
+          0.03593566646652105,
+          0.3031333392270693
         ],
-        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": "original fitted-model decision_function logits",
+        "n_probabilities_clipped": 0
       }
     },
     "pseudobulk": {
@@ -37,17 +39,19 @@
       "development_prevalence_constant_brier": 0.21284185493460167,
       "calibration": {
         "status": "estimated",
-        "intercept": 1.014794405096477,
-        "slope": 0.5452808746237907,
+        "intercept": 1.0147944050964772,
+        "slope": 0.5452808746237908,
         "intercept_ci95_wald": [
-          0.18133028611982938,
-          1.8482585240731246
+          0.1813302861198295,
+          1.8482585240731249
         ],
         "slope_ci95_wald": [
-          0.24704689217226744,
-          0.8435148570753139
+          0.2470468921722675,
+          0.8435148570753142
         ],
-        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": "logit of probabilities clipped to [1e-6, 1-1e-6]",
+        "n_probabilities_clipped": 1
       }
     },
     "metadata_only_age": {
@@ -69,7 +73,9 @@
           -29.130885800720357,
           18.30208408558982
         ],
-        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": "logit of probabilities clipped to [1e-6, 1-1e-6]",
+        "n_probabilities_clipped": 0
       }
     }
   },
@@ -117,5 +123,5 @@
       "superiority_rule_met": false
     }
   },
-  "input_sha256": "39408d3921c944b3e9757625cd16479d3dc7d32ee9e7e4abc3e6d019832bfd19"
+  "input_sha256": "3935180cea10647cc2172e9f472eb74a34d743487542439041e68e3118eaa90f"
 }

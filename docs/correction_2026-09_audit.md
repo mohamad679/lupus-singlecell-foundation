@@ -19,6 +19,8 @@ constitute a new untouched confirmatory validation.
 | 261 development donors / 1,263,676 cells and 56 external samples / 363,083 cells | Validated extraction accounting in both gene-input modes | `shared_features/*_run_summary.json`, `native_features/*_run_summary.json` and ingestion validations |
 | 30,165 shared genes; 490 development-zero genes expressed externally | Descriptive gene availability, not a causal explanation | `historical_gene_availability.json` |
 | Corrected Geneformer cohort-origin AUROC 0.9999 | Post-hoc feature-space diagnostic, not SLE prediction | `corrected_v1_shared_cohort_probe.json` |
+| aHD3 age 50 in GEO; age 43 reported by independent review for study supplement | GEO source archived; supplement workbook unavailable for independent verification; GEO value retained as primary | `docs/source_records/GSM4029942_sample_SOFT_2026-09-30.txt`, `external_age_source_sensitivity.json` |
+| Age-43 exploratory sensitivity: age AUROC 0.5797; Geneformer-minus-age +0.1547 (paired DeLong p 0.2082) | Fixed-model single-sample correction; superiority conclusion unchanged | `external_age_source_sensitivity.json`, `external_source_to_gsm_crosswalk.csv` |
 
 The source-defined external `Children` category has 44 samples, including six
 aged 18 and one aged 19. The `Adult` category has 12 samples. The paper uses
@@ -33,9 +35,14 @@ Each run output passed `scripts/35_ingest_corrected_kaggle_zip.py`: manifest and
 member hashes, V1 fixture, finite 256-dimensional donor vectors, distinct donor
 keys, expected donor and cell counts, and no missing donors. The development and
 external V1 extraction summaries record the same pinned Geneformer revision,
-checkpoint file SHA-256 hashes, dictionary identity, input mode, `emb_mode=cell`,
+checkpoint file SHA-256 hashes, input mode, `emb_mode=cell`,
 `emb_layer=-1`, `model_version=V1`, `model_input_size=2048`, and full runtime
 package lists. ZIP originals are retained in the paper workspace outside Git.
+The original four ZIPs did **not** archive dictionary SHA-256 hashes: these
+were printed in Kaggle setup output and are user-reported rather than an
+independently recovered file record. The revised notebooks export a
+machine-readable setup/checkpoint provenance file for future runs, but that
+later notebook revision has not yet been executed on Kaggle.
 
 The corrected scoring code rejects embedding hash mismatch, donor-key or label
 misalignment, mismatched dimensions, non-finite vectors/probabilities, and
@@ -67,12 +74,21 @@ repository root, execute in order:
    working drafts in the parent paper directory, using a Python environment
    with `python-docx`. Inspect rendered DOCX pages before submission.
 
-The versioned run summaries are the authoritative lock for Kaggle packages and
-checkpoint/dictionary hashes. `requirements_correction_scoring.txt` locks the
-local scientific scoring environment. Figures were generated with Matplotlib
+The versioned run summaries record Kaggle packages and checkpoint hashes;
+`requirements_correction_kaggle_extraction.txt` pins tested direct extraction
+dependencies but is not a complete transitive lock.
+`requirements_correction_scoring.txt` locks the local scientific scoring
+environment. Figures were generated with Matplotlib
 3.11.2; the built-in document runtime supplied `python-docx` for Word editing.
 `results/correction_2026-09/corrected_artifact_manifest.json` hashes the final
-prediction, analysis, figure, and document artifacts.
+prediction, analysis, source-record, code, TIFF/PDF figure, and document artifacts.
+
+The isolated feature-to-result reproduction was run on 30 September 2026 with
+`bash scripts/37_reproduce_corrected_results.sh --offline --output-dir
+/private/tmp/lupus-correction-repro-20260930`. The comparator reported `pass`
+for aligned probabilities, original decision scores, discrimination, and paired
+inference in both shared and native modes at tolerance 1e-12. This reuses the
+validated feature matrices; it is not a repeat of raw-cell extraction.
 
 ## Reporting and bias audit
 

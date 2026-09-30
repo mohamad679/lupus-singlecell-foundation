@@ -34,8 +34,11 @@ def auc_ci(y, p, *, seed=20260930, n_bootstrap=5000):
 
 
 def run(root: Path):
+    return run_in_dir(root, root / "results/correction_2026-09")
+
+
+def run_in_dir(root: Path, corr: Path):
     results = root / "results"
-    corr = results / "correction_2026-09"
     metadata = pd.read_csv(results / "l2_sealed_donor_metadata.csv", dtype={"gsm_id": str})
     if metadata.gsm_id.duplicated().any():
         raise ValueError("duplicate external sample keys")
@@ -76,8 +79,10 @@ def run(root: Path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--correction-dir", type=Path)
     args = parser.parse_args()
-    result = run(args.repo_root)
-    out = args.repo_root / "results/correction_2026-09/corrected_v1_descriptive.json"
+    corr = args.correction_dir or args.repo_root / "results/correction_2026-09"
+    result = run_in_dir(args.repo_root, corr)
+    out = corr / "corrected_v1_descriptive.json"
     out.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print(out)

@@ -12,17 +12,19 @@
     "development_prevalence_constant_brier": 0.21284185493460167,
     "calibration": {
       "status": "estimated",
-      "intercept": 2.374150279896342,
-      "slope": 0.18450474106913686,
+      "intercept": 2.0909773873655335,
+      "slope": 0.1489419960547359,
       "intercept_ci95_wald": [
-        0.878872231915667,
-        3.8694283278770167
+        0.7917252880300496,
+        3.3902294867010174
       ],
       "slope_ci95_wald": [
-        0.0399510967562183,
-        0.32905838538205545
+        0.026610010412589244,
+        0.27127398169688255
       ],
-      "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+      "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+      "score_convention": "original fitted-model decision_function logits",
+      "n_probabilities_clipped": 0
     }
   },
   "native_geneformer": {
@@ -34,17 +36,19 @@
     "development_prevalence_constant_brier": 0.21284185493460167,
     "calibration": {
       "status": "estimated",
-      "intercept": 2.692617062931576,
-      "slope": 0.21164459857045015,
+      "intercept": 2.339047869675852,
+      "slope": 0.16953450284679517,
       "intercept_ci95_wald": [
-        0.9515696968413374,
-        4.433664429021815
+        0.8763903546330363,
+        3.8017053847186677
       ],
       "slope_ci95_wald": [
-        0.048304735417615235,
-        0.37498446172328503
+        0.03593566646652105,
+        0.3031333392270693
       ],
-      "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+      "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+      "score_convention": "original fitted-model decision_function logits",
+      "n_probabilities_clipped": 0
     }
   },
   "native_minus_shared": {
@@ -65,6 +69,6 @@
     "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions"
   },
   "interpretation_limit": "Exploratory paired comparison of two corrected representations on the same previously examined external samples; no new confirmatory cohort.",
-  "shared_predictions_sha256": "16320bad34cc08b01d35654ab2ccdc6bb4ee30aa61663060fed8e7a10ab3dbce",
-  "native_predictions_sha256": "39408d3921c944b3e9757625cd16479d3dc7d32ee9e7e4abc3e6d019832bfd19"
+  "shared_predictions_sha256": "636beb338fde0cf13e883811bdc72ba5d60a663f3b6569c14a04d25fee74854a",
+  "native_predictions_sha256": "3935180cea10647cc2172e9f472eb74a34d743487542439041e68e3118eaa90f"
 }

@@ -39,9 +39,11 @@ def compare(shared: dict, native: dict) -> dict:
         raise ValueError("external cohort labels or sample count differ")
     prevalence = 162 / 261
     shared_metrics = probability_metrics(y, shared_gf["proba"],
-                                         development_prevalence=prevalence)
+                                         development_prevalence=prevalence,
+                                         decision_score=shared_gf.get("decision_score"))
     native_metrics = probability_metrics(y, native_gf["proba"],
-                                         development_prevalence=prevalence)
+                                         development_prevalence=prevalence,
+                                         decision_score=native_gf.get("decision_score"))
     return {
         "analysis": "exploratory model-native input sensitivity on previously examined external cohort",
         "n_samples": len(y), "n_case": sum(y), "n_control": len(y) - sum(y),

@@ -1,8 +1,9 @@
 # Corrected V1 reanalysis runbook
 
-## Kaggle GPU notebooks (current execution path)
+## Kaggle GPU notebooks (future re-extraction)
 
-Four self-contained notebooks are in the parent `lupuspaper` folder. Run each
+Four self-contained notebooks are versioned in `kaggle_notebooks/`; copies are
+also supplied in the paper package. Run each
 in a separate Kaggle GPU session with Internet enabled, in this order:
 
 All four cohort/mode ZIPs completed and passed local validation. The notebooks
@@ -14,7 +15,7 @@ than an older Kaggle upload with a similar name.
 3. `CBC_Kaggle_3_Development_Native.ipynb`
 4. `CBC_Kaggle_4_External_Native.ipynb`
 
-Each notebook contains five numbered code cells: stage checksum-verified code
+Each revised notebook contains five numbered code cells: stage checksum-verified code
 and the shared-gene list; install/verify the pinned Geneformer source and GPU;
 run an eight-cell synthetic V1 technical fixture; run exactly one cohort/mode;
 verify and package results. Run them in order or use Kaggle's Save & Run All.
@@ -30,6 +31,15 @@ The first Kaggle attempt exposed a `boto3`/`botocore` import mismatch before
 tokenization. The rebuilt notebooks pin compatible AWS package versions in
 Cell 2 and import Geneformer there, so this failure is caught before Cell 3.
 
+Cell 2 now saves `setup_provenance.json` with dictionary and staged-source
+SHA-256 hashes; Cell 5 adds checkpoint metadata and the runtime-package digest
+to a five-member share ZIP. These cells were syntax-checked locally, but this
+later notebook revision has not been rerun on Kaggle. The four completed 2026-09
+archives predate this change and have no machine-readable dictionary-hash
+record. Their hashes were printed in the successful setup log and are treated
+as user-reported setup evidence, while their saved checkpoint/embedding hashes
+and runtime inventories remain archived in the run summaries.
+
 The cohort scripts keep large raw matrices and temporary embeddings under
 `/kaggle/temp/lupus-correction`. Final donor parquet, JSON summary, a small
 fixture summary, a share ZIP, and per-batch checkpoints are written under
@@ -44,9 +54,8 @@ files, donor set, cell counts, or parquet checksum. It accepts only explicitly
 listed prior correction-script hashes when every other field matches, allowing
 a completed batch to survive a multiprocessing-only code repair.
 
-After Cell 5, download that run's share ZIP. Rebuild the notebooks with
-`python scripts/33_build_kaggle_notebooks.py --output-dir ..` if their source
-changes.
+After Cell 5, download that run's share ZIP. Rebuild the versioned notebooks
+with `python scripts/33_build_kaggle_notebooks.py` if their source changes.
 
 ## VS Code with a Google Colab GPU
 
@@ -87,23 +96,22 @@ The notebook can be rebuilt after a script change with
    `GENE_INPUT_MODE=shared`. Save both parquet files and JSON summaries. Repeat
    with `GENE_INPUT_MODE=native` for the sensitivity analysis. These jobs need
    Census/GEO network access and GPU compute.
-5. Download the four outputs for each mode. For shared mode, run:
+5. Ingest each share ZIP into a **new** directory with
+   `scripts/35_ingest_corrected_kaggle_zip.py`, then score each mode there.
+   To reproduce the existing validated feature-to-result path without changing
+   published files, run:
 
    ```bash
-   uv run --no-project --with-requirements requirements_correction_scoring.txt \
-     python scripts/28_corrected_geneformer_scoring.py \
-     --dev-embeddings PATH_TO_DEV_PARQUET \
-     --external-embeddings PATH_TO_EXTERNAL_PARQUET \
-     --dev-summary PATH_TO_DEV_SUMMARY \
-     --external-summary PATH_TO_EXTERNAL_SUMMARY \
-     --mode shared
-   uv run --no-project --with-requirements requirements_correction_scoring.txt \
-     python scripts/27_correction_analysis.py \
-     --predictions results/correction_2026-09/corrected_v1_shared_predictions.json \
-     --output results/correction_2026-09/corrected_v1_shared_analysis.json
+   bash scripts/37_reproduce_corrected_results.sh
    ```
 
-6. Repeat step 5 with `--mode native` and distinct output paths. Check that
+   This resolves the pinned Python 3.11 scoring environment online by default,
+   writes into a fresh `reproductions/correction-*` directory, and checks
+   aligned predictions, decision scores, AUROCs, and paired inference against
+   the published JSON. Use `--offline` only when the packages are already
+   cached; `--output-dir PATH` chooses another isolated directory.
+6. For newly ingested ZIPs, score shared and native modes with distinct output
+   paths. Check that
    both summaries name the same checkpoint hashes and source revision, that
    the donor order and embedding columns match, and that no output reports a
    failed or partial extraction.
