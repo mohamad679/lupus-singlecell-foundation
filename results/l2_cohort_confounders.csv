@@ -1,0 +1,22 @@
+cohort,variable,category,value,note
+dev,age,n,259.0,
+dev,age,mean,41.3011583011583,
+dev,age,sd,14.452610296744748,
+dev,age,min,20.0,
+dev,age,median,37.0,
+dev,age,max,83.0,
+sealed,age,n,56.0,
+sealed,age,mean,20.857142857142858,
+sealed,age,sd,12.819627808281219,
+sealed,age,min,7.0,
+sealed,age,median,17.0,
+sealed,age,max,63.0,
+dev,sex,female,244.0,93.5% of n=261
+dev,sex,male,17.0,6.5% of n=261
+sealed,sex,NOT_AVAILABLE,,"GSE135779 public GEO metadata has no sex field (verified Phase 2 pre-flight, PREREG.md amendment 2026-07-19)"
+dev,ancestry_self_reported_ethnicity,European American,149.0,57.1% of n=261
+dev,ancestry_self_reported_ethnicity,Asian,107.0,41.0% of n=261
+dev,ancestry_self_reported_ethnicity,African American,3.0,1.1% of n=261
+dev,ancestry_self_reported_ethnicity,Hispanic or Latin,2.0,0.8% of n=261
+sealed,ancestry_self_reported_ethnicity,NOT_AVAILABLE,,"GSE135779 public GEO metadata has no ancestry_self_reported_ethnicity field (verified Phase 2 pre-flight, PREREG.md amendment 2026-07-19)"
+both,platform_chemistry,NOT_A_STRUCTURED_FIELD,,"Neither cohort has platform/chemistry as a committed, structured metadata field. PREREG.md Section 7 records only a qualitative statement ('different sequencing platform/generation... per their source publications'). Not fabricated as a quantitative row."

@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the corrected release."
+title: "Lupus Single-Cell Foundation Model: corrected V1 reanalysis"
+type: software
+version: "2.0.0-corrected"
+date-released: 2026-10-04
+license: MIT
+url: "https://github.com/mohamad679/lupus-singlecell-foundation"
+repository-code: "https://github.com/mohamad679/lupus-singlecell-foundation"
+authors:
+  - given-names: "Mohammad Javad"
+    family-names: "Asgari"
+    email: "m.asgari77@gmail.com"
+abstract: >
+  Corrected donor-level reanalysis of Geneformer V1 embeddings against
+  pseudobulk and age-only baselines for SLE-versus-healthy discrimination.
+  The corrected shared-gene external AUROCs are 0.7344, 0.8984, and 0.5781,
+  respectively. The external cohort had already been examined, so this release
+  is a corrected reanalysis rather than a new untouched confirmatory validation.

@@ -1,0 +1,127 @@
+{
+  "input_provenance": "results/correction_2026-09/corrected_v1_native_predictions.json",
+  "status": "corrected score analysis",
+  "warning": "This corrected reanalysis uses the previously examined external cohort.",
+  "n_donors": 56,
+  "n_case": 40,
+  "n_control": 16,
+  "metrics": {
+    "geneformer": {
+      "auroc": 0.7484375,
+      "average_precision": 0.9006924241775816,
+      "brier_score": 0.48196766128270857,
+      "external_prevalence": 0.7142857142857143,
+      "development_prevalence": 0.6206896551724138,
+      "development_prevalence_constant_brier": 0.21284185493460167,
+      "calibration": {
+        "status": "estimated",
+        "intercept": 2.339047869675852,
+        "slope": 0.16953450284679517,
+        "intercept_ci95_wald": [
+          0.8763903546330363,
+          3.8017053847186677
+        ],
+        "slope_ci95_wald": [
+          0.03593566646652105,
+          0.3031333392270693
+        ],
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": "original fitted-model decision_function logits",
+        "n_probabilities_clipped": 0
+      }
+    },
+    "pseudobulk": {
+      "auroc": 0.8984375,
+      "average_precision": 0.9622411290616828,
+      "brier_score": 0.1489470028051802,
+      "external_prevalence": 0.7142857142857143,
+      "development_prevalence": 0.6206896551724138,
+      "development_prevalence_constant_brier": 0.21284185493460167,
+      "calibration": {
+        "status": "estimated",
+        "intercept": 1.0147944050964772,
+        "slope": 0.5452808746237908,
+        "intercept_ci95_wald": [
+          0.1813302861198295,
+          1.8482585240731249
+        ],
+        "slope_ci95_wald": [
+          0.2470468921722675,
+          0.8435148570753142
+        ],
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": "logit of probabilities clipped to [1e-6, 1-1e-6]",
+        "n_probabilities_clipped": 1
+      }
+    },
+    "metadata_only_age": {
+      "auroc": 0.578125,
+      "average_precision": 0.7436865807695917,
+      "brier_score": 0.2155555522547681,
+      "external_prevalence": 0.7142857142857143,
+      "development_prevalence": 0.6206896551724138,
+      "development_prevalence_constant_brier": 0.21284185493460167,
+      "calibration": {
+        "status": "estimated",
+        "intercept": 3.312918218067948,
+        "slope": -5.414400857565268,
+        "intercept_ci95_wald": [
+          -7.214667565297283,
+          13.840504001433178
+        ],
+        "slope_ci95_wald": [
+          -29.130885800720357,
+          18.30208408558982
+        ],
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions",
+        "score_convention": "logit of probabilities clipped to [1e-6, 1-1e-6]",
+        "n_probabilities_clipped": 0
+      }
+    }
+  },
+  "comparisons": {
+    "geneformer_vs_age": {
+      "auroc_a": 0.7484375,
+      "auroc_b": 0.578125,
+      "difference": 0.17031249999999998,
+      "standard_error": 0.12106930843079206,
+      "p_two_sided": 0.15950582046978812,
+      "n_case": 40,
+      "n_control": 16,
+      "delong_method": "paired DeLong, asymptotic two-sided",
+      "ci95": [
+        -0.0683010521281683,
+        0.40901553803339513
+      ],
+      "valid_draws": 5000,
+      "degenerate_draws": 0,
+      "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions",
+      "holm_adjusted_p": 0.15950582046978812,
+      "holm_significant_0_05": false,
+      "positive_ci_condition": false,
+      "superiority_rule_met": false
+    },
+    "geneformer_vs_pseudobulk": {
+      "auroc_a": 0.7484375,
+      "auroc_b": 0.8984375,
+      "difference": -0.15000000000000002,
+      "standard_error": 0.05746549968325477,
+      "p_two_sided": 0.009047294841084205,
+      "n_case": 40,
+      "n_control": 16,
+      "delong_method": "paired DeLong, asymptotic two-sided",
+      "ci95": [
+        -0.26829377372485724,
+        -0.03361465031356673
+      ],
+      "valid_draws": 5000,
+      "degenerate_draws": 0,
+      "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions",
+      "holm_adjusted_p": 0.01809458968216841,
+      "holm_significant_0_05": true,
+      "positive_ci_condition": false,
+      "superiority_rule_met": false
+    }
+  },
+  "input_sha256": "3935180cea10647cc2172e9f472eb74a34d743487542439041e68e3118eaa90f"
+}

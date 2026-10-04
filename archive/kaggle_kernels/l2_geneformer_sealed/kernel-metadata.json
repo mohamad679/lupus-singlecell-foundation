@@ -1,0 +1,13 @@
+{
+  "id": "mohamadasgari/l2-geneformer-sealed",
+  "title": "l2 geneformer sealed",
+  "code_file": "l2_geneformer_sealed.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}

@@ -1,0 +1,54 @@
+{
+  "purpose": "Independent Part-A recomputation of the co-primary comparison paired difference CIs, from already-committed per-donor sealed predictions only (results/l2_sealed_predictions_regenerated.json). No sealed raw data accessed; no new sealed prediction produced -- only differences and resamplings of predictions that already existed and were already verified against results/l2_sealed_results.json.",
+  "bit_for_bit_auroc_cross_check": "PASS (see console log; aborted before this point if any mismatch)",
+  "agreement_with_committed_results": true,
+  "comparisons": {
+    "A_geneformer_vs_metadata": {
+      "observed_auroc_diff": 0.23749999999999993,
+      "bootstrap_ci95_diff": [
+        -0.043056402439024345,
+        0.5179093401399126
+      ],
+      "bootstrap_diff_mean": 0.23434137717794074,
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided_pre_holm": 0.08691308691308691,
+      "permutation_null_mean": 0.009442968749999997,
+      "permutation_null_std": 0.13129316029336538,
+      "ci_condition_met": false,
+      "holm_significant": false,
+      "decision": "REJECTED"
+    },
+    "B_geneformer_vs_pseudobulk": {
+      "observed_auroc_diff": -0.08281250000000007,
+      "bootstrap_ci95_diff": [
+        -0.206065340909091,
+        0.024242424242424288
+      ],
+      "bootstrap_diff_mean": -0.08388852843780871,
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided_pre_holm": 0.1838161838161838,
+      "permutation_null_mean": 0.004017187499999998,
+      "permutation_null_std": 0.06200961837486257,
+      "ci_condition_met": false,
+      "holm_significant": false,
+      "decision": "REJECTED"
+    }
+  },
+  "holm_step_down": {
+    "ranked_order": [
+      "A_geneformer_vs_metadata",
+      "B_geneformer_vs_pseudobulk"
+    ],
+    "p1_name": "A_geneformer_vs_metadata",
+    "p1": 0.08691308691308691,
+    "threshold1": 0.025,
+    "p2_name": "B_geneformer_vs_pseudobulk",
+    "p2": 0.1838161838161838,
+    "threshold2": 0.05,
+    "significant": [],
+    "stop_reason": "p(1)=0.086913 > alpha/2=0.025: stop, neither significant"
+  },
+  "random_state": 20260721,
+  "bootstrap_n": 5000,
+  "permutation_n": 1000
+}

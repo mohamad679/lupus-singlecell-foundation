@@ -1,172 +1,44 @@
-# Lupus Single-Cell Foundation Model
+# Lupus Single-Cell Foundation Model — corrected reanalysis
 
-Patient-level benchmarking of frozen single-cell foundation-model embeddings for active systemic lupus erythematosus (SLE) flare discrimination from peripheral blood single-cell RNA-seq.
+Donor-level SLE-versus-healthy benchmarking of corrected Geneformer V1 embeddings against pseudobulk and age baselines across the previously examined development/external cohorts.
 
+## Current corrected result
 
-## Claim boundary
-
-**Claim boundary:** internal LOOCV only; no clinical claim; no external validation.
-
-The reported Stage 7 metrics are internal patient-level leave-one-patient-out cross-validation results only. No independent external validation was performed. No clinical claim, clinical diagnostic claim, or clinical deployment claim is made.
-
-## Scientific objective
-
-This project investigates whether frozen single-cell foundation-model representations, especially Geneformer embeddings, can support patient-level discrimination of active SLE flare from managed SLE and healthy controls.
-
-The current working claim is intentionally conservative:
-
-> Frozen Geneformer patient-level embeddings show strong internal leave-one-patient-out discrimination of active SLE flare status in an exploratory PBMC single-cell cohort.
-
-This project should not be described as future flare prediction. The available analysis is cross-sectional active flare discrimination, not longitudinal pre-flare forecasting.
-
-## Current status
-
-Current repository status:
-
-- Stage 7 reconciliation complete
-- patient-level Geneformer embedding evaluation implemented as a script
-- leakage-controlled internal leave-one-patient-out cross-validation completed
-- metric table saved
-- prediction manifest saved
-- run summary saved
-- external validation not performed
-- clinical deployment claim not made
-
-Key controlled outputs:
-
-- `scripts/13_stage7_kaggle_result_reconciliation.py`
-- `reports/stage7_kaggle_result_reconciliation/stage7_run_summary.json`
-- `reports/stage7_kaggle_result_reconciliation/stage7_metric_results.csv`
-- `reports/stage7_kaggle_result_reconciliation/stage7_prediction_manifest.csv`
-
-Project documentation:
-
-- `MODEL_CARD.md`
-- `docs/limitations.md`
-
-## Primary dataset
-
-Primary exploratory cohort:
-
-- Dataset: GSE174188 / Perez et al. lupus PBMC single-cell RNA-seq cohort
-- Source used in exploratory work: CELLxGENE Census
-- CELLxGENE dataset identifier: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
-- Census version used in exploratory notebooks: 2025-11-08
-- Evaluation unit: patient/donor
-
-Stage 7 patient groups:
-
-| Group | Patients |
+| Arm | External AUROC |
 |---|---:|
-| Managed SLE | 149 |
-| Active flare | 14 |
-| Healthy controls | 98 |
-| Total | 261 |
+| Geneformer V1, shared-gene input | **0.7344** |
+| Pseudobulk | **0.8984** |
+| Age only | **0.5781** |
 
-Exploratory donor grouping rule:
+**Claim boundary:** this is a corrected reanalysis on an already examined external cohort, not a new untouched confirmatory validation. No clinical-use, diagnostic-readiness, treatment, or deployment claim is made.
 
-- `FLARE*` -> active flare
-- `HC-*` or `IGTB*` -> healthy control
-- numeric donor identifiers -> managed SLE
+The historical release is preserved at commit `6158a8409064ae8c7a608126cc2d7a7e65b02506`; it is not modified by this cleanup.
 
-This label rule is cohort-specific and should not be generalized without independent validation.
+## Reproduce the corrected result
 
-## Method summary
+```bash
+git clone https://github.com/mohamad679/lupus-singlecell-foundation.git
+cd lupus-singlecell-foundation
+bash scripts/37_reproduce_corrected_results.sh
+```
 
-The Stage 7 reconciliation evaluates:
+The script creates an isolated `reproductions/correction-*` directory and checks donor-aligned probabilities, decision scores, AUROCs, and paired inference against the committed corrected artifacts.
 
-- per-patient Geneformer embedding files
-- mean-pooled patient-level embedding vectors
-- logistic regression
-- class-balanced training
-- leave-one-patient-out cross-validation
+## Data archive
 
-The evaluation is patient-level only. No cell-level train/test split is used.
+The three large historical pseudobulk parquet files were removed from `main` without rewriting Git history and remain preserved in the `v2-corrected` GitHub release snapshot: https://github.com/mohamad679/lupus-singlecell-foundation/releases/tag/v2-corrected
 
-## Leakage-control policy
+Zenodo v2 DOI: pending minting/ingestion. The version-specific DOI will replace this line once Zenodo publishes the new version.
 
-The Stage 7 evaluation records the following leakage controls:
+## Repository map
 
-- patient-level evaluation only
-- leave-one-patient-out cross-validation
-- no cell-level split
-- StandardScaler fit within each training fold only
-- LogisticRegression fit within each training fold only
-- held-out prediction manifest written from fold-held-out patients only
+- `scripts/` — active corrected scoring, analysis, reproduction, reporting, and packaging code.
+- `results/correction_2026-09/` — corrected donor features, predictions, analyses, and manifests.
+- `kaggle_notebooks/` — self-contained corrected extraction notebooks.
+- `docs/` — active correction, reproducibility, reporting, and limitations documentation.
+- `figures/correction_2026-09/` — corrected figures.
+- `manuscript_drafts/correction_2026-09/` — corrected manuscript/supplement drafts.
+- `archive/` — legacy state, reports, Kaggle kernels, early docs/scripts, Stage-7 flare analysis, and the historical manuscript.
+- `PREREG.md`, `FREEZE.json`, `SEALED_OPENED.json` — historical governance artifacts retained for traceability.
 
-## Internal validation results
-
-### Flare vs managed SLE
-
-| Metric | Value |
-|---|---:|
-| Patients | 163 |
-| Active flare cases | 14 |
-| Managed SLE controls | 149 |
-| AUROC (internal LOOCV only) | 0.9962 |
-| AUPRC (internal LOOCV only) | 0.9529 |
-| Sensitivity | 14/14 |
-| Specificity | 147/149 |
-
-### Flare vs healthy controls
-
-| Metric | Value |
-|---|---:|
-| Patients | 112 |
-| Active flare cases | 14 |
-| Healthy controls | 98 |
-| AUROC (internal LOOCV only) | 0.9927 |
-| AUPRC (internal LOOCV only) | 0.9634 |
-| Sensitivity | 12/14 |
-| Specificity | 97/98 |
-
-These are internal validation results only.
-
-## Main scientific risks
-
-The key risks are:
-
-1. small active flare class size
-2. lack of independent external validation
-3. potential batch/source confounding
-4. possible sex, ancestry, or cell-type composition effects
-5. strong raw/pseudobulk baselines may reduce the incremental value of frozen foundation-model embeddings
-6. no pathway-level or network-level mechanistic interpretation yet
-
-The project therefore uses conservative claim boundaries and does not claim clinical readiness.
-
-## Claim boundary
-
-This repository supports research-stage internal benchmarking only.
-
-It does not currently support claims of:
-
-- clinical claims
-- clinical utility
-- treatment recommendation
-- prospective flare prediction
-- independent external generalization
-- deployment readiness
-
-## Reproducibility status
-
-Current reproducibility level:
-
-- repository-controlled Stage 7 evaluation script: complete
-- saved prediction manifest: complete
-- saved metric table: complete
-- saved run summary: complete
-- automated tests: present
-- external validation: not performed; remains future work
-- extended confounding analysis: pending
-- pathway/network interpretation: pending
-
-## Development status
-
-The repository is currently at:
-
-- Stage 7 complete
-- documentation refinement in progress
-- next scientific step: robustness and confounding controls; independent external validation remains future work
-
-The project remains a research-stage computational biology pipeline.
+See `PROJECT_STATUS.md` and `docs/correction_2026-09_audit.md` for the scientific correction boundary and provenance.

@@ -1,0 +1,120 @@
+{
+  "input_provenance": "/Users/mohsenshamsijazeb/Downloads/lupuspaper/lupus-singlecell-foundation/results/l2_sealed_predictions_regenerated.json",
+  "status": "historical scores only",
+  "warning": "These statistics do not validate Geneformer tokenization or replace a corrected embedding rerun.",
+  "n_donors": 56,
+  "n_case": 40,
+  "n_control": 16,
+  "metrics": {
+    "geneformer": {
+      "auroc": 0.8156249999999999,
+      "average_precision": 0.9143320810575308,
+      "brier_score": 0.2200788962486535,
+      "external_prevalence": 0.7142857142857143,
+      "development_prevalence": 0.6206896551724138,
+      "development_prevalence_constant_brier": 0.21284185493460167,
+      "calibration": {
+        "status": "estimated",
+        "intercept": -0.008734865654502995,
+        "slope": 0.21502595156588378,
+        "intercept_ci95_wald": [
+          -0.8763741152037003,
+          0.8589043838946944
+        ],
+        "slope_ci95_wald": [
+          0.05616915392733643,
+          0.3738827492044311
+        ],
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+      }
+    },
+    "pseudobulk": {
+      "auroc": 0.8984375,
+      "average_precision": 0.9622411290616828,
+      "brier_score": 0.1489470028051802,
+      "external_prevalence": 0.7142857142857143,
+      "development_prevalence": 0.6206896551724138,
+      "development_prevalence_constant_brier": 0.21284185493460167,
+      "calibration": {
+        "status": "estimated",
+        "intercept": 1.0147940796636754,
+        "slope": 0.5452809325537523,
+        "intercept_ci95_wald": [
+          0.18132999418412088,
+          1.84825816514323
+        ],
+        "slope_ci95_wald": [
+          0.24704693727253446,
+          0.8435149278349702
+        ],
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+      }
+    },
+    "metadata_only_age": {
+      "auroc": 0.578125,
+      "average_precision": 0.7436865807695917,
+      "brier_score": 0.2155555522547681,
+      "external_prevalence": 0.7142857142857143,
+      "development_prevalence": 0.6206896551724138,
+      "development_prevalence_constant_brier": 0.21284185493460167,
+      "calibration": {
+        "status": "estimated",
+        "intercept": 3.3128959482101505,
+        "slope": -5.414352591791246,
+        "intercept_ci95_wald": [
+          -7.21469071596093,
+          13.84048261238123
+        ],
+        "slope_ci95_wald": [
+          -29.130840120138643,
+          18.30213493655615
+        ],
+        "method": "diagnostic logistic recalibration, unpenalized Wald CI; fixed predictions"
+      }
+    }
+  },
+  "comparisons": {
+    "geneformer_vs_age": {
+      "auroc_a": 0.815625,
+      "auroc_b": 0.578125,
+      "difference": 0.23750000000000004,
+      "standard_error": 0.14100411858642048,
+      "p_two_sided": 0.09211444102651628,
+      "n_case": 40,
+      "n_control": 16,
+      "delong_method": "paired DeLong, asymptotic two-sided",
+      "ci95": [
+        -0.043056402439024345,
+        0.5179093401399126
+      ],
+      "valid_draws": 5000,
+      "degenerate_draws": 0,
+      "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions",
+      "holm_adjusted_p": 0.18422888205303256,
+      "holm_significant_0_05": false,
+      "positive_ci_condition": false,
+      "superiority_rule_met": false
+    },
+    "geneformer_vs_pseudobulk": {
+      "auroc_a": 0.815625,
+      "auroc_b": 0.8984375,
+      "difference": -0.08281249999999996,
+      "standard_error": 0.05879631119327043,
+      "p_two_sided": 0.15899365753876948,
+      "n_case": 40,
+      "n_control": 16,
+      "delong_method": "paired DeLong, asymptotic two-sided",
+      "ci95": [
+        -0.206065340909091,
+        0.024242424242424288
+      ],
+      "valid_draws": 5000,
+      "degenerate_draws": 0,
+      "bootstrap_method": "paired donor bootstrap, percentile, fixed predictions",
+      "holm_adjusted_p": 0.18422888205303256,
+      "holm_significant_0_05": false,
+      "positive_ci_condition": false,
+      "superiority_rule_met": false
+    }
+  }
+}

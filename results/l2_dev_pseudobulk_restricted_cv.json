@@ -1,0 +1,57 @@
+{
+  "arm": "pseudobulk_restricted_30165_dev",
+  "description": "Dev-cohort (Perez 2022) nested CV on pseudobulk features restricted to the 30,165-gene intersection with GSE135779 (same restriction used for the sealed-cohort pseudobulk scoring). Produced to test whether the dev-vs-sealed pseudobulk optimism gap is confounded by the 51% gene-space reduction (F2), post-hoc, after the sealed cohort was already opened -- logged per PREREGISTRATION_DEVIATIONS.md item 10. Does not touch, re-open, or re-score GSE135779.",
+  "n_donors": 261,
+  "n_features": 30165,
+  "auroc": 0.9850978925053,
+  "ci_lower_95": 0.9728765509679488,
+  "ci_upper_95": 0.9942118741336429,
+  "bootstrap_n": 5000,
+  "bootstrap_degenerate_skipped": 0,
+  "permutation_n": 1000,
+  "permutation_p_value_two_sided": 0.000999000999000999,
+  "permutation_status": "COMPLETE -- run by Claude (chat) on 2026-08-03T20:30:54.500230Z, CPU-only, checkpointed across multiple calls; matches the fixed-C=0.01 protocol used for the original pseudobulk permutation elsewhere in this pipeline",
+  "hyperparameter_c_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "selected_c_per_outer_fold_real_fit": [
+    0.1,
+    0.1,
+    0.1,
+    0.01,
+    0.1
+  ],
+  "random_state": 20260719,
+  "cv_scheme": "StratifiedKFold(n_splits=5), not GroupKFold: identical reasoning and code path as scripts/15_l2_dev_cv_pseudobulk_metadata.py (each donor is already exactly one row).",
+  "sanity_check_full_space_reproduction": {
+    "auroc_full_recomputed_this_run": 0.9838508542212245,
+    "auroc_full_committed_l2_dev_sle_vs_healthy_full_json": 0.9838508542212245,
+    "matches_committed_value_within_1e-9": true
+  },
+  "gene_space_restriction_effect_paired_bootstrap": {
+    "comparison": "restricted_minus_full",
+    "observed_diff": 0.0012470382840754635,
+    "paired_bootstrap_ci95": [
+      -0.00039200598644940075,
+      0.0032074833300324507
+    ],
+    "paired_bootstrap_n": 5000,
+    "paired_bootstrap_degenerate_skipped": 0,
+    "ci_excludes_zero": false,
+    "interpretation": "CI includes zero: the gene-space restriction's effect on dev-cohort AUROC is not statistically distinguishable from zero at 95% confidence. This supports treating the dev-restricted-vs-sealed-restricted gap as attributable to cohort shift rather than feature-space mismatch."
+  },
+  "corrected_like_for_like_deltas": {
+    "note": "Recomputed directly from full-precision decimal values, not from rounded displayed figures.",
+    "geneformer_dev_minus_sealed": null,
+    "pseudobulk_dev_restricted_minus_sealed_restricted": 0.0866603925053,
+    "pseudobulk_dev_full_minus_sealed_restricted_CONFOUNDED_DO_NOT_USE": 0.08541335422122454
+  },
+  "permutation_null_mean_auroc": 0.4874583489213119,
+  "permutation_null_std_auroc": 0.051557545996503466,
+  "permutation_fixed_c": 0.01
+}

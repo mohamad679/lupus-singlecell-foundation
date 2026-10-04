@@ -1,94 +1,35 @@
-# Project Status
+# Project Status — corrected release
 
+## Current result
 
-Current claim boundary: internal LOOCV only; no clinical claim; no external validation.
+The authoritative corrected shared-gene external AUROCs are Geneformer V1 **0.7344**, pseudobulk **0.8984**, and age-only **0.5781**. Neither prespecified Geneformer-superiority criterion was met.
 
-## Current repository status
+## Claim boundary
 
-The repository is currently in a cleaned research-stage state after Stage 7 reconciliation.
+This repository describes the external analysis as a **corrected reanalysis on an already examined cohort**. It is not a new untouched confirmatory validation. No clinical-use, diagnostic-readiness, treatment, or deployment claim is supported.
 
-Current completed state:
+The historical release commit `6158a8409064ae8c7a608126cc2d7a7e65b02506` remains unchanged.
 
-- Stage 7 leakage-safe reconciliation complete
-- patient-level Geneformer embedding evaluation implemented as a script
-- internal leave-one-patient-out cross-validation completed
-- metric table, prediction manifest, and run summary saved under `reports/stage7_kaggle_result_reconciliation/`
-- research-stage README updated
-- model card added
-- limitations document added
+## Repository cleanup
 
-## Current authoritative implementation
+Legacy material has been moved under `archive/`: `state/`, `reports/`, `kaggle_kernels/`, numbered early docs (00–12), scripts 00–13, `run_stage7_*`, Stage-7/flare evaluation code and tests, and the historical `MANUSCRIPT.md`.
 
-The current authoritative Stage 7 implementation is:
+Duplicate script numbers were removed while preserving the active corrected sequence. The former secondary scripts are now:
+- `38_prepare_word_working_drafts.py`
+- `42_historical_accounting.py`
+- `43_v1_gpu_fixture.py`
+- `44_build_colab_notebook.py`
+- `45_build_kaggle_notebooks.py`
 
-- `scripts/13_stage7_kaggle_result_reconciliation.py`
+## Reproducibility
 
-The current authoritative Stage 7 outputs are:
+GitHub Actions run `37191102335` completed successfully from a fresh checkout and passed `scripts/37_reproduce_corrected_results.sh` before creating the `v2-corrected` tag/release.
 
-- `reports/stage7_kaggle_result_reconciliation/stage7_run_summary.json`
-- `reports/stage7_kaggle_result_reconciliation/stage7_metric_results.csv`
-- `reports/stage7_kaggle_result_reconciliation/stage7_prediction_manifest.csv`
+## Large data / Zenodo
 
-## Removed legacy exploratory artifacts
+The three large historical pseudobulk parquet files (about 164 MB total) were removed from `main` without rewriting history:
+- `results/l2_dev_pseudobulk_counts.parquet`
+- `results/l2_dev_pseudobulk_counts_restricted.parquet`
+- `results/l2_sealed_pseudobulk_counts.parquet`
 
-Legacy exploratory notebook and early Phase 1 output files have been removed from the tracked repository.
-
-Removed tracked content:
-
-- legacy exploratory Kaggle notebooks
-- early Phase 1 exploratory result files
-
-These files represented exploratory Kaggle-era work and are no longer part of the clean repository interface.
-
-## Current claim boundary
-
-The repository supports the following conservative research-stage statement:
-
-> Frozen Geneformer patient-level embeddings show strong internal leave-one-patient-out discrimination of active SLE flare status in an exploratory PBMC single-cell cohort.
-
-The repository does not support claims of:
-
-- clinical deployment
-- diagnostic readiness
-- treatment recommendation
-- prospective flare prediction
-- external validation
-- generalized clinical decision support
-
-## Validation status
-
-Current validation status:
-
-- internal patient-level validation: complete
-- leakage-controlled LOOCV: complete
-- external validation: not complete
-- clinical validation: not complete
-- prospective validation: not complete
-
-## Next scientific work
-
-Recommended next work:
-
-1. audit robustness and confounding controls
-2. compare Geneformer embeddings against simpler baselines
-3. evaluate cell-type composition and metadata-only baselines
-4. identify and test an independent external validation cohort
-5. add pathway-level and cell-type-level interpretation
-
-## Documentation
-
-Current project-facing documentation:
-
-- `README.md`
-- `MODEL_CARD.md`
-- `docs/limitations.md`
-
-No CV-facing, recruiter-facing, or application-specific files are part of the repository.
-
-## Interpretation boundary
-
-Downstream logistic-regression coefficients, embedding-dimension weights, or SHAP values are not gene-level importance because the classifier operates on Geneformer-derived patient embeddings rather than raw gene features.
-
-## Gene masking boundary
-
-Gene masking is not valid on the downstream logistic-regression classifier. Gene or gene-program perturbation must occur upstream before Geneformer embedding extraction, followed by re-embedding and fixed-classifier re-scoring.
+They remain preserved in the `v2-corrected` GitHub release snapshot for archival ingestion. Zenodo has not yet exposed a new version-specific DOI, so no DOI is fabricated here or in `CITATION.cff`. Once Zenodo publishes the new version, that DOI must be inserted into this file, `README.md`, and `CITATION.cff`.

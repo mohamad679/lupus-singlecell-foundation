@@ -1,0 +1,13 @@
+{
+  "id": "mohamadasgari/l2-gpu-device-check",
+  "title": "l2 gpu device check",
+  "code_file": "l2_gpu_check.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}

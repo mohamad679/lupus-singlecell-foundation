@@ -1,0 +1,27 @@
+# L2/Phase 3 pipeline dependencies (scripts/14-24, kaggle_kernels/).
+# Exact versions installed and used in .venv for every real run reported in
+# this repo's commit history (checked via `pip freeze`, not hand-typed).
+# Python 3.11.9.
+#
+# Separate from requirements_phase1.txt, which covers the earlier Phase 1
+# QC/scaffold pipeline (scripts/00-12) and is unrelated to L2/Phase 3.
+#
+# Kaggle-side dependencies (cellxgene_census, geneformer, transformers,
+# huggingface_hub, scipy, anndata) are pinned inline via `pip install` calls
+# at the top of each kaggle_kernels/*/*.py script, since those run in
+# Kaggle's own managed image, not this local .venv -- see each kernel's
+# source for its exact pins (e.g. kaggle_kernels/l2_geneformer_full/
+# l2_geneformer_full.py pins 'transformers>=4.35,<4.50').
+
+cellxgene-census==1.18.0
+tiledbsoma==2.3.0
+scikit-learn==1.9.0
+pandas==2.3.3
+numpy==2.2.6
+scipy==1.17.1
+matplotlib==3.11.0
+joblib==1.5.3
+pyarrow==25.0.0
+kaggle==2.2.3
+anndata==0.12.18
+scanpy==1.11.5

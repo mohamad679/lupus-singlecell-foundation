@@ -1,0 +1,191 @@
+{
+  "phase": 3,
+  "opened_at_utc": "2026-07-21T06:50:41.256204+00:00",
+  "freeze_commit_sha": "44d6f567670829527a6efa39c2d968c20e8d5515",
+  "random_state": 20260721,
+  "bootstrap_n": 5000,
+  "permutation_n": 1000,
+  "sealed_cohort": {
+    "accession": "GSE135779",
+    "n_samples": 56,
+    "breakdown": "33 cSLE + 11 cHD (pediatric primary) + 7 aSLE + 5 aHD (adult, of 8/6 described)",
+    "sle_label_counts": {
+      "SLE": 40,
+      "healthy": 16
+    },
+    "age_group_counts": {
+      "Children": 44,
+      "Adult": 12
+    }
+  },
+  "arms": {
+    "geneformer": {
+      "arm": "geneformer",
+      "n_sealed": 56,
+      "n_features": 256,
+      "C_frozen": 1.0,
+      "sealed_auroc_overall": 0.8156249999999999,
+      "sealed_ci95_overall": [
+        0.6813655761024183,
+        0.9312499999999999
+      ],
+      "sealed_permutation_p_overall": 0.000999000999000999,
+      "sealed_permutation_null_mean_overall": 0.5067078125000001,
+      "sealed_permutation_null_std_overall": 0.08647551968835511,
+      "bootstrap_degenerate_skipped": 0,
+      "stratified": {
+        "Children": {
+          "n": 44,
+          "auroc": 0.7933884297520661,
+          "ci95": [
+            0.6171848097451791,
+            0.9375
+          ],
+          "bootstrap_degenerate_skipped": 0
+        },
+        "Adult": {
+          "n": 12,
+          "auroc": 0.8285714285714286,
+          "ci95": [
+            0.5,
+            1.0
+          ],
+          "bootstrap_degenerate_skipped": 4
+        }
+      }
+    },
+    "pseudobulk": {
+      "arm": "pseudobulk",
+      "n_sealed": 56,
+      "n_features": 30165,
+      "C_frozen": 0.01,
+      "sealed_auroc_overall": 0.8984375,
+      "sealed_ci95_overall": [
+        0.8068027210884354,
+        0.9687620192307691
+      ],
+      "sealed_permutation_p_overall": 0.000999000999000999,
+      "sealed_permutation_null_mean_overall": 0.5026906250000001,
+      "sealed_permutation_null_std_overall": 0.08642185545109163,
+      "bootstrap_degenerate_skipped": 0,
+      "stratified": {
+        "Children": {
+          "n": 44,
+          "auroc": 0.8925619834710744,
+          "ci95": [
+            0.7841201636904762,
+            0.9746031746031746
+          ],
+          "bootstrap_degenerate_skipped": 0
+        },
+        "Adult": {
+          "n": 12,
+          "auroc": 0.9142857142857143,
+          "ci95": [
+            0.7037037037037037,
+            1.0
+          ],
+          "bootstrap_degenerate_skipped": 4
+        }
+      }
+    },
+    "metadata_only_age": {
+      "arm": "metadata_only_age",
+      "n_sealed": 56,
+      "n_features": 1,
+      "C_frozen": 0.001,
+      "sealed_auroc_overall": 0.578125,
+      "sealed_ci95_overall": [
+        0.37108723958333334,
+        0.783450719533933
+      ],
+      "sealed_permutation_p_overall": 0.3876123876123876,
+      "sealed_permutation_null_mean_overall": 0.49726484374999996,
+      "sealed_permutation_null_std_overall": 0.08944674512934161,
+      "bootstrap_degenerate_skipped": 0,
+      "stratified": {
+        "Children": {
+          "n": 44,
+          "auroc": 0.7658402203856749,
+          "ci95": [
+            0.565045045045045,
+            0.9397581230322704
+          ],
+          "bootstrap_degenerate_skipped": 0
+        },
+        "Adult": {
+          "n": 12,
+          "auroc": 0.4285714285714285,
+          "ci95": [
+            0.0857142857142857,
+            0.7857142857142858
+          ],
+          "bootstrap_degenerate_skipped": 4
+        }
+      }
+    }
+  },
+  "co_primary_comparisons": {
+    "A_geneformer_vs_metadata": {
+      "comparison": "A_geneformer_vs_metadata",
+      "arm_a": "geneformer",
+      "arm_b": "metadata_only_age",
+      "observed_auroc_diff": 0.23749999999999993,
+      "bootstrap_ci95_diff": [
+        -0.043056402439024345,
+        0.5179093401399126
+      ],
+      "bootstrap_diff_mean": 0.23434137717794074,
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided_pre_holm": 0.08691308691308691,
+      "permutation_null_mean": 0.009442968749999997,
+      "permutation_null_std": 0.13129316029336538,
+      "ci_condition_met": false,
+      "holm_significant": false,
+      "decision": "REJECTED"
+    },
+    "B_geneformer_vs_pseudobulk": {
+      "comparison": "B_geneformer_vs_pseudobulk",
+      "arm_a": "geneformer",
+      "arm_b": "pseudobulk",
+      "observed_auroc_diff": -0.08281250000000007,
+      "bootstrap_ci95_diff": [
+        -0.206065340909091,
+        0.024242424242424288
+      ],
+      "bootstrap_diff_mean": -0.08388852843780871,
+      "bootstrap_degenerate_skipped": 0,
+      "permutation_p_two_sided_pre_holm": 0.1838161838161838,
+      "permutation_null_mean": 0.004017187499999998,
+      "permutation_null_std": 0.06200961837486257,
+      "ci_condition_met": false,
+      "holm_significant": false,
+      "decision": "REJECTED"
+    },
+    "holm_step_down": {
+      "ranked_order": [
+        "A_geneformer_vs_metadata",
+        "B_geneformer_vs_pseudobulk"
+      ],
+      "p1_name": "A_geneformer_vs_metadata",
+      "p1": 0.08691308691308691,
+      "threshold1": 0.025,
+      "p2_name": "B_geneformer_vs_pseudobulk",
+      "p2": 0.1838161838161838,
+      "threshold2": 0.05,
+      "significant": [],
+      "stop_reason": "p(1)=0.086913 > alpha/2=0.025: stop, neither significant"
+    }
+  },
+  "chain_of_custody": {
+    "gene_reference_downloaded_from": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE135nnn/GSE135779/suppl/GSE135779_genes.tsv.gz",
+    "raw_counts_downloaded_from": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE135nnn/GSE135779/suppl/GSE135779_RAW.tar",
+    "raw_counts_local_download_path": "data/raw/GSE135779/GSE135779_RAW.tar",
+    "sealed_pseudobulk_processed_by": "scripts/19_sealed_pseudobulk.py (local)",
+    "sealed_geneformer_processed_by": "kaggle_kernels/l2_geneformer_sealed/ (Kaggle T4, real GPU embedding of real sealed cells)",
+    "dev_pseudobulk_restricted_derived_by": "kaggle_kernels/l2_dev_pseudobulk_restricted/ (Kaggle, CPU)",
+    "dev_geneformer_embeddings_source": "results/l2_dev_geneformer_embeddings.parquet (already committed, unchanged)",
+    "freeze_manifest": "FREEZE.json",
+    "gene_space_intersection_source": "results/gene_space_intersection.txt (30,165 genes, already committed)"
+  }
+}

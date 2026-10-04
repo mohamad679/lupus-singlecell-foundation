@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "geneformer_revision": "04c2b2e84da7c0f385c3f9ad8f3ec24bab6650e5",
+  "n_cells": 8,
+  "embedding_dim": 256,
+  "min_sequence_length": 4,
+  "max_sequence_length": 4,
+  "tokenizer_num_proc": null,
+  "replay_after_embedding_passed": true,
+  "scope": "technical synthetic-cell preflight only"
+}
