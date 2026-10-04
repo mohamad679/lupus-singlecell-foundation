@@ -1,34 +1,20 @@
-"""PREREG.md Section 5.1: cohort-signature probe.
+"""Shared cohort-membership probe utilities used by the corrected v2 workflow.
 
-Can a classifier distinguish dev-cohort donors from sealed-cohort donors
-using the same feature arms (Geneformer / pseudobulk / metadata)? This is
-the SLE-project analogue of a site-signature probe.
+The active publication workflow asks whether development-cohort donors can be
+distinguished from donors in the external cohort using the same feature spaces.
+This is a distribution-shift / limitation diagnostic, not a disease-prediction
+analysis and not evidence of independent confirmatory validation.
 
-FRAMING (binding, per explicit instruction): a high cohort-signature AUROC
-here is the EXPECTED result, not a surprise -- results/l2_cohort_confounders.csv
-already quantified near-total age separation and 100% platform/generation
-difference between the two cohorts. This probe's purpose is to BOUND THE
-INTERPRETABILITY of the sealed-cohort AUROCs reported in
-results/l2_sealed_results.json: if cohort identity is highly separable in a
-feature space, then any disease-discrimination AUROC computed in that same
-feature space cannot be cleanly attributed to SLE biology as opposed to
-cohort/batch/platform identity. A high cohort-signature AUROC is NOT
-evidence that the disease-discrimination result is "real" or "validated" in
-some other sense -- it is a limitation quantifier, reported alongside the
-sealed result to make interpretability caveats concrete rather than
-qualitative.
+Naming note: some historical artifact filenames retain the token `sealed`
+(e.g. `l2_sealed_*`). In v2.0.0 this is only a legacy filename convention for
+the external cohort. The cohort had already been examined before the corrected
+analysis and is described throughout the publication-facing text as
+"external", not "sealed" or "untouched".
 
-Guarantees, verified structurally below:
-- Trains ONLY on already-committed feature matrices (results/l2_dev_*,
-  results/l2_sealed_*parquet/csv) -- no raw sealed-cohort file is opened,
-  no GEO/GSE135779 URL is fetched.
-- The prediction target is cohort membership (dev=0, sealed=1), never the
-  SLE-vs-healthy label -- this script produces NO new disease prediction.
-- Does not import, call, or modify anything from scripts/18-20,
-  scripts/freeze_guard.py, FREEZE.json, or SEALED_OPENED.json. Does not
-  read or write results/l2_sealed_results.json. All models here are fit
-  fresh, from scratch, on a different (cohort-membership) target -- nothing
-  frozen is touched, and no frozen coefficient is reused.
+The active v2.0.0 pipeline imports the fitting/bootstrap helpers in this module
+from `scripts/05_cohort_probe.py`. The standalone `main()` below is retained
+for historical reproducibility and expects legacy `results/l2_*` artifacts;
+those paths are not part of the active publication layout.
 """
 
 from __future__ import annotations
@@ -136,7 +122,7 @@ def permutation_p(y, proba, observed_auroc, n_perm, seed, X, tune_c, fixed_c):
 
 def run_probe(arm_name, X, y_cohort, tune_c_perm):
     print(f"[{arm_name}] cohort-signature probe: n={len(y_cohort)} "
-          f"(dev={int((y_cohort==0).sum())}, sealed={int((y_cohort==1).sum())}), "
+          f"(dev={int((y_cohort==0).sum())}, external={int((y_cohort==1).sum())}), "
           f"n_features={X.shape[1]}")
     oof_proba, selected_cs = fit_logreg_oof(X, y_cohort, RANDOM_STATE, tune_c=True, fixed_c=None)
     auroc = roc_auc_score(y_cohort, oof_proba)
@@ -201,13 +187,13 @@ def main():
     output = {
         "purpose": (
             "PREREG.md Section 5.1 cohort-signature probe: quantifies how separable "
-            "dev-vs-sealed cohort identity is in each feature space. This is a "
+            "development-vs-external cohort identity is in each feature space. This is a "
             "LIMITATION QUANTIFIER, not a positive finding: a high AUROC here means "
             "disease signal and cohort/batch/platform signal are confounded in that "
-            "feature space, which bounds how much the corresponding sealed-cohort "
+            "feature space, which bounds how much the corresponding external-cohort "
             "SLE-vs-healthy AUROC (results/l2_sealed_results.json) can be attributed "
             "to disease biology specifically. A high cohort-signature AUROC does NOT "
-            "rescue, validate, or add credibility to the sealed disease-discrimination "
+            "rescue, validate, or add credibility to the external disease-discrimination "
             "result -- if anything, it is a caution against over-interpreting it."
         ),
         "expected_result": (
@@ -250,17 +236,17 @@ def fig_probe(results):
         ax.annotate(f"{v:.3f}", (bar.get_x() + bar.get_width() / 2, bar.get_height() + hi_err),
                     xytext=(0, 4), textcoords="offset points", ha="center", va="bottom", fontsize=9)
     ax.axhline(0.5, color=GRID_GRAY, linewidth=1, linestyle="--", zorder=0)
-    ax.set_ylabel("Cohort-signature AUROC\n(dev vs. sealed donor origin)")
+    ax.set_ylabel("Cohort-signature AUROC\n(development vs. external donor origin)")
     ax.set_ylim(0, 1.08)
     ax.set_title("Cohort-signature probe -- a LIMITATION QUANTIFIER, not a positive result\n"
                   "High separability was expected given already-quantified age/platform confounding;\n"
-                  "it bounds interpretability of the sealed SLE-vs-healthy AUROCs, it does not validate them.",
+                  "it bounds interpretability of the external SLE-vs-healthy AUROCs, it does not validate them.",
                   fontsize=9.5, color=TEXT_SECONDARY)
     ax.spines[["top", "right"]].set_visible(False)
     fig.text(0.01, -0.02,
               "Source: results/l2_cohort_signature_probe.json. PREREG.md Section 5.1, not Holm-corrected, "
               "not part of the co-primary family. Trained fresh on cohort-membership labels; touches no "
-              "frozen model, no sealed disease score, no raw sealed-cohort data.",
+              "frozen model, no sealed disease score, no raw external-cohort data.",
               ha="left", va="top", fontsize=7.5, color=TEXT_SECONDARY, transform=fig.transFigure, wrap=True)
 
     FIGURES_DIR.mkdir(exist_ok=True)
