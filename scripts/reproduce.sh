@@ -29,13 +29,13 @@ if ((offline)); then uv_options+=(--offline); fi
 py=(uv run "${uv_options[@]}" python)
 
 for mode in shared native; do
-  "${py[@]}" scripts/02_score_corrected_models.py \
+  "${py[@]}" scripts/01_score_corrected_models.py \
     --dev-embeddings "$published/${mode}_features/l2_dev_geneformer_v1_${mode}_embeddings.parquet" \
     --external-embeddings "$published/${mode}_features/l2_sealed_geneformer_v1_${mode}_embeddings.parquet" \
     --dev-summary "$published/${mode}_features/l2_dev_geneformer_v1_${mode}_run_summary.json" \
     --external-summary "$published/${mode}_features/l2_sealed_geneformer_v1_${mode}_run_summary.json" \
     --mode "$mode" --output-dir "$output"
-  "${py[@]}" scripts/01_statistical_analysis.py \
+  "${py[@]}" scripts/02_statistical_analysis.py \
     --predictions "$output/corrected_v1_${mode}_predictions.json" \
     --output "$output/corrected_v1_${mode}_analysis.json"
 done

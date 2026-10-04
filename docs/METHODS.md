@@ -4,13 +4,13 @@ This file is a compact code-to-method map for reviewers. The manuscript remains 
 
 ## 1. Corrected Geneformer scoring
 
-`scripts/02_score_corrected_models.py` validates the pinned Geneformer V1 extraction summaries and feature checksums, aligns development/external donors, reruns the originally recorded nested-CV regularization-selection rule on corrected development embeddings, fits the final donor-level logistic model, and scores the previously examined external cohort.
+`scripts/01_score_corrected_models.py` validates the pinned Geneformer V1 extraction summaries and feature checksums, aligns development/external donors, reruns the originally recorded nested-CV regularization-selection rule on corrected development embeddings, fits the final donor-level logistic model, and scores the previously examined external cohort.
 
 Primary representation: corrected V1 shared-gene input. Sensitivity representation: corrected V1 model-native input.
 
 ## 2. Statistical analysis
 
-`scripts/01_statistical_analysis.py` computes fixed-prediction probability metrics and paired model comparisons. Pairwise AUROC comparisons use paired DeLong inference; paired donor bootstrap intervals are retained; multiplicity is handled with Holm adjustment.
+`scripts/02_statistical_analysis.py` computes fixed-prediction probability metrics and paired model comparisons. Pairwise AUROC comparisons use paired DeLong inference; paired donor bootstrap intervals are retained; multiplicity is handled with Holm adjustment.
 
 ## 3. Gene-input sensitivity
 

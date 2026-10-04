@@ -16,7 +16,7 @@ from correction_stats import calibration_fit, holm_adjust, paired_delong  # noqa
 
 
 def _analysis_module():
-    spec = importlib.util.spec_from_file_location("correction_analysis", ROOT / "scripts/01_statistical_analysis.py")
+    spec = importlib.util.spec_from_file_location("correction_analysis", ROOT / "scripts/02_statistical_analysis.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
