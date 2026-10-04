@@ -7,7 +7,7 @@
 
 Corrected Geneformer V1, pseudobulk, and age-baseline analysis for donor-level SLE-versus-healthy discrimination across a development cohort and a previously examined external cohort.
 
-![Study workflow](assets/study_workflow.svg)
+![Corrected SLE classifier workflow](assets/corrected_sle_classifier_workflow.svg)
 
 ## Main corrected result
 
