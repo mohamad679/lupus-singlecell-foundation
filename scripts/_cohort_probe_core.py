@@ -191,15 +191,15 @@ def main():
             "LIMITATION QUANTIFIER, not a positive finding: a high AUROC here means "
             "disease signal and cohort/batch/platform signal are confounded in that "
             "feature space, which bounds how much the corresponding external-cohort "
-            "SLE-vs-healthy AUROC (results/l2_sealed_results.json) can be attributed "
+            "SLE-vs-healthy AUROC can be attributed "
             "to disease biology specifically. A high cohort-signature AUROC does NOT "
             "rescue, validate, or add credibility to the external disease-discrimination "
             "result -- if anything, it is a caution against over-interpreting it."
         ),
         "expected_result": (
             "Near-perfect separability was anticipated, not a surprise: "
-            "results/l2_cohort_confounders.csv already quantified near-total age "
-            "separation (dev 100% adult 20-83 vs. sealed pediatric-primary, "
+            "Historical cohort diagnostics already quantified near-total age "
+            "separation (development 100% adult 20-83 vs. external pediatric-primary, "
             "mean age 41.3 vs 20.9) and platform/sequencing-generation differences "
             "between the two cohorts (PREREG.md Section 7)."
         ),
@@ -246,7 +246,7 @@ def fig_probe(results):
     fig.text(0.01, -0.02,
               "Source: results/l2_cohort_signature_probe.json. PREREG.md Section 5.1, not Holm-corrected, "
               "not part of the co-primary family. Trained fresh on cohort-membership labels; touches no "
-              "frozen model, no sealed disease score, no raw external-cohort data.",
+              "frozen model, no external disease score, no raw external-cohort data.",
               ha="left", va="top", fontsize=7.5, color=TEXT_SECONDARY, transform=fig.transFigure, wrap=True)
 
     FIGURES_DIR.mkdir(exist_ok=True)
