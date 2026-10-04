@@ -15,9 +15,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_FILES = {
-    "corrected_dev.py": ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py",
-    "corrected_external.py": ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_external/run.py",
-    "v1_fixture.py": ROOT / "scripts/31_v1_gpu_fixture.py",
+    "corrected_dev.py": ROOT / "archive/kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py",
+    "corrected_external.py": ROOT / "archive/kaggle_kernels/l2_geneformer_v1_corrected_external/run.py",
+    "v1_fixture.py": ROOT / "scripts/43_v1_gpu_fixture.py",
     "gene_space_intersection.txt": ROOT / "results/gene_space_intersection.txt",
 }
 

@@ -1,142 +1,42 @@
-# Lupus Single-Cell Foundation Model
+# Lupus Single-Cell Foundation Model — corrected reanalysis
 
-**Scientific correction, 30 September 2026:** The original Geneformer V1
-extraction and co-primary label-permutation inference required correction. The
-historical release is preserved at commit `6158a840`; its Geneformer estimates
-below are historical, not the current scientific result. Validated corrected
-shared-gene and model-native outputs, paired DeLong/Holm analyses, donor-level
-predictions, figures, and the result ledger are in
-[`results/correction_2026-09/`](results/correction_2026-09/) and
-[`docs/correction_2026-09_audit.md`](docs/correction_2026-09_audit.md).
-The corrected shared-gene external AUROCs are Geneformer **0.7344**,
-pseudobulk **0.8984**, and age **0.5781**. Neither prespecified
-Geneformer-superiority criterion was met. The external cohort had already been
-examined, so this is a corrected reanalysis rather than a new untouched
-confirmatory validation.
-Readable [corrected manuscript and supplement drafts](manuscript_drafts/correction_2026-09/)
-are on this branch, alongside [the dated reporting audit](docs/REPORTING_AND_BIAS_REVIEW.md).
-The primary age comparator retains GEO's age 50 for aHD3; an exploratory
-review-reported age-43 sensitivity changes age AUROC to 0.5797 and leaves the
-superiority decision unchanged. The study supplement workbook was unavailable
-for independent verification of the review-reported value.
+Donor-level SLE-versus-healthy benchmarking of corrected Geneformer V1 embeddings against pseudobulk and age baselines across the previously examined development/external cohorts.
 
-Patient-level benchmarking of frozen single-cell foundation-model (Geneformer) embeddings against raw pseudobulk counts and a metadata-only baseline for systemic lupus erythematosus (SLE) vs. healthy-control discrimination from peripheral blood single-cell RNA-seq, with a single, pre-registered, sealed-cohort external validation.
+## Current corrected result
 
-## Historical release claim boundary
+| Arm | External AUROC |
+|---|---:|
+| Geneformer V1, shared-gene input | **0.7344** |
+| Pseudobulk | **0.8984** |
+| Age only | **0.5781** |
 
-**Original released result (historical; superseded for Geneformer):** the released Geneformer AUROC 0.8156 and original co-primary label-permutation p-values are retained for traceability. The Geneformer V1 representation and equal-AUROC interpretation were corrected in the versioned analysis above. The released pseudobulk AUROC 0.8984 and age AUROC 0.5781 remain comparator point estimates after verified donor alignment. See `results/l2_sealed_results.json`, `results/l2_coprimary_difference_ci.json`, and the correction ledger for the distinction between original and corrected artifacts.
+**Claim boundary:** this is a corrected reanalysis on an already examined external cohort, not a new untouched confirmatory validation. No clinical-use, diagnostic-readiness, treatment, or deployment claim is made.
 
-**Secondary result (internal-only, unchanged from before external validation existed):** an earlier, internal-only leave-one-patient-out analysis of active-flare discrimination (flare vs. managed SLE, flare vs. healthy) achieved AUROC 0.996/0.993 on a 14-case flare class. This analysis has **no external validation**, uses a different task (flare activity, not SLE-vs-healthy diagnosis) and a tiny positive class, and is retained only as a secondary, internal-only result per `PREREG.md` Section 9. It should not be read as validating or contradicting the primary result above — they answer different questions.
+The historical release is preserved at commit `6158a8409064ae8c7a608126cc2d7a7e65b02506`; it is not modified by this cleanup.
 
-No clinical claim, clinical diagnostic claim, or clinical deployment claim is made for either result.
-
-**Current corrected write-up:** [manuscript and supplement PDF drafts](manuscript_drafts/correction_2026-09/), plus five editable Word documents in the paper workspace, generated from `scripts/33_build_corrected_documents.py`. `MANUSCRIPT.md` remains the historical release draft. The PDFs and Word files require final author review before submission.
-
-## Scientific objective
-
-This project evaluates transport of donor-level SLE-versus-healthy discrimination from an adult development cohort to one independently collected external cohort. The corrected analysis tests the preregistered Geneformer-superiority rule using validated V1 embeddings and paired inference. It does not estimate a general bias of internal cross-validation, clinical diagnostic performance, or the relative value of other foundation models.
-
-## Governance documents (binding)
-
-- **`PREREG.md`** — the preregistration, locked before any dev-cohort data was loaded (tag `prereg-locked-v1`), with a dated amendment log for every deviation made in the open.
-- **`FREEZE.json`** — SHA-256 hash manifest of every file that determines a sealed-cohort prediction, plus the frozen per-arm hyperparameters and the rule used to select them. Generated by `scripts/16_freeze_manifest.py`.
-- **`scripts/freeze_guard.py`** — `require_valid_freeze()`, called at the top of any sealed-cohort script; refuses to run if `FREEZE.json` doesn't match the live files, or if `SEALED_OPENED.json` already exists (the seal opens exactly once).
-- **`SEALED_OPENED.json`** — written once, after the single sealed-cohort opening; its presence permanently blocks any further `require_valid_freeze()` call from proceeding.
-- **`docs/PREREGISTRATION_DEVIATIONS.md`** — every deviation from PREREG's original text, consolidated: what PREREG said, what was done, why, and whether it could affect a reported result.
-- **`MODEL_CARD.md`**, **`docs/limitations.md`** — model/limitations documentation (predates the sealed-cohort result; read alongside the claim boundary above).
-
-## Data access
-
-### Dev cohort: Perez et al. 2022 (via CZ CELLxGENE Census)
-
-- Collection `436154da-bcf1-4130-9c8b-120ff9a888f2`, dataset `218acb0f-9f2f-4f76-b90b-15a4b7c7f629`, CC BY 4.0.
-- 261 donors (162 SLE / 99 healthy), ~1.26M cells. Accessed via the `cellxgene_census` Python API (streamed, not a bulk file download) at census version `2025-11-08`.
-- No manual download step: `scripts/14_l2_census_pipeline.py --metadata-only` and the Kaggle kernels under `kaggle_kernels/l2_pseudobulk/` and `kaggle_kernels/l2_geneformer_full/` query the census directly.
-
-### Sealed cohort: GSE135779 (Nehar-Belaid et al. 2020)
-
-- Public GEO deposit, 56 real per-sample records (33 cSLE + 11 cHD pediatric + 7 aSLE + 5 aHD adult; the source publication describes 58 — see `docs/PREREGISTRATION_DEVIATIONS.md` item 4 for the discrepancy).
-- Raw counts: `https://ftp.ncbi.nlm.nih.gov/geo/series/GSE135nnn/GSE135779/suppl/GSE135779_RAW.tar` (~1.2 GB). Gene reference: `https://ftp.ncbi.nlm.nih.gov/geo/series/GSE135nnn/GSE135779/suppl/GSE135779_genes.tsv.gz`.
-- Downloaded once, during the single sealed-cohort opening (`scripts/19_sealed_pseudobulk.py` and `kaggle_kernels/l2_geneformer_sealed/`), guarded by `require_valid_freeze()`. Raw files are not committed (`data/raw/GSE135779/` is gitignored); only derived, already-processed feature artifacts are.
-- **This cohort must not be re-accessed.** `SEALED_OPENED.json` and the guard in `scripts/freeze_guard.py` enforce this for any script built on that guard.
-
-## Environment
-
-- Python 3.11.9, local `.venv`.
-- `requirements_l2.txt` — exact installed versions (`pip freeze`-verified, not hand-typed) for the local L2/Phase 3 pipeline: `cellxgene-census`, `tiledbsoma`, `scikit-learn`, `pandas`, `numpy`, `scipy`, `matplotlib`, `joblib`, `pyarrow`, `kaggle`, `anndata`, `scanpy`.
-- `requirements_phase1.txt` — the earlier Phase 1 QC/scaffold pipeline's dependencies (`scripts/00`-`12`), unrelated to L2/Phase 3.
-- Kaggle-side dependencies (`cellxgene_census`, `geneformer`, `transformers`, `huggingface_hub`, `scipy`, `anndata`) are pinned inline via `pip install` at the top of each `kaggle_kernels/*/*.py` script (they run in Kaggle's managed image, not the local venv) — see each kernel's source for its exact pins, e.g. `transformers>=4.35,<4.50` in `kaggle_kernels/l2_geneformer_full/l2_geneformer_full.py`.
-- A Kaggle account + API token (`~/.kaggle/access_token` or `KAGGLE_API_TOKEN`) is required to run any `kaggle_kernels/*` step; GPU (T4) is required for the Geneformer kernels specifically.
+## Reproduce the corrected result
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements_l2.txt
+git clone https://github.com/mohamad679/lupus-singlecell-foundation.git
+cd lupus-singlecell-foundation
+bash scripts/37_reproduce_corrected_results.sh
 ```
 
-## Pipeline order
+The script creates an isolated `reproductions/correction-*` directory and checks donor-aligned probabilities, decision scores, AUROCs, and paired inference against the committed corrected artifacts.
 
-Each stage's real, run code — not a scaffold — lives in the numbered `scripts/` file named below. Governance/config files are listed alongside where relevant.
+## Data archive
 
-1. **Census metadata + donor labels (dev).** `scripts/14_l2_census_pipeline.py --metadata-only` → `results/l2_dev_donor_metadata.csv`.
-2. **Pseudobulk extraction (dev, full gene space).** `kaggle_kernels/l2_pseudobulk/` (Kaggle, CPU) → `results/l2_dev_pseudobulk_counts.parquet` (261 × 61,497 genes).
-3. **Geneformer embeddings (dev).** `kaggle_kernels/l2_geneformer_full/` (Kaggle, GPU/T4) → `results/l2_dev_geneformer_embeddings.parquet` (261 × 256).
-4. **Dev-cohort honest CV, all three arms.** `scripts/15_l2_dev_cv_pseudobulk_metadata.py` → `results/l2_dev_sle_vs_healthy.csv` (nested CV, patient-bootstrap CI, permutation test, per PREREG Section 4).
-5. **Gene-space intersection (dev ∩ sealed).** `scripts/17_gene_space_intersection.py` → `results/gene_space_intersection.txt` (30,165 shared Ensembl genes). Self-test: `--self-test`.
-6. **Freeze.** `scripts/16_freeze_manifest.py` → `FREEZE.json` (hashes 9 files, frozen per-arm hyperparameters, dev results, deferral notes).
-7. **Sealed-cohort opening (exactly once).** `scripts/18_sealed_cohort_open.py` (guard entry point) → real download + `scripts/19_sealed_pseudobulk.py` (gene-restricted pseudobulk) + `kaggle_kernels/l2_dev_pseudobulk_restricted/` (dev pseudobulk re-derived on the same restricted gene space) + `kaggle_kernels/l2_geneformer_sealed/` (sealed Geneformer embeddings) + `scripts/20_sealed_cohort_scoring.py` (final frozen-hyperparameter fit on dev, score sealed, co-primary comparisons, Holm correction) → `results/l2_sealed_results.json`, `SEALED_OPENED.json`.
-8. **Figures.** `scripts/21_generate_figures.py` → `figures/*.png`/`*.pdf`. Needs `scripts/22_regenerate_sealed_predictions.py` first (deterministic re-derivation of per-donor sealed probabilities and permutation-null arrays from already-committed feature artifacts — not a new sealed access; verified to reproduce `l2_sealed_results.json` exactly) → `results/l2_sealed_predictions_regenerated.json`.
-9. **Post-hoc hardening (dev-only / metadata-only, additive).** `scripts/23_repeated_dev_cv.py` → `results/l2_dev_repeated_cv.csv` (repeated nested CV, dev-only robustness check). `scripts/24_cohort_confounders.py` → `results/l2_cohort_confounders.csv` + `figures/cohort_confounders_age.png` (dev-vs-sealed confounder comparison, metadata only).
-10. **Cohort-signature probe (PREREG Section 5.1, limitation quantifier).** `scripts/25_cohort_signature_probe.py` → `results/l2_cohort_signature_probe.json` + `figures/cohort_signature_probe.png` — trains fresh on cohort-membership labels only, from already-committed feature matrices; touches no frozen model, no sealed disease score, no raw sealed data.
-11. **Independent co-primary difference recomputation.** `scripts/26_coprimary_difference_ci.py` → `results/l2_coprimary_difference_ci.json` — recomputes the paired bootstrap CIs and Holm decision from `results/l2_sealed_predictions_regenerated.json` only, with a hard bit-for-bit AUROC cross-check against `results/l2_sealed_results.json` before proceeding; confirmed full agreement.
+The three large historical pseudobulk parquet files are being archived with release `v2-corrected` on Zenodo before removal from `main`. The version-specific DOI is added here after Zenodo finishes ingesting the GitHub release.
 
-## Regenerating figures and tables
+## Repository map
 
-All of the following are read-only with respect to the sealed cohort (they consume already-committed artifacts, not raw data) and safe to re-run:
+- `scripts/` — active corrected scoring, analysis, reproduction, reporting, and packaging code.
+- `results/correction_2026-09/` — corrected donor features, predictions, analyses, and manifests.
+- `kaggle_notebooks/` — self-contained corrected extraction notebooks.
+- `docs/` — active correction, reproducibility, reporting, and limitations documentation.
+- `figures/correction_2026-09/` — corrected figures.
+- `manuscript_drafts/correction_2026-09/` — corrected manuscript/supplement drafts.
+- `archive/` — legacy state, reports, Kaggle kernels, early docs/scripts, Stage-7 flare analysis, and the historical manuscript.
+- `PREREG.md`, `FREEZE.json`, `SEALED_OPENED.json` — historical governance artifacts retained for traceability.
 
-```bash
-source .venv/bin/activate
-python scripts/22_regenerate_sealed_predictions.py   # verifies against results/l2_sealed_results.json before writing anything
-python scripts/21_generate_figures.py                # all 5 figures, 300 DPI PNG+PDF
-python scripts/24_cohort_confounders.py               # confounder table + age figure
-python scripts/23_repeated_dev_cv.py                  # ~20-25 min locally; dev-only, does not touch results/l2_dev_sle_vs_healthy.csv
-python scripts/25_cohort_signature_probe.py           # ~10-15 min locally; fresh fit on cohort-membership labels only
-python scripts/26_coprimary_difference_ci.py          # aborts if recomputed AUROC doesn't match results/l2_sealed_results.json bit-for-bit
-python scripts/17_gene_space_intersection.py --self-test   # unit + integration test, no output written
-python scripts/freeze_guard.py                        # confirms FREEZE.json still matches the live repo
-```
-
-Steps 1-3 and 7 of the pipeline above (census streaming, pseudobulk/Geneformer extraction, and the sealed opening) are **not** safe to blindly re-run: 1-3 consume real Kaggle GPU/CPU quota for no benefit once their outputs are committed, and 7 is permanently blocked by `SEALED_OPENED.json` by design.
-
-## Repository structure
-
-- `scripts/00`-`13` — Phase 1 QC scaffold and the earlier, secondary Stage 7 flare-discrimination reconciliation (`scripts/13_stage7_kaggle_result_reconciliation.py`; outputs under `reports/stage7_kaggle_result_reconciliation/`).
-- `scripts/14`-`26` — the primary L2/Phase 3 pipeline (this README's main subject).
-- `MANUSCRIPT.md` — the full write-up; every number in it is sourced from a file under `results/` or `FREEZE.json`.
-- `kaggle_kernels/` — source for every Kaggle-executed step (kernel script + `kernel-metadata.json` per subdirectory). Kernel *output* (logs, scratch data) is never committed; only the source and the final feature/result artifacts it produces.
-- `results/` — every committed real artifact: dev/sealed metadata, pseudobulk/Geneformer features, CV results, sealed results, confounders.
-- `figures/` — all committed figures, PNG+PDF, 300 DPI.
-- `src/lupusfm/`, `src/data/`, `src/qc/` — earlier scaffold modules. Several are explicitly self-documented as fake-data contracts (e.g. `src/lupusfm/embeddings/aggregation.py`, `src/data/metadata_harmonization.py` — see their own docstrings and `docs/PREREGISTRATION_DEVIATIONS.md` item 2) and are **not** used by the real `scripts/14`-`24` pipeline, which implements its own real math directly. See `docs/LEGACY.md` for the full inventory of this early-development scaffolding, including `src/lupusfm/evaluation/stage4`-`stage7` gate modules and the `scripts/run_stage7_*.py` wrappers around them.
-
-## Secondary / internal-only: flare discrimination (Stage 7)
-
-Retained per `PREREG.md` Section 9 as a secondary, non-externally-validated analysis with a tiny positive class. Not the primary result of this repository (see Claim boundary above).
-
-| Task | Patients | Active flare | Comparator n | AUROC (internal LOOCV only) | AUPRC |
-|---|---:|---:|---:|---:|---:|
-| Flare vs. managed SLE | 163 | 14 | 149 | 0.9962 | 0.9529 |
-| Flare vs. healthy | 112 | 14 | 98 | 0.9927 | 0.9634 |
-
-Method: `scripts/13_stage7_kaggle_result_reconciliation.py`, per-patient Geneformer embeddings (mean-pooled), logistic regression, leave-one-patient-out CV, patient-level evaluation only, StandardScaler/LogisticRegression fit within each fold only. No external validation was performed for this analysis, and none is claimed.
-
-## Main scientific risks
-
-1. GSE135779's gene reference (32,738 genes, 2019-era CellRanger v2) overlaps only 49% of the dev cohort's gene space (30,165 shared genes) — see `docs/PREREGISTRATION_DEVIATIONS.md` item 1 for how this was handled.
-2. Dev is 100% adult (20-83); the sealed cohort is pediatric-primary with a small adult stratum (n=12) — a real, quantified confound (`results/l2_cohort_confounders.csv`, `figures/cohort_confounders_age.png`), not adjusted for in the primary AUROC estimates.
-3. The pre-registered cohort-signature (batch/site) probe was initially deferred (see `docs/PREREGISTRATION_DEVIATIONS.md` item 2) but was subsequently run post-hoc (`scripts/25_cohort_signature_probe.py`, `results/l2_cohort_signature_probe.json`) and found near-total dev/sealed cohort separability (AUROC 0.9996-1.0000 for Geneformer/pseudobulk, 0.8719 for age alone) — see `docs/PREREGISTRATION_DEVIATIONS.md` item 7 and the Claim boundary above.
-4. Sex and ancestry cannot be compared across cohorts — GSE135779's public metadata has neither field.
-5. The Stage 7 flare-discrimination result (above) has a 14-case positive class and no external validation.
-
-## Claim boundary (repeated, for emphasis)
-
-This repository supports research-stage benchmarking only. It does not support claims of clinical utility, treatment recommendation, prospective flare/activity prediction, lupus nephritis prediction, or deployment readiness, for either the primary (SLE-vs-healthy, sealed-validated) or secondary (flare, internal-only) result. See `PREREG.md` Section 10 for the complete, binding scope-limits list.
+See `PROJECT_STATUS.md` and `docs/correction_2026-09_audit.md` for the scientific correction boundary and provenance.

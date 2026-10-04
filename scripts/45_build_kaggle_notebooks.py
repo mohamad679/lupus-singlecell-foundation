@@ -40,7 +40,7 @@ def build(label, cohort, mode):
                           "kaggle_kernels/l2_geneformer_v1_corrected_external/run.py")
     sources = {
         "corrected_run.py": script_path,
-        "v1_fixture.py": ROOT / "scripts/31_v1_gpu_fixture.py",
+        "v1_fixture.py": ROOT / "scripts/43_v1_gpu_fixture.py",
         "gene_space_intersection.txt": ROOT / "results/gene_space_intersection.txt",
     }
     payload = {}

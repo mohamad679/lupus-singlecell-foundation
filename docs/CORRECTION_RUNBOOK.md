@@ -55,7 +55,7 @@ listed prior correction-script hashes when every other field matches, allowing
 a completed batch to survive a multiprocessing-only code repair.
 
 After Cell 5, download that run's share ZIP. Rebuild the versioned notebooks
-with `python scripts/33_build_kaggle_notebooks.py` if their source changes.
+with `python scripts/45_build_kaggle_notebooks.py` if their source changes.
 
 ## VS Code with a Google Colab GPU
 
@@ -75,13 +75,13 @@ The notebook saves four parquet files and four JSON summaries to
 cohort cell prints its archive confirmation. Download these eight files into
 the local correction results folder, then use the scoring commands below.
 The notebook can be rebuilt after a script change with
-`python scripts/32_build_colab_notebook.py --output ../CBC_Correction_Colab_GPU.ipynb`.
+`python scripts/44_build_colab_notebook.py --output ../CBC_Correction_Colab_GPU.ipynb`.
 
 ## Extraction and scoring gates
 
 1. Start from the historical commit and keep all old artifacts immutable.
    Use the correction branch and a new output directory. The scripts under
-   `kaggle_kernels/l2_geneformer_v1_corrected_*` are **new**; the original
+   `archive/kaggle_kernels/l2_geneformer_v1_corrected_*` are **new**; the original
    `l2_geneformer_full` and `l2_geneformer_sealed` scripts remain historical.
 2. Make `results/gene_space_intersection.txt` available to each Kaggle job
    as `/kaggle/input/lupus-correction/gene_space_intersection.txt`, or set
@@ -91,8 +91,8 @@ The notebook can be rebuilt after a script change with
    cohort batch before proceeding. Confirm V1, `emb_mode=cell`, nonempty token
    sequences, exact donor/cell retention, finite embeddings, and checkpoint
    hashes. Stop if either validation fails.
-4. Run `kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py` and
-   `kaggle_kernels/l2_geneformer_v1_corrected_external/run.py` with
+4. Run `archive/kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py` and
+   `archive/kaggle_kernels/l2_geneformer_v1_corrected_external/run.py` with
    `GENE_INPUT_MODE=shared`. Save both parquet files and JSON summaries. Repeat
    with `GENE_INPUT_MODE=native` for the sensitivity analysis. These jobs need
    Census/GEO network access and GPU compute.
