@@ -3,14 +3,9 @@
 __pycache__/
 *.py[cod]
 .DS_Store
+reproductions/
 
-# Python packaging/build artifacts
-*.egg-info/
-build/
-dist/
-
-# Local data, embeddings, and model artifacts
-data/
+# Local/generated scientific artifacts
 artifacts/
 outputs/
 local_artifacts/

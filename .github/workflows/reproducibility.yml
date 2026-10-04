@@ -1,0 +1,25 @@
+name: Paper reproducibility
+
+on:
+  pull_request:
+  push:
+    branches: [main, publication-grade-v2]
+
+jobs:
+  active-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Run active regression tests
+        run: uv run --python 3.11.15 --no-project --with-requirements requirements.txt --with pytest python -m pytest -q
+
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: astral-sh/setup-uv@v6
+      - name: Reproduce corrected publication results
+        run: bash scripts/reproduce.sh

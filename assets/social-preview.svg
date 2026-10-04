@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="-40 -10 1280 640" role="img" aria-labelledby="title desc">
+<title id="title">Study workflow</title>
+<desc id="desc">Development cohort feeds Geneformer, pseudobulk and age models, followed by corrected reanalysis on the previously examined external cohort and paired inference.</desc>
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#172033}.h{font-size:27px;font-weight:700}.t{font-size:19px}.s{font-size:16px}.box{fill:#f7f9fc;stroke:#485a73;stroke-width:2}.accent{fill:#eef4ff;stroke:#345d9d;stroke-width:2}.result{fill:#f4f8f2;stroke:#557c59;stroke-width:2}.line{stroke:#65758b;stroke-width:2.4;fill:none}.arrow{marker-end:url(#a)}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#65758b"/></marker></defs>
+<text x="600" y="42" text-anchor="middle" class="h">Corrected donor-level SLE classifier workflow</text>
+<rect x="390" y="75" width="420" height="84" rx="14" class="accent"/><text x="600" y="108" text-anchor="middle" class="t">Development cohort — Perez et al.</text><text x="600" y="136" text-anchor="middle" class="s">261 donors · 162 SLE / 99 healthy</text>
+<path d="M600 159 V205 M600 205 H220 M600 205 H980" class="line"/>
+<path d="M220 205 V230 M600 205 V230 M980 205 V230" class="line arrow"/>
+<rect x="70" y="230" width="300" height="86" rx="14" class="box"/><text x="220" y="264" text-anchor="middle" class="t">Corrected Geneformer V1</text><text x="220" y="292" text-anchor="middle" class="s">shared-gene primary</text>
+<rect x="450" y="230" width="300" height="86" rx="14" class="box"/><text x="600" y="264" text-anchor="middle" class="t">Pseudobulk</text><text x="600" y="292" text-anchor="middle" class="s">donor-level expression baseline</text>
+<rect x="830" y="230" width="300" height="86" rx="14" class="box"/><text x="980" y="264" text-anchor="middle" class="t">Age only</text><text x="980" y="292" text-anchor="middle" class="s">metadata baseline</text>
+<path d="M220 316 V350 H600 M600 316 V350 M980 316 V350 H600 M600 350 V382" class="line arrow"/>
+<rect x="390" y="382" width="420" height="82" rx="14" class="accent"/><text x="600" y="414" text-anchor="middle" class="t">Previously examined external cohort — GSE135779</text><text x="600" y="442" text-anchor="middle" class="s">56 samples · corrected reanalysis, not untouched validation</text>
+<path d="M600 464 V500" class="line arrow"/>
+<rect x="85" y="500" width="300" height="82" rx="14" class="result"/><text x="235" y="532" text-anchor="middle" class="t">Geneformer V1</text><text x="235" y="560" text-anchor="middle" class="h">AUROC 0.7344</text>
+<rect x="450" y="500" width="300" height="82" rx="14" class="result"/><text x="600" y="532" text-anchor="middle" class="t">Pseudobulk</text><text x="600" y="560" text-anchor="middle" class="h">AUROC 0.8984</text>
+<rect x="815" y="500" width="300" height="82" rx="14" class="result"/><text x="965" y="532" text-anchor="middle" class="t">Age only</text><text x="965" y="560" text-anchor="middle" class="h">AUROC 0.5781</text>
+</svg>

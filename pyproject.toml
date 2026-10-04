@@ -4,16 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lupus-singlecell-foundation"
-version = "0.1.0"
-description = "Reproducible utilities for lupus single-cell foundation-model benchmarking."
+version = "2.0.0"
+description = "Corrected donor-level Geneformer V1, pseudobulk, and age-baseline analysis for SLE classification."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
+license = {text = "MIT"}
 dependencies = []
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["lupusfm*"]
+[tool.setuptools]
+py-modules = []
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
 testpaths = ["tests"]

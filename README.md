@@ -1,44 +1,54 @@
-# Lupus Single-Cell Foundation Model — corrected reanalysis
+# External transport of donor-level SLE classifiers across two cohorts
 
-Donor-level SLE-versus-healthy benchmarking of corrected Geneformer V1 embeddings against pseudobulk and age baselines across the previously examined development/external cohorts.
+[![Reproducibility](https://github.com/mohamad679/lupus-singlecell-foundation/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/mohamad679/lupus-singlecell-foundation/actions/workflows/reproducibility.yml)
+![Python 3.11](https://img.shields.io/badge/Python-3.11-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-green)
+![Version](https://img.shields.io/badge/version-2.0.0-informational)
 
-## Current corrected result
+Corrected Geneformer V1, pseudobulk, and age-baseline analysis for donor-level SLE-versus-healthy discrimination across a development cohort and a previously examined external cohort.
 
-| Arm | External AUROC |
-|---|---:|
-| Geneformer V1, shared-gene input | **0.7344** |
-| Pseudobulk | **0.8984** |
-| Age only | **0.5781** |
+![Study workflow](assets/study_workflow.svg)
 
-**Claim boundary:** this is a corrected reanalysis on an already examined external cohort, not a new untouched confirmatory validation. No clinical-use, diagnostic-readiness, treatment, or deployment claim is made.
+## Main corrected result
 
-The historical release is preserved at commit `6158a8409064ae8c7a608126cc2d7a7e65b02506`; it is not modified by this cleanup.
+| Model | External n | AUROC | 95% bootstrap CI |
+|---|---:|---:|---:|
+| Corrected Geneformer V1, shared-gene input | 56 | **0.7344** | 0.6017–0.8597 |
+| Pseudobulk | 56 | **0.8984** | 0.8080–0.9677 |
+| Age only | 56 | **0.5781** | 0.3614–0.7815 |
 
-## Reproduce the corrected result
+Neither prespecified Geneformer-superiority comparison met its decision criterion. This is a **corrected reanalysis of an already examined external cohort**, not a new untouched confirmatory validation. No clinical-use, diagnostic-readiness, treatment, or deployment claim is made.
+
+## Reproduce the reported corrected analysis
 
 ```bash
 git clone https://github.com/mohamad679/lupus-singlecell-foundation.git
 cd lupus-singlecell-foundation
-bash scripts/37_reproduce_corrected_results.sh
+bash scripts/reproduce.sh
 ```
 
-The script creates an isolated `reproductions/correction-*` directory and checks donor-aligned probabilities, decision scores, AUROCs, and paired inference against the committed corrected artifacts.
+The CPU reproduction refits the corrected shared/native analyses in an isolated directory and verifies donor alignment, selected regularization values, bounded cross-platform probability drift, reported AUROCs, and paired inference against the committed publication artifacts.
 
-## Data archive
+## Repository guide
 
-The three large historical pseudobulk parquet files were removed from `main` without rewriting Git history and remain preserved in the `v2-corrected` GitHub release snapshot: https://github.com/mohamad679/lupus-singlecell-foundation/releases/tag/v2-corrected
+- `scripts/` — seven reviewer-facing analysis/reproduction steps plus two small shared helpers.
+- `results/published/` — authoritative corrected predictions, analyses, fitted reports, feature summaries, and provenance manifest.
+- `results/reference/` — minimal historical/reference inputs needed by the corrected reproduction.
+- `figures/main/` — four publication figures in PNG/PDF/TIFF.
+- `notebooks/extraction/` — four self-contained GPU extraction notebooks.
+- `tests/` — active regression tests for the corrected analysis and publication layout.
+- `docs/` — data, methods, reproducibility, limitations, and provenance.
+- `archive/` — historical development scaffolding, superseded analyses, tests, drafts, and legacy outputs.
 
-Zenodo v2 DOI: pending minting/ingestion. The version-specific DOI will replace this line once Zenodo publishes the new version.
+## Documentation
 
-## Repository map
+- [Data and cohorts](docs/DATA.md)
+- [Computational methods](docs/METHODS.md)
+- [Reproducibility](docs/REPRODUCIBILITY.md)
+- [Limitations](docs/LIMITATIONS.md)
+- [Correction and provenance](docs/PROVENANCE.md)
+- [Version history](CHANGELOG.md)
 
-- `scripts/` — active corrected scoring, analysis, reproduction, reporting, and packaging code.
-- `results/correction_2026-09/` — corrected donor features, predictions, analyses, and manifests.
-- `kaggle_notebooks/` — self-contained corrected extraction notebooks.
-- `docs/` — active correction, reproducibility, reporting, and limitations documentation.
-- `figures/correction_2026-09/` — corrected figures.
-- `manuscript_drafts/correction_2026-09/` — corrected manuscript/supplement drafts.
-- `archive/` — legacy state, reports, Kaggle kernels, early docs/scripts, Stage-7 flare analysis, and the historical manuscript.
-- `PREREG.md`, `FREEZE.json`, `SEALED_OPENED.json` — historical governance artifacts retained for traceability.
+## Citation and archival release
 
-See `PROJECT_STATUS.md` and `docs/correction_2026-09_audit.md` for the scientific correction boundary and provenance.
+Use [CITATION.cff](CITATION.cff) for software citation. Version **2.0.0** is the corrected publication package. The version-specific Zenodo DOI is pending minting; no DOI is claimed until Zenodo publishes it. The historical v1 release remains preserved separately for traceability.

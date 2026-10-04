@@ -24,7 +24,7 @@ from correction_stats import calibration_fit  # noqa: E402
     ("checkpoint_sha256_by_file", {"config.json": "wrong"}),
 ])
 def test_wrong_but_matching_cohort_summaries_are_rejected(field, bad):
-    folder = ROOT / "results/published/shared_features"
+    folder = ROOT / "results/correction_2026-09/shared_features"
     names = ("l2_dev_geneformer_v1_shared_run_summary.json",
              "l2_sealed_geneformer_v1_shared_run_summary.json")
     for name in names:
@@ -37,7 +37,7 @@ def test_wrong_but_matching_cohort_summaries_are_rejected(field, bad):
 
 
 def test_original_scores_control_saturated_probability_calibration():
-    predictions = json.loads((ROOT / "results/published/corrected_v1_shared_predictions.json").read_text())
+    predictions = json.loads((ROOT / "results/correction_2026-09/corrected_v1_shared_predictions.json").read_text())
     row = predictions["geneformer"]
     direct = calibration_fit(row["y"], row["proba"], decision_score=row["decision_score"])
     clipped = calibration_fit(row["y"], row["proba"])
@@ -49,7 +49,7 @@ def test_original_scores_control_saturated_probability_calibration():
 
 
 def test_geo_age_conflict_retains_primary_and_reports_sensitivity():
-    result = json.loads((ROOT / "results/published/external_age_source_sensitivity.json").read_text())
+    result = json.loads((ROOT / "results/correction_2026-09/external_age_source_sensitivity.json").read_text())
     assert result["source_labels_absent_from_public_geo_deposit"] == ["aHD2", "aSLE8"]
     assert result["age_conflict"]["geo_age_years"] == 50
     assert result["age_conflict"]["supplement_age_years_review_reported"] == 43
@@ -59,7 +59,7 @@ def test_geo_age_conflict_retains_primary_and_reports_sensitivity():
 
 
 def test_future_setup_record_requires_dictionary_and_batch_hashes():
-    summary = json.loads((ROOT / "results/published/shared_features/l2_dev_geneformer_v1_shared_run_summary.json").read_text())
+    summary = json.loads((ROOT / "results/correction_2026-09/shared_features/l2_dev_geneformer_v1_shared_run_summary.json").read_text())
     record = {
         "geneformer_revision": REVISION,
         "dictionary_sha256_by_file": EXPECTED_DICTIONARY_SHA256_BY_FILE,

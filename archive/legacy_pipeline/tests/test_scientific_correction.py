@@ -16,7 +16,7 @@ from correction_stats import calibration_fit, holm_adjust, paired_delong  # noqa
 
 
 def _analysis_module():
-    spec = importlib.util.spec_from_file_location("correction_analysis", ROOT / "scripts/01_statistical_analysis.py")
+    spec = importlib.util.spec_from_file_location("correction_analysis", ROOT / "scripts/27_correction_analysis.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -31,7 +31,7 @@ def test_delong_identical_predictions_have_zero_difference():
 
 
 def test_historical_scores_reproduce_independent_paired_result():
-    with (ROOT / "results/reference/historical_external_predictions.json").open() as file:
+    with (ROOT / "results/l2_sealed_predictions_regenerated.json").open() as file:
         predictions = json.load(file)
     y = predictions["geneformer"]["y"]
     gf = predictions["geneformer"]["proba"]
@@ -48,7 +48,7 @@ def test_historical_scores_reproduce_independent_paired_result():
 
 
 def test_swapped_donors_with_equal_labels_are_rejected():
-    with (ROOT / "results/reference/historical_external_predictions.json").open() as file:
+    with (ROOT / "results/l2_sealed_predictions_regenerated.json").open() as file:
         predictions = json.load(file)
     predictions["pseudobulk"]["donor_ids"][:2] = reversed(predictions["pseudobulk"]["donor_ids"][:2])
     with pytest.raises(ValueError, match="donor IDs"):
@@ -56,7 +56,7 @@ def test_swapped_donors_with_equal_labels_are_rejected():
 
 
 def test_corrected_shared_calibration_is_stable_for_saturated_probabilities():
-    path = ROOT / "results/published/corrected_v1_shared_predictions.json"
+    path = ROOT / "results/correction_2026-09/corrected_v1_shared_predictions.json"
     with path.open() as file:
         predictions = json.load(file)
     for arm, row in predictions.items():
@@ -147,7 +147,7 @@ def test_main_process_tokenization_and_legacy_checkpoint_gate():
 
 
 def test_corrected_shared_and_native_results_preserve_paired_donors():
-    corr = ROOT / "results/published"
+    corr = ROOT / "results/correction_2026-09"
     shared = json.loads((corr / "corrected_v1_shared_predictions.json").read_text())
     native = json.loads((corr / "corrected_v1_native_predictions.json").read_text())
     for arm in ("geneformer", "pseudobulk", "metadata_only_age"):
@@ -165,7 +165,7 @@ def test_corrected_shared_and_native_results_preserve_paired_donors():
 
 
 def test_corrected_co_primary_is_recomputed_from_current_predictions():
-    corr = ROOT / "results/published"
+    corr = ROOT / "results/correction_2026-09"
     predictions = json.loads((corr / "corrected_v1_shared_predictions.json").read_text())
     reported = json.loads((corr / "corrected_v1_shared_analysis.json").read_text())
     y = predictions["geneformer"]["y"]
