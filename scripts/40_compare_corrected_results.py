@@ -23,9 +23,17 @@ def compare(published: Path, rerun: Path):
             if a["donor_ids"] != b["donor_ids"] or a["y"] != b["y"]:
                 raise ValueError(f"{mode}/{arm} donor or label alignment differs")
             if not np.allclose(a["proba"], b["proba"], rtol=0, atol=1e-12):
-                raise ValueError(f"{mode}/{arm} probabilities differ")
+                delta = np.abs(np.asarray(a["proba"], dtype=float) - np.asarray(b["proba"], dtype=float))
+                raise ValueError(
+                    f"{mode}/{arm} probabilities differ: "
+                    f"max_abs={delta.max():.17g}, mean_abs={delta.mean():.17g}"
+                )
             if arm == "geneformer" and not np.allclose(a["decision_score"], b["decision_score"], rtol=0, atol=1e-12):
-                raise ValueError(f"{mode} original decision scores differ")
+                delta = np.abs(np.asarray(a["decision_score"], dtype=float) - np.asarray(b["decision_score"], dtype=float))
+                raise ValueError(
+                    f"{mode} original decision scores differ: "
+                    f"max_abs={delta.max():.17g}, mean_abs={delta.mean():.17g}"
+                )
         prior_analysis, new_analysis = (read(published / f"corrected_v1_{mode}_analysis.json"),
                                         read(rerun / f"corrected_v1_{mode}_analysis.json"))
         for arm in ("geneformer", "pseudobulk", "metadata_only_age"):
