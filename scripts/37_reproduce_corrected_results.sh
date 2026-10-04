@@ -24,7 +24,7 @@ if [[ "$output" == "$published" || "$output" == "$repo_root/results" ]]; then
   exit 2
 fi
 
-uv_options=(--python 3.11 --no-project)
+uv_options=(--python 3.11.15 --no-project)
 if ((offline)); then uv_options+=(--offline); fi
 scoring=(uv run "${uv_options[@]}" --with-requirements requirements_correction_scoring.txt python)
 plotting=(uv run "${uv_options[@]}" --with-requirements requirements_correction_scoring.txt --with matplotlib==3.11.2 python)
