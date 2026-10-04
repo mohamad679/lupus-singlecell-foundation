@@ -77,8 +77,8 @@ class _TinyTokenizedDataset:
 
 
 @pytest.mark.parametrize("kernel", [
-    "kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py",
-    "kaggle_kernels/l2_geneformer_v1_corrected_external/run.py",
+    "archive/kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py",
+    "archive/kaggle_kernels/l2_geneformer_v1_corrected_external/run.py",
 ])
 def test_corrected_kernel_rejects_invalid_v1_tokens_and_lost_cells(kernel):
     """Exercise the actual Kaggle validators without running their installers."""
@@ -106,8 +106,8 @@ def test_corrected_kernel_rejects_invalid_v1_tokens_and_lost_cells(kernel):
 
 
 def test_main_process_tokenization_and_legacy_checkpoint_gate():
-    dev_path = ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py"
-    external_path = ROOT / "kaggle_kernels/l2_geneformer_v1_corrected_external/run.py"
+    dev_path = ROOT / "archive/kaggle_kernels/l2_geneformer_v1_corrected_dev/run.py"
+    external_path = ROOT / "archive/kaggle_kernels/l2_geneformer_v1_corrected_external/run.py"
     for path in (dev_path, external_path):
         tree = ast.parse(path.read_text())
         constructors = [node for node in ast.walk(tree) if isinstance(node, ast.Call)
