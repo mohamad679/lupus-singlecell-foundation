@@ -26,7 +26,7 @@ from correction_protocol import validate_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
-DEFAULT_OUTPUT = RESULTS / "correction_2026-09"
+DEFAULT_OUTPUT = RESULTS / "published"
 
 
 def read_summary(path, mode):

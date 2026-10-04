@@ -15,8 +15,8 @@ from pathlib import Path
 from correction_stats import holm_adjust, paired_bootstrap_ci, paired_delong, probability_metrics
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = ROOT / "results/l2_sealed_predictions_regenerated.json"
-DEFAULT_OUTPUT = ROOT / "results/correction_2026-09/historical_scores_analysis.json"
+DEFAULT_INPUT = ROOT / "results/reference/historical_external_predictions.json"
+DEFAULT_OUTPUT = ROOT / "results/published/historical_scores_analysis.json"
 ARMS = ("geneformer", "pseudobulk", "metadata_only_age")
 
 

@@ -49,8 +49,8 @@ def errorbar(ax, x, row, color, marker="o", label=None):
 def figure1(descriptive):
     shared = descriptive["modes"]["shared"]
     # Comparator development values come from the released restricted-space/age CV artifacts.
-    restricted = json.loads((ROOT / "results/l2_dev_pseudobulk_restricted_cv.json").read_text())
-    historical = pd.read_csv(ROOT / "results/l2_dev_sle_vs_healthy.csv").set_index("arm")
+    restricted = json.loads((ROOT / "results/reference/historical_pseudobulk_restricted_cv.json").read_text())
+    historical = pd.read_csv(ROOT / "results/reference/historical_dev_sle_vs_healthy.csv").set_index("arm")
     age = historical.loc["metadata_only_age"]
     dev = {"geneformer": shared["development_geneformer"],
            "pseudobulk": {"auroc": restricted["auroc"],
@@ -144,7 +144,7 @@ def main():
     figure1(descriptive)
     figure2(descriptive)
     figure3(read("corrected_v1_shared_analysis.json"))
-    historical = json.loads((ROOT / "results/l2_cohort_signature_probe.json").read_text())
+    historical = json.loads((ROOT / "results/reference/historical_cohort_signature_probe.json").read_text())
     figure4(read("corrected_v1_shared_cohort_probe.json"), historical)
     print(OUTPUT)
 
