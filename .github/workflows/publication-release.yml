@@ -1,0 +1,35 @@
+name: Publication v2.0.0 release
+
+on:
+  workflow_run:
+    workflows: ["Paper reproducibility"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+      - name: Create immutable publication tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --tags origin refs/tags/v2.0.0 >/dev/null 2>&1; then
+            echo "v2.0.0 already exists; leaving it unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a v2.0.0 -m "Publication-grade corrected SLE classifier reanalysis"
+          git push origin v2.0.0
+          gh release create v2.0.0             --title "v2.0.0 — corrected publication package"             --notes "Reviewer-facing corrected Geneformer V1 reanalysis. Shared-gene external AUROCs: Geneformer 0.7344, pseudobulk 0.8984, age 0.5781. This is a corrected reanalysis of an already examined external cohort, not a new untouched confirmatory validation. The historical v1 release and v2-corrected archival snapshot remain preserved for provenance."
