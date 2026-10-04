@@ -25,4 +25,4 @@ Historical governance artifacts are retained under `docs/provenance/historical/`
 
 ## Archival DOI
 
-The v2.0.0 version-specific Zenodo DOI is not yet minted. The existing Zenodo record `10.5281/zenodo.21841692` is the historical v1.0.0 archive and must not be reused as the v2.0.0 DOI. `README.md` and `CITATION.cff` intentionally remain without a v2 DOI until Zenodo publishes a version-specific record for the GitHub `v2.0.0` release.
+The corrected publication package **v2.0.0** is archived on Zenodo at `10.5281/zenodo.23135752`. The historical v1.0.0 archive remains preserved separately at `10.5281/zenodo.21841692`.
