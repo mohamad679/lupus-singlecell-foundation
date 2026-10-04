@@ -19,6 +19,10 @@ Large historical pseudobulk parquet matrices were removed from the active branch
 
 The corrected primary Geneformer analysis uses the validated shared-gene input representation. A model-native representation is retained as a sensitivity analysis. The exact feature/run provenance is recorded in `results/published/corrected_artifact_manifest.json` and the corresponding run-summary JSON files.
 
+## Historical filename convention
+
+Some retained feature artifacts still use filenames matching `l2_sealed_*`. The token `sealed` is a historical identifier for the external GSE135779 cohort and is preserved only for provenance and backward-compatible reproduction. Publication-facing text and figure labels use **external**; the cohort is not described as newly untouched in v2.0.0.
+
 ## External age groups
 
 Source-defined external age categories are retained as provided. The `Children` category includes some participants aged 18–19; age-stratified results are therefore descriptive and should not be interpreted as a clean pediatric/adult causal contrast.
