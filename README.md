@@ -51,4 +51,4 @@ The CPU reproduction refits the corrected shared/native analyses in an isolated 
 
 ## Citation and archival release
 
-Use [CITATION.cff](CITATION.cff) for software citation. Version **2.0.0** is the corrected publication package. The version-specific Zenodo DOI is pending minting; no DOI is claimed until Zenodo publishes it. The historical v1 release remains preserved separately for traceability.
+Use [CITATION.cff](CITATION.cff) for software citation. Version **2.0.0** is the corrected publication package and is archived on Zenodo with the version-specific DOI **10.5281/zenodo.23135752**. The historical v1 release remains preserved separately for traceability.
