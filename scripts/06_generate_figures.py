@@ -71,7 +71,7 @@ def figure1(descriptive):
     ax.axhline(.5, color="#abb2b9", ls="--", lw=.8)
     ax.legend(frameon=False, ncol=3, loc="lower left", fontsize=9)
     ax.set_title("Corrected shared-gene primary analysis", loc="left", weight="bold")
-    save(fig, "Figure_1_Corrected")
+    save(fig, "Figure_1")
 
 
 def figure2(descriptive):
@@ -86,7 +86,7 @@ def figure2(descriptive):
     ax.axhline(.5, color="#abb2b9", ls="--", lw=.8)
     ax.legend(frameon=False, ncol=3, loc="lower left", fontsize=9)
     ax.set_title("External performance by source age group", loc="left", weight="bold")
-    save(fig, "Figure_2_Corrected")
+    save(fig, "Figure_2")
 
 
 def figure3(analysis):
@@ -103,7 +103,7 @@ def figure3(analysis):
     ax.set(xlim=(-.4, .86), ylim=(-.55, 1.55), yticks=[0, 1],
            yticklabels=[names[1][1], names[0][1]], xlabel="Paired AUROC difference (95% donor-bootstrap CI)")
     ax.set_title("Corrected co-primary comparisons", loc="left", weight="bold")
-    save(fig, "Figure_3_Corrected")
+    save(fig, "Figure_3")
 
 
 def figure4(probe, historical):
@@ -129,7 +129,7 @@ def figure4(probe, historical):
            yticklabels=["Age", "Pseudobulk", "Corrected Geneformer V1"],
            xlabel="Cohort-membership AUROC (95% donor-bootstrap CI)")
     ax.set_title("Post-hoc development versus external cohort probe", loc="left", weight="bold")
-    save(fig, "Figure_4_Corrected")
+    save(fig, "Figure_4")
 
 
 def main():

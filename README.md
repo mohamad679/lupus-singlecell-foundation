@@ -31,7 +31,7 @@ The CPU reproduction refits the corrected shared/native analyses in an isolated 
 
 ## Repository guide
 
-- `scripts/` — seven reviewer-facing analysis/reproduction steps plus two small shared helpers.
+- `scripts/` — seven numbered analysis steps, one reproduction launcher, and compact shared utilities.
 - `results/published/` — authoritative corrected predictions, analyses, fitted reports, feature summaries, and provenance manifest.
 - `results/reference/` — minimal historical/reference inputs needed by the corrected reproduction.
 - `figures/main/` — four publication figures in PNG/PDF/TIFF.
